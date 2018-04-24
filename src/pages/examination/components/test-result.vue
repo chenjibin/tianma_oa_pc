@@ -1,5 +1,5 @@
 <template>
-    <div class="fs-exam-paper">
+    <div class="fs-test-result">
         <Card>
             <div class="fs-list-wrapper">
                 <div class="test-paper-info">
@@ -11,12 +11,12 @@
                         <span>{{paperInfo.score}}</span>
                     </p>
                 </div>
-                <div class="" v-for="item,index in questionList" :key="index">
+                <div class="" v-for="(item,index) in questionList" :key="index">
                     <h3>
                         <span>{{numMap[index]}}、</span>
                         <span>{{typeMap[item.type - 1]}}:</span>
                     </h3>
-                    <div class="fs-list-item" v-for="question,qindex in item.questionList" :key="'question-' + index + '-' + qindex">
+                    <div class="fs-list-item" v-for="(question,qindex) in item.questionList" :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">
                             <Badge  :count="qindex + 1 + ''" class-name="test-badge"></Badge>
                             <span>{{question.name}}</span>
@@ -59,7 +59,7 @@
     .test-badge {
         background: #333 !important;
     }
-    .fs-exam-paper {
+    .fs-test-result {
         height: 100%;
         width: 100%;
         overflow-x: hidden;

@@ -9,13 +9,13 @@
                         <span>{{paperInfo.totlemark}}分</span>
                     </p>
                 </div>
-                <div class="" v-for="item,index in questionList" :key="index">
+                <div class="" v-for="(item,index) in questionList" :key="index">
                     <h3>
                         <span>{{numMap[index]}}、</span>
                         <span>{{typeMap[item.type - 1]}}:</span>
                     </h3>
                     <div class="fs-list-item"
-                         v-for="question,qindex in item.questionList"
+                         v-for="(question,qindex) in item.questionList"
                          style="font-weight: 700"
                          :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">

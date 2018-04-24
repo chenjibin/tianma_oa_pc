@@ -3,11 +3,11 @@
         <Card>
             <Form inline :label-width="60">
                 <FormItem label="公司" v-if="isManger === 0 || isManger === 1">
-                    <Select type="text" style="width: 120px" clearable
+                    <Select type="text" style="width: 120px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.companyId"
                             placeholder="筛选公司" clearable>
-                        <Option v-for="(item,index) in companyList" :label="item.name" :value="item.id">{{item.name}}</Option>
+                        <Option v-for="item in companyList" :label="item.name" :value="item.id" :key="'com-' + item.id">{{item.name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="姓名">
@@ -47,7 +47,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="性别">
-                    <Select type="text" style="width: 120px" clearable
+                    <Select type="text" style="width: 120px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.sex"
                             placeholder="筛选性别" clearable>
@@ -101,7 +101,7 @@
                 </FormItem>
                 <FormItem label="返聘意愿">
                     <Select type="text" style="width: 120px"
-                            @on-change="_inputDebounce" clearable
+                            @on-change="_inputDebounce"
                             v-model="filterOpt.gradeLeaving" clearable>
                         <Option value="A" label="A"><span>A</span><span style="float:right;color:#ccc;width:50px;text-align: right;">优秀</span></Option>
                         <Option value="B" label="B"><span>B</span><span style="float:right;color:#ccc;width:50px;text-align: right;">良好</span></Option>
