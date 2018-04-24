@@ -76,6 +76,11 @@
                 ]
             };
         },
+        computed: {
+            mustRead() {
+                return this.$store.state.user.mustRead;
+            }
+        },
         created() {
             this.getNoticeInfo();
             this.$store.commit('getNoticeMustRead');

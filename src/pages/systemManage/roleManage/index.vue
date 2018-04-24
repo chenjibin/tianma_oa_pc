@@ -37,6 +37,14 @@
                     <FormItem label="角色名称" prop="name">
                         <Input v-model="postSettingForm.name"></Input>
                     </FormItem>
+                    <FormItem label="公司名称" v-show="(isManger == 0 || isManger == 1)">
+                        <Select v-model="postSettingForm.companyId">
+                            <Option v-for="(item,index) in companyList"
+                                    :label="item.name"
+                                    :key="'com-' + item.id"
+                                    :value="item.id">{{item.name}}</Option>
+                        </Select>
+                    </FormItem>
                 </Form>
                 <div slot="footer">
                     <Button type="primary" @click="_addRole">添加</Button>
@@ -44,8 +52,8 @@
                 </div>
             </Modal>
             <Modal v-model="roleAccessModalFlag"
-               width="1000"
-               :mask-closable="false">
+                   width="1000"
+                   :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                     <span>角色授权</span>
                 </p>
@@ -53,21 +61,21 @@
                     <CheckboxGroup v-model="social">
                         <Row :gutter="10" type="flex">
                             <Col :span="12" style="margin-bottom: 10px;" v-for="(cate, ci) in accseeList" :key="'cate-' + ci">
-                                <Card style="height: 100%;">
-                                    <h3 class="cate-title">{{cate.title}}</h3>
-                                    <div class="each-page-wrapper" v-for="(page, pi) in cate.page" :key="'page-' + pi">
-                                        <Checkbox :label="'page' + page.menu.id" size="large">
-                                            <Icon type="document" size="18"></Icon>
-                                            <span>{{page.menu.title}}</span>
+                            <Card style="height: 100%;">
+                                <h3 class="cate-title">{{cate.title}}</h3>
+                                <div class="each-page-wrapper" v-for="(page, pi) in cate.page" :key="'page-' + pi">
+                                    <Checkbox :label="'page' + page.menu.id" size="large">
+                                        <Icon type="document" size="18"></Icon>
+                                        <span>{{page.menu.title}}</span>
+                                    </Checkbox>
+                                    <div class="each-btn-wrapper">
+                                        <Checkbox :label="'btn' + btn.id" v-for="(btn, bi) in page.btn" :key="'btn-' + bi">
+                                            <Icon type="ios-toggle"></Icon>
+                                            <span>{{btn.btnname}}</span>
                                         </Checkbox>
-                                        <div class="each-btn-wrapper">
-                                            <Checkbox :label="'btn' + btn.id" v-for="(btn, bi) in page.btn" :key="'btn-' + bi">
-                                                <Icon type="ios-toggle"></Icon>
-                                                <span>{{btn.btnname}}</span>
-                                            </Checkbox>
-                                        </div>
                                     </div>
-                                </Card>
+                                </div>
+                            </Card>
                             </Col>
                         </Row>
                     </CheckboxGroup>
@@ -108,8 +116,10 @@
                 settingModalFlag: false,
                 social: [],
                 accseeList: [],
+                companyList: [],
                 postSettingForm: {
-                    name: ''
+                    name: '',
+                    companyId: '1'
                 },
                 roleRules: {
                     name: [
@@ -121,6 +131,12 @@
                     {
                         title: '角色名',
                         key: 'name',
+                        align: 'center',
+                        width: 100
+                    },
+                    {
+                        title: '公司名称',
+                        key: 'companyname',
                         align: 'center',
                         width: 100
                     },
@@ -171,11 +187,17 @@
                 tableHeight: 500
             };
         },
+        computed: {
+            isManger() {
+                return this.$store.state.user.userInfo.ismanger;
+            }
+        },
         mixins: [pageMixin],
         created() {
             this._getAccessMenu();
             this._getPostData();
             this._setTableHeight();
+            this.getCompanyList();
         },
         methods: {
             _addRole() {
@@ -183,6 +205,7 @@
                     if (valid) {
                         let data = {};
                         data.name = this.postSettingForm.name;
+                        data.companyId = this.postSettingForm.companyId;
                         this.$http.post('/role/add', data).then((res) => {
                             if (res.success) {
                                 this.settingModalFlag = false;
@@ -195,6 +218,7 @@
             },
             _initPostForm() {
                 this.postSettingForm.name = '';
+                this.postSettingForm.companyId = '1';
             },
             _renturnAccessNeedArr(data) {
                 let arr = [];
@@ -277,6 +301,11 @@
                 this.social = pageArr.concat(btnArr);
                 this.roleId = data.id;
                 this.roleAccessModalFlag = true;
+            },
+            getCompanyList() {
+                this.$http.post('/company/lists').then((res) => {
+                    this.companyList = res.data;
+                });
             }
         },
         components: {}
