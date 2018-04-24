@@ -117,7 +117,7 @@
             fullScreen,
             lockScreen,
             messageTip,
-          themeSwitch
+            themeSwitch
         },
         data () {
             return {
