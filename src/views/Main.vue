@@ -51,7 +51,7 @@
                         </a>
                         <DropdownMenu slot="list">
                             <DropdownItem :name="item.name"
-                                          v-for="item,index in companyList"
+                                          v-for="(item,index) in companyList"
                                           :key="'company' + index">{{item.name}}</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
@@ -123,7 +123,6 @@
             return {
                 shrink: true,
                 isFullScreen: false,
-                companyList: [],
                 openedSubmenuArr: this.$store.state.app.openedSubmenuArr
             };
         },
@@ -168,7 +167,10 @@
                 return this.$store.state.app.messageCount;
             },
             currentCompanyName() {
-                return this.$store.state.user.userInfo.currentcompanyname;
+                return this.$store.state.user.currentcompanyname;
+            },
+            companyList() {
+                return this.$store.state.user.companyList;
             }
         },
         methods: {
@@ -181,7 +183,7 @@
                 this.messageCount = messageCount.toString();
                 this.checkTag(this.$route.name);
                 this.$store.commit('setMessageCount', 3);
-                var name = sessionStorage.getItem('newCompany');
+                let name = sessionStorage.getItem('newCompany');
                 if (name) {
                     this.$Notice.config({
                         top: 62,
@@ -200,8 +202,7 @@
                 this.shrink = !this.shrink;
             },
             changeCompany(name) {
-                this.$store.commit('changeCompanyName', name);
-                var d = {};
+                let d = {};
                 d.name = name;
                 this.$http.post('/login/changeCompany', d).then((res) => {
                     if (res.success) {
@@ -240,18 +241,11 @@
                 }
             },
             handleSubmenuChange (val) {
-                // console.log(val)
             },
             beforePush (name) {
-                // if (name === 'accesstest_index') {
-                //     return false;
-                // } else {
-                //     return true;
-                // }
                 return true;
             },
             fullscreenChange (isFullScreen) {
-                // console.log(isFullScreen);
             }
         },
         watch: {
@@ -274,17 +268,6 @@
         created () {
             // 显示打开的页面的列表
             this.$store.commit('setOpenedList');
-            this.$http.post('/company/lists').then((res) => {
-                this.companyList = res.data;
-                let cid = this.$store.state.user.userInfo.companyid;
-                for (var i = 0; i < res.data.length; i++) {
-                    let item = res.data[i];
-                    if (cid === item.id) {
-                        this.$store.state.user.userInfo.currentcompanyname = item.name;
-                        break;
-                    }
-                }
-            });
         }
     };
 </script>

@@ -78,6 +78,7 @@
         },
         created() {
             this.getNoticeInfo();
+            this.$store.commit('getNoticeMustRead');
         },
         methods: {
             pageChangeHandler(page) {

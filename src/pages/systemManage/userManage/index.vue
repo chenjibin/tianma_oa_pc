@@ -667,12 +667,14 @@
                     {
                         title: '部门',
                         key: 'organizename',
-                        align: 'center'
+                        align: 'center',
+                        minWidth: 120
                     },
                     {
                         title: '岗位',
                         key: 'postname',
-                        align: 'center'
+                        align: 'center',
+                        minWidth: 120
                     },
                     {
                         title: '角色',

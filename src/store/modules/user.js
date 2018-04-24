@@ -10,11 +10,24 @@ const user = {
             tm_coin: '...',
             organizename: '...',
             postname: '...'
-        }
+        },
+        currentcompanyname: '',
+        companyList: [],
+        mustRead: []
     },
     mutations: {
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
+        },
+        setCurrentCompanyName(state, name) {
+            state.currentcompanyname = name;
+        },
+        getNoticeMustRead(state) {
+            axios.get('/notice/mustRead').then((res) => {
+                if (res.success) {
+                    state.mustRead = res.data;
+                }
+            });
         },
         updateUserInfo(state) {
             axios.get('/user/myUserInfo').then((res) => {
@@ -22,11 +35,22 @@ const user = {
                     if (!res.data.headimagepath) res.data.headimagepath = '/oa/upload/init/initHead.png';
                     res.data.headimagepath = '/oa/upload/head/' + res.data.headimagepath;
                     state.userInfo = res.data;
+                    store.commit('getCompanyList');
                 }
             });
         },
-        changeCompanyName(state, name) {
-            state.userInfo.currentcompanyname = name;
+        getCompanyList(state) {
+            axios.post('/company/lists').then((res) => {
+                state.companyList = res.data;
+                let cid = state.userInfo.companyid;
+                for (let i = 0; i < res.data.length; i++) {
+                    let item = res.data[i];
+                    if (cid === item.id) {
+                        state.currentcompanyname = item.name;
+                        break;
+                    }
+                }
+            });
         },
         logout () {
             axios.get('/login/logout').then((res) => {
