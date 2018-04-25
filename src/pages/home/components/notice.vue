@@ -22,6 +22,21 @@
             <div slot="footer">
             </div>
         </Modal>
+        <Modal :value="!!mustRead.length" width="740" :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>未读公告</span>
+            </p>
+            <Tabs :value="'notice-' + mustRead[0].id" v-if="mustRead.length">
+                <TabPane :label="item.title"
+                         :name="'notice-' + item.id"
+                         v-for="item in mustRead"
+                         :key="'notice-' + item.id">
+                    <div class="" v-html="item.content" style="margin: 0 auto;width: 690px;font-size: 16px"></div>
+                </TabPane>
+            </Tabs>
+            <div slot="footer">
+            </div>
+        </Modal>
     </Card>
 </template>
 <style lang="less">

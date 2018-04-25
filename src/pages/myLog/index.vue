@@ -86,7 +86,7 @@
                                 <h4>上级指导:</h4>
                                 <ul class="guider-list">
                                     <li  class="guider-item" v-for="guideItem,index in item.guide" :key="'guide' + index">
-                                        <span class="guider-name">{{guideItem.guider}}:</span><span>{{guideItem.content}}</span>
+                                        <span class="guider-name">{{guideItem.guider}}:</span><span v-html="guideItem.content"></span>
                                     </li>
                                 </ul>
                             </div>

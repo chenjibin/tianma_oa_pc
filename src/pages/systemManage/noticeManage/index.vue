@@ -158,7 +158,7 @@
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                     <span>{{noticeData.title}}</span>
                 </p>
-                <div style="margin: 0 auto;max-height: 500px;width: 690px;overflow: auto;font-size: 16px;" v-html="noticeData.content"></div>
+                <div style="margin: 0 auto;width: 690px;overflow: auto;font-size: 16px;" v-html="noticeData.content"></div>
                 <div slot="footer">
                 </div>
             </Modal>
@@ -287,6 +287,7 @@
                     {
                         title: '操作',
                         width: 120,
+                        align: 'center',
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
