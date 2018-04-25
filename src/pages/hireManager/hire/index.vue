@@ -177,7 +177,7 @@
                     <Form ref="talentBean" :model="talentBean" :label-width="130" :rules="talentBeanRule" style="overflow-y: auto;height: 600px;" inline>
                         <Input type="text" style="display: none" v-model="talentBean.id"></Input>
                         <FormItem label="姓名" style="width:460px" prop="name">
-                            <Input type="text" v-model="talentBean.name"></Input>
+                            <Input type="text" :maxlength="20" v-model="talentBean.name"></Input>
                         </FormItem>
                         <FormItem label="性别" style="width:460px">
                             <Select type="text" v-model="talentBean.sex">
@@ -204,7 +204,7 @@
                             <InputNumber style="width: 100%" :min="10" :max="99" type="text" v-model="talentBean.age"></InputNumber>
                         </FormItem>
                         <FormItem label="手机" style="width:460px" prop="phone">
-                            <Input type="text" v-model="talentBean.phone"></Input>
+                            <Input type="text" :maxlength="11" v-model="talentBean.phone"></Input>
                         </FormItem>
                         <FormItem label="信息来源" style="width:460px" prop="resumesource">
                             <Select type="text" v-model="talentBean.resumesource">
@@ -225,7 +225,7 @@
                             <InputNumber style="width: 100%" :min="0" :max="50" :step="1" :precision='0' v-model="talentBean.yearswork" placeholder="单位：年"></InputNumber>
                         </FormItem>
                         <FormItem label="电子邮箱" style="width:460px">
-                            <Input type="text" v-model="talentBean.email"></Input>
+                            <Input type="text" :maxlength="20" v-model="talentBean.email"></Input>
                         </FormItem>
                         <FormItem label="预约时间" style="width:460px" prop="appointment">
                             <DatePicker :clearable="false" type="date" style="width: 100%" :editable="false"
@@ -233,16 +233,16 @@
                                         :value="talentBean.appointment"></DatePicker>
                         </FormItem>
                         <FormItem label="身份证号码" style="width:460px">
-                            <Input type="text" v-model="talentBean.idnum"></Input>
+                            <Input type="text" :maxlength="18" v-model="talentBean.idnum"></Input>
                         </FormItem>
                         <FormItem label="籍贯" style="width:460px">
-                            <Input type="text" v-model="talentBean.account"></Input>
+                            <Input type="text" :maxlength="20" v-model="talentBean.account"></Input>
                         </FormItem>
                         <FormItem label="民族" style="width:460px">
-                            <Input type="text" v-model="talentBean.nation"></Input>
+                            <Input type="text" :maxlength="20" v-model="talentBean.nation"></Input>
                         </FormItem>
                         <FormItem label="政治面貌" style="width:460px">
-                            <Select type="text" v-model="talentBean.politicalstatus">
+                            <Select type="text" v-model="talentBean.politicalstatus" :editable="false">
                                 <Option value="党员">党员</Option>
                                 <Option value="预备党员">预备党员</Option>
                                 <Option value="入党积极分子">入党积极分子</Option>
@@ -251,37 +251,37 @@
                             </Select>
                         </FormItem>
                         <FormItem label="婚姻状况" style="width:460px">
-                            <Select type="text" v-model="talentBean.marriage">
+                            <Select type="text" v-model="talentBean.marriage" :editable="false">
                                 <Option :value="1">已婚</Option>
                                 <Option :value="2">未婚</Option>
                             </Select>
                         </FormItem>
                         <FormItem label="有无子女" style="width:460px">
-                            <Select type="text" v-model="talentBean.had_child">
+                            <Select type="text" v-model="talentBean.had_child" :editable="false">
                                 <Option :value="0">无</Option>
                                 <Option :value="1">有</Option>
                             </Select>
                         </FormItem>
                         <FormItem label="详细住址" style="width:460px">
-                            <Input type="textarea" :rows="3" v-model="talentBean.address"></Input>
+                            <Input type="textarea" :maxlength="30" :rows="3" v-model="talentBean.address"></Input>
                         </FormItem>
                         <FormItem label="项目经验" style="width:460px">
-                            <Input type="textarea" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.projectexperience"></Input>
+                            <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.projectexperience"></Input>
                         </FormItem>
                         <FormItem label="应聘岗位的技能" style="width:460px">
-                            <Input type="textarea" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.expertiseskills"></Input>
+                            <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.expertiseskills"></Input>
                         </FormItem>
                         <FormItem label="选择本公司/职业理由" style="width:460px">
-                            <Input type="textarea" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.languageskills"></Input>
+                            <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.languageskills"></Input>
                         </FormItem>
                         <FormItem label="自我及他人的评价" style="width:460px">
-                            <Input type="textarea" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.selfevaluation"></Input>
+                            <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.selfevaluation"></Input>
                         </FormItem>
                         <FormItem label="未来两年的职业规划" style="width:460px">
-                            <Input type="textarea" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.trainingexperience"></Input>
+                            <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.trainingexperience"></Input>
                         </FormItem>
                         <FormItem label="面试意见" style="width:874px">
-                            <Input type="textarea" :autosize="{minRows: 5,maxRows: 16}" v-model="talentBean.remarks"></Input>
+                            <Input type="textarea" :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="talentBean.remarks"></Input>
                         </FormItem>
                     </Form>
                 </TabPane>
@@ -295,13 +295,13 @@
                                 <DatePicker type="date" :editable="false" @on-change="_infoDateChange(1, index, 'endtime',$event)" :value="item.endtime"></DatePicker>
                             </FormItem>
                             <FormItem label="毕业院校	" style="width:17%">
-                                <Input type="text" v-model="item.graduatedschool"></Input>
+                                <Input type="text" :maxlength="20" v-model="item.graduatedschool"></Input>
                             </FormItem>
                             <FormItem label="专业" style="width:17%">
-                                <Input type="text" v-model="item.profession"></Input>
+                                <Input type="text" :maxlength="20" v-model="item.profession"></Input>
                             </FormItem>
                             <FormItem label="学历" style="width:17%">
-                                <Select type="text" v-model="item.education">
+                                <Select type="text" v-model="item.education" :editable="false">
                                     <Option :value="1">博士研究生</Option>
                                     <Option :value="2">硕士研究生</Option>
                                     <Option :value="3">本科</Option>
@@ -342,16 +342,16 @@
                                 <DatePicker :editable="false" type="date" @on-change="_infoDateChange(2, index, 'endtime',$event)" :value="item.endtime"></DatePicker>
                             </FormItem>
                             <FormItem label="公司名称" style="width:18%">
-                                <Input type="text" v-model="item.companyname"></Input>
+                                <Input type="text" :maxlength="50" v-model="item.companyname"></Input>
                             </FormItem>
                             <FormItem label="职务" style="width:18%">
-                                <Input type="text" v-model="item.post"></Input>
+                                <Input type="text" :maxlength="20" v-model="item.post"></Input>
                             </FormItem>
                             <FormItem label="月薪" style="width:18%">
-                                <InputNumber style="width: 100%" :min="500" :step="500" type="text" v-model="item.monthlysalary"></InputNumber>
+                                <InputNumber style="width: 100%" :min="500" :step="500" :precision='0' v-model="item.monthlysalary"></InputNumber>
                             </FormItem>
                             <FormItem label="工作描述" style="width:37%">
-                                <Input type="textarea" :autosize="{minRows: 5,maxRows: 16}" v-model="item.descriptioncontent"></Input>
+                                <Input type="textarea" :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="item.descriptioncontent"></Input>
                             </FormItem>
                             <FormItem label="主键" style="display: none">
                                 <Input type="text" v-model="item.id"></Input>
@@ -378,22 +378,22 @@
                     <Form ref="socailShipForm"  inline style="padding: 1px;">
                         <div v-for="(item,index) in socailShipForm" :key="item.name">
                             <FormItem label="关系" style="width:13%">
-                                <Input type="text"  v-model="item.relationship" ></Input>
+                                <Input type="text" :maxlength="20" v-model="item.relationship" ></Input>
                             </FormItem>
                             <FormItem label="姓名" style="width:13%">
-                                <Input type="text" name="name" v-model="item.witness" ></Input>
+                                <Input type="text" :maxlength="20" name="name" v-model="item.witness" ></Input>
                             </FormItem>
                             <FormItem label="年龄" style="width:13%">
                                 <InputNumber style="width: 100%" :min="14" :max="99" type="text" v-model="item.age" ></InputNumber>
                             </FormItem>
                             <FormItem label="工作单位	" style="width:13%">
-                                <Input type="text" v-model="item.companyname" ></Input>
+                                <Input type="text" :maxlength="50" v-model="item.companyname" ></Input>
                             </FormItem>
                             <FormItem label="职务" style="width:13%">
-                                <Input type="text" v-model="item.post"></Input>
+                                <Input type="text" :maxlength="20" v-model="item.post"></Input>
                             </FormItem>
                             <FormItem label="电话" style="width:13%">
-                                <Input type="text" :maxlength="13" v-model="item.phone"></Input>
+                                <Input type="text" :maxlength="11" v-model="item.phone"></Input>
                             </FormItem>
                             <FormItem label="用户id" style="display: none">
                                 <Input type="text" v-model="item.talentid" ></Input>
@@ -406,10 +406,10 @@
                             </FormItem>
                         </div>
                         <FormItem label="紧急联系人" style="width:30%">
-                            <Input type="text" v-model="talentBean.emperson" ></Input>
+                            <Input type="text" :maxlength="20" v-model="talentBean.emperson" ></Input>
                         </FormItem>
                         <FormItem label="联系人关系" style="width:30%">
-                            <Input type="text" v-model="talentBean.emrelate" ></Input>
+                            <Input type="text" :maxlength="20" v-model="talentBean.emrelate" ></Input>
                         </FormItem>
                         <FormItem label="联系人电话" style="width:30%">
                             <Input type="text" :maxlength="11" v-model="talentBean.emphone" ></Input>

@@ -26,7 +26,10 @@ axios.interceptors.request.use(config => {
 // Add a response interceptor
 axios.interceptors.response.use(response => {
     if (response.data.hasOwnProperty('success') && !response.data.success) {
-        Vue.prototype.$Message.error(response.data.message);
+        Vue.prototype.$Message.error({
+            content: response.data.message,
+            duration: 5
+        });
         if (response.data.error_code === 403) {
             store.commit('logout');
         }
