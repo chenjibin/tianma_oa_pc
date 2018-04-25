@@ -51,7 +51,10 @@
                 </div>
             </Card>
         </div>
-        <h1 class="copy-right">TIAN MA OA 2.0</h1>
+        <h1 class="copy-right">
+            TIAN MA OA 2.0
+            <span style="font-size: 18px">copyright © 2017-2018 江苏天马网络科技集团 版权所有</span>
+        </h1>
     </div>
 </template>
 
