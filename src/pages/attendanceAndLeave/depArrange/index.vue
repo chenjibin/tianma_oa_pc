@@ -2,7 +2,7 @@
     <div class="#my-attendance">
         <Row :gutter="10">
             <Col :span="4">
-                <fs-dep-tree url="/organize/userOragnizeTree"
+                <fs-dep-tree url="/organize/userOrganizeTree"
                              @node-change="_nodeChangeHandler($event)"
                              :defaultProps="defaultProps"></fs-dep-tree>
             </Col>
