@@ -4,6 +4,7 @@
 
 <template>
     <div class="login" @keydown.enter="handleSubmit">
+        <particles-bg></particles-bg>
         <div class="login-con">
             <Card :bordered="false">
                 <p slot="title">
@@ -50,13 +51,16 @@
                 </div>
             </Card>
         </div>
+        <h1 class="copy-right">TIAN MA OA 2.0</h1>
     </div>
 </template>
 
 <script>
 import Cookies from 'js-cookie';
 import MD5 from 'crypto-js/md5';
+import ParticlesBg from '@/baseComponents/particles-bg';
 export default {
+    components: {ParticlesBg},
     data () {
         return {
             loading: false,
