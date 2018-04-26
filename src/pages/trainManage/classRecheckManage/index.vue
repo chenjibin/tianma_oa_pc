@@ -14,7 +14,6 @@
                 </FormItem>
                 <FormItem label="时间">
                     <DatePicker @on-change="filterOpt.class_date.value = $event"
-                                :clearable="false"
                                 :value="filterOpt.class_date.value"></DatePicker>
                 </FormItem>
                 <FormItem label="讲师">
