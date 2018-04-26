@@ -38,7 +38,6 @@
                         <Icon type="help-circled"></Icon>
                     </span>
                 </Poptip>
-
             </Col>
             <Col span="16" class="padding-left-8">
                 <Tooltip placement="top" content="修改头像" :transfer="true">
@@ -77,12 +76,12 @@
                         <Button type="ghost" shape="circle" icon="lock-combination"></Button>
                     </Tooltip>
                 </Poptip>
-                <Tooltip placement="top" content="进入知识库" :transfer="true">
-                    <Button type="ghost"
-                            shape="circle"
-                            @click.stop="$router.replace({name: 'articleHome'})"
-                            icon="ios-book"></Button>
-                </Tooltip>
+                <!--<Tooltip placement="top" content="进入知识库" :transfer="true">-->
+                    <!--<Button type="ghost"-->
+                            <!--shape="circle"-->
+                            <!--@click.stop="$router.replace({name: 'articleHome'})"-->
+                            <!--icon="ios-book"></Button>-->
+                <!--</Tooltip>-->
             </Col>
         </Row>
         <Modal title="修改头像" v-model="changeAvatorFlag" width="800">

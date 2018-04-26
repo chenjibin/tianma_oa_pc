@@ -38,6 +38,9 @@
                                  @click="getCode"
                                  ref="codeImg" style="cursor: pointer;"/>
                         </FormItem>
+                        <Checkbox label="twitter" style="margin-bottom: 16px;" v-model="form.rememberMe" :true-value="1" :false-value="0">
+                            <span>记住密码</span>
+                        </Checkbox>
                         <FormItem>
                             <Button @click="handleSubmit"
                                     type="primary"
@@ -53,7 +56,7 @@
         </div>
         <h1 class="copy-right">
             TIAN MA OA 2.0
-            <span style="font-size: 18px">copyright © 2017-2018 江苏天马网络科技集团 版权所有</span>
+            <span style="font-size: 18px">copyright © 2007-2018 江苏天马网络科技集团 版权所有</span>
         </h1>
     </div>
 </template>
@@ -70,7 +73,8 @@ export default {
             form: {
                 userName: '',
                 passWord: '',
-                code: ''
+                code: '',
+                rememberMe: 0
             },
             rules: {
                 userName: [
@@ -100,8 +104,8 @@ export default {
                     this.loading = true;
                     this.$http.post('/login/login', this.form).then((res) => {
                         if (res.success) {
-                            Cookies.set('user', this.form.userName);
-                            Cookies.set('password', MD5(this.form.passWord).toString());
+                            // Cookies.set('user', this.form.userName);
+                            // Cookies.set('password', MD5(this.form.passWord).toString());
                             this.$router.push({
                                 name: 'home_index'
                             });
