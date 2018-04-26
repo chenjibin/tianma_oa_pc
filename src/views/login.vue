@@ -5,6 +5,10 @@
 <template>
     <div class="login" @keydown.enter="handleSubmit">
         <particles-bg></particles-bg>
+        <!--<div class="fs-login-block">-->
+            <!--<h1 class="title">欢迎登录天马人事系统</h1>-->
+
+        <!--</div>-->
         <div class="login-con">
             <Card :bordered="false">
                 <p slot="title">
@@ -56,7 +60,7 @@
         </div>
         <h1 class="copy-right">
             TIAN MA OA 2.0
-            <span style="font-size: 18px">copyright © 2007-2018 江苏天马网络科技集团 版权所有</span>
+            <span style="font-size: 16px">copyright © 2007-2018 江苏天马网络科技集团 版权所有</span>
         </h1>
     </div>
 </template>

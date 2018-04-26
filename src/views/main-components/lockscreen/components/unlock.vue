@@ -52,15 +52,29 @@ export default {
     },
     methods: {
         validator () {
-            return MD5(this.password).toString() === Cookies.get('password');
+            return new Promise((resolve, reject) => {
+                try {
+                    let sendData = {};
+                    sendData.pwd = this.password;
+                   this.$http.post('/login/validLockScreen', sendData).then((res) => {
+                       if (res.success) {
+                           resolve(true);
+                       } else {
+                           resolve(false);
+                       }
+                   });
+                } catch (err) {
+                    reject(err);
+                }
+            });
         },
         handleClickAvator () {
             this.avatorLeft = '-180px';
             this.inputLeft = '0px';
             this.$refs.inputEle.focus();
         },
-        handleUnlock () {
-            if (this.validator()) {
+        async handleUnlock() {
+            if (await this.validator()) {
                 this.avatorLeft = '0px';
                 this.inputLeft = '400px';
                 this.password = '';

@@ -57,9 +57,6 @@ const user = {
         logout () {
             axios.get('/login/logout').then((res) => {
                 if (res.success) {
-                    // Cookies.remove('user');
-                    // Cookies.remove('userInfo');
-                    // Cookies.remove('password');
                     store.commit('setPremissionMenu', []);
                     store.commit('clearAllTags');
                     window.location.reload();
