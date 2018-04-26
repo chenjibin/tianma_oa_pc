@@ -281,10 +281,10 @@ util.getNeedRouter = function (routeData) {
     appRouter.forEach((item) => {
         item.children = item.children.filter((val) => {
             for (let i = 0, length = routeData.length; i < length; i++) {
-                if (val.name === routeData[i].menu.name) {
+                if (val.name === routeData[i].name) {
                     storePressionString.push(val.name);
                     let obj = {};
-                    obj.id = routeData[i].menu.id;
+                    obj.id = routeData[i].id;
                     obj.btn = routeData[i].btn || [];
                     val.meta = Object.assign(val.meta || {}, obj);
                     return true;
