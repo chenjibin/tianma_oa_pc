@@ -481,6 +481,15 @@
             }
         },
         data () {
+            // const validatePassUserName = (rule, value, callback) => {
+            //     if (value === '') {
+            //         callback(new Error('账号不能为空'));
+            //     } else if (!/^[A-Za-z0-9]+$/.test(value)) {
+            //         callback(new Error('用户名只能是字母和数字组成'));
+            //     } else {
+            //         callback();
+            //     }
+            // };
             return {
                 accessButtons: [],
                 social: [],
@@ -603,7 +612,7 @@
                         { required: true, message: '入职时间不能为空！', trigger: 'change' }
                     ],
                     account: [
-                        { required: true, message: '账号不能为空', trigger: 'blur' }
+                        { required: true, message: '账号不能为空！', trigger: 'blur' }
                     ],
                     role: [
                         { type: 'number', required: true, message: '角色不能为空', trigger: 'blur' }
