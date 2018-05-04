@@ -21,7 +21,7 @@
                      ref="codeImg" style="cursor: pointer;"/>
             </div>
             <div class="" style="padding-top: 8px;width: 280px;color: #fff;">
-                <Checkbox label="twitter" style="margin-bottom: 16px;" v-model="form.rememberMe" :true-value="1" :false-value="0">
+                <Checkbox label="twitter" style="margin-bottom: 16px;font-size: 14px;" v-model="form.rememberMe" :true-value="1" :false-value="0">
                     <span>记住密码</span>
                 </Checkbox>
             </div>

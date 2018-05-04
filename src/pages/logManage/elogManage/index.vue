@@ -345,6 +345,7 @@
                 this.$http.get('/journal/guideJson', {params: data}).then((res) => {
                     if (res.success) {
                         this.upGuider = res.data;
+                        this._getLogData();
                     }
                 });
             },
