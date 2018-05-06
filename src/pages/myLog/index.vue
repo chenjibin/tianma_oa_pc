@@ -221,9 +221,7 @@
                     date: '',
                     type: 0,
                     logType1: '',
-                    // editorContent: '',
                     commentResult: '0'
-                    // content: ''
                 },
                 logTypeList: [
                     {

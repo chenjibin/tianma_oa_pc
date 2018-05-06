@@ -8,7 +8,7 @@
                             placeholder="筛选类型"
                             style="width: 100px">
                         <Option :value="item.id"
-                                v-for="item,index in trainTypeOpt"
+                                v-for="(item,index) in trainTypeOpt"
                                 :key="'trainTypeOpt' + index">{{item.name}}</Option>
                     </Select>
                 </FormItem>
@@ -113,7 +113,7 @@
                         <FormItem label="讲师" prop="teacher_id">
                             <Select v-model="classForm.teacher_id">
                                 <Option :value="item.user_id"
-                                        v-for="item,index in teacherOpt"
+                                        v-for="(item,index) in teacherOpt"
                                         :key="'teacherOpt' + index">{{item.user_name}}</Option>
                             </Select>
                         </FormItem>
@@ -123,7 +123,7 @@
                             <Select v-model="classForm.type"
                                     clearable>
                                 <Option :value="item.id"
-                                        v-for="item,index in trainTypeOpt"
+                                        v-for="(item,index) in trainTypeOpt"
                                         :key="'trainTypeOpt' + index">{{item.name}}</Option>
                             </Select>
                         </FormItem>
@@ -328,7 +328,7 @@
                         title: '学分',
                         align: 'center',
                         key: 'credit',
-                        width: 60
+                        width: 80
                     },
                     {
                         title: '讲师',
@@ -353,7 +353,7 @@
                         align: 'center',
                         width: 100,
                         render: (h, params) => {
-                            return params.row.has_baoming || 0;
+                            return h('span', params.row.has_baoming || 0);
                         }
                     },
                     {

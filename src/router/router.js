@@ -59,6 +59,30 @@ export const knowledgeRouter = {
         }
     ]
 };
+export const photoRouter = {
+    path: '/photoPublic',
+    title: '员工风采',
+    name: 'photoPublic',
+    component: resolve => { require(['@/pages/photoManager/photoPublic/main.vue'], resolve); },
+    children: [
+        {
+            path: 'list',
+            name: 'photoList',
+            meta: {
+                whiteIn: true
+            },
+            component: resolve => { require(['@/pages/photoManager/photoPublic/list.vue'], resolve); }
+        },
+        {
+            path: 'detailList/:id',
+            name: 'photoDetailList',
+            meta: {
+                whiteIn: true
+            },
+            component: resolve => { require(['@/pages/photoManager/photoPublic/detailList.vue'], resolve); }
+        }
+    ]
+};
 export const page404 = {
     path: '/*',
     name: 'error-404',
@@ -617,6 +641,7 @@ export const routers = [
     otherRouter,
     guestRouter,
     knowledgeRouter,
+    photoRouter,
     locking,
     page500,
     page403
