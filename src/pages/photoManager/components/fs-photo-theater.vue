@@ -55,6 +55,12 @@
                     <span>55</span>
                 </a>
             </div>
+            <div class="head">
+                <img class="user-pic" src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1">
+                <p class="user-name">我的一天</p>
+                <p class="desc"><time>2017-12-24</time></p>
+            </div>
+            <fs-comment></fs-comment>
         </div>
     </div>
 </template>
@@ -198,13 +204,37 @@
         &-aside {
             position: relative;
             margin-left: auto;
-            padding: 62px 0 0;
+            padding: 62px 0 30px 0;
             width: 320px;
             height: 100%;
             background-color: #000;
             border-left: 1px solid #1c1d1e;
             overflow-y: auto;
             color: #fff;
+            .head {
+                position: relative;
+                height: 76px;
+                padding: 20px 15px 20px 67px;
+                border-bottom: 1px solid #1c1d1e;
+                line-height: 1;
+                background-color: #000;
+                .user-pic {
+                    position: absolute;
+                    top: 17px;
+                    left: 15px;
+                    width: 42px;
+                    height: 42px;
+                    border-radius: 50%;
+                }
+                .desc {
+                    margin: 10px 0 0;
+                    font-size: 12px;
+                    color: #85888a;
+                }
+                .user-name {
+                    font-weight: 700;
+                }
+            }
             .actions {
                 position: fixed;
                 display: flex;
@@ -236,6 +266,7 @@
 </style>
 <script>
     import {on, off} from '@/libs/dom';
+    import FsComment from '../components/fs-comment';
     export default {
         name: 'FsPhotoTheater',
         props: {
@@ -303,6 +334,7 @@
                 this._initStyleObject();
             });
             on(document, 'keydown', (e) => {
+                console.log(e);
                 if (+e.keyCode === 39 || +e.keyCode === 40) {
                     this._nextPic();
                 } else if (+e.keyCode === 37 || +e.keyCode === 38) {
@@ -317,6 +349,8 @@
             off(window, 'resize');
             off(document, 'keydown');
         },
-        components: {}
+        components: {
+            FsComment
+        }
     };
 </script>

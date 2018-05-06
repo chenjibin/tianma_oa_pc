@@ -233,7 +233,7 @@
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="primary" @click="_coinConfirmHandler">确认</Button>
+                <Button type="primary" @click="_coinConfirmHandler" :loading="coinAddLoading">确认</Button>
                 <Button type="ghost" style="margin-left: 8px" @click="coinSettingFlag = false">取消</Button>
             </div>
         </Modal>
@@ -494,6 +494,7 @@
                 accessButtons: [],
                 social: [],
                 banciModalFlag: false,
+                coinAddLoading: false,
                 remoteLabel: [],
                 specAccessData: {
                     userId: '',
@@ -989,6 +990,7 @@
             _coinConfirmHandler() {
                 this.$refs.coinForm.validate((valid) => {
                     if (valid) {
+                        this.coinAddLoading = true;
                         let data = {};
                         data.userId = this.chooseDataArr.map((item) => item.id).join(',');
                         data.Property = this.coinSettingForm.coinProperty;
@@ -1000,6 +1002,8 @@
                                 this._getUserData();
                                 this.coinSettingFlag = false;
                             }
+                        }).finally(() => {
+                            this.coinAddLoading = false;
                         });
                     }
                 });
