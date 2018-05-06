@@ -46,9 +46,9 @@
         </div>
         <div class="fs-theater-aside">
             <div class="actions">
-                <a class="action">
-                    <Icon type="heart" color="#fff" size="24"></Icon>
-                    <span>55</span>
+                <a class="action" @click="_thumbHandler">
+                    <Icon type="heart" :color="hasThumb ? '#ff0036' : '#fff'" size="24"></Icon>
+                    <span :style="{'color': hasThumb ? '#ff0036' : '#fff'}">55</span>
                 </a>
                 <a class="action">
                     <Icon type="chatbox" color="#fff" size="24"></Icon>
@@ -227,6 +227,7 @@
                     span {
                         margin-left: 8px;
                         color: #fff;
+                        user-select: none;
                     }
                 }
             }
@@ -259,7 +260,8 @@
                 currentIndex: 0,
                 transformX: '-66px',
                 canWheel: true,
-                timmer: null
+                timmer: null,
+                hasThumb: true
             };
         },
         methods: {
@@ -291,6 +293,9 @@
             },
             _closeTheater() {
                 this.$emit('close-theater');
+            },
+            _thumbHandler() {
+                this.hasThumb = !this.hasThumb;
             }
         },
         created() {
