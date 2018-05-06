@@ -18,6 +18,11 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="post-wrap">
+                <div class="pagelist-wrapper" id="list-wrap"></div>
+            </div>
+        </div>
         <fs-photo-theater :img-list="imgList" v-if="showTheater" @close-theater="showTheater = false"></fs-photo-theater>
         <Button @click.native="showTheater=true">aaaa</Button>
     </div>
@@ -95,15 +100,108 @@
                 }
             }
         }
+        .container {
+            position: relative;
+            margin: 0 40px;
+            .post-wrap {
+                min-width: 800px;
+                max-width: 1880px;
+                padding: 16px 0 25px;
+                margin: 0 auto;
+                font-size: 0;
+                .pagelist-wrapper {
+                    margin-left: -11px;
+                    margin-right: -11px;
+                    .gallery-row {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        margin-bottom: 8px;
+                    }
+                    .gallery-item-wrapper {
+                        height: 100%;
+                        padding-left: 8px;
+                        display: inline-block;
+                        box-sizing: border-box;
+                    }
+
+                    .gallery-item {
+                        height: 100%;
+                    }
+
+                    .gallery-image {
+                        height: 100%;
+                    }
+
+                    .gallery-image:hover {
+                        cursor: zoom-in;
+                        opacity: 0.8;
+                    }
+                }
+            }
+        }
     }
 </style>
 <script>
     import FsPhotoTheater from '../components/fs-photo-theater';
+    import GalleryColumns from '@/libs/water-wall';
+    import {on, off} from '@/libs/dom';
     export default {
         name: 'photoDetailList',
         data() {
             return {
                 showTheater: false,
+                photo: [
+                    {
+                        width: 1200,
+                        height: 800,
+                        img: 'https://photo.tuchong.com/107570/f/15587418.jpg'
+                    },
+                    {
+                        width: 1200,
+                        height: 733,
+                        img: 'https://photo.tuchong.com/107570/f/15584778.jpg'
+                    },
+                    {
+                        width: 846,
+                        height: 1200,
+                        img: 'https://photo.tuchong.com/107570/f/15580458.jpg'
+                    },
+                    {
+                        width: 1500,
+                        height: 1000,
+                        img: 'https://s1.tuchong.com/welcome-image/large/18604513.jpg'
+                    },
+                    {
+                        width: 480,
+                        height: 640,
+                        img: 'https://photo.tuchong.com/1175071/ft640/20366713.webp'
+                    },
+                    {
+                        width: 640,
+                        height: 480,
+                        img: 'https://photo.tuchong.com/1175071/ft640/20364015.webp'
+                    },
+                    {
+                        width: 480,
+                        height: 640,
+                        img: 'https://photo.tuchong.com/1175071/ft640/20364014.webp'
+                    },
+                    {
+                        width: 640,
+                        height: 480,
+                        img: 'https://photo.tuchong.com/1175071/ft640/20362575.webp'
+                    },
+                    {
+                        width: 480,
+                        height: 640,
+                        img: 'https://photo.tuchong.com/1175071/ft640/20366713.webp'
+                    },
+                    {
+                        width: 600,
+                        height: 369,
+                        img: 'https://photo.tuchong.com/1914425/l/15652202.webp'
+                    }
+                ],
                 imgList: [
                     {
                         pic: '//photo.tuchong.com/2740904/f/28607472.jpg'
@@ -150,6 +248,14 @@
             },
             _createPhoto() {
             }
+        },
+        mounted() {
+            this.layout = new GalleryColumns('#list-wrap');
+            this.layout.append(this.photo);
+            on(window, 'resize', () => {
+                console.log('aa')
+                this.layout.append(this.photo);
+            });
         },
         components: {
             FsPhotoTheater
