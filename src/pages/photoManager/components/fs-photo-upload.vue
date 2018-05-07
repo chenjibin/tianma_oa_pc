@@ -37,10 +37,6 @@
     export default {
         name: 'FsPhotoUpload',
         props: {
-            path: {
-                type: String,
-                default: ''
-            },
             action: String,
             upload: {
                 type: Array,
@@ -70,7 +66,7 @@
                 this.$refs.uploadDom.fileList = [];
             },
             handleSuccess (res, file) {
-                file.url = this.path + res.data.filename;
+                file.url = res.data.url;
                 file.name = res.data.filename;
                 this.updateUploadList();
             },

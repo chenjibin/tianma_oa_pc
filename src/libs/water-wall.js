@@ -2,7 +2,7 @@
  * 木桶布局
  *
  * @param {string} selector
- * @param {int} [minHeight=300]
+ * @param {int} [minHeight=400]
  * @constructor
  */
 export default class GalleryColumns {
@@ -17,9 +17,7 @@ export default class GalleryColumns {
 
         this.getRows(photos).forEach(function (row) {
             let totalWidth = self.element.clientWidth - (row.photos.length - 1) * self.padding;
-            console.log(totalWidth)
             let $row = document.createElement('div');
-
             $row.className = 'gallery-row';
             $row.style.height = parseInt(totalWidth / row.aspectRatio) + 'px';
             $row.innerHTML = row.photos.reduce(function (html, photo) {
@@ -33,7 +31,6 @@ export default class GalleryColumns {
                     `;
                 return html;
             }, '');
-
             self.element.appendChild($row);
         });
     }

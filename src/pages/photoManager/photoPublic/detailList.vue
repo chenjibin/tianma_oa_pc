@@ -14,17 +14,18 @@
                     </div>
                 </div>
                 <div class="handler">
-                    <a href="" class="publish-btn" @click.stop="_createPhoto">创建相册</a>
+                    <a href="javascript:void(0)" class="publish-btn" @click.stop="_createPhoto">创建相册</a>
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="post-wrap">
-                <div class="pagelist-wrapper" id="list-wrap"></div>
+                <fs-water-rows :photos="photo" @item-click="_waterItemClickHandler"></fs-water-rows>
             </div>
         </div>
         <fs-photo-theater :img-list="imgList" v-if="showTheater" @close-theater="showTheater = false"></fs-photo-theater>
         <Button @click.native="showTheater=true">aaaa</Button>
+        <Button @click.native="_addPhoto">bbb</Button>
     </div>
 </template>
 <style lang="less">
@@ -143,8 +144,7 @@
 </style>
 <script>
     import FsPhotoTheater from '../components/fs-photo-theater';
-    import GalleryColumns from '@/libs/water-wall';
-    import {on, off} from '@/libs/dom';
+    import FsWaterRows from '@/baseComponents/fs-water-rows';
     export default {
         name: 'photoDetailList',
         data() {
@@ -246,19 +246,20 @@
             test(e) {
                 console.log(e);
             },
+            _waterItemClickHandler() {
+                this.showTheater = true;
+            },
+            _addPhoto() {
+                this.photo = [...this.photo, ...this.photo];
+            },
             _createPhoto() {
             }
         },
         mounted() {
-            this.layout = new GalleryColumns('#list-wrap');
-            this.layout.append(this.photo);
-            on(window, 'resize', () => {
-                console.log('aa')
-                this.layout.append(this.photo);
-            });
         },
         components: {
-            FsPhotoTheater
+            FsPhotoTheater,
+            FsWaterRows
         }
     };
 </script>
