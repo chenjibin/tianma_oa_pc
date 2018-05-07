@@ -1,9 +1,13 @@
 <template>
     <div class="fs-create-photo" :style="{'height': theaterHeight, 'width': theaterWidth}">
         <div class="main-zone">
-            <fs-photo-upload :upload="photoList"></fs-photo-upload>
+            <div class="close-btn" @click.stop="closeHandler">
+                <Icon type="close-round" size="32" color="rgba(0,0,0,0.6)"></Icon>
+            </div>
+            <fs-photo-upload  action="/oa/od/uploadfile" :upload.sync="photoList"></fs-photo-upload>
         </div>
         <div class="aside-zone">
+            <div class="submit-btn">创建相册</div>
         </div>
     </div>
 </template>
@@ -12,7 +16,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 10000;
+        z-index: 900;
         width: 100%;
         overflow: hidden;
         .main-zone {
@@ -24,22 +28,47 @@
             height: 100%;
             padding: 22px 30px 80px;
             overflow-y: auto;
+            background-color: #f9f9f9;
+            .close-btn {
+                cursor: pointer;
+            }
         }
         .aside-zone {
+            position: relative;
             width: 340px;
             height: 100%;
             padding: 18px 20px 140px;
             margin-left: auto;
             font-size: 13px;
             line-height: 18px;
-            overflow-y: scroll;
+            overflow-y: auto;
             color: #222;
             background-color: #fff;
+            .submit-btn {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                z-index: 1;
+                width: 340px;
+                height: 48px;
+                padding: 13px 0;
+                border: 0;
+                text-align: center;
+                outline: 0;
+                color: #fff;
+                font-size: 16px;
+                line-height: 22px;
+                letter-spacing: 10px;
+                text-indent: 10px;
+                background-color: #c99a05;
+                cursor: pointer;
+            }
         }
     }
 </style>
 <script>
     import FsPhotoUpload from './fs-photo-upload';
+    import {on, off} from '@/libs/dom';
     export default {
         name: 'createPhoto',
         data() {
@@ -52,13 +81,29 @@
         created() {
             this._initStyleObject();
         },
+        mounted() {
+            on(window, 'resize', () => {
+                this._initStyleObject();
+            });
+        },
+        watch: {
+            photoList(val) {
+                console.log(val);
+            }
+        },
         methods: {
             _initStyleObject() {
                 let w = document.body.clientWidth;
                 let h = document.body.clientHeight;
                 this.theaterWidth = w + 'px';
                 this.theaterHeight = h + 'px';
+            },
+            closeHandler() {
+                this.$emit('close');
             }
+        },
+        destroyed() {
+            off(window, 'resize');
         },
         components: {
             FsPhotoUpload

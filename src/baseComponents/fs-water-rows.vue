@@ -169,7 +169,7 @@
                     if (i === (photos.length - 1) && _photos.length) {
                         rows.push({
                             photos: _photos,
-                            height: this.minHeight + 'px'
+                            height: this.minHeight - 20 + 'px'
                         });
                     }
                 }

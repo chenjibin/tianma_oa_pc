@@ -20,10 +20,16 @@
         </div>
         <div class="container">
             <div class="post-wrap">
-                <fs-water-rows :photos="photo" @item-click="_waterItemClickHandler"></fs-water-rows>
+                <fs-water-rows
+                    :photos="photo"
+                    @item-click="_waterItemClickHandler"></fs-water-rows>
             </div>
         </div>
-        <fs-photo-theater :img-list="imgList" v-if="showTheater" @close-theater="showTheater = false"></fs-photo-theater>
+        <fs-photo-theater
+            :img-list="imgList"
+            v-if="showTheater"
+            @close-theater="showTheater = false"></fs-photo-theater>
+        <create-photo @close="showCreate = false" v-if="showCreate"></create-photo>
         <Button @click.native="showTheater=true">aaaa</Button>
         <Button @click.native="_addPhoto">bbb</Button>
     </div>
@@ -145,11 +151,13 @@
 <script>
     import FsPhotoTheater from '../components/fs-photo-theater';
     import FsWaterRows from '@/baseComponents/fs-water-rows';
+    import createPhoto from '../components/create-photo';
     export default {
         name: 'photoDetailList',
         data() {
             return {
                 showTheater: false,
+                showCreate: false,
                 photo: [
                     {
                         width: 1200,
@@ -253,13 +261,15 @@
                 this.photo = [...this.photo, ...this.photo];
             },
             _createPhoto() {
+                this.showCreate = true;
             }
         },
         mounted() {
         },
         components: {
             FsPhotoTheater,
-            FsWaterRows
+            FsWaterRows,
+            createPhoto
         }
     };
 </script>
