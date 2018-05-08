@@ -261,9 +261,6 @@
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _roleAccessOpen(data) {
-
-            },
             _addPostOpen() {
                 this._initPostForm();
                 this.settingModalFlag = true;

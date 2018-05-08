@@ -25,6 +25,7 @@
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
+            :data="{'type': 2}"
             multiple
             type="drag"
             :action="action" style="display: flex;justify-content: center;align-items: center;margin-left: 40px">
@@ -69,8 +70,7 @@
                 this.$refs.uploadDom.fileList = [];
             },
             handleSuccess (res, file) {
-                file.url = '/oa/upload/' + res.data.filename;
-                file.name = res.data.filename;
+                file.url = res.data.filename;
                 this.updateUploadList();
             },
             handleFormatError () {

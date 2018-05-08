@@ -8,10 +8,14 @@
         </div>
         <div class="aside-zone">
             <div class="item">
-                <p class="title">相册简介</p>
+                <p class="title">作品主题</p>
+                <textarea v-model="photoTitle"></textarea>
+            </div>
+            <div class="item">
+                <p class="title">作品简介</p>
                 <textarea v-model="photoDesc"></textarea>
             </div>
-            <div class="submit-btn" @click.stop="createPhotoHandler">创建相册</div>
+            <div class="submit-btn" @click.stop="createPhotoHandler">创建作品</div>
         </div>
     </div>
 </template>
@@ -94,7 +98,8 @@
                 theaterHeight: '0px',
                 theaterWidth: '0px',
                 photoList: [],
-                photoDesc: ''
+                photoDesc: '',
+                photoTitle: ''
             };
         },
         created() {
@@ -118,7 +123,12 @@
                 this.theaterHeight = h + 'px';
             },
             createPhotoHandler() {
-
+                let sendData = {};
+                sendData.staffPresenceId = this.$route.params.id;
+                sendData.item = this.photoTitle;
+                sendData.detail = this.photoDesc;
+                sendData.fileNames = this.photoList.map(x => x.url).join(',');
+                console.log(sendData);
             },
             closeHandler() {
                 this.$emit('close');

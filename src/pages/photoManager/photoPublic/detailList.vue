@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="handler">
-                    <a href="javascript:void(0)" class="publish-btn" @click.stop="_createPhoto">创建相册</a>
+                    <a href="javascript:void(0)" class="publish-btn" @click.stop="_createPhoto">创建作品</a>
                 </div>
             </div>
         </div>
@@ -30,8 +30,8 @@
             v-if="showTheater"
             @close-theater="showTheater = false"></fs-photo-theater>
         <create-photo @close="showCreate = false" v-if="showCreate"></create-photo>
-        <Button @click.native="showTheater=true">aaaa</Button>
-        <Button @click.native="_addPhoto">bbb</Button>
+        <!--<Button @click.native="showTheater=true">aaaa</Button>-->
+        <!--<Button @click.native="_addPhoto">bbb</Button>-->
     </div>
 </template>
 <style lang="less">

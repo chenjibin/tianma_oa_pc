@@ -585,13 +585,6 @@ export const appRouter = [
                 name: 'photoSetting',
                 title: '活动设置',
                 component: _import('photoManager/photoSetting')
-            },
-            {
-                path: 'myKnowledge',
-                icon: 'ios-book',
-                name: 'myKnowledge',
-                title: '我的知识',
-                component: _import('knowledgeManage/myKnowledge')
             }
         ]
     },
@@ -644,16 +637,6 @@ export const appRouter = [
                 title: '公告管理',
                 component: _import('systemManage/noticeManage')
             }
-        ]
-    },
-    {
-        path: '/international',
-        icon: 'earth',
-        title: {i18n: 'international'},
-        name: 'international',
-        component: Main,
-        children: [
-            { path: 'index', title: {i18n: 'international'}, name: 'international_index', component: resolve => { require(['@/views/international/international.vue'], resolve); } }
         ]
     }
 ];
