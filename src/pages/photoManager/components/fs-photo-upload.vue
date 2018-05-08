@@ -28,9 +28,10 @@
             multiple
             type="drag"
             :action="action" style="display: flex;justify-content: center;align-items: center;margin-left: 40px">
-            <div style="padding: 20px 8px">
+            <div style="padding: 20px 8px;width: 300px">
                 <Icon type="ios-cloud-upload" size="48" style="color: #3399ff"></Icon>
-                <p>点击或者拖拽图片上传,最大支持20M的JEPG格式的照片</p>
+                <p>点击或者拖拽图片上传</p>
+                <p>最大支持20M的JEPG格式的照片</p>
             </div>
         </Upload>
     </div>

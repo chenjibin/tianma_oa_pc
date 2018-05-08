@@ -573,6 +573,29 @@ export const appRouter = [
         ]
     },
     {
+        path: '/photoManage',
+        icon: 'images',
+        name: 'photoManage',
+        title: '员工风采管理',
+        component: Main,
+        children: [
+            {
+                path: 'photoSetting',
+                icon: 'images',
+                name: 'photoSetting',
+                title: '活动设置',
+                component: _import('photoManager/photoSetting')
+            },
+            {
+                path: 'myKnowledge',
+                icon: 'ios-book',
+                name: 'myKnowledge',
+                title: '我的知识',
+                component: _import('knowledgeManage/myKnowledge')
+            }
+        ]
+    },
+    {
         path: '/systemManage',
         icon: 'ios-gear',
         name: 'systemManage',

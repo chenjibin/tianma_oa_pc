@@ -4,10 +4,14 @@
             <div class="close-btn" @click.stop="closeHandler">
                 <Icon type="close-round" size="32" color="rgba(0,0,0,0.6)"></Icon>
             </div>
-            <fs-photo-upload  action="/oa/od/uploadfile" :upload.sync="photoList"></fs-photo-upload>
+            <fs-photo-upload  action="/oa/staffPresence/uploadFile" :upload.sync="photoList"></fs-photo-upload>
         </div>
         <div class="aside-zone">
-            <div class="submit-btn">创建相册</div>
+            <div class="item">
+                <p class="title">相册简介</p>
+                <textarea v-model="photoDesc"></textarea>
+            </div>
+            <div class="submit-btn" @click.stop="createPhotoHandler">创建相册</div>
         </div>
     </div>
 </template>
@@ -44,6 +48,20 @@
             overflow-y: auto;
             color: #222;
             background-color: #fff;
+            .item {
+                .title {
+                }
+                textarea {
+                    width: 100%;
+                    padding: 10px;
+                    border: 2px solid #e0e0e0;
+                    margin: 12px 0 28px;
+                    outline: 0;
+                    font-size: 13px;
+                    height: 100px;
+                    resize: vertical;
+                }
+            }
             .submit-btn {
                 position: absolute;
                 bottom: 0;
@@ -75,7 +93,8 @@
             return {
                 theaterHeight: '0px',
                 theaterWidth: '0px',
-                photoList: []
+                photoList: [],
+                photoDesc: ''
             };
         },
         created() {
@@ -97,6 +116,9 @@
                 let h = document.body.clientHeight;
                 this.theaterWidth = w + 'px';
                 this.theaterHeight = h + 'px';
+            },
+            createPhotoHandler() {
+
             },
             closeHandler() {
                 this.$emit('close');
