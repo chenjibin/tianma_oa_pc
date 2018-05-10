@@ -211,6 +211,30 @@
                         }
                     },
                     {
+                        title: '活动介绍',
+                        key: 'detail'
+                    },
+                    {
+                        title: '主办方',
+                        key: 'host_unit',
+                        width: 120,
+                        align: 'center'
+                    },
+                    {
+                        title: '剩余天数',
+                        key: 'end_day',
+                        width: 120,
+                        align: 'center'
+                    },
+                    {
+                        title: '是否首页展示',
+                        width: 120,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('span', params.row.show_pic === 1 ? '是' : '否');
+                        }
+                    },
+                    {
                         title: '操作',
                         align: 'center',
                         width: 120,

@@ -13,8 +13,11 @@
             </Col>
         </Row>
         <div class="people-photo-list">
-            <div class="item" @click.stop="$router.push({name: 'photoDetailList',  params: { id: '1' }})">
-                <img src="https://s1.tuchong.com/event-banners/551509/pc.jpg?1">
+            <div class="item"
+                 v-for="item in photoData"
+                 :key="'photo-' + item.id"
+                 @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
+                <img :src="item.file_path">
             </div>
         </div>
     </Card>
@@ -56,14 +59,23 @@
     export default {
         data () {
             return {
-                inJobData: []
+                photoData: []
             };
         },
         created () {
-            this._getInJobData();
+            this._getShowPhotoData();
         },
         methods: {
-            _getInJobData () {
+            _getShowPhotoData () {
+                let sendData = {};
+                sendData.page = 1;
+                sendData.pageSize = 1000;
+                sendData.isShowpic = 1;
+                this.$http.get('/staffPresence/getStaffPresenceList', {params: sendData}).then((res) => {
+                    if (res.success) {
+                        this.photoData = res.data;
+                    }
+                });
             }
         }
     };

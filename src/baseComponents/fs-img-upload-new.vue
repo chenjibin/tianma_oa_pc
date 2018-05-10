@@ -2,6 +2,7 @@
     <div id="fs-upload-list">
         <Upload
                 ref="uploadDom"
+                :data="params"
                 :show-upload-list="false"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png']"
@@ -55,6 +56,10 @@
             path: {
                 type: String,
                 default: ''
+            },
+            params: {
+                type: Object,
+                default: () => {}
             },
             action: String,
             multiple: {

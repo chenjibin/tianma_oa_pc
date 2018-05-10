@@ -158,6 +158,10 @@
             return {
                 showTheater: false,
                 showCreate: false,
+                pageData: {
+                    page: 1,
+                    pageSize: 20
+                },
                 photo: [
                     {
                         width: 1200,
@@ -263,6 +267,10 @@
             _createPhoto() {
                 this.showCreate = true;
             }
+        },
+        activated() {
+            let staffPresenceId = this.$route.params.id;
+            console.log(this.$route);
         },
         mounted() {
         },

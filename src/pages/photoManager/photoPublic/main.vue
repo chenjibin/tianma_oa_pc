@@ -11,7 +11,9 @@
                 <span style="cursor: pointer;" @click.stop="$router.replace({name: 'home_index'})">返回人事系统</span>
             </div>
         </div>
-        <router-view></router-view>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
     </div>
 </template>
 <style lang="less">
