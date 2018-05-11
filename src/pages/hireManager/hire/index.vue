@@ -779,6 +779,12 @@
                         width: 100
                     },
                     {
+                        title: '预约人',
+                        key: 'creatname',
+                        align: 'left',
+                        width: 80
+                    },
+                    {
                         title: '性别',
                         key: 'sex',
                         align: 'center',
