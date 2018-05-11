@@ -175,8 +175,8 @@
                             <FormItem label="证明人姓名" :class="device.mobile?'mobileFormItemLeft':'pcWorkingFormItem'">
                                 <Input type="text" :maxlength="20" v-model="item.witness"></Input>
                             </FormItem>
-                            <FormItem label="公司电话" :class="device.mobile?'mobileFormItemLeft':'pcWorkingFormItem'">
-                                <Input type="text" :maxlength="20" v-model="item.phone"></Input>
+                            <FormItem label="证明手机" :class="device.mobile?'mobileFormItemLeft':'pcWorkingFormItem'">
+                                <Input type="text" :maxlength="11" v-model="item.phone"></Input>
                             </FormItem>
                             <FormItem label="工作描述" style="width:79%;margin-right: 1%;">
                                 <Input type="textarea" :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="item.descriptioncontent"></Input>
