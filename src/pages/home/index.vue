@@ -79,20 +79,24 @@
                     <Col :md="24" :lg="24" :style="{marginBottom: '10px'}">
                         <coin-change></coin-change>
                     </Col>
+                    <Col :md="24" :lg="24" :style="{marginBottom: '10px'}">
+                        <people-change></people-change>
+                    </Col>
                 </Row>
             </Col>
             <Col :md="24" :lg="12">
-                <Row>
+                <div>
                     <Notice></Notice>
-                </Row>
-                <Row>
-                    <people-change></people-change>
-                </Row>
-            <Row>
-                <Col :md="24" :lg="24" :style="{marginBottom: '10px'}">
+                </div>
+                <div>
+                    <people-photo></people-photo>
+                </div>
+                <!--<div>-->
+                    <!--<people-change></people-change>-->
+                <!--</div>-->
+                <div>
                     <injob-commemorate></injob-commemorate>
-                </Col>
-            </Row>
+                </div>
             </Col>
         </Row>
     </div>
@@ -106,6 +110,7 @@ import peopleChange from './components/peopleChange';
 import injobCommemorate from './components/injobCommemorate';
 import coinChange from './components/coinChange';
 import thingsToDo from './components/thingsToDo';
+import peoplePhoto from './components/peoplePhoto';
 export default {
     name: 'home_index',
     components: {
@@ -115,7 +120,8 @@ export default {
         injobCommemorate,
         coinChange,
         userInfo,
-        thingsToDo
+        thingsToDo,
+        peoplePhoto
     }
 };
 </script>

@@ -573,6 +573,22 @@ export const appRouter = [
         ]
     },
     {
+        path: '/photoManage',
+        icon: 'images',
+        name: 'photoManage',
+        title: '员工风采管理',
+        component: Main,
+        children: [
+            {
+                path: 'photoSetting',
+                icon: 'images',
+                name: 'photoSetting',
+                title: '活动设置',
+                component: _import('photoManager/photoSetting')
+            }
+        ]
+    },
+    {
         path: '/systemManage',
         icon: 'ios-gear',
         name: 'systemManage',
@@ -621,16 +637,6 @@ export const appRouter = [
                 title: '公告管理',
                 component: _import('systemManage/noticeManage')
             }
-        ]
-    },
-    {
-        path: '/international',
-        icon: 'earth',
-        title: {i18n: 'international'},
-        name: 'international',
-        component: Main,
-        children: [
-            { path: 'index', title: {i18n: 'international'}, name: 'international_index', component: resolve => { require(['@/views/international/international.vue'], resolve); } }
         ]
     }
 ];
