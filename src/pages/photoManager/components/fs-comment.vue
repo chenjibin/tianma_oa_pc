@@ -4,9 +4,10 @@
             <a class="site-icon">
                 <img :src="avatorPath"/>
             </a>
-            <textarea placeholder="喜欢？摸着我的良心说两句…" v-model.trim="commentContent"></textarea>
+            <textarea placeholder="喜欢？摸着我的良心说两句…" v-model.trim="commentContent" ref="replyTextarea"></textarea>
             <div class="form-action">
-                <span class="btn" @click="_submitComment">评论</span>
+                <span class="btn" @click="_submitComment" v-show="canComment">评论</span>
+                <span class="btn" v-show="!canComment">提交中...</span>
             </div>
         </form>
         <ul class="comment-list">
@@ -22,59 +23,32 @@
                     <div class="comment-foot">
                         <time>{{item.insert_time.split(' ')[0]}}</time>
                         <a class="" @click.stop="_replyComment(item)">回复</a>
-                        <a class="delete" v-if="item.status">删除</a>
-                        <a class="like" @click="_thumbComment">
-                            <Icon type="thumbsup" size="18" :color="item.thumbupId ? '#ff0036' : '#b0b5b8'"></Icon>
-                            <span :style="{'color': item.thumbupId ? '#ff0036' : '#b0b5b8'}"
+                        <a class="delete" v-if="item.status" @click.stop="_removeCommentHandler(item.id)">删除</a>
+                        <a class="like" @click.stop="_thumbComment(item)">
+                            <Icon type="thumbsup" size="18" :color="item.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
+                            <span :style="{'color': item.thumbupid ? '#ff0036' : '#b0b5b8'}"
                                   v-if="item.thumb_up_times > 0">{{item.thumb_up_times}}</span>
                         </a>
                     </div>
                 </div>
-                <ul class="vice-comments-list">
-                    <li class="vice-comment">
+                <ul class="vice-comments-list" v-if="item.childcomment.length">
+                    <li class="vice-comment"
+                        v-for="child in item.childcomment"
+                        :key="'child-comment-' + child.id">
                         <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>谢谢</span>
+                            <span class="name">{{child.username}}</span>
+                            <span v-if="child.to_username">回复</span>
+                            <span class="name" v-if="child.to_username">{{child.to_username}}</span>
+                            <span>{{child.content}}</span>
                         </div>
                         <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18" :color="hasLiked ? '#ff0036' : '#b0b5b8'"></Icon>
-                                <span :style="{'color': hasLiked ? '#ff0036' : '#b0b5b8'}">13</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
+                            <time>{{child.insert_time.split(' ')[0]}}</time>
+                            <a class="" @click.stop="_innerReply(child)">回复</a>
+                            <a class="delete" v-if="child.status" @click.stop="_removeCommentHandler(child.id)">删除</a>
+                            <a class="like" @click.stop="_thumbComment(child)">
+                                <Icon type="thumbsup" size="18" :color="child.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
+                                <span :style="{'color': child.thumbupid ? '#ff0036' : '#b0b5b8'}"
+                                      v-if="child.thumb_up_times > 0">{{child.thumb_up_times}}</span>
                             </a>
                         </div>
                     </li>
@@ -176,11 +150,15 @@
         },
         data() {
             return {
+                canComment: true,
                 commentContent: '',
+                preContent: '',
+                toUserName: '',
+                toUserId: null,
                 hasLiked: true,
                 pageData: {
                     page: 1,
-                    pageSize: 20
+                    pageSize: 100
                 },
                 parentId: 0,
                 commentList: []
@@ -191,45 +169,110 @@
                 return this.$store.state.user.userInfo.headimagepath;
             }
         },
+        watch: {
+            'commentContent'(val) {
+                if (this.parentId) {
+                    if (val.length < this.preContent.length) {
+                        this.commentContent = '';
+                        this.preContent = '';
+                        this.parentId = 0;
+                        this._initToUserInfo();
+                    }
+                }
+            }
+        },
         created() {
-            console.log('aaaa');
             this._getCommentList();
         },
         methods: {
+            _removeCommentHandler(id) {
+                let sendData = {};
+                sendData.id = id;
+                this.$http.post('/staffPresence/deleteArticleComment', sendData).then((res) => {
+                    if (res.success) {
+                        this._getCommentList();
+                    }
+                });
+            },
+            _initToUserInfo() {
+                this.toUserName = '';
+                this.toUserId = null;
+            },
             _getCommentList() {
                 let sendData = {};
                 sendData.articleId = this.id;
                 sendData.page = this.pageData.page;
                 sendData.pageSize = this.pageData.pageSize;
                 this.$http.get('/staffPresence/getArticleCommentList', {params: sendData}).then((res) => {
-                    console.log(res);
                     if (res.success) {
-                        this.commentList = [...this.commentList, ...res.data];
+                        this.commentList = res.data;
                     }
                 });
             },
+            _innerReply(data) {
+                this._initToUserInfo();
+                this.preContent = `回复 ${data.username}:`;
+                this.parentId = data.parent_id;
+                this.commentContent = this.preContent;
+                this.toUserName = data.username;
+                this.toUserId = data.userid;
+                this.$refs.replyTextarea.focus();
+            },
             _replyComment(data) {
-                let preContent = `回复${data.username}:`;
-                this.commentContent = preContent;
-                console.log(data);
+                this._initToUserInfo();
+                this.preContent = `回复 ${data.username}:`;
+                this.parentId = data.id;
+                this.commentContent = this.preContent;
+                this.$refs.replyTextarea.focus();
             },
             _submitComment() {
-                if (!this.commentContent) {
-                    this.$Message.error('评论内容不能为空!');
-                }
                 let sendData = {};
                 sendData.articleId = this.id;
                 sendData.parentId = this.parentId;
-                sendData.content = this.commentContent;
+                if (this.parentId) {
+                    sendData.content = this.commentContent.replace(this.preContent, '');
+                    console.log(this.commentContent.replace(this.preContent, ''));
+                } else {
+                    sendData.content = this.commentContent;
+                }
+                if (!sendData.content) {
+                    this.$Message.error('评论内容不能为空!');
+                    return;
+                }
+                if (this.toUserName) sendData.toUserName = this.toUserName;
+                if (this.toUserId) sendData.toUserId = this.toUserId;
+                this.canComment = false;
                 this.$http.post('/staffPresence/addArticleComment', sendData).then((res) => {
                     if (res.success) {
                         this.commentContent = '';
+                        this._initToUserInfo();
                         this._getCommentList();
                     }
+                }).finally(() => {
+                    this.canComment = true;
                 });
             },
-            _thumbComment() {
-                this.hasLiked = !this.hasLiked;
+            _thumbComment(data) {
+                if (data.thumbupid) {
+                    let sendData = {};
+                    sendData.id = data.thumbupid;
+                    this.$http.post('/staffPresence/deleteThumbup', sendData).then((res) => {
+                        if (res.success) {
+                            this._getCommentList();
+                        }
+                    });
+                } else {
+                    let sendData = {};
+                    sendData.articleId = data.article_id;
+                    sendData.type = 1;
+                    sendData.commentId = data.id;
+                    this.$http.post('/staffPresence/addThumbup', sendData).then((res) => {
+                        if (res.success) {
+                            this._getCommentList();
+                        }
+                    });
+                }
+                console.log(data);
             }
         },
         components: {}

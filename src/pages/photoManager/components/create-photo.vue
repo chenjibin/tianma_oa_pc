@@ -15,7 +15,8 @@
                 <p class="title">作品简介</p>
                 <textarea v-model="photoDesc"></textarea>
             </div>
-            <div class="submit-btn" @click.stop="createPhotoHandler">创建作品</div>
+            <div class="submit-btn" @click.stop="createPhotoHandler" v-show="canSubmit">创建作品</div>
+            <div class="submit-btn" v-show="!canSubmit">提交作品中...</div>
         </div>
     </div>
 </template>
@@ -95,6 +96,7 @@
         name: 'createPhoto',
         data() {
             return {
+                canSubmit: true,
                 theaterHeight: '0px',
                 theaterWidth: '0px',
                 photoList: [],
@@ -135,6 +137,7 @@
                     this.$Message.error('作品简介不能为空');
                     return;
                 }
+                this.canSubmit = false;
                 let sendData = {};
                 sendData.staffPresenceId = this.$route.params.id;
                 sendData.item = this.photoTitle;
@@ -144,8 +147,9 @@
                     if (res.success) {
                         this.$emit('add-success');
                     }
+                }).finally(() => {
+                    this.canSubmit = true;
                 });
-                console.log(sendData);
             },
             closeHandler() {
                 this.$emit('close');

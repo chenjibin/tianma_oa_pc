@@ -1,5 +1,5 @@
 <template>
-    <div id="photo-detail-list">
+    <div id="photo-detail-list" @scroll="_scrollerHandler">
         <div class="banner">
             <div class="bg-header-large">
                 <img :src="themeDetail.file_path">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="handler">
                     <div>
-                        距离结束还有<span style="font-size: 18px;color: #d3ad34;font-weight: 700;">{{themeDetail.end_day}}</span>天
+                        距离结束还有<span style="font-size: 18px;color: #d3ad34;font-weight: 700;"> {{themeDetail.end_day}} </span>天
                     </div>
                     <div style="margin-top: 16px">
                         主办方: <span>{{themeDetail.host_unit}}</span>
@@ -33,6 +33,7 @@
                     :photos="photo"
                     v-if="photo.length"
                     @item-click="_waterItemClickHandler"></fs-water-rows>
+                <div class="end" v-if="pageData.page >= pageData.totalPage">END</div>
             </div>
         </div>
         <fs-photo-theater
@@ -45,6 +46,13 @@
 </template>
 <style lang="less">
     #photo-detail-list {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
         .banner {
             .bg-header-large {
                 margin-bottom: 40px;
@@ -125,6 +133,11 @@
                 padding: 16px 0 25px;
                 margin: 0 auto;
                 font-size: 0;
+                .end {
+                    padding: 16px 0;
+                    font-size: 24px;
+                    text-align: center;
+                }
                 .pagelist-wrapper {
                     margin-left: -11px;
                     margin-right: -11px;
@@ -167,11 +180,13 @@
             return {
                 showTheater: false,
                 showCreate: false,
+                canLoad: true,
                 themeDetail: {},
                 id: null,
                 pageData: {
                     page: 1,
-                    pageSize: 20
+                    pageSize: 20,
+                    totalPage: 0
                 },
                 photo: [],
                 imgList: [],
@@ -180,7 +195,6 @@
         },
         methods: {
             _waterItemClickHandler(data) {
-                console.log(data);
                 this.imgList = data.files;
                 this.productInfo = {
                     headimagepath: data.headimagepath,
@@ -188,7 +202,8 @@
                     createTime: data.insert_time.split(' ')[0],
                     insert_username: data.insert_username,
                     share_comment_times: data.share_comment_times,
-                    thumb_up_times: data.thumb_up_times
+                    thumb_up_times: data.thumb_up_times,
+                    thumbupId: data.thumbupid || null
                 };
                 this.showTheater = true;
             },
@@ -196,7 +211,6 @@
                 this.showCreate = true;
             },
             _photoAddSuccess() {
-                this.photo = [];
                 this._getPhotoList(this.id);
                 this.showCreate = false;
             },
@@ -209,7 +223,33 @@
                     }
                 });
             },
+            _loadMoreList() {
+                this.pageData.page += 1;
+                if (this.pageData.page > this.pageData.totalPage) return;
+                let sendData = {};
+                sendData.page = this.pageData.page;
+                sendData.pageSize = this.pageData.pageSize;
+                sendData.staffPresenceId = this.id;
+                sendData.type = 0;
+                this.$http.get('/staffPresence/getArticleList', {params: sendData}).then((res) => {
+                    if (res.success) {
+                        this.photo = [...this.photo, ...res.data];
+                        this.pageData.totalPage = Math.ceil(res.totalCount / this.pageData.pageSize);
+                    }
+                }).finally(() => {
+                    this.canLoad = true;
+                });
+            },
+            _scrollerHandler(e) {
+                let canLoadFlag = e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 50;
+                if (canLoadFlag && this.canLoad) {
+                    this.canLoad = false;
+                    this._loadMoreList();
+                }
+            },
             _getPhotoList(id) {
+                this.pageData.page = 1;
+                this.canLoad = true;
                 let sendData = {};
                 sendData.page = this.pageData.page;
                 sendData.pageSize = this.pageData.pageSize;
@@ -217,13 +257,13 @@
                 sendData.type = 0;
                 this.$http.get('/staffPresence/getArticleList', {params: sendData}).then((res) => {
                     if (res.success) {
-                        this.photo = [...this.photo, ...res.data];
+                        this.photo = res.data;
+                        this.pageData.totalPage = Math.ceil(res.totalCount / this.pageData.pageSize);
                     }
                 });
             }
         },
         activated() {
-            this.photo = [];
             let staffPresenceId = this.$route.params.id;
             this.id = staffPresenceId;
             this._getThemeDetail(staffPresenceId);

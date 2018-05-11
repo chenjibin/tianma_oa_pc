@@ -14,6 +14,7 @@
                         <span class="user-name">{{photo.insert_username}}</span>
                     </div>
                     <div class="photo-title">
+                        <p style="margin-bottom: 8px;font-size: 16px;font-weight: 700;">{{photo.item}}</p>
                         <span>{{photo.detail}}</span>
                     </div>
                     <div class="tool-show">
@@ -27,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <span class="img-number" v-if="photo.files.length > 1">组图{{photo.files.length}}张</span>
+                <span class="img-number" v-if="photo.files.length > 1">组图 {{photo.files.length}} 张</span>
             </div>
         </div>
     </div>
@@ -125,7 +126,7 @@
             },
             minHeight: {
                 type: Number,
-                default: 350
+                default: 400
             }
         },
         data() {

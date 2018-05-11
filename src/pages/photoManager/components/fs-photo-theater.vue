@@ -47,8 +47,8 @@
         <div class="fs-theater-aside">
             <div class="actions">
                 <a class="action" @click="_thumbHandler">
-                    <Icon type="heart" :color="hasThumb ? '#ff0036' : '#fff'" size="24"></Icon>
-                    <span :style="{'color': hasThumb ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
+                    <Icon type="heart" :color="productInfo.thumbupId ? '#ff0036' : '#fff'" size="24"></Icon>
+                    <span :style="{'color': productInfo.thumbupId ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
                 </a>
                 <a class="action">
                     <Icon type="chatbox" color="#fff" size="24"></Icon>
@@ -295,8 +295,7 @@
                 currentIndex: 0,
                 transformX: '-66px',
                 canWheel: true,
-                timmer: null,
-                hasThumb: true
+                timmer: null
             };
         },
         methods: {
@@ -330,7 +329,28 @@
                 this.$emit('close-theater');
             },
             _thumbHandler() {
-                this.hasThumb = !this.hasThumb;
+                if (!this.productInfo.thumbupId) {
+                    let sendData = {};
+                    sendData.articleId = this.productInfo.id;
+                    sendData.type = 0;
+                    this.$http.post('/staffPresence/addThumbup', sendData).then((res) => {
+                        console.log(res);
+                        if (res.success) {
+                            this.productInfo.thumbupId = res.data.id;
+                            this.productInfo.thumb_up_times = res.data.thumb_up_times;
+                        }
+                    });
+                } else {
+                    let sendData = {};
+                    sendData.id = this.productInfo.thumbupId;
+                    this.$http.post('/staffPresence/deleteThumbup', sendData).then((res) => {
+                        console.log(res);
+                        if (res.success) {
+                            this.productInfo.thumbupId = null;
+                            this.productInfo.thumb_up_times = res.data.thumb_up_times;
+                        }
+                    });
+                }
             }
         },
         created() {
@@ -338,7 +358,6 @@
                 this._initStyleObject();
             });
             on(document, 'keydown', (e) => {
-                console.log(e);
                 if (+e.keyCode === 39 || +e.keyCode === 40) {
                     this._nextPic();
                 } else if (+e.keyCode === 37 || +e.keyCode === 38) {
