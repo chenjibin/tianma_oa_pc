@@ -22,7 +22,7 @@
                              v-for="(item, index) in imgList"
                              :class="{'prev-scene': index < currentIndex, 'next-scene': index > currentIndex}"
                              :key="'pic-' + index">
-                            <img :src="item.pic"/>
+                            <img :src="item.file_path"/>
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">
@@ -37,7 +37,7 @@
                         <a class="thumb-item"
                            @click.stop="currentIndex = index"
                            :class="{'current': index === currentIndex}"
-                           :style="{'backgroundImage': `url(${item.pic})`}"
+                           :style="{'backgroundImage': `url('${item.file_path}')`}"
                            v-for="(item, index) in imgList"
                            :key="'thumb-' + index"></a>
                     </div>
@@ -48,19 +48,19 @@
             <div class="actions">
                 <a class="action" @click="_thumbHandler">
                     <Icon type="heart" :color="hasThumb ? '#ff0036' : '#fff'" size="24"></Icon>
-                    <span :style="{'color': hasThumb ? '#ff0036' : '#fff'}">55</span>
+                    <span :style="{'color': hasThumb ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
                 </a>
                 <a class="action">
                     <Icon type="chatbox" color="#fff" size="24"></Icon>
-                    <span>55</span>
+                    <span>{{productInfo.share_comment_times}}</span>
                 </a>
             </div>
             <div class="head">
-                <img class="user-pic" src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1">
-                <p class="user-name">我的一天</p>
-                <p class="desc"><time>2017-12-24</time></p>
+                <img class="user-pic" :src="productInfo.headimagepath">
+                <p class="user-name">{{productInfo.insert_username}}</p>
+                <p class="desc"><time>{{productInfo.createTime}}</time></p>
             </div>
-            <fs-comment></fs-comment>
+            <fs-comment :id="productInfo.id"></fs-comment>
         </div>
     </div>
 </template>
@@ -69,7 +69,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 10000;
+        z-index: 1000;
         width: 100%;
         overflow: hidden;
         &-handler {
@@ -273,6 +273,10 @@
             imgList: {
                 type: Array,
                 default: () => []
+            },
+            productInfo: {
+                type: Object,
+                default: () => {}
             },
             showTheater: {
                 type: Boolean,

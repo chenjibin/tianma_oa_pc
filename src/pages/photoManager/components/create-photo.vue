@@ -123,11 +123,28 @@
                 this.theaterHeight = h + 'px';
             },
             createPhotoHandler() {
+                if (!this.photoList.length) {
+                    this.$Message.error('至少上传一张照片!');
+                    return;
+                }
+                if (!this.photoTitle) {
+                    this.$Message.error('作品主题不能为空!');
+                    return;
+                }
+                if (!this.photoDesc) {
+                    this.$Message.error('作品简介不能为空');
+                    return;
+                }
                 let sendData = {};
                 sendData.staffPresenceId = this.$route.params.id;
                 sendData.item = this.photoTitle;
                 sendData.detail = this.photoDesc;
                 sendData.fileNames = this.photoList.map(x => x.url).join(',');
+                this.$http.post('/staffPresence/addArticle', sendData).then((res) => {
+                    if (res.success) {
+                        this.$emit('add-success');
+                    }
+                });
                 console.log(sendData);
             },
             closeHandler() {

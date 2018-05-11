@@ -2,27 +2,31 @@
     <div class="fs-comment-photo">
         <form class="comment-form">
             <a class="site-icon">
-                <img src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1"/>
+                <img :src="avatorPath"/>
             </a>
-            <textarea placeholder="喜欢？摸着我的良心说两句…"></textarea>
+            <textarea placeholder="喜欢？摸着我的良心说两句…" v-model.trim="commentContent"></textarea>
             <div class="form-action">
                 <span class="btn" @click="_submitComment">评论</span>
             </div>
         </form>
         <ul class="comment-list">
-            <li class="main-comment">
+            <li class="main-comment"
+                v-for="item in commentList"
+                :key="'comment-list-' + item.id">
                 <div class="comment-content">
                     <a class="site-icon">
-                        <img src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1" />
+                        <img :src="item.headimagepath"/>
                     </a>
-                    <p style="color: #fff;" class="name">我的一天成绩</p>
-                    <p>构图很好，很有想法.</p>
+                    <p style="color: #fff;" class="name">{{item.username}}</p>
+                    <p>{{item.content}}</p>
                     <div class="comment-foot">
-                        <time>5月4日</time>
-                        <a class="">回复</a>
-                        <a class="delete">删除</a>
+                        <time>{{item.insert_time.split(' ')[0]}}</time>
+                        <a class="" @click.stop="_replyComment(item)">回复</a>
+                        <a class="delete" v-if="item.status">删除</a>
                         <a class="like" @click="_thumbComment">
-                            <Icon type="thumbsup" size="18" :color="hasLiked ? '#ff0036' : '#b0b5b8'"></Icon>
+                            <Icon type="thumbsup" size="18" :color="item.thumbupId ? '#ff0036' : '#b0b5b8'"></Icon>
+                            <span :style="{'color': item.thumbupId ? '#ff0036' : '#b0b5b8'}"
+                                  v-if="item.thumb_up_times > 0">{{item.thumb_up_times}}</span>
                         </a>
                     </div>
                 </div>
@@ -39,208 +43,6 @@
                             <a class="like">
                                 <Icon type="thumbsup" size="18" :color="hasLiked ? '#ff0036' : '#b0b5b8'"></Icon>
                                 <span :style="{'color': hasLiked ? '#ff0036' : '#b0b5b8'}">13</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li class="main-comment">
-                <div class="comment-content">
-                    <a class="site-icon">
-                        <img src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1" />
-                    </a>
-                    <p style="color: #fff;" class="name">我的一天成绩</p>
-                    <p>构图很好，很有想法.</p>
-                    <div class="comment-foot">
-                        <time>5月4日</time>
-                        <a class="">回复</a>
-                        <a class="delete">删除</a>
-                        <a class="like">
-                            <Icon type="thumbsup" size="18"></Icon>
-                        </a>
-                    </div>
-                </div>
-                <ul class="vice-comments-list">
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18" ></Icon>
-                                <span>13</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li class="main-comment">
-                <div class="comment-content">
-                    <a class="site-icon">
-                        <img src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1" />
-                    </a>
-                    <p style="color: #fff;" class="name">我的一天成绩</p>
-                    <p>构图很好，很有想法.</p>
-                    <div class="comment-foot">
-                        <time>5月4日</time>
-                        <a class="">回复</a>
-                        <a class="delete">删除</a>
-                        <a class="like" @click="_thumbComment">
-                            <Icon type="thumbsup" size="18" :color="hasLiked ? '#ff0036' : '#b0b5b8'"></Icon>
-                        </a>
-                    </div>
-                </div>
-                <ul class="vice-comments-list">
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18" :color="hasLiked ? '#ff0036' : '#b0b5b8'"></Icon>
-                                <span :style="{'color': hasLiked ? '#ff0036' : '#b0b5b8'}">13</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18"></Icon>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li class="main-comment">
-                <div class="comment-content">
-                    <a class="site-icon">
-                        <img src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1" />
-                    </a>
-                    <p style="color: #fff;" class="name">我的一天成绩</p>
-                    <p>构图很好，很有想法.</p>
-                    <div class="comment-foot">
-                        <time>5月4日</time>
-                        <a class="">回复</a>
-                        <a class="delete">删除</a>
-                        <a class="like">
-                            <Icon type="thumbsup" size="18"></Icon>
-                        </a>
-                    </div>
-                </div>
-                <ul class="vice-comments-list">
-                    <li class="vice-comment">
-                        <div class="comment-content">
-                            <span class="name">ssss</span>
-                            <span>回复</span>
-                            <span class="name">是是是</span>
-                            <span>谢谢</span>
-                        </div>
-                        <div class="comment-foot">
-                            <time>5月4日</time>
-                            <a class="">回复</a>
-                            <a class="delete">删除</a>
-                            <a class="like">
-                                <Icon type="thumbsup" size="18" ></Icon>
-                                <span>13</span>
                             </a>
                         </div>
                     </li>
@@ -367,13 +169,64 @@
 <script>
     export default {
         name: 'FsComment',
+        props: {
+            id: {
+                type: Number
+            }
+        },
         data() {
             return {
-                hasLiked: true
+                commentContent: '',
+                hasLiked: true,
+                pageData: {
+                    page: 1,
+                    pageSize: 20
+                },
+                parentId: 0,
+                commentList: []
             };
         },
+        computed: {
+            avatorPath () {
+                return this.$store.state.user.userInfo.headimagepath;
+            }
+        },
+        created() {
+            console.log('aaaa');
+            this._getCommentList();
+        },
         methods: {
+            _getCommentList() {
+                let sendData = {};
+                sendData.articleId = this.id;
+                sendData.page = this.pageData.page;
+                sendData.pageSize = this.pageData.pageSize;
+                this.$http.get('/staffPresence/getArticleCommentList', {params: sendData}).then((res) => {
+                    console.log(res);
+                    if (res.success) {
+                        this.commentList = [...this.commentList, ...res.data];
+                    }
+                });
+            },
+            _replyComment(data) {
+                let preContent = `回复${data.username}:`;
+                this.commentContent = preContent;
+                console.log(data);
+            },
             _submitComment() {
+                if (!this.commentContent) {
+                    this.$Message.error('评论内容不能为空!');
+                }
+                let sendData = {};
+                sendData.articleId = this.id;
+                sendData.parentId = this.parentId;
+                sendData.content = this.commentContent;
+                this.$http.post('/staffPresence/addArticleComment', sendData).then((res) => {
+                    if (res.success) {
+                        this.commentContent = '';
+                        this._getCommentList();
+                    }
+                });
             },
             _thumbComment() {
                 this.hasLiked = !this.hasLiked;

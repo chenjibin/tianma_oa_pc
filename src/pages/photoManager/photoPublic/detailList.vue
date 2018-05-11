@@ -2,18 +2,27 @@
     <div id="photo-detail-list">
         <div class="banner">
             <div class="bg-header-large">
-                <img src="https://s1.tuchong.com/event-banners/551509/pc.jpg?1">
+                <img :src="themeDetail.file_path">
             </div>
             <div class="info">
                 <div class="detail">
                     <div class="detail-partial">
                         <h3>介绍</h3>
                         <div class="detail-desc">
-                            <div class="desc">冷色调是“内向”的，干净、通透，独辟蹊径，让人在背景下显得尤为突出，也会给人距离感。让人物融入色彩中，感受色温的变化。</div>
+                            <div class="desc">{{themeDetail.detail}}</div>
                         </div>
                     </div>
                 </div>
                 <div class="handler">
+                    <div>
+                        距离结束还有<span style="font-size: 18px;color: #d3ad34;font-weight: 700;">{{themeDetail.end_day}}</span>天
+                    </div>
+                    <div style="margin-top: 16px">
+                        主办方: <span>{{themeDetail.host_unit}}</span>
+                    </div>
+                    <div style="margin-top: 16px">
+                        奖励说明: <span>{{themeDetail.award}}</span>
+                    </div>
                     <a href="javascript:void(0)" class="publish-btn" @click.stop="_createPhoto">创建作品</a>
                 </div>
             </div>
@@ -22,16 +31,16 @@
             <div class="post-wrap">
                 <fs-water-rows
                     :photos="photo"
+                    v-if="photo.length"
                     @item-click="_waterItemClickHandler"></fs-water-rows>
             </div>
         </div>
         <fs-photo-theater
             :img-list="imgList"
+            :product-info="productInfo"
             v-if="showTheater"
             @close-theater="showTheater = false"></fs-photo-theater>
-        <create-photo @close="showCreate = false" v-if="showCreate"></create-photo>
-        <!--<Button @click.native="showTheater=true">aaaa</Button>-->
-        <!--<Button @click.native="_addPhoto">bbb</Button>-->
+        <create-photo @close="showCreate = false" v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
     </div>
 </template>
 <style lang="less">
@@ -158,121 +167,67 @@
             return {
                 showTheater: false,
                 showCreate: false,
+                themeDetail: {},
+                id: null,
                 pageData: {
                     page: 1,
                     pageSize: 20
                 },
-                photo: [
-                    {
-                        width: 1200,
-                        height: 800,
-                        img: 'https://photo.tuchong.com/107570/f/15587418.jpg'
-                    },
-                    {
-                        width: 1200,
-                        height: 733,
-                        img: 'https://photo.tuchong.com/107570/f/15584778.jpg'
-                    },
-                    {
-                        width: 846,
-                        height: 1200,
-                        img: 'https://photo.tuchong.com/107570/f/15580458.jpg'
-                    },
-                    {
-                        width: 1500,
-                        height: 1000,
-                        img: 'https://s1.tuchong.com/welcome-image/large/18604513.jpg'
-                    },
-                    {
-                        width: 480,
-                        height: 640,
-                        img: 'https://photo.tuchong.com/1175071/ft640/20366713.webp'
-                    },
-                    {
-                        width: 640,
-                        height: 480,
-                        img: 'https://photo.tuchong.com/1175071/ft640/20364015.webp'
-                    },
-                    {
-                        width: 480,
-                        height: 640,
-                        img: 'https://photo.tuchong.com/1175071/ft640/20364014.webp'
-                    },
-                    {
-                        width: 640,
-                        height: 480,
-                        img: 'https://photo.tuchong.com/1175071/ft640/20362575.webp'
-                    },
-                    {
-                        width: 480,
-                        height: 640,
-                        img: 'https://photo.tuchong.com/1175071/ft640/20366713.webp'
-                    },
-                    {
-                        width: 600,
-                        height: 369,
-                        img: 'https://photo.tuchong.com/1914425/l/15652202.webp'
-                    }
-                ],
-                imgList: [
-                    {
-                        pic: '//photo.tuchong.com/2740904/f/28607472.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/1781829/f/17293684.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/2740904/f/28607474.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/2740904/f/28607476.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/2740904/f/28607473.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/2740904/f/28607475.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/2740904/f/28607477.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/2740904/f/28607478.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/1111760/f/29464187.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/3402212/f/18012012.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/1785450/f/20094703.jpg'
-                    },
-                    {
-                        pic: '//photo.tuchong.com/1695426/f/24638075.jpg'
-                    }
-                ]
+                photo: [],
+                imgList: [],
+                productInfo: []
             };
         },
         methods: {
-            test(e) {
-                console.log(e);
-            },
-            _waterItemClickHandler() {
+            _waterItemClickHandler(data) {
+                console.log(data);
+                this.imgList = data.files;
+                this.productInfo = {
+                    headimagepath: data.headimagepath,
+                    id: data.id,
+                    createTime: data.insert_time.split(' ')[0],
+                    insert_username: data.insert_username,
+                    share_comment_times: data.share_comment_times,
+                    thumb_up_times: data.thumb_up_times
+                };
                 this.showTheater = true;
-            },
-            _addPhoto() {
-                this.photo = [...this.photo, ...this.photo];
             },
             _createPhoto() {
                 this.showCreate = true;
+            },
+            _photoAddSuccess() {
+                this.photo = [];
+                this._getPhotoList(this.id);
+                this.showCreate = false;
+            },
+            _getThemeDetail(id) {
+                let sendData = {};
+                sendData.id = id;
+                this.$http.get('/staffPresence/getStaffPresenceDetail', {params: sendData}).then((res) => {
+                    if (res.success) {
+                        this.themeDetail = res.data;
+                    }
+                });
+            },
+            _getPhotoList(id) {
+                let sendData = {};
+                sendData.page = this.pageData.page;
+                sendData.pageSize = this.pageData.pageSize;
+                sendData.staffPresenceId = id;
+                sendData.type = 0;
+                this.$http.get('/staffPresence/getArticleList', {params: sendData}).then((res) => {
+                    if (res.success) {
+                        this.photo = [...this.photo, ...res.data];
+                    }
+                });
             }
         },
         activated() {
+            this.photo = [];
             let staffPresenceId = this.$route.params.id;
-            console.log(this.$route);
-        },
-        mounted() {
+            this.id = staffPresenceId;
+            this._getThemeDetail(staffPresenceId);
+            this._getPhotoList(staffPresenceId);
         },
         components: {
             FsPhotoTheater,

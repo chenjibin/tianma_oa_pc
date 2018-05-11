@@ -1,30 +1,33 @@
 <template>
     <div id="list-wrap">
-        <div class="gallery-row" v-for="item in photoRows" :style="{'height': item.height}">
-            <div class="gallery-item-wrapper" v-for="photo in item.photos">
+        <div class="gallery-row"
+             v-for="item in photoRows"
+             :style="{'height': item.height}">
+            <div class="gallery-item-wrapper"
+                 v-for="photo in item.photos">
                 <div class="gallery-item">
-                    <img class="gallery-image" v-lazy="photo.img"/>
+                    <img class="gallery-image" v-lazy="photo.files[0].file_path" v-if="photo.files[0]"/>
                 </div>
                 <div class="mask" @click.stop="galleryItemClickHandler(photo)">
                     <div class="user-info">
-                        <img src="https://s1.tuchong.com/sites/344/3446572/logo_small.jpg?1" class="user-head"/>
-                        <span class="user-name">用户名称</span>
+                        <img :src="photo.headimagepath" class="user-head"/>
+                        <span class="user-name">{{photo.insert_username}}</span>
                     </div>
                     <div class="photo-title">
-                        <span>相册简介</span>
+                        <span>{{photo.detail}}</span>
                     </div>
                     <div class="tool-show">
                         <div class="item">
                             <Icon type="heart" color="rgba(255,255,255,0.8)" size="20"></Icon>
-                            <span style="color: rgba(255,255,255,0.8)">55</span>
+                            <span style="color: rgba(255,255,255,0.8)">{{photo.thumb_up_times}}</span>
                         </div>
                         <div class="item">
                             <Icon type="chatbox" color="rgba(255,255,255,0.8)" size="20"></Icon>
-                            <span style="color: rgba(255,255,255,0.8)">55</span>
+                            <span style="color: rgba(255,255,255,0.8)">{{photo.share_comment_times}}</span>
                         </div>
                     </div>
                 </div>
-                <span class="img-number">组图15张</span>
+                <span class="img-number" v-if="photo.files.length > 1">组图{{photo.files.length}}张</span>
             </div>
         </div>
     </div>
@@ -122,7 +125,7 @@
             },
             minHeight: {
                 type: Number,
-                default: 400
+                default: 350
             }
         },
         data() {
@@ -155,8 +158,7 @@
 
                 for (let i = 0, plength = photos.length; i < plength; i++) {
                     _photos.push(photos[i]);
-                    aspectRatio += photos[i].width / photos[i].height;
-
+                    aspectRatio += photos[i].files[0].image_width / photos[i].files[0].image_height;
                     if (aspectRatio > (this.$el.clientWidth / this.minHeight)) {
                         let totalWidth = this.$el.clientWidth - (_photos.length - 1) * this.padding;
                         rows.push({
