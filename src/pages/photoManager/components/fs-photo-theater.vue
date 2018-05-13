@@ -354,6 +354,7 @@
             }
         },
         created() {
+            console.log(this.productInfo);
             on(window, 'resize', () => {
                 this._initStyleObject();
             });

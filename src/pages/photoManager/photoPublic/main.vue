@@ -1,13 +1,17 @@
 <template>
     <div class="photo-web">
         <div class="photo-web-head">
-            <div class="">
+            <div class="left">
                 <h1>员工风采</h1>
                 <nav>
                     <span @click.stop="$router.push({name: 'photoList'})">首页</span>
                 </nav>
             </div>
-            <div class="">
+            <div class="right">
+                <div class="user-info">
+                    <img :src="avatorPath" />
+                    <span>{{userName}}</span>
+                </div>
                 <span style="cursor: pointer;" @click.stop="$router.replace({name: 'home_index'})">返回人事系统</span>
             </div>
         </div>
@@ -36,6 +40,23 @@
             font-weight: 500;
             z-index: 4;
             color: #fff;
+            .right {
+                display: flex;
+                align-items: center;
+                .user-info {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 16px;
+                    img {
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                    }
+                    span {
+                        margin-left: 8px;
+                    }
+                }
+            }
             h1 {
                 display: inline-block;
                 font-size: 24px;
@@ -56,6 +77,14 @@
     export default {
         data() {
             return {};
+        },
+        computed: {
+            avatorPath () {
+                return this.$store.state.user.userInfo.headimagepath;
+            },
+            userName() {
+                return this.$store.state.user.userInfo.realname;
+            }
         },
         components: {}
     };

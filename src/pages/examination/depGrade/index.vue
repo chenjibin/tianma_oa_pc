@@ -28,7 +28,7 @@
                 </Card>
             </Col>
         </Row>
-        <Modal v-model="modelFlag" width="900" :mask-closable="false">
+        <Modal v-model="modelFlag" width="1200" :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>{{testPeople}}试卷详情</span>
             </p>

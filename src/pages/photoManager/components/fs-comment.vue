@@ -22,8 +22,8 @@
                     <p>{{item.content}}</p>
                     <div class="comment-foot">
                         <time>{{item.insert_time.split(' ')[0]}}</time>
-                        <a class="" @click.stop="_replyComment(item)">回复</a>
-                        <a class="delete" v-if="item.status" @click.stop="_removeCommentHandler(item.id)">删除</a>
+                        <a class="hide-btn" @click.stop="_replyComment(item)">回复</a>
+                        <a class="delete hide-btn" v-if="item.status" @click.stop="_removeCommentHandler(item.id)">删除</a>
                         <a class="like" @click.stop="_thumbComment(item)">
                             <Icon type="thumbsup" size="18" :color="item.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
                             <span :style="{'color': item.thumbupid ? '#ff0036' : '#b0b5b8'}"
@@ -43,8 +43,8 @@
                         </div>
                         <div class="comment-foot">
                             <time>{{child.insert_time.split(' ')[0]}}</time>
-                            <a class="" @click.stop="_innerReply(child)">回复</a>
-                            <a class="delete" v-if="child.status" @click.stop="_removeCommentHandler(child.id)">删除</a>
+                            <a class="hide-btn" @click.stop="_innerReply(child)">回复</a>
+                            <a class="delete hide-btn" v-if="child.status" @click.stop="_removeCommentHandler(child.id)">删除</a>
                             <a class="like" @click.stop="_thumbComment(child)">
                                 <Icon type="thumbsup" size="18" :color="child.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
                                 <span :style="{'color': child.thumbupid ? '#ff0036' : '#b0b5b8'}"
@@ -112,6 +112,15 @@
                 padding: 3px 0 4px 36px;
                 font-size: 13px;
                 color: #b0b5b8;
+                .hide-btn {
+                    display: none;
+                }
+                .comment-content:hover .hide-btn {
+                    display: inline-block;
+                }
+                .vice-comment:hover .hide-btn {
+                    display: inline-block;
+                }
                 .vice-comments-list {
                     border-left: 4px solid #85888a;
                     padding-left: 8px;

@@ -20,6 +20,7 @@
             :show-upload-list="false"
             :on-success="handleSuccess"
             :format="['jpg','jpeg']"
+            accept="image/jpg, image/jpeg"
             :max-size="20480"
             :on-error="handleError"
             :on-format-error="handleFormatError"

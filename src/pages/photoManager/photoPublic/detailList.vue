@@ -134,6 +134,8 @@
                 margin: 0 auto;
                 font-size: 0;
                 .end {
+                    user-select: none;
+                    margin-top: 42px;
                     padding: 16px 0;
                     font-size: 24px;
                     text-align: center;
@@ -190,7 +192,7 @@
                 },
                 photo: [],
                 imgList: [],
-                productInfo: []
+                productInfo: {}
             };
         },
         methods: {

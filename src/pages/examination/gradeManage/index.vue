@@ -32,18 +32,34 @@
                            :params="filterOpt"
                            url="/examtest/getScoreManageList"></fs-table-page>
         </Card>
+        <Modal v-model="modelFlag" width="1200" :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>{{testPeople}}试卷详情</span>
+            </p>
+            <test-result :id="testCheckId"></test-result>
+            <div slot="footer">
+                <!--<Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">-->
+                    <!--<span v-if="!exportLoading">导出试卷</span>-->
+                    <!--<span v-else>导出中...</span>-->
+                <!--</Button>-->
+                <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
+    import testResult from '../components/test-result';
     export default {
         name: 'gradeManage',
         data () {
             return {
                 editorSettingFlag: false,
+                modelFlag: false,
                 btnLoading: false,
                 postFormType: 'update',
                 exportLoading: false,
+                testCheckId: 0,
                 filterOpt: {
                     paperName: {
                         value: '',
@@ -97,6 +113,36 @@
                         key: 'ranking',
                         align: 'center',
                         width: 100
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        width: 80,
+                        render: (h, params) => {
+                            let vm = this;
+                            return h('div', [
+                                h('Tooltip', {
+                                    props: {
+                                        content: '查看试卷',
+                                        placement: 'top',
+                                        transfer: true
+                                    }
+                                }, [
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            icon: 'eye',
+                                            shape: 'circle'
+                                        },
+                                        on: {
+                                            click: function() {
+                                                vm._checkTest(params.row);
+                                            }
+                                        }
+                                    })
+                                ])
+                            ]);
+                        }
                     }
                 ],
                 tableHeight: 500
@@ -127,13 +173,18 @@
                     this.exportLoading = false;
                 });
             },
+            _checkTest(data) {
+                this.testCheckId = data.id;
+                this.modelFlag = true;
+            },
             _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             }
         },
         components: {
-            fsTablePage
+            fsTablePage,
+            testResult
         }
     };
 </script>

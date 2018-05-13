@@ -204,6 +204,7 @@
                 editorMeun: [
                     'bold',
                     'italic',
+                    'fontSize',
                     'link',
                     'list',
                     'justify',
