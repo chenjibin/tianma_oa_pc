@@ -44,7 +44,7 @@
         <create-photo @close="showCreate = false" v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
     </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
     #photo-detail-list {
         position: absolute;
         top: 60px;
@@ -139,34 +139,6 @@
                     padding: 16px 0;
                     font-size: 24px;
                     text-align: center;
-                }
-                .pagelist-wrapper {
-                    margin-left: -11px;
-                    margin-right: -11px;
-                    .gallery-row {
-                        white-space: nowrap;
-                        overflow: hidden;
-                        margin-bottom: 8px;
-                    }
-                    .gallery-item-wrapper {
-                        height: 100%;
-                        padding-left: 8px;
-                        display: inline-block;
-                        box-sizing: border-box;
-                    }
-
-                    .gallery-item {
-                        height: 100%;
-                    }
-
-                    .gallery-image {
-                        height: 100%;
-                    }
-
-                    .gallery-image:hover {
-                        cursor: zoom-in;
-                        opacity: 0.8;
-                    }
                 }
             }
         }

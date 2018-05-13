@@ -80,6 +80,14 @@ export const photoRouter = {
                 whiteIn: true
             },
             component: resolve => { require(['@/pages/photoManager/photoPublic/detailList.vue'], resolve); }
+        },
+        {
+            path: 'myPhoto',
+            name: 'myPhoto',
+            meta: {
+                whiteIn: true
+            },
+            component: resolve => { require(['@/pages/photoManager/photoPublic/myPhoto.vue'], resolve); }
         }
     ]
 };

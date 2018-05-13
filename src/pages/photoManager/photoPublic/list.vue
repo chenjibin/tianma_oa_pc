@@ -24,6 +24,13 @@
 </template>
 <style lang="less" scoped>
     .photo-list-page {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
         .list-wrapper {
             margin: 20px auto 0 auto;
             width: 900px;

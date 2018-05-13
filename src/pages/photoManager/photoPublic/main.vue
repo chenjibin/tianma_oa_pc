@@ -10,9 +10,18 @@
             <div class="right">
                 <div class="user-info">
                     <img :src="avatorPath" />
-                    <span>{{userName}}</span>
+                    <Dropdown @on-click="_dropHandler" :transfer="true">
+                        <span class="name" href="javascript:void(0)">
+                            {{userName}}
+                            <Icon type="arrow-down-b"></Icon>
+                        </span>
+                        <DropdownMenu slot="list">
+                            <DropdownItem name="myProduct">我的作品</DropdownItem>
+                            <DropdownItem name="backSys">返回人事系统</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 </div>
-                <span style="cursor: pointer;" @click.stop="$router.replace({name: 'home_index'})">返回人事系统</span>
+                <!--<span style="cursor: pointer;" @click.stop="$router.replace({name: 'home_index'})">返回人事系统</span>-->
             </div>
         </div>
         <keep-alive>
@@ -20,7 +29,7 @@
         </keep-alive>
     </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
     .photo-web {
         position: relative;
         width: 100%;
@@ -52,8 +61,9 @@
                         height: 32px;
                         border-radius: 50%;
                     }
-                    span {
+                    .name {
                         margin-left: 8px;
+                        cursor: pointer;
                     }
                 }
             }
@@ -86,6 +96,14 @@
                 return this.$store.state.user.userInfo.realname;
             }
         },
-        components: {}
+        methods: {
+            _dropHandler(name) {
+                if (name === 'backSys') {
+                    this.$router.replace({name: 'home_index'});
+                } else if (name === 'myProduct') {
+                    this.$router.push({name: 'myPhoto'});
+                }
+            }
+        }
     };
 </script>

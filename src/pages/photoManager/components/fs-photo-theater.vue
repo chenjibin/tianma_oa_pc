@@ -54,6 +54,16 @@
                     <Icon type="chatbox" color="#fff" size="24"></Icon>
                     <span>{{productInfo.share_comment_times}}</span>
                 </a>
+                <Dropdown @on-click="_dropHandler" :transfer="true" v-if="showEditor">
+                        <span class="name" href="javascript:void(0)" style="cursor: pointer">
+                             更多
+                            <Icon type="android-more-vertical"></Icon>
+                        </span>
+                    <DropdownMenu slot="list">
+                        <DropdownItem name="editor">编辑</DropdownItem>
+                        <DropdownItem name="delete">删除</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </div>
             <div class="head">
                 <img class="user-pic" :src="productInfo.headimagepath">
@@ -69,7 +79,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 1000;
+        z-index: 800;
         width: 100%;
         overflow: hidden;
         &-handler {
@@ -270,6 +280,10 @@
     export default {
         name: 'FsPhotoTheater',
         props: {
+            showEditor: {
+                type: Boolean,
+                default: false
+            },
             imgList: {
                 type: Array,
                 default: () => []
@@ -299,6 +313,8 @@
             };
         },
         methods: {
+            _dropHandler(name) {
+            },
             _initStyleObject() {
                 let w = document.body.clientWidth;
                 let h = document.body.clientHeight;
