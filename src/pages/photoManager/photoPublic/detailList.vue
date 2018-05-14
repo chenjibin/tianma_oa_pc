@@ -33,7 +33,7 @@
                     :photos="photo"
                     v-if="photo.length"
                     @item-click="_waterItemClickHandler"></fs-water-rows>
-                <div class="end" v-if="pageData.page >= pageData.totalPage">END</div>
+                <div class="end" v-if="pageData.page >= pageData.totalPage && pageData.totalPage !== 0">END</div>
             </div>
         </div>
         <fs-photo-theater

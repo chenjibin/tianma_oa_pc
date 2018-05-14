@@ -123,11 +123,6 @@
                 this._initStyleObject();
             });
         },
-        watch: {
-            photoList(val) {
-                console.log(val);
-            }
-        },
         methods: {
             _initData() {
                 this.photoList = this.productInfo.files.map(x => {
