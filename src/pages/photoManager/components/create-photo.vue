@@ -94,6 +94,16 @@
     import {on, off} from '@/libs/dom';
     export default {
         name: 'createPhoto',
+        props: {
+            editable: {
+                type: Boolean,
+                default: false
+            },
+            productInfo: {
+                type: Object,
+                default: () => {}
+            }
+        },
         data() {
             return {
                 canSubmit: true,
@@ -105,6 +115,7 @@
             };
         },
         created() {
+            if (this.editable) this._initData();
             this._initStyleObject();
         },
         mounted() {
@@ -118,6 +129,16 @@
             }
         },
         methods: {
+            _initData() {
+                this.photoList = this.productInfo.files.map(x => {
+                    let obj = {};
+                    obj.url = x.file_path;
+                    obj.status = 'finished';
+                    return obj;
+                });
+                this.photoTitle = this.productInfo.item;
+                this.photoDesc = this.productInfo.detail;
+            },
             _initStyleObject() {
                 let w = document.body.clientWidth;
                 let h = document.body.clientHeight;
@@ -139,11 +160,16 @@
                 }
                 this.canSubmit = false;
                 let sendData = {};
-                sendData.staffPresenceId = this.$route.params.id;
+                if (this.editable) {
+                    sendData.articleId = this.productInfo.id;
+                } else {
+                    sendData.staffPresenceId = this.$route.params.id;
+                }
                 sendData.item = this.photoTitle;
                 sendData.detail = this.photoDesc;
                 sendData.fileNames = this.photoList.map(x => x.url).join(',');
-                this.$http.post('/staffPresence/addArticle', sendData).then((res) => {
+                let sendUrl = this.editable ? '/staffPresence/updateArticle' : '/staffPresence/addArticle';
+                this.$http.post(sendUrl, sendData).then((res) => {
                     if (res.success) {
                         this.$emit('add-success');
                     }

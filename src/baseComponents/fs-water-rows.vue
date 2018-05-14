@@ -4,6 +4,7 @@
              v-for="item in photoRows"
              :style="{'height': item.height}">
             <div class="gallery-item-wrapper"
+                 :key="'photo-' + photo.id"
                  v-for="photo in item.photos">
                 <div class="gallery-item">
                     <img class="gallery-image" v-lazy="photo.files[0].file_path" v-if="photo.files[0]"/>
@@ -136,6 +137,7 @@
         },
         watch: {
             photos(val) {
+                console.log(val)
                 this._getRows(val);
             }
         },

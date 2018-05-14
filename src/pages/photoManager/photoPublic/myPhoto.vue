@@ -20,8 +20,12 @@
             :product-info="productInfo"
             :show-editor="true"
             v-if="showTheater"
+            @editor-open="_photoEditorHandler"
             @close-theater="showTheater = false"></fs-photo-theater>
-        <create-photo @close="showCreate = false" v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
+        <create-photo @close="showCreate = false"
+                      :editable="true"
+                      :productInfo="productInfo"
+                      v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
     </div>
 </template>
 <style lang="less" scoped>
@@ -125,8 +129,14 @@
         methods: {
             _photoAddSuccess() {
                 this.showCreate = false;
+                this._getPhotoList();
+            },
+            _photoEditorHandler() {
+                this.showTheater = false;
+                this.showCreate = true;
             },
             _waterItemClickHandler(data) {
+                console.log(data);
                 this.imgList = data.files;
                 this.productInfo = {
                     headimagepath: data.headimagepath,
@@ -135,7 +145,10 @@
                     insert_username: data.insert_username,
                     share_comment_times: data.share_comment_times,
                     thumb_up_times: data.thumb_up_times,
-                    thumbupId: data.thumbupid || null
+                    thumbupId: data.thumbupid || null,
+                    files: data.files,
+                    item: data.item,
+                    detail: data.detail
                 };
                 this.showTheater = true;
             },

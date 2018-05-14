@@ -61,7 +61,7 @@
                         </span>
                     <DropdownMenu slot="list">
                         <DropdownItem name="editor">编辑</DropdownItem>
-                        <DropdownItem name="delete">删除</DropdownItem>
+                        <!--<DropdownItem name="delete">删除</DropdownItem>-->
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -314,6 +314,9 @@
         },
         methods: {
             _dropHandler(name) {
+                if (name === 'editor') {
+                    this.$emit('editor-open');
+                }
             },
             _initStyleObject() {
                 let w = document.body.clientWidth;
