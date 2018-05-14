@@ -11,10 +11,10 @@
                                         placeholder="预约时间"></DatePicker>
                         </FormItem>
                         <FormItem style="margin-bottom: 0px;float: right;">
-                            <Button :disabled="startdate ? true : false" type="primary" @click="exportData">
+                            <Button :disabled="filterOpt.startTimes.value ? false : true" type="primary" @click="exportData">
                                 <span style="display: flex;"><Icon type="ios-download-outline" style="font-size: 18px"></Icon><span style="margin-left: 5px;font-size: 14px">岗位分布</span></span>
                             </Button>
-                            <Button :disabled="startdate ? true : false" type="primary" @click="exportALLData">
+                            <Button :disabled="filterOpt.startTimes.value ? false : true" type="primary" @click="exportALLData">
                                 <span style="display: flex;"><Icon type="ios-download-outline" style="font-size: 18px"></Icon><span style="margin-left: 5px;font-size: 14px">人员详情</span></span>
                             </Button>
                         </FormItem>
