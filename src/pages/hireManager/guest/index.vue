@@ -320,7 +320,7 @@
             };
             return {
                 searchUserModel: true,
-                uploadModal: true,
+                uploadModal: false,
                 searchUserForm: {
                     name: '',
                     phone: ''
