@@ -22,7 +22,7 @@
                         </FormItem>
                         <FormItem label="岗位" prop="postname" :class="device.mobile?'mobileFormRight':'pcFormItem'">
                             <Select name="postname" v-model="talentBean.postname">
-                                <Option :value="item.id" v-for="item, index in positionData" :key="item.id">{{item.name}}</Option>
+                                <Option :value="item.id" v-for="(item) in positionData" :key="item.id">{{item.name}}</Option>
                             </Select>
                         </FormItem>
                         <FormItem label="期望月薪" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
@@ -105,7 +105,7 @@
                 </TabPane>
                 <TabPane id="education" label="学历" style="height: 100%">
                     <Form :gutter="1" ref="educationForm" inline style="font-size: 0px;overflow-y: auto; overflow-x: hidden;height: 100%;">
-                        <div v-for="(item,index) in educationForm" class="custom-div">
+                        <div v-for="(item,index) in educationForm" :key="item.id" class="custom-div">
                             <FormItem label="开始时间" :class="device.mobile?'mobileFormItemLeft':'pcEducationFormItem'">
                                 <DatePicker style="width: 100%" :editable="false" type="date" @on-change="_monthDateChange(1, index, 'starttime',$event)" :value="item.starttime"></DatePicker>
                             </FormItem>
@@ -153,7 +153,7 @@
                 </TabPane>
                 <TabPane id="working" label="经历">
                     <Form ref="workingForm" inline style="font-size: 0px;overflow-y: auto; overflow-x: hidden;height: 100%;">
-                        <div v-for="(item,index) in workingForm" class="custom-div">
+                        <div v-for="(item,index) in workingForm" :key="item.id" class="custom-div">
                             <FormItem label="开始时间" :class="device.mobile?'mobileFormItemLeft':'pcWorkingFormItem'">
                                 <DatePicker style="width: 100%" :editable="false" type="date" @on-change="_monthDateChange(2, index, 'starttime',$event)" :value="item.starttime"></DatePicker>
                             </FormItem>
@@ -204,7 +204,7 @@
                 </TabPane>
                 <TabPane label="亲属">
                     <Form ref="socailShipForm"  inline style="padding: 1px;font-size: 0;overflow-y: auto; overflow-x: hidden;height: 100%;">
-                        <div v-for="(item,index) in socailShipForm" :key="item.name" class="custom-div">
+                        <div v-for="(item) in socailShipForm" :key="item.name" class="custom-div">
                             <FormItem label="姓名" :class="device.mobile?'mobileFormRight':'pcRelationFormItem'">
                                 <Input type="text" :maxlength="20" name="name" v-model="item.witness"></Input>
                             </FormItem>
@@ -214,7 +214,7 @@
                             <FormItem label="年龄" :class="device.mobile?'mobileFormItemLeft':'pcRelationFormItem'">
                                 <InputNumber style="width: 100%" :min="10" :max="99" type="text" v-model="item.age"></InputNumber>
                             </FormItem>
-                            <FormItem label="工作单位	" :class="device.mobile?'mobileFormRight':'pcRelationFormItem'">
+                            <FormItem label="工作单位" :class="device.mobile?'mobileFormRight':'pcRelationFormItem'">
                                 <Input type="text" :maxlength="50" v-model="item.companyname" ></Input>
                             </FormItem>
                             <FormItem label="职务" :class="device.mobile?'mobileFormItemLeft':'pcRelationFormItem'">
@@ -258,8 +258,8 @@
         </Card>
         <Row v-show="device.mobile&&device.width<=490&&talentBean.id" class="bottomTab">
             <Col span="12" style="height: 100%;border-top:1px #f0f0f0;">
-                <Button type="ghost" class="mobileTabButton" icon="edit" long @click="searchUserModel = true" size="large">
-                    完善简历
+                <Button type="ghost" class="mobileTabButton" icon="ios-camera-outline" long @click="uploadModal = true" size="large">
+                    上传照片
                 </Button>
             </Col>
             <Col span="12" style="height: 100%;">
@@ -288,6 +288,22 @@
                 <Button type="primary" size="large" long @click="checkUser()">继续编辑</Button>
             </div>
         </Modal>
+        <Modal v-model="uploadModal">
+            <p slot="header" style="color:#2b85e4;text-align:center;font-size: 14px">
+                <Icon type="person"></Icon>
+                <span>上传照片</span>
+            </p>
+            <Upload :max-size="6144" name="ifile" :on-exceeded-size="imageTooBig" :on-success="handleSuccess" accept="image/jpg, image/jpeg, image/png" :show-upload-list="false" :data="{'ticketno':ticketNo}" action="/oa/ticket/uploadSelfie">
+                <Button :disabled="file.file_name ? true : false" type="ghost" icon="ios-cloud-upload-outline">上传自拍</Button>
+            </Upload>
+            <div v-show="file.file_name" style="padding: 5px 1px 5px 0;"><span>文件名：{{file.file_name}}</span><Icon @click.native="deleteFile(file)" style="color: red;float: right;" size="14" shape="circle" type="close">删除</Icon></div>
+            <div style="text-align:center;color: #666;margin-top: 10px">
+                <p>个人照片,可以帮助你脱颖而出。让人事更好的记住你</p>
+            </div>
+            <div slot="footer">
+                <Button type="primary" size="large" long @click="uploadModal = false">确认</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -304,6 +320,7 @@
             };
             return {
                 searchUserModel: true,
+                uploadModal: true,
                 searchUserForm: {
                     name: '',
                     phone: ''
@@ -312,6 +329,12 @@
                     mobile: false,
                     width: 0
                 },
+                file: {
+                    file_name: '',
+                    id: 0,
+                    ticket_no: 0
+                },
+                ticketNo: 0,
                 positionData: [],
                 socailShipForm: [{}, {}], // 社会关系
                 educationForm: [
@@ -398,6 +421,45 @@
                     vm.positionData = res.data;
                 });
             },
+            getTicketList(id) {
+                var that = this;
+                this.$http.post('/ticket/selfie', { 'ticketno': id }).then((res) => {
+                    if (res.success && res.data) {
+                        that.file.file_name = res.data.file_name;
+                        that.file.id = res.data.id;
+                        that.file.ticket_no = res.data.ticket_no;
+                    }
+                });
+            },
+            deleteFile(item) {
+                var vm = this;
+                this.$Modal.confirm({
+                    title: '删除提醒',
+                    content: '是否确认删除？',
+                    okText: '删除',
+                    cancelText: '取消',
+                    loading: true,
+                    onOk () {
+                        this.$http.post('/ticket/deleteTicketFile', item).then((res) => {
+                            if (res.success) {
+                                vm.file.file_name = '';
+                                vm.file.id = 0;
+                                vm.file.ticket_no = 0;
+                                vm.$Modal.remove();
+                                vm.$Message.success('删除成功');
+                            }
+                        });
+                    }
+                });
+            },
+            imageTooBig() {
+                this.$Message.error('照片超过6M');
+            },
+            handleSuccess(res, file) {
+                if (res.success) {
+                    this.getTicketList(res.message);
+                }
+            },
             delForm(index, formName) {
                 var row = this[formName][index];
                 var vm = this;
@@ -435,6 +497,7 @@
                     g.$http.post('/talentLibrary/checkUser', g.searchUserForm).then((res) => {
                         if (res.success) {
                             g._findUser(res.message).then((res) => {
+                                g.getTicketList(g.ticketNo);
                                 g.$Message.success('读取成功');
                                 g.searchUserModel = false;
                             });
@@ -460,6 +523,10 @@
                 var g = this;
                 this.$refs['talentBean'].validate((valid) => {
                     if (valid) {
+                        if (g.device.mobile && !g.file.file_name) {
+                            g.$Message.info('请点击左下角的上传照片哦');
+                            return;
+                        }
                         var d = {};
                         d.bean = JSON.stringify(this.talentBean);
                         let workingForm = this.workingForm.filter(function(item) {
@@ -508,6 +575,7 @@
                             vm.workingForm = res.workings;
                             vm.talentBean = res.talentLibrary;
                             vm.socailShipForm = res.socails || [{}, {}];
+                            vm.ticketNo = vm.talentBean.id + 666587;
                             if (vm.socailShipForm.length < 2) {
                                 var leng = 2 - vm.socailShipForm.length;
                                 for (var i = 0; i < leng; i++) {
