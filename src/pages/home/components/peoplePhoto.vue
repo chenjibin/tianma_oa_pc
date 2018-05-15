@@ -12,14 +12,19 @@
                         style="margin-right: 8px;">查看更多</Button>
             </Col>
         </Row>
-        <div class="people-photo-list">
-            <div class="item"
-                 v-for="item in photoData"
-                 :key="'photo-' + item.id"
-                 @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
-                <img :src="item.file_path">
-            </div>
-        </div>
+        <Carousel v-model="value1" class="people-photo-list">
+            <CarouselItem v-for="item in photoData"
+                          :key="'photo-' + item.id">
+                <div class="item"  @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
+                    <img :src="item.file_path">
+                    <div class="info">
+                        <div class="">
+                            {{item.item}}
+                        </div>
+                    </div>
+                </div>
+            </CarouselItem>
+        </Carousel>
     </Card>
 </template>
 <style lang="less">
@@ -32,11 +37,19 @@
                 padding: 8px;
                 margin-bottom: 8px;
                 cursor: pointer;
-                background-color: #000;
+                background-color: #fff;
                 font-size: 0;
+                .info {
+                    padding: 16px 0;
+                    font-size: 16px;
+                    text-align: center;
+                    font-weight: 700;
+                }
                 img {
-                    max-width: 100%;
-                    height: auto;
+                    display: block;
+                    margin: auto;
+                    width: auto;
+                    height: 260px;
                 }
             }
         }
@@ -59,6 +72,7 @@
     export default {
         data () {
             return {
+                value1: 0,
                 photoData: []
             };
         },

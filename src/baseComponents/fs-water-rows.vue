@@ -1,35 +1,50 @@
 <template>
     <div id="list-wrap">
         <div class="gallery-row"
-             v-for="item in photoRows"
-             :style="{'height': item.height}">
+             v-for="item in photoRows">
             <div class="gallery-item-wrapper"
                  :key="'photo-' + photo.id"
                  v-for="photo in item.photos">
-                <div class="gallery-item">
+                <div class="gallery-item" :style="{'height': item.height}">
                     <img class="gallery-image" v-lazy="photo.files[0].file_path" v-if="photo.files[0]"/>
+                    <div class="mask" @click.stop="galleryItemClickHandler(photo)">
+                        <div class="user-info">
+                            <img :src="photo.headimagepath" class="user-head"/>
+                            <span class="user-name">{{photo.insert_username}}</span>
+                        </div>
+                        <div class="photo-title">
+                            <p style="margin-bottom: 8px;font-size: 16px;font-weight: 700;">{{photo.item}}</p>
+                            <span>{{photo.detail}}</span>
+                        </div>
+                        <div class="tool-show">
+                            <div class="item">
+                                <Icon type="heart" color="rgba(255,255,255,0.8)" size="20"></Icon>
+                                <span style="color: rgba(255,255,255,0.8)">{{photo.thumb_up_times}}</span>
+                            </div>
+                            <div class="item">
+                                <Icon type="chatbox" color="rgba(255,255,255,0.8)" size="20"></Icon>
+                                <span style="color: rgba(255,255,255,0.8)">{{photo.share_comment_times}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="img-number" v-if="photo.files.length > 1">组图 {{photo.files.length}} 张</span>
                 </div>
-                <div class="mask" @click.stop="galleryItemClickHandler(photo)">
+                <div class="info-foot" style="padding: 12px 8px">
                     <div class="user-info">
                         <img :src="photo.headimagepath" class="user-head"/>
                         <span class="user-name">{{photo.insert_username}}</span>
                     </div>
-                    <div class="photo-title">
-                        <p style="margin-bottom: 8px;font-size: 16px;font-weight: 700;">{{photo.item}}</p>
-                        <span>{{photo.detail}}</span>
-                    </div>
                     <div class="tool-show">
                         <div class="item">
-                            <Icon type="heart" color="rgba(255,255,255,0.8)" size="20"></Icon>
-                            <span style="color: rgba(255,255,255,0.8)">{{photo.thumb_up_times}}</span>
+                            <Icon type="heart" color="#666" size="20"></Icon>
+                            <span style="color: #666">{{photo.thumb_up_times}}</span>
                         </div>
                         <div class="item">
-                            <Icon type="chatbox" color="rgba(255,255,255,0.8)" size="20"></Icon>
-                            <span style="color: rgba(255,255,255,0.8)">{{photo.share_comment_times}}</span>
+                            <Icon type="chatbox" color="#666" size="20"></Icon>
+                            <span style="color: #666">{{photo.share_comment_times}}</span>
                         </div>
                     </div>
                 </div>
-                <span class="img-number" v-if="photo.files.length > 1">组图 {{photo.files.length}} 张</span>
             </div>
         </div>
     </div>
@@ -41,10 +56,42 @@
         margin-bottom: 8px;
     }
     .gallery-item-wrapper {
+        display: inline-block;
         position: relative;
         height: 100%;
         margin-left: 8px;
-        display: inline-block;
+        background-color: #fff;
+        .info-foot {
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            .tool-show {
+                display: flex;
+                align-items: center;
+                color: #666;
+                font-size: 14px;
+                .item {
+                    margin-left: 16px;
+                }
+            }
+            .user-info {
+                display: flex;
+                flex: 1;
+                align-items: center;
+                .user-name {
+                    font-size: 14px;
+                    font-weight: 700;
+                    margin-left: 8px;
+                    flex: 1;
+                }
+                .user-head {
+                    flex: 0 0 48px;
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                }
+            }
+        }
         &:hover .mask {
             opacity: 1;
         }
@@ -106,7 +153,7 @@
         }
     }
     .gallery-item {
-        height: 100%;
+        position: relative;
     }
     .gallery-image {
         height: 100%;

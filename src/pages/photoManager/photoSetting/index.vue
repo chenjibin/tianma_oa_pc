@@ -147,9 +147,9 @@
                     detail: [
                         {required: true, message: '介绍不能为空！'}
                     ],
-                    award: [
-                        {required: true, message: '奖品不能为空！'}
-                    ],
+                    // award: [
+                    //     {required: true, message: '奖品不能为空！'}
+                    // ],
                     hostUnit: [
                         {required: true, message: '主办方不能为空！'}
                     ],

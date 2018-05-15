@@ -41,8 +41,6 @@
     import './cropper.min.css';
     export default {
         name: 'fsCropperImg',
-        props: {
-        },
         data () {
             return {
                 btnLoading: false,
