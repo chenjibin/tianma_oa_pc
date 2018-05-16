@@ -38,6 +38,11 @@
                                     <Icon type="ios-trash-outline"></Icon>
                                     删除计划
                                 </Button>
+                                <Button type="primary"
+                                        @click="_downloadGrade">
+                                    <Icon type="ios-trash-outline"></Icon>
+                                    导出
+                                </Button>
                             </ButtonGroup>
                         </FormItem>
                     </Form>
@@ -142,9 +147,9 @@
                                 :key="'charge-' + index">{{ item.user_name + '(' + item.organize_name + '·'  + item.postname + '·' + item.post_name + ')'}}</Option>
                     </Select>
                     <Poptip
-                            confirm
-                            title="您确清空当前选中的负责人么？"
-                            @on-ok="planForm.people = []">
+                        confirm
+                        title="您确清空当前选中的负责人么？"
+                        @on-ok="planForm.people = []">
                         <Button type="ghost"
                                 icon="trash-a"
                                 style="margin-top: 8px;">一键清空负责人</Button>
@@ -298,6 +303,17 @@
                         align: 'center',
                         key: 'user_name',
                         width: 120
+                    },
+                    {
+                        title: '提交时间',
+                        align: 'center',
+                        key: 'update_time',
+                        width: 160,
+                        render: (h, params) => {
+                            if (params.row.status === 1) {
+                                return h('span', params.row.update_time);
+                            }
+                        }
                     },
                     {
                         title: '培训计划',
@@ -473,6 +489,14 @@
                         });
                     }
                 });
+            },
+            _downloadGrade() {
+                let sendData = {};
+                this.$http.post('/train/plan_para_export', sendData).then((res) => {
+                    if (res.success) {
+                        this.downloadFile('/oa/down/' + res.data, res.data);
+                    }
+                })
             },
             _nodeChangeHandler(data) {
                 this.filterOpt.organizeId.value = data.id;

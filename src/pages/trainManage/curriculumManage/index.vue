@@ -103,14 +103,27 @@
                   :model="classForm"
                   ref="classForm"
                   :label-width="100">
-                <Row :gutter="8">
+                <Row :gutter="9">
                     <Col :span="24">
                         <FormItem label="培训名称" prop="title">
                             <Input v-model="classForm.title"></Input>
                         </FormItem>
                     </Col>
                     <Col :span="12">
-                        <FormItem label="讲师" prop="teacher_id">
+                        <FormItem label="外部讲师"  prop="out_teacher" required>
+                            <i-switch v-model="classForm.out_teacher" size="large" :true-value="1" :false-value="0" @on-change="change">
+                                <span slot="open">选中</span>
+                                <span slot="close">不选</span>
+                            </i-switch>
+                        </FormItem>
+                    </Col>
+                    <Col :span="12">
+                        <FormItem label="讲师" v-show="usernameisShow" required>
+                            <Input v-model="classForm.username"></Input>
+                        </FormItem>
+                    </Col>
+                    <Col :span="12">
+                        <FormItem label="讲师"  v-show="isShow"  prop="teacher_id" required>
                             <Select v-model="classForm.teacher_id">
                                 <Option :value="item.user_id"
                                         v-for="(item,index) in teacherOpt"
@@ -128,7 +141,7 @@
                             </Select>
                         </FormItem>
                     </Col>
-                    <Col :span="24">
+                    <Col :span="12">
                         <FormItem label="培训日期">
                             <DatePicker @on-change="classForm.class_date = $event"
                                         :clearable="false"
@@ -201,6 +214,26 @@
             </Upload>
             <div slot="footer"></div>
         </Modal>
+        <Modal title="签到/评论二维码" v-model="visible" width="800">
+            <div style="max-height: 500px;overflow-y: auto;:overflow-x hidden;">
+                <img :src="'/oa/upload/' + item.signinpicname"
+                     v-for="(item, index) in imgArr"
+                     :key="'prewimg-' + index"
+                     :style="{transform: `rotateZ(${item.deg}deg)`}"
+                     style="max-width: 100%;margin:  0 auto;"/>
+                <!--<a href="">下载</a>-->
+                <img :src="'/oa/upload/' + item.evaluatepicname"
+                     v-for="(item, index) in imgArr"
+                     :key="'prewimg-' + index"
+                     :style="{transform: `rotateZ(${item.deg}deg)`}"
+                     style="max-width: 100%;margin:  0 auto;"/>
+            </div>
+
+
+            <div slot="footer">
+                <Button type="ghost" @click="visible = false">关闭</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 <style>
@@ -215,6 +248,10 @@
         name: 'curriculumManage',
         data () {
             return {
+                isShow: true,
+                usernameisShow: false,
+                visible: false,
+                imgArr: [],
                 modelFlag: false,
                 mubanFlag: false,
                 banciBtnLoading: false,
@@ -227,7 +264,8 @@
                 uploadFormat: ['xls'],
                 uploadForm: {
                     id: '',
-                    title: ''
+                    title: '',
+                    teacher_id: ''
                 },
                 mubanId: 0,
                 tableHeight: 300,
@@ -260,6 +298,8 @@
                     ]
                 },
                 classForm: {
+                    out_teacher: '0',
+                    username: '',
                     type: '',
                     title: '',
                     class_date: NOW_DAY,
@@ -357,6 +397,41 @@
                         }
                     },
                     {
+                        title: '签到/评论二维码',
+                        align: 'center',
+                        render: (h, params) => {
+                            let vm = this;
+                            let lookBtn = '';
+                            // if (params.row.imageproof) {
+                            lookBtn = h('Tooltip', {
+                                props: {
+                                    content: '查看二维码',
+                                    placement: 'top',
+                                    transfer: true
+                                }
+                            }, [
+                                h('Button', {
+                                    props: {
+                                        type: 'ghost',
+                                        icon: 'ios-eye',
+                                        shape: 'circle',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm._prewImg(params.row);
+                                        }
+                                    }
+                                })
+                            ]);
+                            // } else {
+                            //     lookBtn = '无';
+                            // }
+                            return h('div', [lookBtn]);
+                        }
+                    },
+                    {
                         title: '操作',
                         align: 'center',
                         width: 80,
@@ -409,16 +484,55 @@
             formReset (name) {
                 this.$refs[name].resetFields();
             },
+            _downloadGrade(data) {
+                let sendData = {};
+                sendData.id = data.id;
+                sendData.title = data.title;
+                data.loading = true;
+                this.$http.post('/train/trainee_class_crdit_excel', sendData).then((res) => {
+                    if (res.success) {
+                        utils.downloadFile('/oa/download/' + res.data, res.data);
+                    }
+                }).finally(() => {
+                    data.loading = false;
+                });
+            },
             downloadFile(url, name) {
                 let downloadDom = document.createElement('a');
                 downloadDom.href = url;
                 downloadDom.download = name;
                 downloadDom.click();
             },
+            _rotateImg(index) {
+                this.imgArr[index].deg += 90;
+            },
+            change (status) {
+                this.isShow = !this.isShow;
+                this.usernameisShow = !this.usernameisShow;
+                console.log(status)
+                if (status === 1) {
+                    this.classForm.teacher_id= 1019
+                }
+            },
+            _prewImg(data) {
+                this.visible = true;
+                let storeArr = [];
+                if (data.signinpicname) {
+                    let obj = {};
+                    obj.signinpicname = data.signinpicname;
+                    obj.evaluatepicname = data.evaluatepicname;
+                    obj.deg = 0;
+                    storeArr.push(obj);
+                }
+
+
+                this.imgArr = storeArr;
+            },
             _openUploadModel() {
                 this.importModalFlag = true;
                 this.uploadForm.id = this.classChooseDataArray[0].id;
                 this.uploadForm.title = this.classChooseDataArray[0].title;
+                this.uploadForm.teacher_id = this.classChooseDataArray[0].teacher_id;
             },
             _uploadFormatErr() {
                 this.$Message.error('上传文件的后缀必须为.xls');
@@ -438,19 +552,7 @@
             _downloadGradeMuban() {
                 this.downloadFile('/oa/down/成绩单模板.xls', '成绩单模板.xls');
             },
-            _downloadGrade() {
-                this.downloadLoading = true;
-                let sendData = {};
-                sendData.id = this.classChooseDataArray[0].id;
-                sendData.title = this.classChooseDataArray[0].title;
-                this.$http.post('/train/trainee_class_crdit_excel', sendData).then((res) => {
-                    if (res.success) {
-                        this.downloadFile('/oa/download/' + res.data, res.data);
-                    }
-                }).finally(() => {
-                    this.downloadLoading = false;
-                });
-            },
+
             _updateMubanHandler() {
                 this.mubanAddType = 'update';
                 this.formReset('banciForm');
@@ -465,6 +567,8 @@
             _initClassForm() {
                 this.formReset('classForm');
                 this.classForm = {
+                    out_teacher: '0',
+                    username: '',
                     type: '',
                     title: '',
                     class_date: NOW_DAY,
@@ -568,6 +672,8 @@
                 this._initClassForm();
                 this.classId = data.id;
                 let classForm = this.classForm;
+                classForm.out_teacher = data.out_teacher;
+                classForm.username = data.teachername;
                 classForm.type = data.type;
                 classForm.title = data.title;
                 classForm.class_date = data.class_date;
