@@ -4,7 +4,8 @@
             <div class="left">
                 <h1>员工风采</h1>
                 <nav>
-                    <span @click.stop="$router.push({name: 'photoList'})">首页</span>
+                    <span @click.stop="$router.go(-1)">返回</span>
+                    <span @click.stop="$router.push({name: 'myPhoto'})">我的作品</span>
                 </nav>
             </div>
             <div class="right">
@@ -76,7 +77,13 @@
                 font-size: 16px;
                 margin-left: 16px;
                 span {
+                    display: inline-block;
+                    padding: 6px 12px;
                     cursor: pointer;
+                    transition: color 0.3s ease;
+                    &:hover {
+                        color: rgba(255, 202, 5, 0.81);
+                    }
                 }
             }
         }

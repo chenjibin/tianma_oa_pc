@@ -6,10 +6,10 @@
                 <input type="file"
                        accept="image/png, image/jpeg, image/gif, image/jpg"
                        @change="handleChangeImg"
-                       id="fileinput"
+                       id="articleInput"
                        class="fileinput" />
                 <label class="filelabel"
-                       for="fileinput">
+                       for="articleInput">
                     <Icon type="image"></Icon>
                     <span style="margin-left: 6px;">选择图片</span>
                 </label>
@@ -18,13 +18,13 @@
             <Col :span="24" class="margin-top-8">
             <p style="margin-top: 8px;font-size: 14px;font-weight: 700;">裁剪</p>
             <div class="crop-img-wrapper">
-                <img id="crop-img"/>
+                <img id="crop-img-article"/>
             </div>
             </Col>
             <Col :span="24" class="margin-top-8">
             <p style="margin-top: 8px;font-size: 14px;font-weight: 700;">预览</p>
             <div class="img-preview-wrapper">
-                <div id="preview1" class="preview"></div>
+                <div id="preview-article" class="preview"></div>
             </div>
             <div class="margin-top-8" style="text-align: center;">
                 <Button type="primary" @click="_submitImgChange" :loading="btnLoading">确定</Button>
@@ -59,15 +59,12 @@
         data () {
             return {
                 btnLoading: false,
-                cropper: {},
+                cropper: null,
                 fileData: {
                     fileType: '',
                     fileName: ''
                 },
                 fileType: '',
-                option1: {
-                    cropedImg: ''
-                },
                 format: ['png', 'jpeg', 'gif', 'jpg']
             };
         },
@@ -120,13 +117,20 @@
             }
         },
         mounted() {
-            let img1 = document.getElementById('crop-img');
-            this.cropper = new Cropper(img1, {
-                dragMode: 'move',
-                viewMode: 3,
-                preview: '#preview1',
-                aspectRatio: 25 / 14
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    let img1 = document.getElementById('crop-img-article');
+                    this.cropper = new Cropper(img1, {
+                        dragMode: 'move',
+                        viewMode: 3,
+                        preview: '#preview-article',
+                        aspectRatio: 25 / 14
+                    });
+                }, 20);
             });
+        },
+        beforeDestroy() {
+            this.cropper.destroy();
         },
         components: {}
     };
