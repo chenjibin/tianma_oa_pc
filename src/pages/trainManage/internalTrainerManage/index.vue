@@ -86,61 +86,67 @@
                   :model="classForm"
                   ref="classForm"
                   :label-width="100">
-                <Row :gutter="8">
+                <Row :gutter="9">
+
                     <Col :span="12">
-                    <FormItem label="姓名" required>
-                        <fs-search-user v-model="classForm.user_id"
-                                        :optionlist.sync="nameForm.nameOpt"
-                                        :clearable="true"
-                                        :label="nameForm.nameLabel"></fs-search-user>
-                    </FormItem>
+                        <FormItem label="姓名" v-show="usernameisShow" required>
+                            <Input v-model="classForm.username"></Input>
+                        </FormItem>
+                    </Col>
+                    <Col :span="12" >
+                        <FormItem label="姓名"   v-show="isShow" required >
+                            <fs-search-user v-model="classForm.user_id"
+                                            :optionlist.sync="nameForm.nameOpt"
+                                            :clearable="true"
+                                            :label="nameForm.nameLabel" ></fs-search-user>
+                        </FormItem>
                     </Col>
                     <Col :span="12">
-                    <FormItem label="岗位" required>
-                        <Select v-model="classForm.post_id">
-                            <Option :value="item.id"
-                                    v-for="item,index in allPostData"
-                                    :key="'teacherOpt' + index">{{item.name}}</Option>
-                        </Select>
-                    </FormItem>
+                        <FormItem label="岗位" required>
+                            <Select v-model="classForm.post_id">
+                                <Option :value="item.id"
+                                        v-for="item,index in allPostData"
+                                        :key="'teacherOpt' + index">{{item.name}}</Option>
+                            </Select>
+                        </FormItem>
                     </Col>
                     <Col :span="12">
-                    <FormItem label="编制等级" prop="level">
-                        <Input v-model="classForm.level"></Input>
-                    </FormItem>
+                        <FormItem label="编制等级" prop="level">
+                            <Input v-model="classForm.level"></Input>
+                        </FormItem>
                     </Col>
                     <Col :span="12">
-                    <FormItem label="授课类型" prop="class_type">
-                        <Input v-model="classForm.class_type"></Input>
-                    </FormItem>
+                        <FormItem label="授课类型" prop="class_type">
+                            <Input v-model="classForm.class_type"></Input>
+                        </FormItem>
                     </Col>
                     <Col :span="24">
-                    <FormItem label="授课课题" prop="class_name">
-                        <Input v-model="classForm.class_name"></Input>
-                    </FormItem>
+                        <FormItem label="授课课题" prop="class_name">
+                            <Input v-model="classForm.class_name"></Input>
+                        </FormItem>
                     </Col>
                     <Col :span="12">
-                    <FormItem label="授课年限">
-                        <InputNumber :min="0" v-model="classForm.class_years"></InputNumber>
-                    </FormItem>
+                        <FormItem label="授课年限">
+                            <InputNumber :min="0" v-model="classForm.class_years"></InputNumber>
+                        </FormItem>
                     </Col>
                     <Col :span="12">
-                    <FormItem label="授课课时">
-                        <InputNumber :min="0" v-model="classForm.class_times"></InputNumber>
-                    </FormItem>
+                        <FormItem label="授课课时">
+                            <InputNumber :min="0" v-model="classForm.class_times"></InputNumber>
+                        </FormItem>
                     </Col>
                     <Col :span="24">
-                    <FormItem label="授课评价">
-                        <Input v-model="classForm.comment" type="textarea"  :autosize="{minRows: 4,maxRows: 5}"></Input>
-                    </FormItem>
+                        <FormItem label="授课评价">
+                            <Input v-model="classForm.comment" type="textarea"  :autosize="{minRows: 4,maxRows: 5}"></Input>
+                        </FormItem>
                     </Col>
                     <Col :span="24">
-                    <FormItem label="创建计划时是否默认选中" :label-width="160">
-                        <i-switch v-model="classForm.isDefault" size="large" :true-value="1" :false-value="0">
-                            <span slot="open">选中</span>
-                            <span slot="close">不选</span>
-                        </i-switch>
-                    </FormItem>
+                        <FormItem label="创建计划时是否默认选中" :label-width="160">
+                            <i-switch v-model="classForm.isDefault" size="large" :true-value="1" :false-value="0">
+                                <span slot="open">选中</span>
+                                <span slot="close">不选</span>
+                            </i-switch>
+                        </FormItem>
                     </Col>
                 </Row>
             </Form>
@@ -187,6 +193,8 @@
         name: 'internalTrainerManage',
         data () {
             return {
+                isShow: true,
+                usernameisShow: false,
                 modelFlag: false,
                 mubanFlag: false,
                 banciBtnLoading: false,
@@ -215,6 +223,7 @@
                     ]
                 },
                 classForm: {
+                    username: '',
                     user_id: '',
                     post_id: '',
                     level: '',
@@ -398,6 +407,7 @@
             },
             _initClassForm() {
                 this.classForm = {
+                    username: '',
                     user_id: '',
                     post_id: '',
                     level: '',
@@ -411,6 +421,11 @@
                 this.nameForm.nameLabel = '';
                 this.nameForm.nameOpt = [];
                 this.formReset('classForm');
+            },
+
+            change (status) {
+                this.isShow = !this.isShow;
+                this.usernameisShow = !this.usernameisShow;
             },
             _updateMubanHandler() {
                 this.mubanAddType = 'update';
@@ -468,6 +483,7 @@
                 this.$refs.classForm.validate((valid) => {
                     if (valid) {
                         let data = JSON.parse(JSON.stringify(this.classForm));
+                        data.out_teacher = 0;
                         if (this.classFormType === 'update') data.id = this.classId;
                         this.$http.post('/train/teacher_add', data).then((res) => {
                             if (res.success) {
