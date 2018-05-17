@@ -229,7 +229,6 @@
                      style="max-width: 100%;margin:  0 auto;"/>
             </div>
 
-
             <div slot="footer">
                 <Button type="ghost" @click="visible = false">关闭</Button>
             </div>
@@ -395,8 +394,7 @@
                         render: (h, params) => {
                             return h('span', params.row.has_baoming || 0);
                         }
-                    },
-                    {
+                    }, {
                         title: '签到/评论二维码',
                         align: 'center',
                         render: (h, params) => {
@@ -484,17 +482,17 @@
             formReset (name) {
                 this.$refs[name].resetFields();
             },
-            _downloadGrade(data) {
+            _downloadGrade() {
+                this.downloadLoading = true;
                 let sendData = {};
-                sendData.id = data.id;
-                sendData.title = data.title;
-                data.loading = true;
+                sendData.id = this.classChooseDataArray[0].id;
+                sendData.title = this.classChooseDataArray[0].title;
                 this.$http.post('/train/trainee_class_crdit_excel', sendData).then((res) => {
                     if (res.success) {
-                        utils.downloadFile('/oa/download/' + res.data, res.data);
+                        this.downloadFile('/oa/download/' + res.data, res.data);
                     }
                 }).finally(() => {
-                    data.loading = false;
+                    this.downloadLoading = false;
                 });
             },
             downloadFile(url, name) {
@@ -509,9 +507,9 @@
             change (status) {
                 this.isShow = !this.isShow;
                 this.usernameisShow = !this.usernameisShow;
-                console.log(status)
-                if (status === 1) {
-                    this.classForm.teacher_id= 1019
+                console.log(status);
+                if (status == 1) {
+                    this.classForm.teacher_id = 1019;
                 }
             },
             _prewImg(data) {
@@ -524,7 +522,6 @@
                     obj.deg = 0;
                     storeArr.push(obj);
                 }
-
 
                 this.imgArr = storeArr;
             },
