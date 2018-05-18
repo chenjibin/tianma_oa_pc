@@ -1,7 +1,7 @@
 <template>
     <Card class="sys-notice">
         <p class="sys-notice-title">天马大小事</p>
-        <Table height="300"
+        <Table height="222"
                :columns="columns"
                :data="pageData.list"
                :loading="tableLoading"
@@ -44,7 +44,7 @@
         cursor: pointer;
     }
     .sys-notice {
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         &-title {
             margin-bottom: 10px;
             font-size: 18px;

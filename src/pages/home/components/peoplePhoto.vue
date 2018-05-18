@@ -30,7 +30,7 @@
 <style lang="less">
     .people-photo {
         user-select: none;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         &-list {
             margin-top: 8px;
             .item {

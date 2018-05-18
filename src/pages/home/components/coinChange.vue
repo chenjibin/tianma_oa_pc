@@ -18,6 +18,7 @@
         </Row>
         <div class="coin-change-list">
             <fs-table-page :columns="coinRecordCol"
+                           :height="200"
                            url="/coin/getCredit"></fs-table-page>
         </div>
         <Modal v-model="modelCoinFlag" width="800" :mask-closable="false">
