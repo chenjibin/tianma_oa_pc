@@ -110,17 +110,6 @@
                     </FormItem>
                     </Col>
                     <Col :span="12">
-                    <FormItem label="外部讲师"  prop="out_teacher" required>
-                        <i-switch v-model="classForm.out_teacher" size="large" :true-value="1" :false-value="0" @on-change="change">
-                            <span slot="open">选中</span>
-                            <span slot="close">不选</span>
-                        </i-switch>
-                    </FormItem>
-                    </Col>
-                    <Col :span="12">
-                    <FormItem label="讲师" v-show="usernameisShow" required>
-                        <Input v-model="classForm.username"></Input>
-                    </FormItem>
 
                     <FormItem label="外部讲师"  prop="out_teacher" required>
                         <i-switch v-model="classForm.out_teacher" size="large" :true-value="1" :false-value="0" @on-change="change">
@@ -228,19 +217,6 @@
         </Modal>
         <Modal title="签到/评论二维码" v-model="visible" width="800">
             <div style="max-height: 500px;overflow-y: auto;:overflow-x hidden;">
-                <img :src="'/oa/upload/' + item.signinpicname"
-                     v-for="(item, index) in imgArr"
-                     :key="'prewimg-' + index"
-                     :style="{transform: `rotateZ(${item.deg}deg)`}"
-                     style="max-width: 100%;margin:  0 auto;"/>
-                <!--<a href="">下载</a>-->
-                <img :src="'/oa/upload/' + item.evaluatepicname"
-                     v-for="(item, index) in imgArr"
-                     :key="'prewimg-' + index"
-                     :style="{transform: `rotateZ(${item.deg}deg)`}"
-                     style="max-width: 100%;margin:  0 auto;"/>
-            </div>
-
             <Row type="flex" justify="center" class="code-row-bg">
                 <Col span="12">
                 <img :src="'/oa/upload/' + item.signinpicname"
@@ -268,6 +244,7 @@
         <Button type="ghost" @click="visible = false">关闭</Button>
     </div>
     </Modal>
+
     <Modal v-model="evaScroll"  title="反馈内容" width="1000" :mask-closable="false">
         <Scroll :on-reach-bottom="handleReachTop"
                 :distance-to-edge="0"
@@ -314,9 +291,6 @@
         name: 'curriculumManage',
         data () {
             return {
-                isShow: true,
-                usernameisShow: false,
-                visible: false,
                 imgArr: [],
                 isShow:true,
                 usernameisShow:false,
@@ -325,14 +299,14 @@
                 scrollHeight: 200,
                 loadingText: '加载中',
                 pageData: {
-                    page: 1,
+                page: 1,
                     pageSize: 20,
                     totalCount: 0,
                     status: '3'
-                },
-                imgArr: [],
+            },
+            imgArr: [],
                 evaScroll:false,
-                modelFlag: false,
+            modelFlag: false,
                 mubanFlag: false,
                 banciBtnLoading: false,
                 downloadLoading: false,
@@ -344,47 +318,44 @@
                 planid:'',
                 uploadFormat: ['xls'],
                 uploadForm: {
-                    id: '',
+                id: '',
                     title: '',
-                    teacher_id: ''
                     teacher_id:''
-                },
-                mubanId: 0,
+            },
+            mubanId: 0,
                 tableHeight: 300,
                 chooseDataArray: [],
                 classChooseDataArray: [],
                 banciRules: {
-                    name: [
-                        { required: true, message: '名称不能为空', trigger: 'blur' }
-                    ]
-                },
-                banciForm: {
-                    name: ''
-                },
-                classId: 0,
+                name: [
+                    { required: true, message: '名称不能为空', trigger: 'blur' }
+                ]
+            },
+            banciForm: {
+                name: ''
+            },
+            classId: 0,
                 classRules: {
-                    title: [
-                        { required: true, message: '培训名名称不能为空', trigger: 'blur' }
-                    ],
+                title: [
+                    { required: true, message: '培训名名称不能为空', trigger: 'blur' }
+                ],
                     teacher_id: [
-                        { required: true, message: '讲师不能为空', type: 'number', trigger: 'change' }
-                    ],
+                    { required: true, message: '讲师不能为空', type: 'number', trigger: 'change' }
+                ],
                     type: [
-                        { required: true, message: '培训类型不能为空', type: 'number', trigger: 'change' }
-                    ],
+                    { required: true, message: '培训类型不能为空', type: 'number', trigger: 'change' }
+                ],
                     period: [
-                        { required: true, message: '上课时间不能为空', trigger: 'change' }
-                    ],
+                    { required: true, message: '上课时间不能为空', trigger: 'change' }
+                ],
                     position: [
-                        { required: true, message: '培训地点不能为空', trigger: 'change' }
-                    ]
-                },
-                classForm: {
-                    out_teacher: '0',
-                    username: '',
+                    { required: true, message: '培训地点不能为空', trigger: 'change' }
+                ]
+            },
+            classForm: {
                     out_teacher:'0',
                     username:'',
-                    type: '',
+                type: '',
                     title: '',
                     class_date: NOW_DAY,
                     period: '',
@@ -394,105 +365,138 @@
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''
-                },
-                defaultProps: {
-                    children: 'children',
+            },
+            defaultProps: {
+                children: 'children',
                     label: 'name'
-                },
-                roleData: [],
+            },
+            roleData: [],
                 mubanColumns: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
-                        title: '名称',
-                        align: 'center',
-                        key: 'name'
-                    }
-                ],
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '名称',
+                    align: 'center',
+                    key: 'name'
+                }
+            ],
                 postColumns: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
-                        title: '日期',
-                        key: 'user_name',
-                        align: 'center',
-                        width: 160,
-                        render: (h, params) => {
-                            return h('span', moment(params.row.class_date).format('YYYY-MM-DD'));
-                        }
-                    },
-                    {
-                        title: '时间',
-                        align: 'center',
-                        key: 'period',
-                        width: 200
-                    },
-                    {
-                        title: '培训名称',
-                        key: 'title'
-                    },
-                    {
-                        title: '培训类型',
-                        key: 'type_name',
-                        width: 100
-                    },
-                    {
-                        title: '地点',
-                        align: 'center',
-                        key: 'position',
-                        width: 100
-                    },
-                    {
-                        title: '学分',
-                        align: 'center',
-                        key: 'credit',
-                        width: 80
-                    },
-                    {
-                        title: '讲师',
-                        key: 'teacher_name',
-                        width: 80
-                    },
-                    {
-                        title: '讲师金币',
-                        align: 'center',
-                        key: 'teacher_coin',
-                        width: 100
-                    },
-                    {
-                        title: '人数限制',
-                        align: 'center',
-                        key: 'trainee_max_num',
-                        width: 100
-                    },
-                    {
-                        title: '已参人数',
-                        key: 'has_baoming',
-                        align: 'center',
-                        width: 100,
-                        render: (h, params) => {
-                            return h('span', params.row.has_baoming || 0);
-                        }
-                    },{
-                        title: '反馈',
-                        align: 'center',
-                        render: (h, params) => {
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '日期',
+                    key: 'user_name',
+                    align: 'center',
+                    width: 160,
+                    render: (h, params) => {
+                        return h('span', moment(params.row.class_date).format('YYYY-MM-DD'));
+                    }
+                },
+                {
+                    title: '时间',
+                    align: 'center',
+                    key: 'period',
+                    width: 200
+                },
+                {
+                    title: '培训名称',
+                    key: 'title'
+                },
+                {
+                    title: '培训类型',
+                    key: 'type_name',
+                    width: 100
+                },
+                {
+                    title: '地点',
+                    align: 'center',
+                    key: 'position',
+                    width: 100
+                },
+                {
+                    title: '学分',
+                    align: 'center',
+                    key: 'credit',
+                    width: 80
+                },
+                {
+                    title: '讲师',
+                    key: 'teacher_name',
+                    width: 80
+                },
+                {
+                    title: '讲师金币',
+                    align: 'center',
+                    key: 'teacher_coin',
+                    width: 100
+                },
+                {
+                    title: '人数限制',
+                    align: 'center',
+                    key: 'trainee_max_num',
+                    width: 100
+                },
+                {
+                    title: '已参人数',
+                    key: 'has_baoming',
+                    align: 'center',
+                    width: 100,
+                    render: (h, params) => {
+                        return h('span', params.row.has_baoming || 0);
+                    }
+        },{
+                title: '反馈',
+                align: 'center',
+                    render: (h, params) => {
+                    let vm = this;
+                    let lookBtn = '';
+                    // if (params.row.imageproof) {
+                            lookBtn = h('Tooltip', {
+                                props: {
+                                    content: '反馈',
+                                placement: 'top',
+                        transfer: true
+                }
+                }, [
+                        h('Button', {
+                            props: {
+                                type: 'ghost',
+                                icon: 'ios-eye',
+                                shape: 'circle',
+                                size: 'small'
+                            },
+                            on: {
+                                click: function (e) {
+                                    e.stopPropagation();
+                                    vm._showEvaluate(params.row);
+                                }
+                            }
+                        })
+                    ]);
+
+
+                    return h('div', [lookBtn]);
+                }
+                },{
+                        title: '签到/评论二维码',
+                            align: 'center',
+                            render: (h, params) => {
                             let vm = this;
                             let lookBtn = '';
                             // if (params.row.imageproof) {
                             lookBtn = h('Tooltip', {
                                 props: {
                                     content: '查看二维码',
-                                        placement: 'top',
-                                transfer: true
-                        }
-                        }, [
+                                    placement: 'top',
+                                    transfer: true
+                                }
+                            }, [
                                 h('Button', {
                                     props: {
                                         type: 'ghost',
@@ -503,94 +507,58 @@
                                     on: {
                                         click: function (e) {
                                             e.stopPropagation();
-                                            // vm._prewImg(params.row);
-                                            vm._showEvaluate(params.row);
+                                            vm._prewImg(params.row);
                                         }
                                     }
                                 })
                             ]);
-                            // } else {
-                            //     lookBtn = '无';
-                            // }
 
                             return h('div', [lookBtn]);
                         }
-                        },{
-                                title: '签到/评论二维码',
-                                    align: 'center',
-                                    render: (h, params) => {
-                                    let vm = this;
-                                    let lookBtn = '';
-                                    // if (params.row.imageproof) {
-                                    lookBtn = h('Tooltip', {
-                                        props: {
-                                            content: '查看二维码',
-                                            placement: 'top',
-                                            transfer: true
-                                        }
-                                    }, [
-                                        h('Button', {
-                                            props: {
-                                                type: 'ghost',
-                                                icon: 'ios-eye',
-                                                shape: 'circle',
-                                                size: 'small'
-                                            },
-                                            on: {
-                                                click: function (e) {
-                                                    e.stopPropagation();
-                                                    vm._prewImg(params.row);
-                                                }
-                                            }
-                                        })
-                                    ]);
-
-                                    return h('div', [lookBtn]);
+                    },
+                    {
+                        title: '操作',
+                            align: 'center',
+                        width: 80,
+                        render: (h, params) => {
+                        let vm = this;
+                        return h('div', [
+                            h('Tooltip', {
+                                props: {
+                                    content: '修改',
+                                    placement: 'top',
+                                    transfer: true
                                 }
-                            },
-                            {
-                                title: '操作',
-                                    align: 'center',
-                                width: 80,
-                                render: (h, params) => {
-                                let vm = this;
-                                return h('div', [
-                                    h('Tooltip', {
-                                        props: {
-                                            content: '修改',
-                                            placement: 'top',
-                                            transfer: true
+                            }, [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'edit',
+                                        shape: 'circle'
+                                    },
+                                    on: {
+                                        click: function(e) {
+                                            e.stopPropagation();
+                                            vm._checkTest(params.row);
                                         }
-                                    }, [
-                                        h('Button', {
-                                            props: {
-                                                type: 'primary',
-                                                icon: 'edit',
-                                                shape: 'circle'
-                                            },
-                                            on: {
-                                                click: function(e) {
-                                                    e.stopPropagation();
-                                                    vm._checkTest(params.row);
-                                                }
-                                            }
-                                        })
-                                    ])
-                                ]);
-                            }
-                            }
-                        ],
-                            filterOpt: {
-                                class_type: {
-                                    value: '',
-                                        type: 'input'
-                                }
-                            },
-                            trainTypeOpt: [],
-                                teacherOpt: [],
-                                compangsList: []
-                        };
-        },
+                                    }
+                                })
+                            ])
+                        ]);
+                    }
+                    }
+                ],
+                    filterOpt: {
+                        class_type: {
+                            value: '',
+                                type: 'input'
+                        }
+                    },
+                    trainTypeOpt: [],
+                        teacherOpt: [],
+                        compangsList: []
+                };
+            },
             created() {
                 this._setTableHeight();
                 this._getTrainTypeOpt();
@@ -603,7 +571,7 @@
                     this.$refs[name].resetFields();
                 },
 
-                upDateOrderList() {
+                    upDateOrderList() {
                     this.pageData.page = 1;
                     this.pageData.status = '3';
                     this._getMyOrderList();
@@ -628,7 +596,7 @@
                     });
                 },
 
-                _getMyOrderList() {
+                    _getMyOrderList() {
                     let data = {};
                     data.id = this.planid;
                     console.log(this.planid);
@@ -660,12 +628,7 @@
                 change (status) {
                     this.isShow = !this.isShow;
                     this.usernameisShow = !this.usernameisShow;
-                    console.log(status);
-                    if (status == 1) {
-                        this.classForm.teacher_id = 1019;
-                    }
-                },
-                if(status==1){
+                if(status == 1){
                     this.classForm.teacher_id= 1019
                 }
             },
@@ -704,8 +667,6 @@
                 }
 
                 this.imgArr = storeArr;
-            },
-            this.imgArr = storeArr;
         },
             _showEvaluate(data) {
                 this.evaScroll = true;
@@ -753,11 +714,9 @@
             _initClassForm() {
                 this.formReset('classForm');
                 this.classForm = {
-                    out_teacher: '0',
-                    username: '',
-                    out_teacher:'0',
+                    out_teacher: 0,
                     username:'',
-                    type: '',
+                      type: '',
                     title: '',
                     class_date: NOW_DAY,
                     period: '',
@@ -767,7 +726,7 @@
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''
-                };
+            };
             },
             _delClass() {
                 this.$Modal.confirm({
@@ -851,6 +810,7 @@
                 this.filterOpt.organizeId.value = data.id;
             },
             _createClassOpen() {
+
                 this.classFormType = 'add';
                 this._initClassForm();
                 this.modelFlag = true;
@@ -860,8 +820,18 @@
                 this._initClassForm();
                 this.classId = data.id;
                 let classForm = this.classForm;
-               classForm.out_teacher = data.teacher_id ? 0 : 1;
-                classForm.username = data.teachername;
+                if (data.teacher_id === null) {
+                    classForm.out_teacher = 1;
+                    this.isShow = false;
+                    this.usernameisShow = true;
+
+                } else {
+                    classForm.out_teacher =  0;
+                    this.isShow = true;
+                    this.usernameisShow = false;
+
+                }
+                classForm.username = data.teacher_name;
                 classForm.type = data.type;
                 classForm.title = data.title;
                 classForm.class_date = data.class_date;
