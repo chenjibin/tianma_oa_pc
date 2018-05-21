@@ -111,7 +111,7 @@
                     </Col>
                     <Col :span="12">
                         <FormItem label="外部讲师"  prop="out_teacher" required>
-                            <i-switch v-model="classForm.out_teacher" size="large" :true-value="1" :false-value="0" @on-change="change">
+                            <i-switch v-model="classForm.out_teacher" size="large" :true-value="1" :false-value="0" @on-change="_outTeacherchange">
                                 <span slot="open">选中</span>
                                 <span slot="close">不选</span>
                             </i-switch>
@@ -297,7 +297,7 @@
                     ]
                 },
                 classForm: {
-                    out_teacher: '0',
+                    out_teacher: 0,
                     username: '',
                     type: '',
                     title: '',
@@ -504,11 +504,10 @@
             _rotateImg(index) {
                 this.imgArr[index].deg += 90;
             },
-            change (status) {
+            _outTeacherchange (status) {
                 this.isShow = !this.isShow;
                 this.usernameisShow = !this.usernameisShow;
-                console.log(status);
-                if (status == 1) {
+                if (status === 1) {
                     this.classForm.teacher_id = 1019;
                 }
             },
@@ -564,7 +563,7 @@
             _initClassForm() {
                 this.formReset('classForm');
                 this.classForm = {
-                    out_teacher: '0',
+                    out_teacher: 0,
                     username: '',
                     type: '',
                     title: '',
@@ -669,7 +668,7 @@
                 this._initClassForm();
                 this.classId = data.id;
                 let classForm = this.classForm;
-                classForm.out_teacher = data.out_teacher;
+                classForm.out_teacher = data.teacher_id ? 0 : 1;
                 classForm.username = data.teachername;
                 classForm.type = data.type;
                 classForm.title = data.title;
