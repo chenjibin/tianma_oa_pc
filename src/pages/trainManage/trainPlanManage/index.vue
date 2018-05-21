@@ -2,58 +2,58 @@
     <div>
         <Row :gutter="10">
             <Col :span="4">
-                <fs-dep-tree url="/organize/organizeTree?fatherId=-1"
-                             @node-change="_nodeChangeHandler($event)"
-                             :defaultProps="defaultProps"></fs-dep-tree>
+            <fs-dep-tree url="/organize/organizeTree?fatherId=-1"
+                         @node-change="_nodeChangeHandler($event)"
+                         :defaultProps="defaultProps"></fs-dep-tree>
             </Col>
             <Col :span="20">
-                <Card>
-                    <Form inline :label-width="60">
-                        <FormItem label="岗位">
-                            <Input type="text"
-                                   v-model="filterOpt.post_name.value"
-                                   placeholder="筛选岗位"></Input>
-                        </FormItem>
-                        <FormItem label="角色">
-                            <Select v-model="filterOpt.role_id.value"
-                                    clearable
-                                    placeholder="筛选角色"
-                                    style="width: 100px">
-                                <Option :value="item.id" v-for="item, index in roleData" :key="index">{{item.name}}</Option>
-                            </Select>
-                        </FormItem>
-                        <FormItem :label-width="0.1">
-                            <ButtonGroup>
-                                <Button type="primary" @click="mubanFlag = true">
-                                    <Icon type="gear-b"></Icon>
-                                    模板设置
-                                </Button>
-                                <Button type="primary" @click="_openTrainPlan">
-                                    <Icon type="plus-round"></Icon>
-                                    创建培训计划
-                                </Button>
-                                <Button type="error"
-                                        :disabled="!planChooseDataArray.length"
-                                        @click="_delPlan">
-                                    <Icon type="ios-trash-outline"></Icon>
-                                    删除计划
-                                </Button>
-                                <Button type="primary"
-                                        @click="_downloadGrade">
-                                    <Icon type="ios-trash-outline"></Icon>
-                                    导出
-                                </Button>
-                            </ButtonGroup>
-                        </FormItem>
-                    </Form>
-                    <fs-table-page :columns="postColumns"
-                                   :size="null"
-                                   :height="tableHeight"
-                                   :params="filterOpt"
-                                   :choosearray.sync="planChooseDataArray"
-                                   ref="planList"
-                                   url="/train/ever_plan_datalist"></fs-table-page>
-                </Card>
+            <Card>
+                <Form inline :label-width="60">
+                    <FormItem label="岗位">
+                        <Input type="text"
+                               v-model="filterOpt.post_name.value"
+                               placeholder="筛选岗位"></Input>
+                    </FormItem>
+                    <FormItem label="角色">
+                        <Select v-model="filterOpt.role_id.value"
+                                clearable
+                                placeholder="筛选角色"
+                                style="width: 100px">
+                            <Option :value="item.id" v-for="item, index in roleData" :key="index">{{item.name}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem :label-width="0.1">
+                        <ButtonGroup>
+                            <Button type="primary" @click="mubanFlag = true">
+                                <Icon type="gear-b"></Icon>
+                                模板设置
+                            </Button>
+                            <Button type="primary" @click="_openTrainPlan">
+                                <Icon type="plus-round"></Icon>
+                                创建培训计划
+                            </Button>
+                            <Button type="error"
+                                    :disabled="!planChooseDataArray.length"
+                                    @click="_delPlan">
+                                <Icon type="ios-trash-outline"></Icon>
+                                删除计划
+                            </Button>
+                            <Button type="primary"
+                            @click="addDepModalFlag = true">
+                            <Icon type="ios-trash-outline"></Icon>
+                            导出
+                            </Button>
+                        </ButtonGroup>
+                    </FormItem>
+                </Form>
+                <fs-table-page :columns="postColumns"
+                               :size="null"
+                               :height="tableHeight"
+                               :params="filterOpt"
+                               :choosearray.sync="planChooseDataArray"
+                               ref="planList"
+                               url="/train/ever_plan_datalist"></fs-table-page>
+            </Card>
             </Col>
         </Row>
         <Modal v-model="mubanFlag" width="900" :mask-closable="false">
@@ -124,8 +124,33 @@
                      ref="formPlan"
                      v-model="trainData"></fs-form>
             <div slot="footer">
-                <Button type="primary" style="margin-left: 8px" @click="_submitPlan">提交计划</Button>
+                <Button type="primary" style="margin-left: 8px" v-show="examine"  @click="_approvalPlan" id="sh">审核通过</Button>
+                <Button type="primary" style="margin-left: 8px" v-show="subplan"  @click="_submitPlan" id="tijh">提交计划</Button>
                 <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+            </div>
+        </Modal>
+        <Modal v-model="addDepModalFlag"
+               width="300"
+               :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>导出培训计划</span>
+            </p>
+            <Form :label-width="80">
+                <FormItem label="月份">
+                    <DatePicker type="month"
+                                placeholder="月份"
+                                @on-change="_addDepMonthChange"
+                                :value="addDepForm.month"></DatePicker>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="primary"
+                        :loading="deleteLoading"
+                        @click="_downloadGrade">
+                    <span v-if="!deleteLoading">确认导出</span>
+                    <span v-else>正在导出...</span>
+                </Button>
+                <Button type="ghost" style="margin-left: 8px" @click="addDepModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="createPlanFlag" width="900" :mask-closable="false">
@@ -169,6 +194,7 @@
                 <Button type="ghost" style="margin-left: 8px" @click="createPlanFlag = false">取消</Button>
             </div>
         </Modal>
+
     </div>
 </template>
 <style>
@@ -187,7 +213,17 @@
             return {
                 modelFlag: false,
                 mubanFlag: false,
+                deleteModalFlag: false,
+                addDepModalFlag: false,
+                examine:false,
+                subplan:true,
+                deleteLoading: false,
                 mubanBtnLoading: false,
+                deleteMonth: NOW_MONTH,
+                addDepForm: {
+                    month: NOW_MONTH,
+                    organizeName: ''
+                },
                 createPlanFlag: false,
                 tableHeight: 300,
                 planId: 0,
@@ -290,12 +326,20 @@
                         key: 'torfscore',
                         width: 120,
                         render: (h, params) => {
+                            let status = '';
+                            if(params.row.status === 1){
+                                status='已审核';
+                            }else if(params.row.status === 2){
+                                status='待审核';
+                            }else{
+                                status='未设置';
+                            }
                             return h('Tag', {
                                 props: {
                                     type: 'border',
                                     color: +params.row.status === 1 ? 'green' : 'red'
                                 }
-                            }, +params.row.status === 1 ? '已设置' : '未设置');
+                            },status);
                         }
                     },
                     {
@@ -357,7 +401,7 @@
                         type: 'select'
                     },
                     organizeId: {
-                        value: 1,
+                        value: this.$store.state.user.userInfo.lv,
                         type: 'tree'
                     }
                 },
@@ -389,6 +433,12 @@
                 downloadDom.download = name;
                 downloadDom.click();
             },
+            _deleteMonthChange(date) {
+                this.deleteMonth = date;
+            },
+            _addDepMonthChange(date) {
+                this.addDepForm.month = date;
+            },
             _updateMubanHandler() {
                 this.mubanAddType = 'update';
                 this.formReset('mubanForm');
@@ -403,14 +453,31 @@
                 this.mubanAddType = 'add';
                 this.formReset('mubanForm');
             },
+
+
             _submitPlan() {
                 this.$refs.formPlan.validForm(() => {
                     let sendData = JSON.parse(JSON.stringify(this.trainData));
                     sendData.id = this.planId;
+                    sendData.planstatus = 2;
                     this.$http.post('/train/ever_plan_para_add', sendData).then((res) => {
                         if (res.success) {
                             this.modelFlag = false;
                             this.$Message.success('计划提交成功!');
+                            this._updatePlanList();
+                        }
+                    });
+                });
+            },
+            _approvalPlan() {
+                this.$refs.formPlan.validForm(() => {
+                    let sendData = JSON.parse(JSON.stringify(this.trainData));
+                    sendData.id = this.planId;
+                    sendData.planstatus = 1;//提交审批
+                    this.$http.post('/train/ever_plan_para_add', sendData).then((res) => {
+                        if (res.success) {
+                            this.modelFlag = false;
+                            this.$Message.success('审批完成!');
                             this._updatePlanList();
                         }
                     });
@@ -492,88 +559,103 @@
             },
             _downloadGrade() {
                 let sendData = {};
-                this.$http.post('/train/plan_para_export', sendData).then((res) => {
-                    if (res.success) {
-                        this.downloadFile('/oa/down/' + res.data, res.data);
+            sendData.month=this.addDepForm.month;
+    this.$http.post('/train/plan_para_export', sendData).then((res) => {
+        if (res.success) {
+            this.downloadFile('/oa/down/' + res.data, res.data);
+            this.addDepModalFlag = false;
+        }
+    })
+    },
+    _createMonthOpen() {
+        this.deleteModalFlag = true;
+    },
+
+
+    _nodeChangeHandler(data) {
+        this.filterOpt.organizeId.value = data.id;
+    },
+    _checkTest(data) {
+        this.$refs.formPlan.resetForm();
+        let sendData = {};
+        sendData.id = data.id;
+        sendData.user_id = data.user_id;
+        this.planId = data.id;
+        this.$http.post('/train/plan_para_select', sendData).then((res) => {
+            if (res.success) {
+                if(!res.oneself){
+                    this.examine =true;
+                    this.subplan = false;
+                }else{
+                    this.examine =false;
+                    this.subplan = true;
+                }
+                let formItems = res.data.field;
+                let formList = [];
+                let trainData = {};
+                formItems.forEach(item => {
+                    let obj = {};
+                    obj.type = 'input';
+                    trainData[item.name] = item.value;
+                    obj.value = item.value || '';
+                    switch (item.xtype) {
+                        case 'numberfield':
+                            obj.type = 'number';
+                            obj.value = +item.value;
+                            break;
+                        case 'textarea':
+                            obj.type = 'textarea';
+                            break;
                     }
-                })
-            },
-            _nodeChangeHandler(data) {
-                this.filterOpt.organizeId.value = data.id;
-            },
-            _checkTest(data) {
-                this.$refs.formPlan.resetForm();
-                let sendData = {};
-                sendData.id = data.id;
-                this.planId = data.id;
-                this.$http.post('/train/plan_para_select', sendData).then((res) => {
-                    if (res.success) {
-                        let formItems = res.data.field;
-                        let formList = [];
-                        let trainData = {};
-                        formItems.forEach(item => {
-                            let obj = {};
-                            obj.type = 'input';
-                            trainData[item.name] = item.value;
-                            obj.value = item.value || '';
-                            switch (item.xtype) {
-                                case 'numberfield':
-                                    obj.type = 'number';
-                                    obj.value = +item.value;
-                                    break;
-                                case 'textarea':
-                                    obj.type = 'textarea';
-                                    break;
-                            }
-                            obj.label = item.fieldLabel;
-                            obj.key = item.name;
-                            obj.required = true;
-                            formList.push(obj);
-                        });
-                        this.itemList = formList;
-                        this.trainData = trainData;
-                    }
+                    obj.label = item.fieldLabel;
+                    obj.key = item.name;
+                    obj.required = true;
+                    formList.push(obj);
                 });
-                this.modelFlag = true;
-            },
-            _setTableHeight() {
-                let dm = document.body.clientHeight;
-                this.tableHeight = dm - 280;
-            },
-            _getAllProjectOpt() {
-                this.$http.get('/train/ever_para_datalist?page=1&pageSize=20').then((res) => {
-                    if (res.success) {
-                        this.allProjectOpt = res.data;
-                    }
-                });
-            },
-            _getRoleData() {
-                this.$http.get('/role/getAllRole').then((res) => {
-                    if (res.success) {
-                        this.roleData = res.data;
-                    }
-                });
-            },
-            _updatePlanList() {
-                this.$refs.planList.getListData();
-            },
-            _getAllTeacherOpt() {
-                let data = {};
-                data.page = 1;
-                data.pageSize = 10000;
-                this.$http.get('/train/teacher_datalist', {params: data}).then((res) => {
-                    if (res.success) {
-                        this.allTeacherOpt = res.data;
-                        this.defaultPeople = this.allTeacherOpt.filter(x => x.isdefault === 1).map(x => x.user_id);
-                    }
-                });
+                this.itemList = formList;
+                this.trainData = trainData;
             }
-        },
-        components: {
-            fsTablePage,
+        });
+        this.modelFlag = true;
+    },
+    _setTableHeight() {
+        let dm = document.body.clientHeight;
+        this.tableHeight = dm - 280;
+    },
+    _getAllProjectOpt() {
+        this.$http.get('/train/ever_para_datalist?page=1&pageSize=20').then((res) => {
+            if (res.success) {
+                this.allProjectOpt = res.data;
+            }
+        });
+    },
+    _getRoleData() {
+        this.$http.get('/role/getAllRole').then((res) => {
+            if (res.success) {
+                this.roleData = res.data;
+            }
+        });
+    },
+    _updatePlanList() {
+        this.$refs.planList.getListData();
+    },
+    _getAllTeacherOpt() {
+        let data = {};
+        data.page = 1;
+        data.pageSize = 10000;
+        this.$http.get('/train/teacher_datalist', {params: data}).then((res) => {
+            if (res.success) {
+                this.allTeacherOpt = res.data;
+                this.defaultPeople = this.allTeacherOpt.filter(x => x.isdefault === 1).map(x => x.user_id);
+            }
+        });
+    }
+    },
+    components: {
+        fsTablePage,
             fsDepTree,
             fsSearchUser,
             fsForm
-        }
+    }
     };
 </script>

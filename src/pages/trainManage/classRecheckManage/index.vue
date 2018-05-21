@@ -25,6 +25,13 @@
                                 :key="'teacherOpt' + index">{{item.user_name}}</Option>
                     </Select>
                 </FormItem>
+                <FormItem :label-width="0.1">
+                    <ButtonGroup>
+                        <Button type="primary" @click="_downloadGrade">
+                            导出
+                        </Button>
+                    </ButtonGroup>
+                </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
                            :size="null"
@@ -114,6 +121,11 @@
                     action_plan: ''
                 },
                 postColumns: [
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
                     {
                         title: '日期',
                         key: 'user_name',
@@ -237,6 +249,19 @@
                     shortage_cause: '',
                     action_plan: ''
                 };
+            },
+            _downloadGrade() {
+                this.downloadLoading = true;
+                let sendData = {};
+                sendData.ids = this.classChooseDataArray.map(x => x.id).join(',');
+                sendData.type = 1;
+                this.$http.post('/train/fp_review_time_export', sendData).then((res) => {
+                    if (res.success) {
+                        this.downloadFile('/oa/download/' + res.data, res.data);
+                    }
+                }).finally(() => {
+                    this.downloadLoading = false;
+                });
             },
             _addClassHandler() {
                 let data = JSON.parse(JSON.stringify(this.classForm));
