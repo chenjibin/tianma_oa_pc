@@ -145,14 +145,14 @@
                     this.$Message.error('至少上传一张照片!');
                     return;
                 }
-                if (!this.photoTitle) {
-                    this.$Message.error('作品主题不能为空!');
-                    return;
-                }
-                if (!this.photoDesc) {
-                    this.$Message.error('作品简介不能为空');
-                    return;
-                }
+                // if (!this.photoTitle) {
+                //     this.$Message.error('作品主题不能为空!');
+                //     return;
+                // }
+                // if (!this.photoDesc) {
+                //     this.$Message.error('作品简介不能为空');
+                //     return;
+                // }
                 this.canSubmit = false;
                 let sendData = {};
                 if (this.editable) {
