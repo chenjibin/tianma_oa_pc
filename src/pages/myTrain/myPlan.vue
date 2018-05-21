@@ -53,12 +53,20 @@
                         title: '状态',
                         align: 'center',
                         render: (h, params) => {
+                            let status = '';
+                            if(params.row.status === 1){
+                                status = '已审核';
+                            }else if(params.row.status === 2){
+                                status = '待审核';
+                            } else {
+                                status = '未设置';
+                            }
                             return h('Tag', {
                                 props: {
                                     type: 'border',
                                     color: +params.row.status === 1 ? 'green' : 'red'
                                 }
-                            }, +params.row.status === 1 ? '已设置' : '未设置');
+                            }, status);
                         }
                     },
                     {
@@ -111,6 +119,7 @@
                 this.$refs.formPlan.validForm(() => {
                     let sendData = JSON.parse(JSON.stringify(this.trainData));
                     sendData.id = this.planId;
+                    sendData.planstatus = 2;
                     this.$http.post('/train/ever_plan_para_add', sendData).then((res) => {
                         if (res.success) {
                             this.modelFlag = false;
@@ -148,6 +157,7 @@
                             obj.required = true;
                             formList.push(obj);
                         });
+
                         this.itemList = formList;
                         this.trainData = trainData;
                     }
