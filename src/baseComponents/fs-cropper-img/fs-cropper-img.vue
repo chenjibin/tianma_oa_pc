@@ -86,7 +86,7 @@
                         vm.btnLoading = false;
                     };
                     // 开始上传
-                    xhr.open('POST', '/oa/user/uploadfile', true);
+                    xhr.open('POST', vm.$mainHost + '/oa/share/uploadFile', true);
                     xhr.send(formData);
                 }, vm.fileData.fileType || 'image/png');
             },

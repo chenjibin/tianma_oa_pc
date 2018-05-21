@@ -23,6 +23,8 @@ Vue.use(Cascader);
 Vue.use(Checkbox);
 Vue.component('fsIcon', fsIcon);
 Vue.prototype.$http = request;
+Vue.prototype.$mainHost = '';
+Vue.config.productionTip = false;
 
 new Vue({
     el: '#app',

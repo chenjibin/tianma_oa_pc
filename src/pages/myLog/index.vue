@@ -39,7 +39,28 @@
                             <span>{{logDetail.date}} 日志</span>
                         </p>
                         <div class="" v-if="modelFlag">
-                            <div class="" style="min-height: 100px;font-size: 16px;" v-html="editorContent" v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date"></div>
+                            <div class="" style="min-height: 100px;font-size: 16px;"
+                                 v-html="editorContent"
+                                 v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date"></div>
+                            <div class="" style="font-size: 14px;"
+                                 v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date">
+                                <div class="guider-block" v-if="upguiders && upguiders.length">
+                                    <h4>上级指导:</h4>
+                                    <ul class="guider-list">
+                                        <li  class="guider-item" v-for="item in upguiders" :key="'guide-' + item.id">
+                                            <span class="guider-name">{{item.guider}}:</span><span v-html="item.content"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="guider-block" v-if="upchecks && upchecks.length">
+                                    <h4>备注:</h4>
+                                    <ul class="guider-list">
+                                        <li  class="guider-item" v-for="item in upchecks" :key="'checks-' + item.id" style="position: relative;left: -4px;">
+                                            <span class="guider-name" style="width: auto">【{{item.content}}】</span><span>{{item.addtime}} 查看了你的日志</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div v-if="[0,1,2,3].indexOf(logDetail.type) > -1 || nowDate === logDetail.date">
                                 <span style="display: inline-block;margin-right: 10px;height: 30px;line-height: 30px;vertical-align: top;">日志类型</span>
                                 <Select v-model="logDetail.logType"
@@ -90,6 +111,14 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="guider-block" v-if="item.sysmsg && item.sysmsg.length">
+                                <h4>备注:</h4>
+                                <ul class="guider-list">
+                                    <li  class="guider-item" v-for="sysmsgItem in item.sysmsg" :key="'sysmsg' + sysmsgItem.id">
+                                        <span class="guider-name" style="width: auto">【{{sysmsgItem.content}}】</span><span>{{sysmsgItem.addtime}} 查看了你的日志</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </Card>
@@ -115,11 +144,10 @@
             .guider-block{
                 margin-top: 8px;
                 .guider-item {
+                    position: relative;
+                    left: -4px;
                     display: flex;
                     margin-bottom: 4px;
-                    .guider-name {
-                        flex: 0 0 60px;
-                    }
                 }
             }
             &:not(:last-child) {
@@ -205,16 +233,6 @@
                     'undo',
                     'redo'
                 ],
-                editorOpt: {
-                    menubar: '',
-                    plugins: [
-                        'advlist autolink lists charmap print preview hr anchor pagebreak imagetools',
-                        'searchreplace visualblocks visualchars code fullpage',
-                        'insertdatetime media nonbreaking save table contextmenu directionality',
-                        'emoticons paste textcolor colorpicker textpattern imagetools codesample'
-                    ],
-                    toolbar1: 'preview | undo redo | styleselect | forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
-                },
                 logLookList: [],
                 logDetail: {
                     logType: '0',
@@ -270,7 +288,9 @@
                         align: 'center'
                     }
                 ],
-                tableData: []
+                tableData: [],
+                upguiders: [],
+                upchecks: []
             };
         },
         watch: {
@@ -385,6 +405,8 @@
                     this.$Message.error('超过48小时不可再补写日志！');
                     return;
                 }
+                this.upguiders = obj.guide || [];
+                this.upchecks = obj.sysmsg || [];
                 this.logDetail.date = obj.date;
                 this.logDetail.type = obj.type;
                 this.logDetail.commentResult = obj.commentResult;

@@ -1,6 +1,8 @@
 <template>
     <div id="main" class="app-main">
-        <router-view></router-view>
+        <transition name="fade-page">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -34,6 +36,12 @@
   }
   ul {
     list-style: none;
+  }
+  .fade-page-enter-active, .fade-page-leave-active {
+      transition: opacity .5s;
+  }
+  .fade-page-enter, .fade-page-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
   }
   .ivu-scroll-container {
     overflow-y: auto;

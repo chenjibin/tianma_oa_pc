@@ -16,7 +16,7 @@
             <CarouselItem v-for="item in photoData"
                           :key="'photo-' + item.id">
                 <div class="item"  @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
-                    <img :src="item.file_path">
+                    <img :src="$mainHost + item.file_path">
                     <div class="info">
                         <div class="">
                             {{item.item}}

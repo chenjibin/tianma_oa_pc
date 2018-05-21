@@ -16,7 +16,7 @@
                 :key="'comment-list-' + item.id">
                 <div class="comment-content">
                     <a class="site-icon">
-                        <img :src="item.headimagepath"/>
+                        <img :src="$mainHost + item.headimagepath"/>
                     </a>
                     <p style="color: #fff;" class="name">{{item.username}}</p>
                     <p>{{item.content}}</p>
@@ -281,7 +281,6 @@
                         }
                     });
                 }
-                console.log(data);
             }
         },
         components: {}

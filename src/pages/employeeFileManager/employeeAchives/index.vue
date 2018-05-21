@@ -39,7 +39,7 @@
                     <Select type="text" style="width: 120px" clearable
                             @on-change="_inputDebounce"
                             v-model="filterOpt.xueli"
-                            placeholder="筛选学历" clearable>
+                            placeholder="筛选学历">
                         <Option value="本科">本科</Option>
                         <Option value="大专">大专</Option>
                         <Option value="高中">高中</Option>

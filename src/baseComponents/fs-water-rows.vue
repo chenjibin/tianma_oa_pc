@@ -6,10 +6,10 @@
                  :key="'photo-' + photo.id"
                  v-for="photo in item.photos">
                 <div class="gallery-item" :style="{'height': item.height}">
-                    <img class="gallery-image" v-lazy="photo.files[0].file_path" v-if="photo.files[0]"/>
+                    <img class="gallery-image" v-lazy="$mainHost + photo.files[0].file_path" v-if="photo.files[0]"/>
                     <div class="mask" @click.stop="galleryItemClickHandler(photo)">
                         <div class="user-info">
-                            <img :src="photo.headimagepath" class="user-head"/>
+                            <img :src="$mainHost + photo.headimagepath" class="user-head"/>
                             <span class="user-name">{{photo.insert_username}}</span>
                         </div>
                         <div class="photo-title">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="info-foot" style="padding: 12px 8px">
                     <div class="user-info">
-                        <img :src="photo.headimagepath" class="user-head"/>
+                        <img :src="$mainHost + photo.headimagepath" class="user-head"/>
                         <span class="user-name">{{photo.insert_username}}</span>
                     </div>
                     <div class="tool-show">
@@ -184,7 +184,6 @@
         },
         watch: {
             photos(val) {
-                console.log(val)
                 this._getRows(val);
             }
         },

@@ -4,7 +4,7 @@
             <li class="demo-upload-list" v-for="item in upload">
                 <div class="inner">
                     <template v-if="item.status === 'finished'">
-                        <img :src="item.url">
+                        <img :src="$mainHost + item.url">
                         <div class="demo-upload-list-cover">
                             <Icon type="ios-trash-outline" size="24" @click.native="handleRemove(item)"></Icon>
                         </div>
@@ -29,7 +29,7 @@
             :data="{'type': 2}"
             multiple
             type="drag"
-            :action="action" style="display: flex;justify-content: center;align-items: center;margin-left: 40px">
+            :action="$mainHost + action" style="display: flex;justify-content: center;align-items: center;margin-left: 40px">
             <div style="padding: 20px 8px;width: 300px">
                 <Icon type="ios-cloud-upload" size="48" style="color: #3399ff"></Icon>
                 <p>点击或者拖拽图片上传</p>

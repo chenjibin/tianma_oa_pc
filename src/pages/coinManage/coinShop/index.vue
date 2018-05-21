@@ -15,7 +15,7 @@
                                  style="margin-bottom: 8px;">
                             <Card class="good-item-wrapper">
                                 <div class="fs-square-img" style="margin-bottom: 8px;">
-                                    <img v-lazy="'/oa/upload/' + item.image_path">
+                                    <img v-lazy="$mainHost + '/oa/upload/' + item.image_path">
                                 </div>
                                 <Tooltip placement="top-start" :transfer="true">
                                     <div slot="content">

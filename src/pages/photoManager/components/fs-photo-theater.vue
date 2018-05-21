@@ -22,7 +22,7 @@
                              v-for="(item, index) in imgList"
                              :class="{'prev-scene': index < currentIndex, 'next-scene': index > currentIndex}"
                              :key="'pic-' + index">
-                            <img :src="item.file_path"/>
+                            <img :src="$mainHost + item.file_path"/>
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">
@@ -66,7 +66,7 @@
                 </Dropdown>
             </div>
             <div class="head">
-                <img class="user-pic" :src="productInfo.headimagepath">
+                <img class="user-pic" :src="$mainHost + productInfo.headimagepath">
                 <p class="user-name">{{productInfo.insert_username}}</p>
                 <p class="desc"><time>{{productInfo.createTime}}</time></p>
             </div>

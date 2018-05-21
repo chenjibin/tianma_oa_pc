@@ -12,7 +12,7 @@
                 :before-upload="handleBeforeUpload"
                 multiple
                 type="drag"
-                action="/oa/od/uploadfile"
+                :action="$mainHost + '/oa/od/uploadfile'"
                 style="display: inline-block;width:58px;">
             <div style="width: 58px;height:58px;line-height: 58px;">
                 <Icon type="camera" size="20"></Icon>
@@ -78,7 +78,7 @@
                 this.updateUploadList();
             },
             handleSuccess (res, file) {
-                file.url = '/oa/upload/' + res.data.filename;
+                file.url = this.$mainHost + '/oa/upload/' + res.data.filename;
                 file.name = res.data.filename;
                 this.updateUploadList();
             },

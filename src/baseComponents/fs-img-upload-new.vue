@@ -13,7 +13,7 @@
                 :before-upload="handleBeforeUpload"
                 :multiple="multiple"
                 type="drag"
-                :action="action"
+                :action="$mainHost + action"
                 v-show="multiple === true || upload.length === 0"
                 style="display: inline-block;width:58px;">
             <div style="width: 58px;height:58px;line-height: 58px;">

@@ -3,10 +3,10 @@
         <div class="list-wrapper">
             <div class="list-block"
                  v-for="item in photoList"
-                 @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
+                 @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})"
                  :key="'photo-' + item.id">
                 <div class="left">
-                    <img v-lazy="item.file_path" />
+                    <img v-lazy="$mainHost + item.file_path" />
                 </div>
                 <div class="right">
                     <div class="top">

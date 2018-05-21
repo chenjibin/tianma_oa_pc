@@ -1,11 +1,11 @@
 import Cookies from 'js-cookie';
 import store from '../index';
 import axios from 'axios';
-
+import Vue from 'vue';
 const user = {
     state: {
         userInfo: {
-            headimagepath: '/oa/upload/init/initHead.png',
+            headimagepath: Vue.prototype.$mainHost + '/oa/upload/init/initHead.png',
             realname: '...',
             tm_coin: '...',
             organizename: '...',
@@ -32,8 +32,8 @@ const user = {
         updateUserInfo(state) {
             axios.get('/user/myUserInfo').then((res) => {
                 if (res.success) {
-                    if (!res.data.headimagepath) res.data.headimagepath = '/oa/upload/init/initHead.png';
-                    res.data.headimagepath = '/oa/upload/head/' + res.data.headimagepath;
+                    if (!res.data.headimagepath) res.data.headimagepath = Vue.prototype.$mainHost + '/oa/upload/init/initHead.png';
+                    res.data.headimagepath = Vue.prototype.$mainHost + '/oa/upload/head/' + res.data.headimagepath;
                     state.userInfo = res.data;
                     if (+res.data.ismanger === 0 || +res.data.ismanger === 1) {
                         store.commit('getCompanyList');
