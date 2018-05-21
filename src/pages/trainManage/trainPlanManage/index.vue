@@ -347,15 +347,6 @@
                         align: 'center',
                         key: 'user_name',
                         width: 120
-                    },{
-                        title: '提交时间',
-                        align: 'center',
-                        key: 'update_time',
-                        width: 160,
-                        render: (h, params) => {
-                            if(params.row.status == 1)
-                                return h('span', params.row.update_time);
-                        }
                     },
                     {
                         title: '提交时间',
