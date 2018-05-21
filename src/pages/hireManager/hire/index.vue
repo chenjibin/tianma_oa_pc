@@ -7,7 +7,7 @@
                             @on-change="_filterResultHandler"
                             v-model="filterOpt.companyId"
                             placeholder="筛选公司" clearable>
-                        <Option v-for="(item,index) in companyList"
+                        <Option v-for="item in companyList"
                                 :label="item.name"
                                 :key="'com-' + item.id"
                                 :value="item.id">{{item.name}}</Option>
@@ -24,7 +24,7 @@
                             @on-change="_filterResultHandler"
                             v-model="filterOpt.postname"
                             placeholder="输入筛选岗位" clearable>
-                        <Option v-for="(item,index) in dataComboList"
+                        <Option v-for="item in dataComboList"
                                 :key="'post-' + item.id"
                                 :label="isManger > 1 ?item.name:item.name+' '+item.companyname" :value="item.name">
                             <span>{{item.name}}</span>
@@ -262,6 +262,13 @@
                                 <Option :value="1">有</Option>
                             </Select>
                         </FormItem>
+                        <FormItem label="亲属在本司" style="width:460px">
+                            <Select type="text" v-model="talentBean.family_in" :editable="false">
+                                <Option :value="0">无</Option>
+                                <Option :value="1">有</Option>
+                            </Select>
+                        </FormItem>
+                        <div></div>
                         <FormItem label="详细住址" style="width:460px">
                             <Input type="textarea" :maxlength="30" :rows="3" v-model="talentBean.address"></Input>
                         </FormItem>
@@ -684,6 +691,7 @@
                     resumesource: '',
                     appointment: '',
                     name: '',
+                    family_in: 0,
                     age: 18,
                     yearswork: 0,
                     sex: '',
