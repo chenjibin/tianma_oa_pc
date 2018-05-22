@@ -59,7 +59,7 @@
         display: inline-block;
         position: relative;
         height: 100%;
-        margin-left: 8px;
+        margin: 0 4px;
         background-color: #fff;
         .info-foot {
             font-size: 14px;

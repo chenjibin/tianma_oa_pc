@@ -239,7 +239,6 @@
             </Row>
     </div>
 
-
     <div slot="footer">
         <Button type="ghost" @click="visible = false">关闭</Button>
     </div>
@@ -284,7 +283,6 @@
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import fsDepTree from '@/baseComponents/fs-dep-tree';
-    import legendScroll from 'echarts/lib/component/legendScroll';
     import moment from 'moment';
     const NOW_DAY = moment().format('YYYY-MM-DD');
     export default {
@@ -292,8 +290,8 @@
         data () {
             return {
                 imgArr: [],
-                isShow:true,
-                usernameisShow:false,
+                isShow: true,
+                usernameisShow: false,
                 visible: false,
                 orderList: [],
                 scrollHeight: 200,
@@ -303,10 +301,10 @@
                     pageSize: 20,
                     totalCount: 0,
                     status: '3'
-            },
-            imgArr: [],
-                evaScroll:false,
-            modelFlag: false,
+                },
+                imgArr: [],
+                evaScroll: false,
+                modelFlag: false,
                 mubanFlag: false,
                 banciBtnLoading: false,
                 downloadLoading: false,
@@ -315,47 +313,47 @@
                 mubanDownloadLoading: false,
                 mubanAddType: 'add',
                 classFormType: 'add',
-                planid:'',
+                planid: '',
                 uploadFormat: ['xls'],
                 uploadForm: {
                 id: '',
                     title: '',
-                    teacher_id:''
-            },
-            mubanId: 0,
+                    teacher_id: ''
+                },
+                mubanId: 0,
                 tableHeight: 300,
                 chooseDataArray: [],
                 classChooseDataArray: [],
                 banciRules: {
                 name: [
-                    { required: true, message: '名称不能为空', trigger: 'blur' }
-                ]
-            },
-            banciForm: {
-                name: ''
-            },
-            classId: 0,
+                        { required: true, message: '名称不能为空', trigger: 'blur' }
+                    ]
+                },
+                banciForm: {
+                    name: ''
+                },
+                classId: 0,
                 classRules: {
-                title: [
-                    { required: true, message: '培训名名称不能为空', trigger: 'blur' }
-                ],
+                    title: [
+                        { required: true, message: '培训名名称不能为空', trigger: 'blur' }
+                    ],
                     teacher_id: [
-                    { required: true, message: '讲师不能为空', type: 'number', trigger: 'change' }
-                ],
+                        { required: true, message: '讲师不能为空', type: 'number', trigger: 'change' }
+                    ],
                     type: [
-                    { required: true, message: '培训类型不能为空', type: 'number', trigger: 'change' }
-                ],
+                        { required: true, message: '培训类型不能为空', type: 'number', trigger: 'change' }
+                    ],
                     period: [
-                    { required: true, message: '上课时间不能为空', trigger: 'change' }
-                ],
+                        { required: true, message: '上课时间不能为空', trigger: 'change' }
+                    ],
                     position: [
-                    { required: true, message: '培训地点不能为空', trigger: 'change' }
-                ]
-            },
-            classForm: {
-                    out_teacher:'0',
-                    username:'',
-                type: '',
+                        { required: true, message: '培训地点不能为空', trigger: 'change' }
+                    ]
+                },
+                classForm: {
+                    out_teacher: 0,
+                    username: '',
+                    type: '',
                     title: '',
                     class_date: NOW_DAY,
                     period: '',
@@ -365,131 +363,129 @@
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''
-            },
-            defaultProps: {
-                children: 'children',
-                    label: 'name'
-            },
-            roleData: [],
+                },
+                defaultProps: {
+                    children: 'children',
+                        label: 'name'
+                },
+                roleData: [],
                 mubanColumns: [
-                {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '名称',
-                    align: 'center',
-                    key: 'name'
-                }
-            ],
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '名称',
+                        align: 'center',
+                        key: 'name'
+                    }
+                ],
                 postColumns: [
-                {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '日期',
-                    key: 'user_name',
-                    align: 'center',
-                    width: 160,
-                    render: (h, params) => {
-                        return h('span', moment(params.row.class_date).format('YYYY-MM-DD'));
-                    }
-                },
-                {
-                    title: '时间',
-                    align: 'center',
-                    key: 'period',
-                    width: 200
-                },
-                {
-                    title: '培训名称',
-                    key: 'title'
-                },
-                {
-                    title: '培训类型',
-                    key: 'type_name',
-                    width: 100
-                },
-                {
-                    title: '地点',
-                    align: 'center',
-                    key: 'position',
-                    width: 100
-                },
-                {
-                    title: '学分',
-                    align: 'center',
-                    key: 'credit',
-                    width: 80
-                },
-                {
-                    title: '讲师',
-                    key: 'teacher_name',
-                    width: 80
-                },
-                {
-                    title: '讲师金币',
-                    align: 'center',
-                    key: 'teacher_coin',
-                    width: 100
-                },
-                {
-                    title: '人数限制',
-                    align: 'center',
-                    key: 'trainee_max_num',
-                    width: 100
-                },
-                {
-                    title: '已参人数',
-                    key: 'has_baoming',
-                    align: 'center',
-                    width: 100,
-                    render: (h, params) => {
-                        return h('span', params.row.has_baoming || 0);
-                    }
-        },{
-                title: '反馈',
-                align: 'center',
-                    render: (h, params) => {
-                    let vm = this;
-                    let lookBtn = '';
-                    // if (params.row.imageproof) {
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '日期',
+                        key: 'user_name',
+                        align: 'center',
+                        width: 160,
+                        render: (h, params) => {
+                            return h('span', moment(params.row.class_date).format('YYYY-MM-DD'));
+                        }
+                    },
+                    {
+                        title: '时间',
+                        align: 'center',
+                        key: 'period',
+                        width: 200
+                    },
+                    {
+                        title: '培训名称',
+                        key: 'title'
+                    },
+                    {
+                        title: '培训类型',
+                        key: 'type_name',
+                        width: 100
+                    },
+                    {
+                        title: '地点',
+                        align: 'center',
+                        key: 'position',
+                        width: 100
+                    },
+                    {
+                        title: '学分',
+                        align: 'center',
+                        key: 'credit',
+                        width: 80
+                    },
+                    {
+                        title: '讲师',
+                        key: 'teacher_name',
+                        width: 80
+                    },
+                    {
+                        title: '讲师金币',
+                        align: 'center',
+                        key: 'teacher_coin',
+                        width: 100
+                    },
+                    {
+                        title: '人数限制',
+                        align: 'center',
+                        key: 'trainee_max_num',
+                        width: 100
+                    },
+                    {
+                        title: '已参人数',
+                        key: 'has_baoming',
+                        align: 'center',
+                        width: 100,
+                        render: (h, params) => {
+                            return h('span', params.row.has_baoming || 0);
+                        }
+                    },
+                    {
+                        title: '反馈',
+                        align: 'center',
+                        render: (h, params) => {
+                            let vm = this;
+                            let lookBtn = '';
                             lookBtn = h('Tooltip', {
                                 props: {
                                     content: '反馈',
-                                placement: 'top',
-                        transfer: true
-                }
-                }, [
-                        h('Button', {
-                            props: {
-                                type: 'ghost',
-                                icon: 'ios-eye',
-                                shape: 'circle',
-                                size: 'small'
-                            },
-                            on: {
-                                click: function (e) {
-                                    e.stopPropagation();
-                                    vm._showEvaluate(params.row);
+                                    placement: 'top',
+                                    transfer: true
                                 }
-                            }
-                        })
-                    ]);
-
-
-                    return h('div', [lookBtn]);
-                }
-                },{
+                            }, [
+                                h('Button', {
+                                    props: {
+                                        type: 'ghost',
+                                        icon: 'ios-eye',
+                                        shape: 'circle',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm._showEvaluate(params.row);
+                                        }
+                                    }
+                                })
+                            ]);
+                            return h('div', [lookBtn]);
+                        }
+                    },
+                    {
                         title: '签到/评论二维码',
                             align: 'center',
                             render: (h, params) => {
                             let vm = this;
                             let lookBtn = '';
-                            // if (params.row.imageproof) {
                             lookBtn = h('Tooltip', {
                                 props: {
                                     content: '查看二维码',
@@ -548,88 +544,85 @@
                     }
                     }
                 ],
-                    filterOpt: {
-                        class_type: {
-                            value: '',
-                                type: 'input'
-                        }
-                    },
-                    trainTypeOpt: [],
-                        teacherOpt: [],
-                        compangsList: []
+                filterOpt: {
+                    class_type: {
+                        value: '',
+                        type: 'input'
+                    }
+                },
+                trainTypeOpt: [],
+                teacherOpt: [],
+                compangsList: []
                 };
             },
-            created() {
-                this._setTableHeight();
-                this._getTrainTypeOpt();
-                this._getTeacherOpt();
-                this._getAllCompangsList();
-
+        created() {
+            this._setTableHeight();
+            this._getTrainTypeOpt();
+            this._getTeacherOpt();
+            this._getAllCompangsList();
+        },
+        methods: {
+            formReset (name) {
+                this.$refs[name].resetFields();
             },
-            methods: {
-                formReset (name) {
-                    this.$refs[name].resetFields();
-                },
+            upDateOrderList() {
+                this.pageData.page = 1;
+                this.pageData.status = '3';
+                this._getMyOrderList();
+            },
+            _orderStatusChange(name) {
+                this.pageData.page = 1;
+                this.pageData.status = name;
+                this.loadingText = '加载中';
+                this._getMyOrderList();
+            },
+            _downloadGrade() {
+                this.downloadLoading = true;
+                let sendData = {};
+                sendData.id = this.classChooseDataArray[0].id;
+                sendData.title = this.classChooseDataArray[0].title;
+                this.$http.post('/train/trainee_class_crdit_excel', sendData).then((res) => {
+                    if (res.success) {
+                        this.downloadFile('/oa/download/' + res.data, res.data);
+                    }
+                }).finally(() => {
+                    this.downloadLoading = false;
+                });
+            },
+            _getMyOrderList() {
+                let data = {};
+                data.id = this.planid;
+                console.log(this.planid);
+                data.page = this.pageData.page;
+                data.pageSize = this.pageData.pageSize;
+                data.status = this.pageData.status === '3' ? '' : this.pageData.status;
+                this.$http.get('/train/show_signin_evaluate', {params: data}).then((res) => {
+                    if (res.success) {
+                        this.orderList = res.data;
+                        this.pageData.totalCount = res.totalCount;
+                    }
+                });
+            },
+            _setHeight() {
+                // let dm = document.body.clientHeight;
 
-                    upDateOrderList() {
-                    this.pageData.page = 1;
-                    this.pageData.status = '3';
-                    this._getMyOrderList();
-                },
-                _orderStatusChange(name) {
-                    this.pageData.page = 1;
-                    this.pageData.status = name;
-                    this.loadingText = '加载中';
-                    this._getMyOrderList();
-                },
-                _downloadGrade() {
-                    this.downloadLoading = true;
-                    let sendData = {};
-                    sendData.id = this.classChooseDataArray[0].id;
-                    sendData.title = this.classChooseDataArray[0].title;
-                    this.$http.post('/train/trainee_class_crdit_excel', sendData).then((res) => {
-                        if (res.success) {
-                            this.downloadFile('/oa/download/' + res.data, res.data);
-                        }
-                    }).finally(() => {
-                        this.downloadLoading = false;
-                    });
-                },
-
-                    _getMyOrderList() {
-                    let data = {};
-                    data.id = this.planid;
-                    console.log(this.planid);
-                    data.page = this.pageData.page;
-                    data.pageSize = this.pageData.pageSize;
-                    data.status = this.pageData.status === '3' ? '' : this.pageData.status;
-                    this.$http.get('/train/show_signin_evaluate', {params: data}).then((res) => {
-                        if (res.success) {
-                            this.orderList = res.data;
-                            this.pageData.totalCount = res.totalCount;
-                        }
-                    });
-                },
-                _setHeight() {
-                    // let dm = document.body.clientHeight;
-
-                    //   this.scrollHeight = dm - 240;
-                    this.scrollHeight =   540;
-                },
-                downloadFile(url, name) {
-                    let downloadDom = document.createElement('a');
-                    downloadDom.href = url;
-                    downloadDom.download = name;
-                    downloadDom.click();
-                },
-                _rotateImg(index) {
-                    this.imgArr[index].deg += 90;
-                },
-                change (status) {
-                    this.isShow = !this.isShow;
-                    this.usernameisShow = !this.usernameisShow;
-                if(status == 1){
-                    this.classForm.teacher_id= 1019
+                //   this.scrollHeight = dm - 240;
+                this.scrollHeight = 540;
+            },
+            downloadFile(url, name) {
+                let downloadDom = document.createElement('a');
+                downloadDom.href = url;
+                downloadDom.download = name;
+                downloadDom.click();
+            },
+            _rotateImg(index) {
+                this.imgArr[index].deg += 90;
+            },
+            change (status) {
+                this.isShow = !this.isShow;
+                this.usernameisShow = !this.usernameisShow;
+                if (status === 1) {
+                    this.classForm.teacher_id = 1019;
                 }
             },
             handleReachTop() {
@@ -654,7 +647,6 @@
                     });
                 });
             },
-
             _prewImg(data) {
                 this.visible = true;
                 let storeArr = [];
@@ -665,13 +657,12 @@
                     obj.deg = 0;
                     storeArr.push(obj);
                 }
-
                 this.imgArr = storeArr;
-        },
+            },
             _showEvaluate(data) {
                 this.evaScroll = true;
                 console.log(data);
-                this.planid = data.id ;
+                this.planid = data.id;
                 this._getMyOrderList();
                 this._setHeight();
             },
@@ -699,7 +690,6 @@
             _downloadGradeMuban() {
                 this.downloadFile('/oa/down/成绩单模板.xls', '成绩单模板.xls');
             },
-
             _updateMubanHandler() {
                 this.mubanAddType = 'update';
                 this.formReset('banciForm');
@@ -715,8 +705,8 @@
                 this.formReset('classForm');
                 this.classForm = {
                     out_teacher: 0,
-                    username:'',
-                      type: '',
+                    username: '',
+                    type: '',
                     title: '',
                     class_date: NOW_DAY,
                     period: '',
@@ -810,7 +800,6 @@
                 this.filterOpt.organizeId.value = data.id;
             },
             _createClassOpen() {
-
                 this.classFormType = 'add';
                 this._initClassForm();
                 this.modelFlag = true;
@@ -824,12 +813,10 @@
                     classForm.out_teacher = 1;
                     this.isShow = false;
                     this.usernameisShow = true;
-
                 } else {
-                    classForm.out_teacher =  0;
+                    classForm.out_teacher = 0;
                     this.isShow = true;
                     this.usernameisShow = false;
-
                 }
                 classForm.username = data.teacher_name;
                 classForm.type = data.type;

@@ -19,7 +19,7 @@
                                 clearable
                                 placeholder="筛选角色"
                                 style="width: 100px">
-                            <Option :value="item.id" v-for="item, index in roleData" :key="index">{{item.name}}</Option>
+                            <Option :value="item.id" v-for="(item, index) in roleData" :key="index">{{item.name}}</Option>
                         </Select>
                     </FormItem>
                     <FormItem :label-width="0.1">
@@ -167,7 +167,7 @@
                 </FormItem>
                 <FormItem label="负责人:">
                     <Select v-model="planForm.people" multiple>
-                        <Option v-for="item, index in allTeacherOpt"
+                        <Option v-for="(item, index) in allTeacherOpt"
                                 :value="item.user_id"
                                 :key="'charge-' + index">{{ item.user_name + '(' + item.organize_name + '·'  + item.postname + '·' + item.post_name + ')'}}</Option>
                     </Select>
@@ -185,7 +185,7 @@
                     <CheckboxGroup v-model="planForm.project">
                         <Checkbox :label="item.id"
                                   :key="'project' + index"
-                                  v-for="item,index in allProjectOpt">{{item.name}}</Checkbox>
+                                  v-for="(item,index) in allProjectOpt">{{item.name}}</Checkbox>
                     </CheckboxGroup>
                 </FormItem>
             </Form>
@@ -215,8 +215,8 @@
                 mubanFlag: false,
                 deleteModalFlag: false,
                 addDepModalFlag: false,
-                examine:false,
-                subplan:true,
+                examine: false,
+                subplan: true,
                 deleteLoading: false,
                 mubanBtnLoading: false,
                 deleteMonth: NOW_MONTH,
@@ -327,19 +327,19 @@
                         width: 120,
                         render: (h, params) => {
                             let status = '';
-                            if(params.row.status === 1){
-                                status='已审核';
-                            }else if(params.row.status === 2){
-                                status='待审核';
-                            }else{
-                                status='未设置';
+                            if (params.row.status === 1) {
+                                status = '已审核';
+                            } else if (params.row.status === 2) {
+                                status = '待审核';
+                            } else {
+                                status = '未设置';
                             }
                             return h('Tag', {
                                 props: {
                                     type: 'border',
                                     color: +params.row.status === 1 ? 'green' : 'red'
                                 }
-                            },status);
+                            }, status);
                         }
                     },
                     {
@@ -347,15 +347,6 @@
                         align: 'center',
                         key: 'user_name',
                         width: 120
-                    },{
-                        title: '提交时间',
-                        align: 'center',
-                        key: 'update_time',
-                        width: 160,
-                        render: (h, params) => {
-                            if(params.row.status == 1)
-                                return h('span', params.row.update_time);
-                        }
                     },
                     {
                         title: '提交时间',
@@ -462,8 +453,6 @@
                 this.mubanAddType = 'add';
                 this.formReset('mubanForm');
             },
-
-
             _submitPlan() {
                 this.$refs.formPlan.validForm(() => {
                     let sendData = JSON.parse(JSON.stringify(this.trainData));
@@ -482,7 +471,7 @@
                 this.$refs.formPlan.validForm(() => {
                     let sendData = JSON.parse(JSON.stringify(this.trainData));
                     sendData.id = this.planId;
-                    sendData.planstatus = 1;//提交审批
+                    sendData.planstatus = 1;// 提交审批
                     this.$http.post('/train/ever_plan_para_add', sendData).then((res) => {
                         if (res.success) {
                             this.modelFlag = false;
@@ -568,103 +557,101 @@
             },
             _downloadGrade() {
                 let sendData = {};
-            sendData.month=this.addDepForm.month;
-    this.$http.post('/train/plan_para_export', sendData).then((res) => {
-        if (res.success) {
-            this.downloadFile('/oa/down/' + res.data, res.data);
-            this.addDepModalFlag = false;
-        }
-    })
-    },
-    _createMonthOpen() {
-        this.deleteModalFlag = true;
-    },
-
-
-    _nodeChangeHandler(data) {
-        this.filterOpt.organizeId.value = data.id;
-    },
-    _checkTest(data) {
-        this.$refs.formPlan.resetForm();
-        let sendData = {};
-        sendData.id = data.id;
-        sendData.user_id = data.user_id;
-        this.planId = data.id;
-        this.$http.post('/train/plan_para_select', sendData).then((res) => {
-            if (res.success) {
-                if(!res.oneself){
-                    this.examine =true;
-                    this.subplan = false;
-                }else{
-                    this.examine =false;
-                    this.subplan = true;
-                }
-                let formItems = res.data.field;
-                let formList = [];
-                let trainData = {};
-                formItems.forEach(item => {
-                    let obj = {};
-                    obj.type = 'input';
-                    trainData[item.name] = item.value;
-                    obj.value = item.value || '';
-                    switch (item.xtype) {
-                        case 'numberfield':
-                            obj.type = 'number';
-                            obj.value = +item.value;
-                            break;
-                        case 'textarea':
-                            obj.type = 'textarea';
-                            break;
+                sendData.month = this.addDepForm.month;
+                this.$http.post('/train/plan_para_export', sendData).then((res) => {
+                    if (res.success) {
+                        this.downloadFile('/oa/down/' + res.data, res.data);
+                        this.addDepModalFlag = false;
                     }
-                    obj.label = item.fieldLabel;
-                    obj.key = item.name;
-                    obj.required = true;
-                    formList.push(obj);
                 });
-                this.itemList = formList;
-                this.trainData = trainData;
+            },
+            _createMonthOpen() {
+                this.deleteModalFlag = true;
+            },
+            _nodeChangeHandler(data) {
+                this.filterOpt.organizeId.value = data.id;
+            },
+            _checkTest(data) {
+                this.$refs.formPlan.resetForm();
+                let sendData = {};
+                sendData.id = data.id;
+                sendData.user_id = data.user_id;
+                this.planId = data.id;
+                this.$http.post('/train/plan_para_select', sendData).then((res) => {
+                    if (res.success) {
+                        if (!res.oneself) {
+                            this.examine = true;
+                            this.subplan = false;
+                        } else {
+                            this.examine = false;
+                            this.subplan = true;
+                        }
+                        let formItems = res.data.field;
+                        let formList = [];
+                        let trainData = {};
+                        formItems.forEach(item => {
+                            let obj = {};
+                            obj.type = 'input';
+                            trainData[item.name] = item.value;
+                            obj.value = item.value || '';
+                            switch (item.xtype) {
+                                case 'numberfield':
+                                    obj.type = 'number';
+                                    obj.value = +item.value;
+                                    break;
+                                case 'textarea':
+                                    obj.type = 'textarea';
+                                    break;
+                            }
+                            obj.label = item.fieldLabel;
+                            obj.key = item.name;
+                            obj.required = true;
+                            formList.push(obj);
+                        });
+                        this.itemList = formList;
+                        this.trainData = trainData;
+                    }
+                });
+                this.modelFlag = true;
+            },
+            _setTableHeight() {
+                let dm = document.body.clientHeight;
+                this.tableHeight = dm - 280;
+            },
+            _getAllProjectOpt() {
+                this.$http.get('/train/ever_para_datalist?page=1&pageSize=20').then((res) => {
+                    if (res.success) {
+                        this.allProjectOpt = res.data;
+                    }
+                });
+            },
+            _getRoleData() {
+                this.$http.get('/role/getAllRole').then((res) => {
+                    if (res.success) {
+                        this.roleData = res.data;
+                    }
+                });
+            },
+            _updatePlanList() {
+                this.$refs.planList.getListData();
+            },
+            _getAllTeacherOpt() {
+                let data = {};
+                data.page = 1;
+                data.pageSize = 10000;
+                this.$http.get('/train/teacher_datalist', {params: data}).then((res) => {
+                    if (res.success) {
+                        this.allTeacherOpt = res.data;
+                        this.defaultPeople = this.allTeacherOpt.filter(x => x.isdefault === 1).map(x => x.user_id);
+                    }
+                });
             }
-        });
-        this.modelFlag = true;
-    },
-    _setTableHeight() {
-        let dm = document.body.clientHeight;
-        this.tableHeight = dm - 280;
-    },
-    _getAllProjectOpt() {
-        this.$http.get('/train/ever_para_datalist?page=1&pageSize=20').then((res) => {
-            if (res.success) {
-                this.allProjectOpt = res.data;
-            }
-        });
-    },
-    _getRoleData() {
-        this.$http.get('/role/getAllRole').then((res) => {
-            if (res.success) {
-                this.roleData = res.data;
-            }
-        });
-    },
-    _updatePlanList() {
-        this.$refs.planList.getListData();
-    },
-    _getAllTeacherOpt() {
-        let data = {};
-        data.page = 1;
-        data.pageSize = 10000;
-        this.$http.get('/train/teacher_datalist', {params: data}).then((res) => {
-            if (res.success) {
-                this.allTeacherOpt = res.data;
-                this.defaultPeople = this.allTeacherOpt.filter(x => x.isdefault === 1).map(x => x.user_id);
-            }
-        });
-    }
-    },
-    components: {
-        fsTablePage,
+        },
+        components: {
+            fsTablePage,
             fsDepTree,
             fsSearchUser,
             fsForm
-    }
+        }
     };
 </script>

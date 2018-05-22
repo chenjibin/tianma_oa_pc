@@ -6,7 +6,7 @@
                 :show-upload-list="false"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png']"
-                :max-size="2048"
+                :max-size="maxSize"
                 :on-error="handleError"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -53,6 +53,10 @@
     export default {
         name: 'fsImgUpload',
         props: {
+            maxSize: {
+                type: Number,
+                default: 2048
+            },
             path: {
                 type: String,
                 default: ''
@@ -109,7 +113,8 @@
                 this.$Message.error('图片格式只能为.jpg 或者 .png!');
             },
             handleMaxSize () {
-                this.$Message.error('图片大小不能超过2M!');
+                let maxSize = (this.maxSize / 1024);
+                this.$Message.error(`图片大小不能超过${maxSize}M!`);
             },
             handleBeforeUpload () {
                 const check = this.upload.length < 5;
