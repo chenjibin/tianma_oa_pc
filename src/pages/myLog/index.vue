@@ -55,7 +55,7 @@
                                 <div class="guider-block" v-if="upchecks && upchecks.length">
                                     <h4>备注:</h4>
                                     <ul class="guider-list">
-                                        <li  class="guider-item" v-for="item in upchecks" :key="'checks-' + item.id" style="position: relative;left: -4px;">
+                                        <li  class="guider-item" v-for="item in upchecks" :key="'checks-' + item.id" style="position: relative;left: -6px;">
                                             <span class="guider-name" style="width: auto">【{{item.content}}】</span><span>{{item.addtime}} 查看了你的日志</span>
                                         </li>
                                     </ul>
@@ -114,7 +114,7 @@
                             <div class="guider-block" v-if="item.sysmsg && item.sysmsg.length">
                                 <h4>备注:</h4>
                                 <ul class="guider-list">
-                                    <li  class="guider-item" v-for="sysmsgItem in item.sysmsg" :key="'sysmsg' + sysmsgItem.id">
+                                    <li  class="guider-item" style="position: relative; left: -6px;" v-for="sysmsgItem in item.sysmsg" :key="'sysmsg' + sysmsgItem.id">
                                         <span class="guider-name" style="width: auto">【{{sysmsgItem.content}}】</span><span>{{sysmsgItem.addtime}} 查看了你的日志</span>
                                     </li>
                                 </ul>
@@ -144,8 +144,6 @@
             .guider-block{
                 margin-top: 8px;
                 .guider-item {
-                    position: relative;
-                    left: -4px;
                     display: flex;
                     margin-bottom: 4px;
                 }
