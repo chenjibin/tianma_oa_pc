@@ -3,10 +3,10 @@
         <Row :gutter="6">
             <Col :md="24" :lg="12">
                 <Row class-name="home-page-row1">
-                    <Col :md="24" :lg="24" :style="{marginBottom: '6px'}">
+                    <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
                         <user-info></user-info>
                     </Col>
-                    <Col :md="24" :lg="24" :style="{marginBottom: '6px'}">
+                    <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
                         <Row :gutter="4">
                             <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                                 <info-btn
