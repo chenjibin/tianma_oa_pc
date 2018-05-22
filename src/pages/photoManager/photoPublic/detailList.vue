@@ -128,7 +128,7 @@
             position: relative;
             margin: 0 40px;
             .post-wrap {
-                min-width: 800px;
+                min-width: 1200px;
                 max-width: 1880px;
                 padding: 16px 0 25px;
                 margin: 0 auto;

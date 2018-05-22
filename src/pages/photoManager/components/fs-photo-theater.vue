@@ -61,7 +61,7 @@
                         </span>
                     <DropdownMenu slot="list">
                         <DropdownItem name="editor">编辑</DropdownItem>
-                        <!--<DropdownItem name="delete">删除</DropdownItem>-->
+                        <DropdownItem name="delete">删除</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -314,8 +314,26 @@
         },
         methods: {
             _dropHandler(name) {
+                let vm = this;
                 if (name === 'editor') {
                     this.$emit('editor-open');
+                } else if (name === 'delete') {
+                    this.$Modal.confirm({
+                        content: '确认删除此作品集么？',
+                        okText: '确认删除',
+                        cancelText: '取消',
+                        onOk: () => {
+                            let sendData = {};
+                            sendData.articleId = vm.productInfo.id;
+                            this.$http.post('/staffPresence/delSelfArticle', sendData).then((res) => {
+                                if (res.success) {
+                                    this.$Message.success('删除成功!');
+                                    this.$emit('close-theater');
+                                    this.$emit('update-list');
+                                }
+                            });
+                        }
+                    });
                 }
             },
             _initStyleObject() {
@@ -353,7 +371,6 @@
                     sendData.articleId = this.productInfo.id;
                     sendData.type = 0;
                     this.$http.post('/staffPresence/addThumbup', sendData).then((res) => {
-                        console.log(res);
                         if (res.success) {
                             this.productInfo.thumbupId = res.data.id;
                             this.productInfo.thumb_up_times = res.data.thumb_up_times;
@@ -373,7 +390,6 @@
             }
         },
         created() {
-            console.log(this.productInfo);
             on(window, 'resize', () => {
                 this._initStyleObject();
             });

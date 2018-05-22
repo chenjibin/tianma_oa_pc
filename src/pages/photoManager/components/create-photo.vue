@@ -15,7 +15,7 @@
                 <p class="title">作品简介</p>
                 <textarea v-model="photoDesc"></textarea>
             </div>
-            <div class="submit-btn" @click.stop="createPhotoHandler" v-show="canSubmit">创建作品</div>
+            <div class="submit-btn" @click.stop="createPhotoHandler" v-show="canSubmit">{{editable ? '保存编辑' : '创建作品'}}</div>
             <div class="submit-btn" v-show="!canSubmit">提交作品中...</div>
         </div>
     </div>

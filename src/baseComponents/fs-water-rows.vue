@@ -5,8 +5,9 @@
             <div class="gallery-item-wrapper"
                  :key="'photo-' + photo.id"
                  v-for="photo in item.photos">
-                <div class="gallery-item" :style="{'height': item.height}">
-                    <img class="gallery-image" v-lazy="$mainHost + photo.files[0].file_path" v-if="photo.files[0]"/>
+                <div class="gallery-item" :style="{'height': item.height + 'px', 'width': _calcWidth(item.height, photo)}">
+                    <div class="gallery-background" v-lazy:background-image="$mainHost + photo.files[0].file_path" v-if="photo.files[0]"></div>
+                    <!--<img class="gallery-image" v-lazy="$mainHost + photo.files[0].file_path" v-if="photo.files[0]"/>-->
                     <div class="mask" @click.stop="galleryItemClickHandler(photo)">
                         <div class="user-info">
                             <img :src="$mainHost + photo.headimagepath" class="user-head"/>
@@ -36,11 +37,11 @@
                     </div>
                     <div class="tool-show">
                         <div class="item">
-                            <Icon type="heart" color="#666" size="20"></Icon>
+                            <Icon type="heart" color="#e0e0e0" size="20"></Icon>
                             <span style="color: #666">{{photo.thumb_up_times}}</span>
                         </div>
                         <div class="item">
-                            <Icon type="chatbox" color="#666" size="20"></Icon>
+                            <Icon type="chatbox" color="#e0e0e0" size="20"></Icon>
                             <span style="color: #666">{{photo.share_comment_times}}</span>
                         </div>
                     </div>
@@ -59,17 +60,26 @@
         display: inline-block;
         position: relative;
         height: 100%;
-        margin: 0 4px;
+        /*margin-left: 8px;*/
+        padding: 0 4px;
         background-color: #fff;
         .info-foot {
-            font-size: 14px;
+            position: relative;
             display: flex;
             justify-content: space-between;
+            font-size: 14px;
             .tool-show {
+                position: absolute;
+                right: 8px;
+                top: 28px;
                 display: flex;
                 align-items: center;
                 color: #666;
                 font-size: 14px;
+                background: #fff;
+                background: -webkit-linear-gradient(left,rgba(255,255,255,.7) 0,#fff 20px,#fff 100%);
+                background: -moz-linear-gradient(left,rgba(255,255,255,.7) 0,#fff 20px,#fff 100%);
+                background: linear-gradient(to right,rgba(255,255,255,.7) 0,#fff 20px,#fff 100%);
                 .item {
                     margin-left: 16px;
                 }
@@ -154,6 +164,15 @@
     }
     .gallery-item {
         position: relative;
+        overflow: hidden;
+    }
+    .gallery-background {
+        display: block;
+        height: 100%;
+        width: 100%;
+        -moz-background-size: cover;
+        background-size: cover;
+        background-position: center;
     }
     .gallery-image {
         height: 100%;
@@ -174,7 +193,7 @@
             },
             minHeight: {
                 type: Number,
-                default: 400
+                default: 320
             }
         },
         data() {
@@ -188,7 +207,9 @@
             }
         },
         mounted() {
-            this._getRows(this.photos);
+            setTimeout(() => {
+                this._getRows(this.photos);
+            }, 20);
             on(window, 'resize', () => {
                 this._getRows(this.photos);
             });
@@ -197,6 +218,10 @@
             off(window, 'resize');
         },
         methods: {
+            _calcWidth(height, photo) {
+                let afterWidth = parseInt((height / photo.files[0].image_height) * photo.files[0].image_width, 10);
+                return afterWidth + 'px';
+            },
             galleryItemClickHandler(photo) {
                 this.$emit('item-click', photo);
             },
@@ -204,23 +229,24 @@
                 let aspectRatio = 0;
                 let rows = [];
                 let _photos = [];
-
                 for (let i = 0, plength = photos.length; i < plength; i++) {
-                    _photos.push(photos[i]);
-                    aspectRatio += photos[i].files[0].image_width / photos[i].files[0].image_height;
-                    if (aspectRatio > (this.$el.clientWidth / this.minHeight)) {
-                        let totalWidth = this.$el.clientWidth - (_photos.length - 1) * this.padding;
+                    if (aspectRatio + photos[i].files[0].image_width / photos[i].files[0].image_height >= (this.$el.clientWidth / this.minHeight)) {
+                        let totalWidth = this.$el.clientWidth - (_photos.length - 1) * this.padding - 17;
+                        photos[i].afterWidth = (totalWidth / aspectRatio) / photos[i].files[0].image_height * photos[i].files[0].image_width;
                         rows.push({
                             photos: _photos,
-                            height: parseInt(totalWidth / aspectRatio) + 'px'
+                            height: parseInt(totalWidth / aspectRatio)
                         });
                         _photos = [];
                         aspectRatio = 0;
+                    } else {
+                        _photos.push(photos[i]);
+                        aspectRatio += photos[i].files[0].image_width / photos[i].files[0].image_height;
                     }
                     if (i === (photos.length - 1) && _photos.length) {
                         rows.push({
                             photos: _photos,
-                            height: this.minHeight - 20 + 'px'
+                            height: this.minHeight - 20
                         });
                     }
                 }
