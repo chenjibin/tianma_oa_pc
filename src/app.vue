@@ -37,6 +37,9 @@
   ul {
     list-style: none;
   }
+  .gallery-background[lazy=loading] {
+      background-color: #eee;
+  }
   .fade-page-enter-active, .fade-page-leave-active {
       transition: opacity .5s;
   }

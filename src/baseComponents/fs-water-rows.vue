@@ -61,7 +61,7 @@
         position: relative;
         height: 100%;
         /*margin-left: 8px;*/
-        padding: 0 4px;
+        margin: 0 4px;
         background-color: #fff;
         .info-foot {
             position: relative;

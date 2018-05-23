@@ -22,7 +22,7 @@
                              v-for="(item, index) in imgList"
                              :class="{'prev-scene': index < currentIndex, 'next-scene': index > currentIndex}"
                              :key="'pic-' + index">
-                            <img :src="$mainHost + item.file_path"/>
+                            <img v-lazy="$mainHost + item.file_path"/>
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">

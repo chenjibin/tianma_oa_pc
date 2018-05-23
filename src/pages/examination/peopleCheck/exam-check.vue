@@ -39,7 +39,7 @@
                                     <img :src="option.optionpic | _returnPicUrl"  v-if="option.optionpic"/>
                                 </li>
                             </ul>
-                            <div class="answer-block">
+                            <div class="answer-block" style="color: #2d8cf0">
                                 <span>正确答案:</span>
                                 <span>{{question.answer}}</span>
                             </div>

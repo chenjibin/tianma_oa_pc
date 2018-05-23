@@ -1,10 +1,16 @@
 <template>
     <div>
-        <Row :gutter="10">
+        <Row :gutter="6">
             <Col :span="4">
                 <fs-dep-tree url="/organize/organizeTreeByUserForRiZhi"
                              @node-change="_nodeChangeHandler($event)"
                              :defaultProps="defaultProps"></fs-dep-tree>
+                <Card class="no-write" style="margin-top: 6px" v-if="userName === 'sun'">
+                    <h3>昨日没写日志人员</h3>
+                    <ul style="margin-top: 8px;">
+                        <li v-for="item in noWritePeople">{{item}}</li>
+                    </ul>
+                </Card>
             </Col>
             <Col :span="20">
                 <Card>
@@ -152,6 +158,11 @@
             },
             'searchData.endDate'() {
                 this._filterResultHandler();
+            },
+            userName(val) {
+                if (val === 'sun') {
+                    this.this._getNoWritePeoloe();
+                }
             }
         },
         mixins: [pageMixin],
@@ -283,11 +294,16 @@
                     children: 'children',
                     label: 'text'
                 },
-                tableHeight: 300
+                tableHeight: 300,
+                noWritePeople: [],
+                userName: this.$store.state.user.userInfo.username
             };
         },
         created() {
             this._setTableHeight();
+            if (this.userName === 'sun') {
+                this._getNoWritePeoloe();
+            }
         },
         filters: {
             dateFormatter(val) {
@@ -295,6 +311,13 @@
             }
         },
         methods: {
+            _getNoWritePeoloe() {
+                this.$http.get('/journal/getNoWrite').then((res) => {
+                    if (res.success) {
+                        this.noWritePeople = res.data;
+                    }
+                });
+            },
             _nodeChangeHandler(node) {
                 this.searchData.depId = node.id;
             },
