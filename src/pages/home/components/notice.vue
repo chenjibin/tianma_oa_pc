@@ -1,19 +1,26 @@
 <template>
     <Card class="sys-notice">
         <!--<p class="sys-notice-title">天马大小事</p>-->
-        <Table height="250"
-               :columns="columns"
-               :data="pageData.list"
-               :loading="tableLoading"
-               :row-class-name="_rowClassName"
-               @on-row-click="_checkDetails"
-               class="sys-notice-table"></Table>
-        <Page
-            :total="pageData.totalCount"
-            size="small"
-            :page-size="pageData.pageSize"
-            @on-change="pageChangeHandler"
-            ></Page>
+        <Row>
+            <Col :span="12">
+                <Table height="250"
+                       :columns="columns"
+                       :data="pageData.list"
+                       :loading="tableLoading"
+                       :row-class-name="_rowClassName"
+                       @on-row-click="_checkDetails"
+                       class="sys-notice-table"></Table>
+                <Page
+                    :total="pageData.totalCount"
+                    size="small"
+                    :page-size="pageData.pageSize"
+                    @on-change="pageChangeHandler"></Page>
+            </Col>
+            <Col :span="12">
+                <system-info></system-info>
+            </Col>
+        </Row>
+
         <Modal v-model="modelFlag" width="740" :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>{{noticeData.title}}</span>
@@ -59,6 +66,7 @@
 <script>
     import moment from 'moment';
     import pageMixin from '@/mixins/pageMixin';
+    import systemInfo from './systemInfo';
     export default {
         mixins: [pageMixin],
         data () {
@@ -82,11 +90,6 @@
                             let time = moment(params.row.nottime).format('YYYY-MM-DD');
                             return h('span', time);
                         }
-                    },
-                    {
-                        title: '发布人',
-                        key: 'operater',
-                        width: 120
                     }
                 ]
             };
@@ -119,6 +122,9 @@
             _rowClassName() {
                 return 'row-cursor';
             }
+        },
+        components: {
+            systemInfo
         }
     };
 </script>

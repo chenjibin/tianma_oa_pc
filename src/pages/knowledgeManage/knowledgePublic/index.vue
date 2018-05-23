@@ -3,16 +3,18 @@
         <div class="tree" :class="{'show': treeShow}">
             <div class="btn" @click.stop="treeShow = !treeShow">{{treeShow ? '收起知识体系': '展开知识体系'}}</div>
             <p class="title">知识体系</p>
-            <el-tree class="fs-tree"
-                     :data="treeData"
-                     :props="defaultProps"
-                     node-key="id"
-                     default-expand-all
-                     highlight-current
-                     @node-click="nodeClickHandler"
-                     :expand-on-click-node="false"
-                     ref="tree1">
-            </el-tree>
+            <div class="tree-wrapper">
+                <el-tree class="fs-tree"
+                         :data="treeData"
+                         :props="defaultProps"
+                         node-key="id"
+                         default-expand-all
+                         highlight-current
+                         @node-click="nodeClickHandler"
+                         :expand-on-click-node="false"
+                         ref="tree1">
+                </el-tree>
+            </div>
         </div>
         <div class="main-inner">
             <transition name="route-fade" mode="out-in">
@@ -29,10 +31,14 @@
             z-index: 2;
             left: 0;
             top: 60px;
-            width: 200px;
+            width: 300px;
             background-color: #fff;
             transition: transform 0.3s;
             transform: translate3d(-100%,0,0);
+            .tree-wrapper {
+                max-height: 600px;
+                overflow: auto;
+            }
             &.show {
                 transform: translate3d(0,0,0);
             }

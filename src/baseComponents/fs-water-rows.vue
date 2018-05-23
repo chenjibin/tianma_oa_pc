@@ -233,7 +233,8 @@
                 let padding = this.padding;
                 let minHeight = this.minHeight;
                 for (let i = 0, plength = photos.length; i < plength; i++) {
-                    if (aspectRatio + photos[i].files[0].image_width / photos[i].files[0].image_height >= (wrapperWidth / minHeight)) {
+                    let imgRadio = photos[i].files[0].image_width / photos[i].files[0].image_height;
+                    if (aspectRatio + imgRadio >= (wrapperWidth / minHeight)) {
                         let totalWidth = wrapperWidth - (_photos.length - 1) * padding;
                         let layoutHeight = parseInt(totalWidth / aspectRatio);
                         photos[i].afterWidth = layoutHeight / photos[i].files[0].image_height * photos[i].files[0].image_width;
@@ -242,10 +243,10 @@
                             height: layoutHeight
                         });
                         _photos = [photos[i]];
-                        aspectRatio = photos[i].files[0].image_width / photos[i].files[0].image_height;
+                        aspectRatio = imgRadio;
                     } else {
                         _photos.push(photos[i]);
-                        aspectRatio += photos[i].files[0].image_width / photos[i].files[0].image_height;
+                        aspectRatio += imgRadio;
                     }
                     if (i === (photos.length - 1) && _photos.length) {
                         rows.push({

@@ -51,11 +51,11 @@
                                         @card-click="$router.push('myTrain')"></info-btn>
                             </Col>
                             <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
-                            <info-btn
-                                    iconType="printer"
-                                    color="rgb(242, 94, 67)"
-                                    btn-text="资产"
-                                    @card-click="$router.push('assetsApply')"></info-btn>
+                                <info-btn
+                                        iconType="printer"
+                                        color="rgb(242, 94, 67)"
+                                        btn-text="资产"
+                                        @card-click="$router.push('assetsApply')"></info-btn>
                             </Col>
                             <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                                 <info-btn
@@ -63,6 +63,13 @@
                                         color="rgb(255, 153, 0)"
                                         btn-text="商城"
                                         @card-click="$router.push('coinShop')"></info-btn>
+                            </Col>
+                            <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
+                                <info-btn
+                                    iconType="ios-book"
+                                    color="rgb(242, 94, 67)"
+                                    btn-text="知识"
+                                    @card-click="$router.replace({name: 'articleHome'})"></info-btn>
                             </Col>
                         </Row>
                     </Col>
