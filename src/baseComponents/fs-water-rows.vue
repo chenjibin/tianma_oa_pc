@@ -229,16 +229,20 @@
                 let aspectRatio = 0;
                 let rows = [];
                 let _photos = [];
+                let wrapperWidth = this.$el.clientWidth;
+                let padding = this.padding;
+                let minHeight = this.minHeight;
                 for (let i = 0, plength = photos.length; i < plength; i++) {
-                    if (aspectRatio + photos[i].files[0].image_width / photos[i].files[0].image_height >= (this.$el.clientWidth / this.minHeight)) {
-                        let totalWidth = this.$el.clientWidth - (_photos.length - 1) * this.padding - 17;
-                        photos[i].afterWidth = (totalWidth / aspectRatio) / photos[i].files[0].image_height * photos[i].files[0].image_width;
+                    if (aspectRatio + photos[i].files[0].image_width / photos[i].files[0].image_height >= (wrapperWidth / minHeight)) {
+                        let totalWidth = wrapperWidth - (_photos.length - 1) * padding;
+                        let layoutHeight = parseInt(totalWidth / aspectRatio);
+                        photos[i].afterWidth = layoutHeight / photos[i].files[0].image_height * photos[i].files[0].image_width;
                         rows.push({
                             photos: _photos,
-                            height: parseInt(totalWidth / aspectRatio)
+                            height: layoutHeight
                         });
-                        _photos = [];
-                        aspectRatio = 0;
+                        _photos = [photos[i]];
+                        aspectRatio = photos[i].files[0].image_width / photos[i].files[0].image_height;
                     } else {
                         _photos.push(photos[i]);
                         aspectRatio += photos[i].files[0].image_width / photos[i].files[0].image_height;
@@ -246,7 +250,7 @@
                     if (i === (photos.length - 1) && _photos.length) {
                         rows.push({
                             photos: _photos,
-                            height: this.minHeight - 20
+                            height: minHeight
                         });
                     }
                 }

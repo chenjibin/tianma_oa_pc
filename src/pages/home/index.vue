@@ -6,7 +6,7 @@
                     <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
                         <user-info></user-info>
                     </Col>
-                    <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
+                    <Col :md="24" :lg="24">
                         <Row :gutter="3">
                             <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                                 <info-btn
@@ -66,13 +66,13 @@
                             </Col>
                         </Row>
                     </Col>
-                    <Col :md="24" :lg="24" :style="{marginBottom: '6px'}">
+                    <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
                         <things-to-do></things-to-do>
                     </Col>
-                    <Col :md="24" :lg="24" :style="{marginBottom: '6px'}">
+                    <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
                         <coin-change></coin-change>
                     </Col>
-                    <Col :md="24" :lg="24" :style="{marginBottom: '6px'}">
+                    <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
                         <people-change></people-change>
                     </Col>
                 </Row>

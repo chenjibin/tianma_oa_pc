@@ -1,7 +1,7 @@
 <template>
     <Card class="sys-notice">
-        <p class="sys-notice-title">天马大小事</p>
-        <Table height="222"
+        <!--<p class="sys-notice-title">天马大小事</p>-->
+        <Table height="250"
                :columns="columns"
                :data="pageData.list"
                :loading="tableLoading"

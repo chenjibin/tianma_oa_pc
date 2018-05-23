@@ -25,7 +25,9 @@ Vue.component('fsIcon', fsIcon);
 Vue.prototype.$http = request;
 Vue.prototype.$mainHost = '';
 Vue.config.productionTip = false;
-
+// Vue.config.keyCodes = {
+//     paste: [17, 86]
+// };
 new Vue({
     el: '#app',
     router,

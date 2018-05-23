@@ -37,7 +37,7 @@
                         <a class="thumb-item"
                            @click.stop="currentIndex = index"
                            :class="{'current': index === currentIndex}"
-                           :style="{'backgroundImage': `url('${item.file_path}')`}"
+                           v-lazy:background-image="$mainHost + item.file_path"
                            v-for="(item, index) in imgList"
                            :key="'thumb-' + index"></a>
                     </div>
@@ -144,10 +144,10 @@
                     width: 100%;
                     height: 100%;
                     &.prev-scene {
-                        transform: translateX(-100%);
+                        transform: translate3d(-100%, 0, 0);
                     }
                     &.next-scene {
-                        transform: translateX(100%);
+                        transform: translate3d(100%, 0, 0);
                     }
                     img {
                         position: absolute;

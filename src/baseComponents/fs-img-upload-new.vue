@@ -23,7 +23,7 @@
         <ul style="display: inline-block">
             <li class="demo-upload-list" v-for="item in upload">
                 <template v-if="item.status === 'finished'">
-                    <img :src="item.url">
+                    <img :src="$mainHost + item.url">
                     <div class="demo-upload-list-cover">
                         <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
                         <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -41,7 +41,7 @@
                class-name="fs-img-pre"
                v-model="visible">
             <div style="max-height: 500px;overflow-y: auto;">
-                <img :src="imgName" v-if="visible" style="max-width: 100%">
+                <img :src="$mainHost + imgName" v-if="visible" style="max-width: 100%">
             </div>
             <div slot="footer">
                 <Button type="ghost" @click="visible = false">关闭</Button>

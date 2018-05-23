@@ -64,7 +64,7 @@
                         <FormItem label="商品预览:">
                             <div style="width: 160px">
                                 <div class="fs-square-img">
-                                    <img v-lazy="goodDesc.pic"/>
+                                    <img v-lazy="$mainHost + goodDesc.pic"/>
                                 </div>
                             </div>
                         </FormItem>
