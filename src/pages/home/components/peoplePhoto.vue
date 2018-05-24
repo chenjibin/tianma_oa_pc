@@ -30,7 +30,7 @@
 <style lang="less">
     .people-photo {
         user-select: none;
-        margin-bottom: 6px;
+        margin-bottom: 3px;
         &-list {
             margin-top: 8px;
             .item {
@@ -49,7 +49,7 @@
                     display: block;
                     margin: auto;
                     width: auto;
-                    height: 260px;
+                    height: 250px;
                 }
             }
         }

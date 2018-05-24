@@ -1,7 +1,7 @@
 <template>
     <div class="system-info">
         <div class="content-block" style="margin-bottom: 6px">
-            <Table height="250"
+            <Table height="254"
                    :columns="columns"
                    :data="pageData.list"
                    :loading="tableLoading"></Table>

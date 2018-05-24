@@ -3,7 +3,7 @@
         <!--<p class="sys-notice-title">天马大小事</p>-->
         <Row>
             <Col :span="12">
-                <Table height="250"
+                <Table height="254"
                        :columns="columns"
                        :data="pageData.list"
                        :loading="tableLoading"
@@ -51,7 +51,7 @@
         cursor: pointer;
     }
     .sys-notice {
-        margin-bottom: 6px;
+        margin-bottom: 3px;
         &-title {
             margin-bottom: 10px;
             font-size: 18px;

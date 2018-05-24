@@ -35,7 +35,7 @@
                   :page-size="pageData.pageSize"
                   @on-change="getArticleList"
                   show-total
-                  v-if="pageData.totalCount > 20"
+                  v-if="pageData.totalCount > 10"
                   style="margin-top: 16px;"></Page>
         </Card>
     </div>
@@ -118,7 +118,8 @@
         mixins: [pageMixin],
         data () {
             return {
-                cateName: ''
+                cateName: '',
+                pageSize: 10
             };
         },
         filters: {
@@ -139,6 +140,7 @@
             this.$store.commit('setToHeight', '1000px');
             let query = this.$route.query;
             this.cateName = query.cateName;
+            this.pageData.pageSize = 10;
             this.getArticleList(query);
         },
         methods: {

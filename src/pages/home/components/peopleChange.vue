@@ -8,7 +8,7 @@
 </template>
 <style lang="less">
     .people-change {
-        margin-bottom: 10px;
+        margin-bottom: 3px;
         &-title {
             margin-bottom: 10px;
             font-size: 18px;
