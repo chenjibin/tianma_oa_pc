@@ -28,7 +28,7 @@
         .tree{
             position: fixed;
             padding: 12px 0;
-            z-index: 2;
+            z-index: 100;
             left: 0;
             top: 60px;
             width: 300px;

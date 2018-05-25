@@ -16,8 +16,7 @@
             </div>
         </div>
         <fs-photo-theater
-            :img-list="imgList"
-            :product-info="productInfo"
+            :product-id="productId"
             :show-editor="true"
             v-if="showTheater"
             @update-list="_getPhotoList"
@@ -115,8 +114,6 @@
                 showCreate: false,
                 canLoad: true,
                 photo: [],
-                imgList: [],
-                productInfo: {},
                 pageData: {
                     page: 1,
                     pageSize: 20,
@@ -137,19 +134,7 @@
                 this.showCreate = true;
             },
             _waterItemClickHandler(data) {
-                this.imgList = data.files;
-                this.productInfo = {
-                    headimagepath: data.headimagepath,
-                    id: data.id,
-                    createTime: data.insert_time.split(' ')[0],
-                    insert_username: data.insert_username,
-                    share_comment_times: data.share_comment_times,
-                    thumb_up_times: data.thumb_up_times,
-                    thumbupId: data.thumbupid || null,
-                    files: data.files,
-                    item: data.item,
-                    detail: data.detail
-                };
+                this.productId = data.id;
                 this.showTheater = true;
             },
             _scrollerHandler(e) {

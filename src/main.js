@@ -14,7 +14,9 @@ import VueLazyload from 'vue-lazyload';
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: '/oa/upload/initListImage.png',
-    attempt: 1
+    attempt: 3,
+    // listenEvents: ['transitionend', 'scroll'],
+    throttleWait: 1000
 });
 Vue.use(VueI18n);
 Vue.use(iView);

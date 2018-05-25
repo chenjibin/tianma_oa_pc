@@ -37,8 +37,7 @@
             </div>
         </div>
         <fs-photo-theater
-            :img-list="imgList"
-            :product-info="productInfo"
+            :product-id="productId"
             v-if="showTheater"
             @close-theater="showTheater = false"></fs-photo-theater>
         <create-photo @close="showCreate = false" v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
@@ -162,23 +161,12 @@
                     pageSize: 20,
                     totalPage: 0
                 },
-                photo: [],
-                imgList: [],
-                productInfo: {}
+                photo: []
             };
         },
         methods: {
             _waterItemClickHandler(data) {
-                this.imgList = data.files;
-                this.productInfo = {
-                    headimagepath: data.headimagepath,
-                    id: data.id,
-                    createTime: data.insert_time.split(' ')[0],
-                    insert_username: data.insert_username,
-                    share_comment_times: data.share_comment_times,
-                    thumb_up_times: data.thumb_up_times,
-                    thumbupId: data.thumbupid || null
-                };
+                this.productId = data.id;
                 this.showTheater = true;
             },
             _createPhoto() {

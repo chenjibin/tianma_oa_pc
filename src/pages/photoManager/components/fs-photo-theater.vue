@@ -7,7 +7,7 @@
                 <div class="number">
                     <span>{{currentIndex + 1}}</span>
                     <span>/</span>
-                    <span>{{imgList.length}}</span>
+                    <span>{{productInfo.files ? productInfo.files.length : 0}}</span>
                 </div>
                 <div class="tool-btns">
                     <span class="btn" title="关闭" @click.stop="_closeTheater">
@@ -19,10 +19,10 @@
                 <div class="fs-theater-swiper-scene">
                     <div class="">
                         <div class="scene-item"
-                             v-for="(item, index) in imgList"
+                             v-for="(item, index) in productInfo.files"
                              :class="{'prev-scene': index < currentIndex, 'next-scene': index > currentIndex}"
                              :key="'pic-' + index">
-                            <img v-lazy="$mainHost + item.file_path"/>
+                            <img :src="$mainHost + item.file_path"/>
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">
@@ -37,8 +37,8 @@
                         <a class="thumb-item"
                            @click.stop="currentIndex = index"
                            :class="{'current': index === currentIndex}"
-                           v-lazy:background-image="$mainHost + item.file_path"
-                           v-for="(item, index) in imgList"
+                           :style="{'background-image': `url(${$mainHost + item.file_path})`}"
+                           v-for="(item, index) in productInfo.files"
                            :key="'thumb-' + index"></a>
                     </div>
                 </div>
@@ -47,8 +47,8 @@
         <div class="fs-theater-aside">
             <div class="actions">
                 <a class="action" @click="_thumbHandler">
-                    <Icon type="heart" :color="productInfo.thumbupId ? '#ff0036' : '#fff'" size="24"></Icon>
-                    <span :style="{'color': productInfo.thumbupId ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
+                    <Icon type="heart" :color="productInfo.thumbupid ? '#ff0036' : '#fff'" size="24"></Icon>
+                    <span :style="{'color': productInfo.thumbupid ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
                 </a>
                 <a class="action">
                     <Icon type="chatbox" color="#fff" size="24"></Icon>
@@ -67,10 +67,10 @@
             </div>
             <div class="head">
                 <img class="user-pic" :src="$mainHost + productInfo.headimagepath">
-                <p class="user-name">{{productInfo.insert_username}}</p>
-                <p class="desc"><time>{{productInfo.createTime}}</time></p>
+                <p class="user-name">{{productInfo.insert_username || ''}}</p>
+                <p class="desc"><time>{{productInfo.createTime || ''}}</time></p>
             </div>
-            <fs-comment :id="productInfo.id"></fs-comment>
+            <fs-comment :id="productId"></fs-comment>
         </div>
     </div>
 </template>
@@ -284,14 +284,7 @@
                 type: Boolean,
                 default: false
             },
-            imgList: {
-                type: Array,
-                default: () => []
-            },
-            productInfo: {
-                type: Object,
-                default: () => {}
-            },
+            productId: Number,
             showTheater: {
                 type: Boolean,
                 default: false
@@ -309,10 +302,17 @@
                 currentIndex: 0,
                 transformX: '-66px',
                 canWheel: true,
-                timmer: null
+                timmer: null,
+                productInfo: {}
             };
         },
         methods: {
+            _returnSmallImg(photo) {
+                let filePath = photo.file_path;
+                let fileName = photo.file_name;
+                filePath = this.$mainHost + filePath.replace(fileName, 'small_' + fileName);
+                return filePath;
+            },
             _dropHandler(name) {
                 let vm = this;
                 if (name === 'editor') {
@@ -347,7 +347,7 @@
                 this.currentIndex -= 1;
             },
             _nextPic() {
-                if (this.currentIndex === (this.imgList.length - 1)) return;
+                if (this.currentIndex === (this.productInfo.files.length - 1)) return;
                 this.currentIndex += 1;
             },
             _mousewheelHandler(e) {
@@ -366,27 +366,36 @@
                 this.$emit('close-theater');
             },
             _thumbHandler() {
-                if (!this.productInfo.thumbupId) {
+                if (!this.productInfo.thumbupid) {
                     let sendData = {};
                     sendData.articleId = this.productInfo.id;
                     sendData.type = 0;
                     this.$http.post('/staffPresence/addThumbup', sendData).then((res) => {
                         if (res.success) {
-                            this.productInfo.thumbupId = res.data.id;
+                            this.productInfo.thumbupid = res.data.id;
                             this.productInfo.thumb_up_times = res.data.thumb_up_times;
                         }
                     });
                 } else {
                     let sendData = {};
-                    sendData.id = this.productInfo.thumbupId;
+                    sendData.id = this.productInfo.thumbupid;
                     this.$http.post('/staffPresence/deleteThumbup', sendData).then((res) => {
                         console.log(res);
                         if (res.success) {
-                            this.productInfo.thumbupId = null;
+                            this.productInfo.thumbupid = null;
                             this.productInfo.thumb_up_times = res.data.thumb_up_times;
                         }
                     });
                 }
+            },
+            _getProductDetail() {
+                let sendData = {};
+                sendData.articleId = this.productId;
+                this.$http.get('/staffPresence/getArticle', {params: sendData}).then((res) => {
+                    if (res.success) {
+                        this.productInfo = res.data;
+                    }
+                });
             }
         },
         created() {
@@ -401,6 +410,7 @@
                 }
             });
             this._initStyleObject();
+            this._getProductDetail();
         },
         destroyed() {
             this.timmer = null;
