@@ -2,7 +2,7 @@
     <div id="photo-detail-list" @scroll="_scrollerHandler">
         <div class="banner">
             <div class="bg-header-large">
-                <img :src="$mainHost + themeDetail.file_path">
+                <img :src="$mainHost + themeDetail.file_path" v-if="themeDetail.file_path">
             </div>
             <div class="info">
                 <div class="detail">

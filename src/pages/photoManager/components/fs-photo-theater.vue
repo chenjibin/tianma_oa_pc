@@ -67,7 +67,7 @@
                 </Dropdown>
             </div>
             <div class="head">
-                <img class="user-pic" :src="$mainHost + productInfo.headimagepath">
+                <img class="user-pic" :src="$mainHost + productInfo.headimagepath" v-if="productInfo.headimagepath">
                 <p class="user-name">{{productInfo.insert_username || ''}}</p>
                 <p class="desc"><time>{{productInfo.createTime || ''}}</time></p>
             </div>

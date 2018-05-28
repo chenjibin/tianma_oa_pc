@@ -64,11 +64,6 @@
                 ]
             };
         },
-        watch: {
-            'pageData.list'(val) {
-                console.log(val);
-            }
-        },
         created() {
             this._getSysInfo();
         },
