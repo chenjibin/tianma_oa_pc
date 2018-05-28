@@ -22,7 +22,7 @@
                              v-for="(item, index) in productInfo.files"
                              :class="{'prev-scene': index < currentIndex, 'next-scene': index > currentIndex}"
                              :key="'pic-' + index">
-                            <img :src="$mainHost + item.file_path"/>
+                            <img :src="$mainHost + item.file_path" v-if="index <= imgLoadIndex" />
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">
@@ -33,12 +33,13 @@
                     </a>
                 </div>
                 <div class="fs-theater-swiper-thumb">
-                    <div class="thumb-container" :style="{'transform': `translate3D(${transformX},0,0)`}">
+                    <div class="thumb-container" :style="{'transform': `translate3d(${transformX},0,0)`}">
                         <a class="thumb-item"
                            @click.stop="currentIndex = index"
                            :class="{'current': index === currentIndex}"
                            :style="{'background-image': `url(${$mainHost + item.file_path})`}"
                            v-for="(item, index) in productInfo.files"
+                           v-if="index <= imgLoadIndex"
                            :key="'thumb-' + index"></a>
                     </div>
                 </div>
@@ -305,6 +306,11 @@
                 timmer: null,
                 productInfo: {}
             };
+        },
+        computed: {
+            imgLoadIndex() {
+                return this.currentIndex + 5;
+            }
         },
         methods: {
             _returnSmallImg(photo) {
