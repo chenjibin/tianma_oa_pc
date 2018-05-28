@@ -65,12 +65,14 @@
                             <Input v-model="question.answerNew"
                                    type="textarea"
                                    :autosize="{minRows: 2,maxRows: 5}"
+                                   @paste.native.prevent
                                    style="width: 500px;"
                                    v-if="question.type === 4"
                                    placeholder="填空答案用,号隔开"></Input>
                             <Input v-model="question.answerNew"
                                    type="textarea"
                                    :autosize="{minRows: 2,maxRows: 5}"
+                                   @paste.native.prevent
                                    style="width: 500px;"
                                    v-if="question.type === 5"
                                    placeholder="问答题按关键点得分"></Input>
