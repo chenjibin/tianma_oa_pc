@@ -65,7 +65,7 @@
                             <Input v-model="question.answerNew"
                                    type="textarea"
                                    :autosize="{minRows: 2,maxRows: 5}"
-                                   @paste.native.prevent
+                                   onpaste="return false"
                                    style="width: 500px;"
                                    v-if="question.type === 4"
                                    placeholder="填空答案用,号隔开"></Input>
@@ -143,11 +143,11 @@
                 typeMap: ['单选题', '多选题', '判断题', '填空题', '问答题']
             };
         },
-        watch: {
-            id() {
-                this._getPaperDetail();
-            }
-        },
+        // watch: {
+        //     id() {
+        //         this._getPaperDetail();
+        //     }
+        // },
         filters: {
             _returnTypeName(val) {
                 let name = '';
@@ -170,8 +170,20 @@
             }
         },
         methods: {
+            fullScreenClose() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            },
             _submitExam() {
                 this.examBtnLoading = true;
+                this.fullScreenClose();
                 let data = {};
                 data.pid = this.paperId;
                 data.answerList = [];
@@ -212,7 +224,6 @@
                     obj.questionList = questionList;
                     storeArray.push(obj);
                 });
-                console.log(storeArray);
                 return storeArray;
             },
             _getPaperDetail() {
@@ -231,6 +242,9 @@
                 if (type === 3) answer = +answer === 1 ? '正确' : '错误';
                 return answer;
             }
+        },
+        created() {
+            this._getPaperDetail();
         }
     };
 </script>

@@ -4,18 +4,18 @@
             <h2 class="cate-title">{{cateName}}<span v-if="pageData.totalCount">(共{{pageData.totalCount}}篇)</span></h2>
             <div class="list-item-block"
                  @click.stop="toArticlePage(item.id)"
-                 v-for="item,index in pageData.list"
+                 v-for="(item,index) in pageData.list"
                  :key="'list-' + index">
                 <div class="left">
                     <div class="fs-auto-img">
-                        <img :src="item.file_path" />
+                        <img :src="$mainHost + item.file_path" />
                     </div>
                 </div>
                 <div class="right">
                     <div class="article-title">{{item.share_item}}</div>
                     <div class="article-info">
                         <div class="author">
-                            <Avatar :src="item.headimagepath"  size="small"/>
+                            <Avatar :src="$mainHost + item.headimagepath"  size="small"/>
                             <span style="margin-left: 2px;">{{item.insert_username}}</span>
                         </div>
                         <div>{{item.menuname}}</div>

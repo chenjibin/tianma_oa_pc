@@ -8,10 +8,10 @@
                               autoplay
                               ref="carousel"
                               :autoplay-speed="5000">
-                        <CarouselItem v-for="item, index in mainBannerData" :key="'banner-' + index">
+                        <CarouselItem v-for="(item, index) in mainBannerData" :key="'banner-' + index">
                             <div class="demo-carousel" @click.stop="toDetailPage(item.id)">
                                 <div class="demo-carousel-inner">
-                                    <img :src="item.file_path" />
+                                    <img :src="$mainHost + item.file_path" />
                                 </div>
                             </div>
                         </CarouselItem>
@@ -27,7 +27,7 @@
                         </div>
                         <div class="content-list-wrapper">
                             <Row :gutter="16">
-                                <Col :span="12" v-for="article, aindex in newArticle" :key="'article-' + aindex">
+                                <Col :span="12" v-for="(article, aindex) in newArticle" :key="'article-' + aindex">
                                 <a href="javascript:void(0)"
                                    class="item"
                                    @click.stop="toDetailPage(article.id)"
@@ -40,7 +40,7 @@
             </Card>
             </Col>
             <Col :span="12" style="margin-bottom: 8px"
-                 v-for="item,index in mainBlockData"
+                 v-for="(item,index) in mainBlockData"
                  :key="'main-block' + index">
                 <Card :padding="0">
                     <div class="article-important-block">
@@ -51,7 +51,7 @@
                             </div>
                             <div class="content-list-wrapper">
                                 <Row :gutter="16">
-                                    <Col :span="12" v-for="article, aindex in item.share" :key="'article-' + aindex">
+                                    <Col :span="12" v-for="(article, aindex) in item.share" :key="'article-' + aindex">
                                     <a href="javascript:void(0)"
                                        class="item"
                                        @click.stop="toDetailPage(article.shareId)"
@@ -65,7 +65,7 @@
             </Col>
             <Col :span="24">
                 <Row :gutter="10">
-                    <Col :span="6" v-for="item,index in mainShowPicData" :key="'show-' + index" style="margin-bottom: 8px;">
+                    <Col :span="6" v-for="(item,index) in mainShowPicData" :key="'show-' + index" style="margin-bottom: 8px;">
                         <Card :padding="0">
                             <div class="fs-holder-img" @click.stop="toDetailPage(item.id)">
                                 <img :src="item.file_path" />

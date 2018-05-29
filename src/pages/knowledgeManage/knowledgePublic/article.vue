@@ -17,7 +17,7 @@
             </div>
             <h2 class="title">{{articleTitle}}</h2>
             <div class="article-info">
-                <Avatar :src="articleHeadpic" />
+                <Avatar :src="$mainHost + articleHeadpic" />
                 <span style="margin-left: 4px;">{{articleAuthor}}</span>
             </div>
             <p class="zan-info">{{thumbUpTimes}}人赞了该文章</p>
@@ -41,7 +41,7 @@
                     <fs-comment-list :comment-data="item"
                                      :key="'comment-' + item.id"
                                      @comment-success="getCommentList"
-                                     v-for="item, index in pageData.list"></fs-comment-list>
+                                     v-for="item in pageData.list"></fs-comment-list>
                 </div>
                 <Page :total="pageData.totalCount"
                       :current.sync="pageData.page"

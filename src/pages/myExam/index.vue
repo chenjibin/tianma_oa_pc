@@ -42,21 +42,19 @@
                 <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
-        <Modal v-model="inExamFlag" width="1200" :mask-closable="false" :closable="false">
-            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                <span>考试中</span>
-            </p>
-            <in-exam :id="testPaperId"
-                     :paper-id="testId"
-                     @submit-paper-success="_submitSuccessHandler"></in-exam>
-            <div slot="footer">
-            </div>
-        </Modal>
+        <!--<Modal v-model="inExamFlag" width="1200" :mask-closable="false" :closable="false">-->
+            <!--<p slot="header" style="color:#495060;text-align:center;font-size: 18px">-->
+                <!--<span>考试中</span>-->
+            <!--</p>-->
+            <!--<in-exam :id="testPaperId"-->
+                     <!--:paper-id="testId"-->
+                     <!--@submit-paper-success="_submitSuccessHandler"></in-exam>-->
+            <!--<div slot="footer">-->
+            <!--</div>-->
+        <!--</Modal>-->
     </div>
 </template>
-<style>
-
-</style>
+<style></style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import testResult from '../examination/components/test-result';
@@ -189,15 +187,19 @@
                 this.$refs.myGradeList.getListData();
                 this._getMyTestList();
                 this.inExamFlag = false;
+                this.fullScreenClose();
             },
             _startTest(data) {
                 let sendData = {};
                 sendData.id = data.id;
-                console.log(data);
+                this.fullScreenOpen();
                 this.$http.post('/examtest/startTime', sendData).then((res) => {
                     if (res.success) {
+                        let testPaperId = data.paperid;
+                        let testId = data.id;
                         this.testPaperId = data.paperid;
                         this.testId = data.id;
+                        this.$router.push({name: 'inExam', params: {testPaperId, testId}});
                         this.inExamFlag = true;
                     }
                 });
@@ -232,6 +234,29 @@
                         this.myTestList = res.data;
                     }
                 });
+            },
+            fullScreenOpen() {
+                let main = document.body;
+                if (main.requestFullscreen) {
+                    main.requestFullscreen();
+                } else if (main.mozRequestFullScreen) {
+                    main.mozRequestFullScreen();
+                } else if (main.webkitRequestFullScreen) {
+                    main.webkitRequestFullScreen();
+                } else if (main.msRequestFullscreen) {
+                    main.msRequestFullscreen();
+                }
+            },
+            fullScreenClose() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
             }
         },
         components: {
