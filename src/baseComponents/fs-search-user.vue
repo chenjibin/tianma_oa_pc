@@ -8,8 +8,9 @@
             :label="label"
             :remote-method="_filterPeopleRemote"
             :loading="filterPeopleLoading">
-        <Option v-for="(option, index) in optionlist"
+        <Option v-for="option in optionlist"
                 :value="option.id"
+                :label="option.realname"
                 :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}</Option>
     </Select>
 </template>

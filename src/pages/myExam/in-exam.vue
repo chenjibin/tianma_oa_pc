@@ -1,5 +1,5 @@
 <template>
-    <div class="fs-in-exam">
+    <div class="fs-in-exam" @contextmenu.prevent>
         <Card>
             <div class="fs-list-wrapper">
                 <div class="test-paper-info">
@@ -96,6 +96,7 @@
         width: 100%;
         overflow-x: hidden;
         overflow-y: auto;
+        user-select: none;
         .fs-list-wrapper {
             .test-paper-info {
                 text-align: center;
