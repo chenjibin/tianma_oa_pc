@@ -86,7 +86,7 @@
                     <Input style="width: 180px" v-model="newApply.categoryName" readonly></Input>
                 </FormItem>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber :min="1" :max="99" style="width: 180px" v-model="newApply.num"></InputNumber>
+                    <InputNumber :min="1" :max="999" style="width: 180px" v-model="newApply.num"></InputNumber>
                 </FormItem>
                 <FormItem label="移入资产位置" prop="inPositionName">
                     <Select type="text" prop="positionName" style="width: 180px" v-model="newApply.inPositionName" placeholder="位置名称">
@@ -116,7 +116,7 @@
                     <Input style="width: 180px" v-model="approvalInfo.cname" readonly></Input>
                 </FormItem>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="99" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
                 </FormItem>
                 <FormItem label="移入资产位置">
                     <Input style="width: 180px" v-model="approvalInfo.inname" readonly></Input>

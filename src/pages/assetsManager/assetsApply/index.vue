@@ -69,7 +69,7 @@
                 </FormItem>
                 <Input type="text" style="display: none" v-model="newApply.id"></Input>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="99" style="width: 180px" v-model="newApply.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="newApply.num"></InputNumber>
                 </FormItem>
                 <FormItem label="资产位置" prop="positionName">
                     <Select type="text" style="width: 180px"
