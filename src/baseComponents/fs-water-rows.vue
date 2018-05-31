@@ -7,7 +7,6 @@
                  v-for="photo in item.photos">
                 <div class="gallery-item" :style="{'height': item.height + 'px', 'width': _calcWidth(item.height, photo)}">
                     <div class="gallery-background" v-lazy:background-image="_returnSmallImg(photo)" v-if="photo.files[0]"></div>
-                    <!--<img class="gallery-image" v-lazy="$mainHost + photo.files[0].file_path" v-if="photo.files[0]"/>-->
                     <div class="mask" @click.stop="galleryItemClickHandler(photo)">
                         <div class="user-info">
                             <img :src="$mainHost + photo.headimagepath" class="user-head"/>
@@ -179,7 +178,7 @@
     }
 </style>
 <script>
-    import {on, off} from '@/libs/dom';
+    import ResizeObserver from 'resize-observer-polyfill';
     export default {
         name: 'FsWaterRows',
         props: {
@@ -208,14 +207,11 @@
         },
         mounted() {
             setTimeout(() => {
-                this._getRows(this.photos);
+                const ro = new ResizeObserver((entries, observer) => {
+                    this._getRows(this.photos);
+                });
+                ro.observe(this.$el);
             }, 20);
-            on(window, 'resize', () => {
-                this._getRows(this.photos);
-            });
-        },
-        destroyed() {
-            off(window, 'resize');
         },
         methods: {
             _returnSmallImg(photo) {
