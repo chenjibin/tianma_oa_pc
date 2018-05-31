@@ -239,6 +239,7 @@
                 let padding = this.padding;
                 let minHeight = this.minHeight;
                 for (let i = 0, plength = photos.length; i < plength; i++) {
+                    if (!photos[i].files.length) continue;
                     let imgRadio = photos[i].files[0].image_width / photos[i].files[0].image_height;
                     if (aspectRatio + imgRadio >= (wrapperWidth / minHeight)) {
                         let totalWidth = wrapperWidth - (_photos.length - 1) * padding;

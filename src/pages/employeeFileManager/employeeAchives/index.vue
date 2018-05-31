@@ -34,7 +34,7 @@
                                 :label="option.label"
                                 :value="option.value"
                                 :key="'post-' + option.value">
-                            <span :title="option.label"style="max-width: 70px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
+                            <span :title="option.label" style="max-width: 70px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
                                 {{option.label}}
                             </span>
                             <span style="float: right;color: #ccc;font-size: 10px;max-width: 60px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
