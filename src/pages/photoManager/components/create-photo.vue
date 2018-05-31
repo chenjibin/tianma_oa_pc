@@ -145,6 +145,12 @@
                     this.$Message.error('至少上传一张照片!');
                     return;
                 }
+                let nowArray = JSON.parse(JSON.stringify(this.photoList));
+                let inLoadinglength = nowArray.filter(x => x.status === 'uploading').length;
+                if (inLoadinglength) {
+                    this.$Message.error('图片正在上传中，请等待上传完成再创建作品集!');
+                    return;
+                }
                 // if (!this.photoTitle) {
                 //     this.$Message.error('作品主题不能为空!');
                 //     return;
