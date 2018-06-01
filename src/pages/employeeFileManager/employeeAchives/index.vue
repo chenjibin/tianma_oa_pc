@@ -107,7 +107,7 @@
                         <Option value="公司劝退">公司劝退</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="返聘意愿">
+                <FormItem label="返聘等级">
                     <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.gradeLeaving" clearable>
@@ -470,7 +470,7 @@
                         align: 'center'
                     },
                     {
-                        title: '返聘意愿',
+                        title: '返聘等级',
                         key: 'gradeLeaving',
                         align: 'center'
                     },

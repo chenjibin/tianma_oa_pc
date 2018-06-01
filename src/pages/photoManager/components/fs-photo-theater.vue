@@ -322,7 +322,7 @@
             _dropHandler(name) {
                 let vm = this;
                 if (name === 'editor') {
-                    this.$emit('editor-open');
+                    this.$emit('editor-open', vm.productInfo);
                 } else if (name === 'delete') {
                     this.$Modal.confirm({
                         content: '确认删除此作品集么？',

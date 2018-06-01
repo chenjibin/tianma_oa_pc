@@ -129,7 +129,8 @@
                 this.showCreate = false;
                 this._getPhotoList();
             },
-            _photoEditorHandler() {
+            _photoEditorHandler(data) {
+                this.productInfo = data;
                 this.showTheater = false;
                 this.showCreate = true;
             },
