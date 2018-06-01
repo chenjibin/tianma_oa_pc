@@ -2,10 +2,10 @@
     <div>
         <Card>
             <Form inline :label-width="60">
-                <FormItem label="试卷名称">
+                <FormItem label="考试名称">
                     <Input type="text"
                            v-model="filterOpt.paperName.value"
-                           placeholder="筛选试卷"></Input>
+                           placeholder="筛选考试"></Input>
                 </FormItem>
                 <FormItem label="部门名称">
                     <Input type="text"
