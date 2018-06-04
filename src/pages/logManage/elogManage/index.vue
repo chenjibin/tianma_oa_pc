@@ -112,7 +112,7 @@
                                type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                                placeholder="指导建议..."></Input>
                     </FormItem>
-                    <FormItem label="评价">
+                    <FormItem label="评价" prop="result">
                         <Select v-model="commentData.result" style="width: 80px;">
                             <Option value="1">优秀</Option>
                             <Option value="2">合格</Option>
@@ -121,6 +121,7 @@
                     </FormItem>
                     <FormItem>
                         <Button type="primary" @click="_submitComment">提交评价</Button>
+                        <Button type="ghost" @click="checkLogFlag = false">关闭</Button>
                     </FormItem>
                 </Form>
             </div>
@@ -171,12 +172,15 @@
                 tableLoading: false,
                 checkLogFlag: false,
                 commentData: {
-                    advice: 'ok',
-                    result: '2'
+                    advice: '',
+                    result: ''
                 },
                 commentRules: {
                     advice: [
                         { required: true, message: '评语不能为空！', trigger: 'blur' }
+                    ],
+                    result: [
+                        { required: true, message: '评价不能为空！', trigger: 'change' }
                     ]
                 },
                 upGuider: [],
@@ -322,8 +326,8 @@
                 this.searchData.depId = node.id;
             },
             _initCommentData() {
-                this.commentData.advice = 'ok';
-                this.commentData.result = '2';
+                this.commentData.advice = '';
+                this.commentData.result = '';
             },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
