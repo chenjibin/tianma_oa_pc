@@ -14,55 +14,54 @@
             </Col>
             <Col :span="20">
                 <Card>
-                    <Form ref="searchData" :model="searchData" inline :label-width="60">
+                    <Form inline :label-width="60">
                         <FormItem prop="name" label="姓名">
                             <Input type="text"
-                                   @on-change="_inputDebounce"
-                                   v-model="searchData.name"
+                                   clearable
+                                   v-model="searchData.userName.value"
                                    placeholder="姓名"></Input>
                         </FormItem>
                         <FormItem prop="startDate" label="开始日期">
                             <DatePicker type="date"
-                                        @on-change="_setStartDate"
+                                        @on-change="searchData.startDate.value = $event"
                                         placeholder="开始日期"
-                                        :value="searchData.startDate"></DatePicker>
+                                        :value="searchData.startDate.value"></DatePicker>
                         </FormItem>
                         <FormItem prop="endDate" label="结束日期">
                             <DatePicker type="date"
-                                        @on-change="_setEndDate"
+                                        @on-change="searchData.endDate.value = $event"
                                         placeholder="结束日期"
-                                        :value="searchData.endDate"></DatePicker>
+                                        :value="searchData.endDate.value"></DatePicker>
                         </FormItem>
                         <FormItem label="指导状态">
-                            <Select v-model="searchData.status"
-                                    @on-change="_filterResultHandler"
+                            <Select v-model="searchData.status.value"
                                     clearable>
                                 <Option value="1">已指导</Option>
                                 <Option value="0">未指导</Option>
                             </Select>
                         </FormItem>
+                        <FormItem label="评级结果">
+                            <Select v-model="searchData.resultType.value"
+                                    clearable>
+                                <Option value="1">优秀</Option>
+                                <Option value="2">合格</Option>
+                                <Option value="3">不合格</Option>
+                            </Select>
+                        </FormItem>
                         <FormItem label="日志类型">
-                            <Select v-model="searchData.type"
-                                    @on-change="_filterResultHandler"
+                            <Select v-model="searchData.type.value"
                                     clearable>
                                 <Option value="1">休息</Option>
                                 <Option value="0">出勤</Option>
                             </Select>
                         </FormItem>
                     </Form>
-                    <Table :columns="columns1"
-                           :loading="tableLoading"
-                           :height="tableHeight"
-                           :data="pageData.list"></Table>
-                    <Page :total="pageData.totalCount"
-                          :current="pageData.page"
-                          @on-change="_setPage"
-                          @on-page-size-change="_setPageSize"
-                          :page-size="pageData.pageSize"
-                          show-sizer
-                          show-total
-                          show-elevator
-                          style="margin-top: 16px;"></Page>
+                    <fs-table-page :columns="columns1"
+                                   :size="null"
+                                   :height="tableHeight"
+                                   :params="searchData"
+                                   ref="fsTable"
+                                   url="/journal/maglist"></fs-table-page>
                 </Card>
             </Col>
         </Row>
@@ -143,31 +142,27 @@
     }
 </style>
 <script>
+    import fsTablePage from '@/baseComponents/fs-table-page';
     import fsDepTree from '@/baseComponents/fs-dep-tree';
-    import pageMixin from '@/mixins/pageMixin';
-    import debounce from 'lodash/debounce';
     import utils from '@/libs/util';
     import moment from 'moment';
     export default {
         name: 'elogManage',
         watch: {
-            'searchData.depId'() {
-                this._filterResultHandler();
-            },
-            'searchData.startDate'() {
-                this._filterResultHandler();
-            },
-            'searchData.endDate'() {
-                this._filterResultHandler();
-            },
             userName(val) {
                 if (val === 'sun') {
                     this.this._getNoWritePeoloe();
                 }
             }
         },
-        mixins: [pageMixin],
         data () {
+            const validateContentLength = (rule, value, callback) => {
+                if (value.length < 2) {
+                    callback(new Error('指导内容不能少于两个字！'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 tableLoading: false,
                 checkLogFlag: false,
@@ -177,7 +172,8 @@
                 },
                 commentRules: {
                     advice: [
-                        { required: true, message: '评语不能为空！', trigger: 'blur' }
+                        { required: true, message: '评语不能为空！', trigger: 'blur' },
+                        {validator: validateContentLength, trigger: 'blur'}
                     ],
                     result: [
                         { required: true, message: '评价不能为空！', trigger: 'change' }
@@ -191,12 +187,34 @@
                     id: ''
                 },
                 searchData: {
-                    name: '',
-                    startDate: '',
-                    endDate: '',
-                    status: '',
-                    type: '',
-                    depId: ''
+                    userName: {
+                        value: '',
+                        type: 'input'
+                    },
+                    startDate: {
+                        value: '',
+                        type: 'date'
+                    },
+                    endDate: {
+                        value: '',
+                        type: 'date'
+                    },
+                    status: {
+                        value: '',
+                        type: 'select'
+                    },
+                    type: {
+                        value: '',
+                        type: 'select'
+                    },
+                    organizeId: {
+                        value: '',
+                        type: 'tree'
+                    },
+                    resultType: {
+                        value: '',
+                        type: 'select'
+                    }
                 },
                 columns1: [
                     {
@@ -323,32 +341,11 @@
                 });
             },
             _nodeChangeHandler(node) {
-                this.searchData.depId = node.id;
+                this.searchData.organizeId.value = node.id;
             },
             _initCommentData() {
                 this.commentData.advice = '';
                 this.commentData.result = '';
-            },
-            _inputDebounce: debounce(function () {
-                this._filterResultHandler();
-            }, 600),
-            _filterResultHandler() {
-                this.initPage();
-                this._getLogData();
-            },
-            _setStartDate(date) {
-                this.searchData.startDate = date;
-            },
-            _setEndDate(date) {
-                this.searchData.endDate = date;
-            },
-            _setPage(page) {
-                this.pageData.page = page;
-                this._getLogData();
-            },
-            _setPageSize(size) {
-                this.pageData.pageSize = size;
-                this._getLogData();
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;
@@ -372,20 +369,8 @@
                 this.$http.get('/journal/guideJson', {params: data}).then((res) => {
                     if (res.success) {
                         this.upGuider = res.data;
-                        this._getLogData();
                     }
                 });
-            },
-            _getLogData() {
-                let data = {};
-                data.userName = this.searchData.name;
-                data.startDate = this.searchData.startDate;
-                data.endDate = this.searchData.endDate;
-                data.states = this.searchData.status;
-                data.type = this.searchData.type;
-                data.organizeId = this.searchData.depId;
-
-                this.getList('/journal/maglist', data);
             },
             _submitComment() {
                 this.$refs.commentForm.validate((val) => {
@@ -397,7 +382,7 @@
                         this.$http.post('/journal/addGuide', data).then((res) => {
                             if (res.success) {
                                 this.$Message.success('评价成功!');
-                                this._getLogData();
+                                this.$refs.fsTable.getListData();
                                 this.checkLogFlag = false;
                             }
                         });
@@ -406,7 +391,8 @@
             }
         },
         components: {
-            fsDepTree
+            fsDepTree,
+            fsTablePage
         }
     };
 </script>

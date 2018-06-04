@@ -5,6 +5,7 @@
                :data="pageData.list"
                @on-selection-change="selectionChange"
                @on-row-click="rowClickHandler"
+               @on-sort-change="tableSortChange"
                :loading="tableLoading"></Table>
         <Page :total="pageData.totalCount"
               :current.sync="pageData.page"
@@ -88,6 +89,13 @@
                     });
                 }
             },
+            tableSortChange(data) {
+                let obj = {};
+                obj.key = data.key;
+                obj.order = data.order;
+                this.params.sort = obj;
+                this._filterResultHandler();
+            },
             rowClickHandler(data, index) {
                 if (this.isExpend) {
                     this.pageData.list[index]._expanded = !this.pageData.list[index]._expanded;
@@ -101,8 +109,10 @@
             returnNeedParams() {
                 let params = {};
                 for (let key in this.params) {
-                    if (this.params.hasOwnProperty(key)) {
+                    if (this.params.hasOwnProperty(key) && key !== 'sort') {
                         params[key] = this.params[key].value;
+                    } else if (this.params.hasOwnProperty(key) && key === 'sort') {
+                        params[key] = this.params[key];
                     }
                 }
                 return params;

@@ -129,7 +129,7 @@
             </div>
         </Modal>
         <Modal v-model="deleteModalFlag"
-               width="300"
+               width="400"
                :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>{{allType === 'del' ? '删除' : '新建'}}月份</span>
@@ -161,7 +161,7 @@
             </div>
         </Modal>
         <Modal v-model="addDepModalFlag"
-               width="300"
+               width="400"
                :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>添加部门</span>
@@ -189,7 +189,7 @@
             </div>
         </Modal>
         <Modal v-model="addPersonModalFlag"
-               width="300"
+               width="400"
                :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>添加个人</span>
