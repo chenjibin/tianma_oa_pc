@@ -19,6 +19,14 @@ export const guestRouter = {
     },
     component: resolve => { require(['@/pages/hireManager/guest/index.vue'], resolve); }
 };
+export const inExamRouter = {
+    path: '/inExam/testPaperId/:testPaperId/testId/:testId',
+    name: 'inExam',
+    meta: {
+        whiteIn: true
+    },
+    component: resolve => { require(['@/pages/myExam/in-exam-page.vue'], resolve); }
+};
 export const knowledgeRouter = {
     path: '/knowledgePublic',
     title: '知识库',
@@ -656,6 +664,7 @@ export const routers = [
     guestRouter,
     knowledgeRouter,
     photoRouter,
+    inExamRouter,
     locking,
     page500,
     page403

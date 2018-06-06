@@ -3,7 +3,7 @@
         <Card>
             <Form inline :label-width="60">
                 <FormItem label="公司" v-if="isManger === 0 || isManger === 1">
-                    <Select type="text" style="width: 120px"
+                    <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.companyId"
                             placeholder="筛选公司" clearable>
@@ -11,32 +11,40 @@
                     </Select>
                 </FormItem>
                 <FormItem label="姓名">
-                    <Input type="text" style="width: 120px" clearable
+                    <Input type="text" style="width: 160px" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.name"
                            placeholder="筛选姓名"></Input>
                 </FormItem>
                 <FormItem label="状态">
-                    <Select v-model="filterOpt.kqstates"  style="width: 120px" placeholder="筛选状态" @on-change="_inputDebounce" clearable>
+                    <Select v-model="filterOpt.kqstates"  style="width: 160px" placeholder="筛选状态" @on-change="_inputDebounce" clearable>
                         <Option value="-1">全部</Option>
                         <Option value="0">离职</Option>
                         <Option value="1">在职</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="部门">
-                    <Input type="text" style="width: 120px" clearable
-                           @on-change="_inputDebounce"
-                           v-model="filterOpt.organizeName"
-                           placeholder="筛选部门"></Input>
+                <FormItem label="部门" id="orgSelectForm">
+                    <Select element-id="orgSelect" style="width: 160px"  clearable filterable remote :remote-method="orgSearch" :loading="orgSearching"  @on-change="_inputDebounce" v-model="filterOpt.organizeId" placeholder="筛选部门">
+                        <Option v-for="(option, index) in orgList" :label="option.label" :value="option.value" :key="index"><span>{{option.label}}</span><span style="float: right;color: #ccc;font-size: 10px;">{{option.label2}}</span></Option>
+                    </Select>
                 </FormItem>
-                <FormItem label="岗位">
-                    <Input type="text" style="width: 120px" clearable
-                           @on-change="_inputDebounce"
-                           v-model="filterOpt.postName"
-                           placeholder="筛选岗位"></Input>
+                <FormItem label="岗位" id="postSelectForm">
+                    <Select  style="width: 160px" clearable filterable remote :remote-method="postSearch" :loading="postSearching"  @on-change="_inputDebounce" v-model="filterOpt.postId" placeholder="筛选岗位">
+                        <Option v-for="option in postList"
+                                :label="option.label"
+                                :value="option.value"
+                                :key="'post-' + option.value">
+                            <span :title="option.label" style="max-width: 70px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
+                                {{option.label}}
+                            </span>
+                            <span style="float: right;color: #ccc;font-size: 10px;max-width: 60px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
+                                {{option.label2}}
+                            </span>
+                        </Option>
+                    </Select>
                 </FormItem>
                 <FormItem label="学历">
-                    <Select type="text" style="width: 120px" clearable
+                    <Select type="text" style="width: 160px" clearable
                             @on-change="_inputDebounce"
                             v-model="filterOpt.xueli"
                             placeholder="筛选学历">
@@ -47,7 +55,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="性别">
-                    <Select type="text" style="width: 120px"
+                    <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.sex"
                             placeholder="筛选性别" clearable>
@@ -56,7 +64,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="婚否">
-                    <Select type="text" style="width: 120px"
+                    <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.marryage" clearable>
                         <Option value="已婚">已婚</Option>
@@ -64,7 +72,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="政治面貌">
-                    <Select type="text" style="width: 120px"
+                    <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.party" clearable>
                         <Option value="党员">党员</Option>
@@ -74,33 +82,33 @@
                     </Select>
                 </FormItem>
                 <FormItem label="毕业院校">
-                    <Input type="text" style="width: 120px" clearable
+                    <Input type="text" style="width: 160px" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.school"
                            placeholder="筛选院校"></Input>
                 </FormItem>
                 <FormItem label="专业">
-                    <Input type="text" style="width: 120px" clearable
+                    <Input type="text" style="width: 160px" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.profession"
                            placeholder="筛选专业"></Input>
                 </FormItem>
                 <FormItem label="住址">
-                    <Input type="text" style="width: 120px" clearable
+                    <Input type="text" style="width: 160px" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.address"
                            placeholder="筛选住址"></Input>
                 </FormItem>
                 <FormItem label="离职原因">
-                    <Select type="text" style="width: 120px" clearable
+                    <Select type="text" style="width: 160px" clearable
                             @on-change="_inputDebounce"
                             v-model="filterOpt.reasonLeaving" clearable>
                         <Option value="个人原因">个人原因</Option>
                         <Option value="公司劝退">公司劝退</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="返聘意愿">
-                    <Select type="text" style="width: 120px"
+                <FormItem label="返聘等级">
+                    <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.gradeLeaving" clearable>
                         <Option value="A" label="A"><span>A</span><span style="float:right;color:#ccc;width:50px;text-align: right;">优秀</span></Option>
@@ -109,17 +117,17 @@
                     </Select>
                 </FormItem>
                 <FormItem label="入职日期">
-                    <DatePicker type="date" style="width: 120px" clearable
+                    <DatePicker type="date" style="width: 160px" clearable
                                 @on-change="_monthDateChange"
                                 :value="filterOpt.monthDate"></DatePicker>
                 </FormItem>
                 <FormItem label="到">
-                    <DatePicker type="date" style="width: 120px" clearable
+                    <DatePicker type="date" style="width: 160px" clearable
                                 @on-change="_monthEndDateChange"
                                 :value="filterOpt.endmonthDate"></DatePicker>
                 </FormItem>
                 <FormItem label="出生日期">
-                    <DatePicker type="date" style="width: 120px" clearable
+                    <DatePicker type="date" style="width: 160px" clearable
                                 placeholder="筛选出生日期"
                                 @on-change="_birthdayChange"
                                 :value="filterOpt.birthday"></DatePicker>
@@ -393,6 +401,10 @@
             return {
                 settingModalFlag: false,
                 btnLoading: false,
+                orgSearching: false,
+                orgList: [],
+                postSearching: false,
+                postList: [],
                 companyList: [],
                 postColumns: [
                     {
@@ -458,7 +470,7 @@
                         align: 'center'
                     },
                     {
-                        title: '返聘意愿',
+                        title: '返聘等级',
                         key: 'gradeLeaving',
                         align: 'center'
                     },
@@ -539,8 +551,8 @@
                     monthDate: '', // 入职日期左区间
                     endmonthDate: '', // 入职日期右区间
                     kqstates: '1', // 在职状态
-                    organizeName: '', // 部门名称
-                    postName: '', // 岗位
+                    organizeId: '', // 部门名称
+                    postId: '', // 岗位
                     xueli: '', // 学历
                     birthday: '', // 出生日期
                     sex: '',
@@ -579,6 +591,39 @@
                 document.body.appendChild(downloadDom);
                 downloadDom.click();
                 downloadDom.remove();
+            },
+            postSearch(q) {
+                let that = this;
+                this.postSearching = true;
+                this.$http.get('post/getTargetPost?name=' + q).then((res) => {
+                    if (res.success) {
+                        that.postList = res.data.map(item => {
+                            return {
+                                label: item.name,
+                                label2: item.organizename,
+                                value: item.id
+                            };
+                        });
+                        that.postSearching = false;
+                    }
+                });
+
+            },
+            orgSearch(q) {
+                let that = this;
+                this.orgSearching = true;
+                this.$http.get('organize/getTargetOrg?name=' + q).then((res) => {
+                    if (res.success) {
+                        that.orgList = res.data.map(item => {
+                            return {
+                                label: item.name,
+                                label2: that.companyList.filter(res => { return item.companyid === res.id; })[0].name,
+                                value: item.id
+                            };
+                        });
+                        that.orgSearching = false;
+                    }
+                });
             },
             handleSuccess(res, file) {
                 if (res.success) {
@@ -794,6 +839,12 @@
         right: 0;
         background: rgba(0,0,0,.6);
         display: none;
+    }
+    #orgSelectForm .ivu-form-item-content .ivu-select-dropdown .ivu-select-item{
+        padding: 7px;
+    }
+    #postSelectForm .ivu-form-item-content .ivu-select-dropdown .ivu-select-item{
+        padding: 7px;
     }
     .mouse-on-hover i{
         color: #fff;

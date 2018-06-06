@@ -39,7 +39,7 @@
                     </FormItem>
                     <FormItem label="公司名称" v-show="(isManger == 0 || isManger == 1)">
                         <Select v-model="postSettingForm.companyId">
-                            <Option v-for="(item,index) in companyList"
+                            <Option v-for="item in companyList"
                                     :label="item.name"
                                     :key="'com-' + item.id"
                                     :value="item.id">{{item.name}}</Option>
@@ -132,13 +132,13 @@
                         title: '角色名',
                         key: 'name',
                         align: 'center',
-                        width: 100
+                        width: 200
                     },
                     {
                         title: '公司名称',
                         key: 'companyname',
                         align: 'center',
-                        width: 100
+                        width: 200
                     },
                     {
                         title: '添加时间',

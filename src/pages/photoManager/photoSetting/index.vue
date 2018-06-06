@@ -72,6 +72,7 @@
                         <Col :span="24">
                             <FormItem label="主题图片" required>
                                 <fs-img-upload action="/oa/staffPresence/uploadFile"
+                                               :maxSize="20480"
                                                :params="{'type': 1}"
                                                ref="imgUploadFo"
                                                :upload.sync="imgFile"></fs-img-upload>
@@ -211,8 +212,8 @@
                         }
                     },
                     {
-                        title: '活动介绍',
-                        key: 'detail'
+                        title: '活动奖励',
+                        key: 'award'
                     },
                     {
                         title: '主办方',

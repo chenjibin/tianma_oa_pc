@@ -63,7 +63,7 @@
                     <Input style="width: 180px" v-model="addAssetsInfo.name" readonly></Input>
                 </FormItem>
                 <FormItem label="申请数量" prop="num" v-if="!addAssetsInfo.id">
-                    <InputNumber type="text" :min="1" :max="99" style="width: 180px" v-model="addAssetsInfo.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="addAssetsInfo.num"></InputNumber>
                 </FormItem>
                 <FormItem label="资产状态">
                     <Select style="width: 180px" v-model="addAssetsInfo.appStatus">

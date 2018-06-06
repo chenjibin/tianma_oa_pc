@@ -2,6 +2,7 @@ require('es6-promise').polyfill();
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import 'wangeditor/release/wangEditor.css';
 import { Tree, Cascader, Checkbox} from 'element-ui';
 import fsIcon from './baseComponents/fs-icon';
 import { router } from './router/index';
@@ -14,7 +15,9 @@ import VueLazyload from 'vue-lazyload';
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: '/oa/upload/initListImage.png',
-    attempt: 1
+    attempt: 3,
+    // listenEvents: ['transitionend', 'scroll'],
+    throttleWait: 300
 });
 Vue.use(VueI18n);
 Vue.use(iView);
@@ -25,7 +28,9 @@ Vue.component('fsIcon', fsIcon);
 Vue.prototype.$http = request;
 Vue.prototype.$mainHost = '';
 Vue.config.productionTip = false;
-
+Vue.config.keyCodes = {
+    f11: 122
+};
 new Vue({
     el: '#app',
     router,

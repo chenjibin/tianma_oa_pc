@@ -15,7 +15,7 @@
                 <p class="title">作品简介</p>
                 <textarea v-model="photoDesc"></textarea>
             </div>
-            <div class="submit-btn" @click.stop="createPhotoHandler" v-show="canSubmit">创建作品</div>
+            <div class="submit-btn" @click.stop="createPhotoHandler" v-show="canSubmit">{{editable ? '保存编辑' : '创建作品'}}</div>
             <div class="submit-btn" v-show="!canSubmit">提交作品中...</div>
         </div>
     </div>
@@ -145,14 +145,20 @@
                     this.$Message.error('至少上传一张照片!');
                     return;
                 }
-                if (!this.photoTitle) {
-                    this.$Message.error('作品主题不能为空!');
+                let nowArray = JSON.parse(JSON.stringify(this.photoList));
+                let inLoadinglength = nowArray.filter(x => x.status === 'uploading').length;
+                if (inLoadinglength) {
+                    this.$Message.error('图片正在上传中，请等待上传完成再创建作品集!');
                     return;
                 }
-                if (!this.photoDesc) {
-                    this.$Message.error('作品简介不能为空');
-                    return;
-                }
+                // if (!this.photoTitle) {
+                //     this.$Message.error('作品主题不能为空!');
+                //     return;
+                // }
+                // if (!this.photoDesc) {
+                //     this.$Message.error('作品简介不能为空');
+                //     return;
+                // }
                 this.canSubmit = false;
                 let sendData = {};
                 if (this.editable) {

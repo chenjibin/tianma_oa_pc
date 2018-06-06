@@ -4,18 +4,18 @@
             <h2 class="cate-title">{{cateName}}<span v-if="pageData.totalCount">(共{{pageData.totalCount}}篇)</span></h2>
             <div class="list-item-block"
                  @click.stop="toArticlePage(item.id)"
-                 v-for="item,index in pageData.list"
+                 v-for="(item,index) in pageData.list"
                  :key="'list-' + index">
                 <div class="left">
                     <div class="fs-auto-img">
-                        <img :src="item.file_path" />
+                        <img v-lazy="$mainHost + item.file_path"/>
                     </div>
                 </div>
                 <div class="right">
                     <div class="article-title">{{item.share_item}}</div>
                     <div class="article-info">
                         <div class="author">
-                            <Avatar :src="item.headimagepath"  size="small"/>
+                            <Avatar :src="$mainHost + item.headimagepath"  size="small"/>
                             <span style="margin-left: 2px;">{{item.insert_username}}</span>
                         </div>
                         <div>{{item.menuname}}</div>
@@ -35,7 +35,7 @@
                   :page-size="pageData.pageSize"
                   @on-change="getArticleList"
                   show-total
-                  v-if="pageData.totalCount > 20"
+                  v-if="pageData.totalCount > 10"
                   style="margin-top: 16px;"></Page>
         </Card>
     </div>
@@ -118,12 +118,15 @@
         mixins: [pageMixin],
         data () {
             return {
-                cateName: ''
+                cateName: '',
+                pageSize: 10
             };
         },
         filters: {
             deleteTag(val) {
-                return utils.delHtmlTag(val);
+                let content = val.replace(/<!--[\w\W\r\n]*?-->/g, '').replace(/<style[\s\S]*?<\/style>/g, '').replace(/\s*/g, '');
+                content = utils.delHtmlTag(content);
+                return content;
             }
         },
         watch: {
@@ -139,6 +142,7 @@
             this.$store.commit('setToHeight', '1000px');
             let query = this.$route.query;
             this.cateName = query.cateName;
+            this.pageData.pageSize = 10;
             this.getArticleList(query);
         },
         methods: {

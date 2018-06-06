@@ -47,7 +47,7 @@
                 </FormItem>
                 <Input v-model="approvalInfo.apptype" style="display: none"></Input>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="99" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
                 </FormItem>
                 <FormItem label="报废方式" v-if="approvalInfo.apptype === 3" prop="scrappedType">
                     <Select v-model="approvalInfo.scrappedType" style="width: 180px">

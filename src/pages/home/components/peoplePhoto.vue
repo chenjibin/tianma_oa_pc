@@ -12,7 +12,7 @@
                         style="margin-right: 8px;">查看更多</Button>
             </Col>
         </Row>
-        <Carousel v-model="value1" class="people-photo-list">
+        <Carousel v-model="value1" class="people-photo-list" autoplay :autoplay-speed="3000">
             <CarouselItem v-for="item in photoData"
                           :key="'photo-' + item.id">
                 <div class="item"  @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
@@ -30,7 +30,7 @@
 <style lang="less">
     .people-photo {
         user-select: none;
-        margin-bottom: 6px;
+        margin-bottom: 3px;
         &-list {
             margin-top: 8px;
             .item {
@@ -49,7 +49,7 @@
                     display: block;
                     margin: auto;
                     width: auto;
-                    height: 260px;
+                    height: 250px;
                 }
             }
         }

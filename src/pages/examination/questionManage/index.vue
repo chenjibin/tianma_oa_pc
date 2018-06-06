@@ -12,7 +12,7 @@
                             clearable
                             placeholder="筛选分类"
                             style="width: 160px">
-                        <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
+                        <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="试题类型">
@@ -20,7 +20,7 @@
                             clearable
                             placeholder="筛选类型"
                             style="width: 160px">
-                        <Option :value="item.value" v-for="item, index in typeOptMap" :key="index">{{item.label}}</Option>
+                        <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">{{item.label}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">

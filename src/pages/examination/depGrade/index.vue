@@ -9,10 +9,10 @@
             <Col :span="20">
                 <Card>
                     <Form inline :label-width="60">
-                        <FormItem label="试卷名称">
+                        <FormItem label="考试名称">
                             <Input type="text"
                                    v-model="filterOpt.name.value"
-                                   placeholder="姓名"></Input>
+                                   placeholder="筛选考试"></Input>
                         </FormItem>
                         <FormItem label="考生名称">
                             <Input type="text"
@@ -67,7 +67,7 @@
                 },
                 postColumns: [
                     {
-                        title: '试卷名称',
+                        title: '考试名称',
                         fixed: 'left',
                         key: 'name',
                         width: 200

@@ -78,7 +78,6 @@
                 sendData.page = 1;
                 sendData.pageSize = 100;
                 this.$http.get('/staffPresence/getStaffPresenceList', {params: sendData}).then((res) => {
-                    console.log(res);
                     if (res.success) {
                         this.photoList = res.data;
                     }
