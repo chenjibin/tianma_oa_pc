@@ -518,6 +518,20 @@ export const appRouter = [
                 name: 'creditManage',
                 title: '学分管理',
                 component: _import('trainManage/creditManage')
+            },
+            {
+                path: 'questionnaireManage',
+                icon: 'ribbon-a',
+                name: 'questionnaireManage',
+                title: '问卷管理',
+                component: _import('trainManage/questionnaireManage')
+            },
+            {
+                path: 'questionnaireQuestionsManage',
+                icon: 'ribbon-a',
+                name: 'questionnaireQuestionsManage',
+                title: '问卷题管理',
+                component: _import('trainManage/questionnaireQuestionsManage')
             }
         ]
     },
