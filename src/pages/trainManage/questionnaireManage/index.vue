@@ -12,7 +12,8 @@
                             clearable
                             placeholder="筛选状态"
                             style="width: 100px">
-                        <Option :value="item.status" v-for="item, index in statusList" :key="index">{{item.name}}</Option>
+                        <Option :value="item.status" v-for="item, index in statusList" :key="index">{{item.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
@@ -122,9 +123,10 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import paperQuestionList from '../components/paper-question-list';
     import editorPaper from '../components/editor-paper';
+
     export default {
         name: 'questionnaireQuestionsManage',
-        data () {
+        data() {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {
                     props: {
@@ -281,15 +283,13 @@
                         }
                     }
                 ],
-                tableHeight: 500,
+                tableHeight: 500
             };
         },
         created() {
             this._setTableHeight();
         },
-        watch: {
-
-        },
+        watch: {},
         methods: {
             _updateQuestionList() {
                 this.$refs.questionList._updateList();

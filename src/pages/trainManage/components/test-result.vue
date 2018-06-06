@@ -16,9 +16,10 @@
                         <span>{{numMap[index]}}、</span>
                         <span>{{typeMap[item.type - 1]}}:</span>
                     </h3>
-                    <div class="fs-list-item" v-for="(question,qindex) in item.questionList" :key="'question-' + index + '-' + qindex">
+                    <div class="fs-list-item" v-for="(question,qindex) in item.questionList"
+                         :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">
-                            <Badge  :count="qindex + 1 + ''" class-name="test-badge"></Badge>
+                            <Badge :count="qindex + 1 + ''" class-name="test-badge"></Badge>
                             <span>{{question.name}}</span>
                             <span>({{question.questionmark}}分)</span>
                         </p>
@@ -59,6 +60,7 @@
     .test-badge {
         background: #333 !important;
     }
+
     .fs-test-result {
         height: 100%;
         width: 100%;
@@ -98,7 +100,7 @@
                 default: 0
             }
         },
-        data () {
+        data() {
             return {
                 paperInfo: {},
                 questionList: [],
@@ -115,15 +117,20 @@
             _returnTypeName(val) {
                 let name = '';
                 switch (val) {
-                    case 1: name = '单选题';
+                    case 1:
+                        name = '单选题';
                         break;
-                    case 2: name = '多选题';
+                    case 2:
+                        name = '多选题';
                         break;
-                    case 3: name = '判断题';
+                    case 3:
+                        name = '判断题';
                         break;
-                    case 4: name = '填空题';
+                    case 4:
+                        name = '填空题';
                         break;
-                    case 5: name = '问答题';
+                    case 5:
+                        name = '问答题';
                         break;
                 }
                 return name;
@@ -134,7 +141,9 @@
         },
         methods: {
             returnNeedList(data) {
-                let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => { return x - y > 0; });
+                let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => {
+                    return x - y > 0;
+                });
                 let storeArray = [];
                 allType.forEach((item) => {
                     let obj = {};

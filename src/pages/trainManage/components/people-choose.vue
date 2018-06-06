@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Form inline :label-width="60"  @submit.native.prevent>
+        <Form inline :label-width="60" @submit.native.prevent>
             <FormItem label="部门">
                 <Input type="text"
                        v-model="filterOpt.organizeName.value"
@@ -43,6 +43,7 @@
 </style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
+
     export default {
         name: 'peopleChoose',
         props: {
@@ -55,7 +56,7 @@
                 this.filterOpt.id.value = val;
             }
         },
-        data () {
+        data() {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {
                     props: {

@@ -9,17 +9,17 @@
                          :span="3"
                          class="fs-row"
                          :key="'people-' + index + '-' + pindex">
-                        <div class="each-people">
-                            <Avatar :src="'/oa/upload/head/' + people.headimagepath" size="large" />
-                            <span>{{people.realname}}</span>
-                            <span>({{people.postname}})</span>
-                        </div>
-                        <div class="btn-panel" v-if="editorabled">
-                            <Button type="error"
-                                    shape="circle"
-                                    @click="_delPeople(people)"
-                                    icon="trash-a"></Button>
-                        </div>
+                    <div class="each-people">
+                        <Avatar :src="'/oa/upload/head/' + people.headimagepath" size="large"/>
+                        <span>{{people.realname}}</span>
+                        <span>({{people.postname}})</span>
+                    </div>
+                    <div class="btn-panel" v-if="editorabled">
+                        <Button type="error"
+                                shape="circle"
+                                @click="_delPeople(people)"
+                                icon="trash-a"></Button>
+                    </div>
                     </Col>
                 </Row>
             </div>
@@ -35,7 +35,7 @@
             .fs-row {
                 position: relative;
                 margin-bottom: 8px;
-                &:hover .btn-panel{
+                &:hover .btn-panel {
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -48,7 +48,7 @@
                     right: 0;
                     bottom: 0;
                     z-index: 100;
-                    background-color: rgba(0,0,0,0.5);
+                    background-color: rgba(0, 0, 0, 0.5);
                     border-radius: 6px;
                 }
             }
@@ -83,7 +83,7 @@
                 this._getPeopleList();
             }
         },
-        data () {
+        data() {
             return {
                 loading: false,
                 peopleList: []

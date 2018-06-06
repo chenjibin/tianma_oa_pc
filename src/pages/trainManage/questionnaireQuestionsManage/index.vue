@@ -1,7 +1,7 @@
 <template>
     <div>
         <Card>
-            <Form inline :label-width="60"  @submit.native.prevent>
+            <Form inline :label-width="60" @submit.native.prevent>
                 <FormItem label="试题名称">
                     <Input type="text"
                            v-model="filterOpt.name.value"
@@ -34,13 +34,15 @@
                         <Input type="textarea"
                                :autosize="{minRows: 2,maxRows: 4}"
                                v-model="editorSettingData.name"
-                               placeholder=""  ></Input>
+                               placeholder=""></Input>
                     </FormItem>
                     <Row :gutter="16">
                         <Col :span="8">
                         <FormItem label="试题类型">
                             <Select v-model="editorSettingData.type">
-                                <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">{{item.label}}</Option>
+                                <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">
+                                    {{item.label}}
+                                </Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -48,7 +50,7 @@
                         <FormItem label="满分">
                             <InputNumber type="InputNumber"
                                          v-model="editorSettingData.mark"
-                                         placeholder=""  ></InputNumber>
+                                         placeholder=""></InputNumber>
                         </FormItem>
                         </Col>
                     </Row>
@@ -62,15 +64,16 @@
                             <Button type="ghost"
                                     shape="circle"
                                     @click="_addNewAnswer"
-                                    icon="plus-round">新增选项</Button>
+                                    icon="plus-round">新增选项
+                            </Button>
                         </div>
                     </FormItem>
                     <!--<FormItem label="试题答案">-->
-                        <!--<Input type="textarea"-->
-                               <!--v-show="editorSettingData.type === '5'"-->
-                               <!--v-model="editorSettingData.questionType"-->
-                               <!--:autosize="{minRows: 2,maxRows: 4}"-->
-                               <!--placeholder="得分关键字"></Input>-->
+                    <!--<Input type="textarea"-->
+                    <!--v-show="editorSettingData.type === '5'"-->
+                    <!--v-model="editorSettingData.questionType"-->
+                    <!--:autosize="{minRows: 2,maxRows: 4}"-->
+                    <!--placeholder="得分关键字"></Input>-->
                     <!--</FormItem>-->
                 </Form>
                 <div slot="footer">
@@ -88,9 +91,10 @@
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import fsImgUpload from '@/baseComponents/fs-img-upload-new';
+
     export default {
         name: 'questionnaireManage',
-        data () {
+        data() {
             return {
                 editorSettingFlag: false,
                 btnLoading: false,
@@ -140,7 +144,7 @@
                                             value: params.row.answerContent
                                         },
                                         on: {
-                                            'on-change' (event) {
+                                            'on-change'(event) {
                                                 params.row.answerContent = event.target.value;
                                             }
                                         }
@@ -250,7 +254,7 @@
                             answerContent: '',
                             score: 0,
                             editorNow: false
-                }
+                        }
                     ],
                     desc: '',
                     type: '1',
@@ -336,7 +340,7 @@
             }
         },
         methods: {
-           _addQuestionConfirm() {
+            _addQuestionConfirm() {
                 let editorSettingData = this.editorSettingData;
                 let data = {};
                 if (this.postFormType === 'update') {
@@ -345,24 +349,24 @@
                 data.name = editorSettingData.name;
                 data.type = editorSettingData.type;
                 data.questionMark = editorSettingData.mark;
-               if (['1'].indexOf(data.type) > -1) {
-                let questionList = [];
-                editorSettingData.questionList.forEach((item, index) => {
-                    let obj = {};
-                    obj.order = String.fromCharCode(index + 65);
-                    obj.content = item.answerContent;
-                    obj.score = item.score;
-                    questionList.push(obj);
-                });
-                data.questionList = JSON.stringify(questionList);
-               }
-               switch (data.type) {
-                   case '1':
-                       data.answer = editorSettingData.singleType;
-                       break;
-                   case '5':
-                       data.answer = editorSettingData.questionType;
-               }
+                if (['1'].indexOf(data.type) > -1) {
+                    let questionList = [];
+                    editorSettingData.questionList.forEach((item, index) => {
+                        let obj = {};
+                        obj.order = String.fromCharCode(index + 65);
+                        obj.content = item.answerContent;
+                        obj.score = item.score;
+                        questionList.push(obj);
+                    });
+                    data.questionList = JSON.stringify(questionList);
+                }
+                switch (data.type) {
+                    case '1':
+                        data.answer = editorSettingData.singleType;
+                        break;
+                    case '5':
+                        data.answer = editorSettingData.questionType;
+                }
                 data.analysis = editorSettingData.desc;
                 this.$http.post('/questionnairequest/addOptions', data).then((res) => {
                     if (res.success) {
@@ -428,17 +432,17 @@
                 editorSettingData.mark = data.questionmark;
 
                 if (['1', '2'].indexOf(editorSettingData.type) > -1) {
-                if (data.options.length) {
-                    let questionList = [];
-                    data.options.forEach(item => {
-                        let obj = {};
-                        obj.answerContent = item.content;
-                        obj.score = item.score;
-                        obj.editorNow = false;
-                        questionList.push(obj);
-                    });
-                    editorSettingData.questionList = questionList;
-                }
+                    if (data.options.length) {
+                        let questionList = [];
+                        data.options.forEach(item => {
+                            let obj = {};
+                            obj.answerContent = item.content;
+                            obj.score = item.score;
+                            obj.editorNow = false;
+                            questionList.push(obj);
+                        });
+                        editorSettingData.questionList = questionList;
+                    }
                 }
 
                 this.editorSettingFlag = true;

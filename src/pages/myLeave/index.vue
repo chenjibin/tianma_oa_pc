@@ -5,7 +5,8 @@
                 <Button style="margin-bottom: 16px;"
                         icon="plus-round"
                         @click="leaveModalFlag = true"
-                        type="primary">申请请假</Button>
+                        type="primary">申请请假
+                </Button>
             </ButtonGroup>
             <fs-table-page :columns="postColumns"
                            :height="tableHeight"
@@ -33,9 +34,10 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import tableExpend from './table-expend';
     import leaveModal from './components/leave-modal';
+
     export default {
         name: 'myLeave',
-        data () {
+        data() {
             return {
                 leaveModalFlag: false,
                 visible: false,

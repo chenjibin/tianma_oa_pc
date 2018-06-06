@@ -11,15 +11,15 @@
                 </div>
                 <div class="" v-for="(item,index) in questionList" :key="index">
                     <!--<h3>-->
-                        <!--<span>{{numMap[index]}}、</span>-->
-                        <!--<span>{{typeMap[item.type - 1]}}:</span>-->
+                    <!--<span>{{numMap[index]}}、</span>-->
+                    <!--<span>{{typeMap[item.type - 1]}}:</span>-->
                     <!--</h3>-->
                     <div class="fs-list-item"
                          v-for="(question,qindex) in item.questionList"
                          style="font-weight: 700"
                          :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">
-                            <Badge  :count="qindex + 1 + ''" class-name="test-badge"></Badge>
+                            <Badge :count="qindex + 1 + ''" class-name="test-badge"></Badge>
                             <span>{{question.name}}</span>
                             <span>({{question.questionmark}}分)</span>
                             <Button type="ghost"
@@ -29,7 +29,8 @@
                         </p>
 
                         <ul class="" v-if="[1, 2].indexOf(question.type) > -1">
-                            <li v-for="option in question.optionlist" :key="'option' + option.id" style="margin-bottom: 8px;">
+                            <li v-for="option in question.optionlist" :key="'option' + option.id"
+                                style="margin-bottom: 8px;">
                                 <div>
                                     <span>{{option.optionnum}}.</span>
                                     <span>{{option.content}}</span>
@@ -40,8 +41,8 @@
                             </li>
                         </ul>
                         <!--<div class="answer-block">-->
-                            <!--<span>正确答案:</span>-->
-                            <!--<span>{{question.answer}}</span>-->
+                        <!--<span>正确答案:</span>-->
+                        <!--<span>{{question.answer}}</span>-->
                         <!--</div>-->
                     </div>
                 </div>
@@ -54,6 +55,7 @@
     .test-badge {
         background: #333 !important;
     }
+
     .fs-exam-paper {
         height: 100%;
         width: 100%;
@@ -99,7 +101,7 @@
                 default: false
             }
         },
-        data () {
+        data() {
             return {
                 paperInfo: {},
                 questionList: [],
@@ -116,15 +118,20 @@
             _returnTypeName(val) {
                 let name = '';
                 switch (val) {
-                    case 1: name = '单选题';
+                    case 1:
+                        name = '单选题';
                         break;
-                    case 2: name = '多选题';
+                    case 2:
+                        name = '多选题';
                         break;
-                    case 3: name = '判断题';
+                    case 3:
+                        name = '判断题';
                         break;
-                    case 4: name = '填空题';
+                    case 4:
+                        name = '填空题';
                         break;
-                    case 5: name = '问答题';
+                    case 5:
+                        name = '问答题';
                         break;
                 }
                 return name;
@@ -135,7 +142,9 @@
         },
         methods: {
             returnNeedList(data) {
-                let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => { return x - y > 0; });
+                let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => {
+                    return x - y > 0;
+                });
                 let storeArray = [];
                 allType.forEach((item) => {
                     let obj = {};

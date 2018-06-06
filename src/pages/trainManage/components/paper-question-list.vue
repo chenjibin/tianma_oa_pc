@@ -1,19 +1,19 @@
 <template>
     <div>
-        <Form inline :label-width="60"  @submit.native.prevent>
+        <Form inline :label-width="60" @submit.native.prevent>
             <FormItem label="试题名称">
                 <Input type="text"
                        v-model="filterOpt.name.value"
                        placeholder="筛选试题名称"></Input>
             </FormItem>
-        <FormItem label="试题类型">
-        <Select v-model="filterOpt.type.value"
-                clearable
-                placeholder="筛选类型"
-                style="width: 160px">
-            <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">{{item.label}}</Option>
-        </Select>
-        </FormItem>
+            <FormItem label="试题类型">
+                <Select v-model="filterOpt.type.value"
+                        clearable
+                        placeholder="筛选类型"
+                        style="width: 160px">
+                    <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">{{item.label}}</Option>
+                </Select>
+            </FormItem>
         </Form>
         <fs-table-page :columns="postColumns"
                        :size="null"
@@ -28,6 +28,7 @@
 </style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
+
     export default {
         name: 'paperQuestionList',
         props: {
@@ -40,7 +41,7 @@
                 this.filterOpt.id.value = val;
             }
         },
-        data () {
+        data() {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {
                     props: {
