@@ -2,6 +2,7 @@ require('es6-promise').polyfill();
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import 'wangeditor/release/wangEditor.css';
 import { Tree, Cascader, Checkbox} from 'element-ui';
 import fsIcon from './baseComponents/fs-icon';
 import { router } from './router/index';
@@ -16,7 +17,7 @@ Vue.use(VueLazyload, {
     error: '/oa/upload/initListImage.png',
     attempt: 3,
     // listenEvents: ['transitionend', 'scroll'],
-    throttleWait: 1000
+    throttleWait: 300
 });
 Vue.use(VueI18n);
 Vue.use(iView);

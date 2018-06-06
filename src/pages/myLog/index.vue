@@ -99,7 +99,7 @@
             <Col :lg="10" :md="10">
                 <Card>
                     <p  class="log-title">{{dateData}} 日志概览</p>
-                    <div class="each-log-wrapper" :style="{maxHeight: logMaxHeight}">
+                    <div class="each-log-wrapper w-e-text" :style="{maxHeight: logMaxHeight}">
                         <div class="each-log-look" v-for="item in logLookList">
                             <p class="time-title">{{item.date}}</p>
                             <div class="" v-html="item.content"></div>
@@ -228,6 +228,7 @@
                     'quote',
                     'image',
                     'video',
+                    'table',
                     'undo',
                     'redo'
                 ],

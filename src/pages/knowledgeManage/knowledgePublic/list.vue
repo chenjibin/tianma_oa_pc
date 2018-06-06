@@ -8,7 +8,7 @@
                  :key="'list-' + index">
                 <div class="left">
                     <div class="fs-auto-img">
-                        <img :src="$mainHost + item.file_path" />
+                        <img v-lazy="$mainHost + item.file_path"/>
                     </div>
                 </div>
                 <div class="right">
@@ -124,7 +124,9 @@
         },
         filters: {
             deleteTag(val) {
-                return utils.delHtmlTag(val);
+                let content = val.replace(/<!--[\w\W\r\n]*?-->/g, '').replace(/<style[\s\S]*?<\/style>/g, '').replace(/\s*/g, '');
+                content = utils.delHtmlTag(content);
+                return content;
             }
         },
         watch: {

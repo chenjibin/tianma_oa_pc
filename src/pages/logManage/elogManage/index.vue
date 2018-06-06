@@ -34,7 +34,7 @@
                                         :value="searchData.endDate.value"></DatePicker>
                         </FormItem>
                         <FormItem label="指导状态">
-                            <Select v-model="searchData.status.value"
+                            <Select v-model="searchData.states.value"
                                     clearable>
                                 <Option value="1">已指导</Option>
                                 <Option value="0">未指导</Option>
@@ -168,7 +168,7 @@
                 checkLogFlag: false,
                 commentData: {
                     advice: '',
-                    result: ''
+                    result: '2'
                 },
                 commentRules: {
                     advice: [
@@ -199,7 +199,7 @@
                         value: '',
                         type: 'date'
                     },
-                    status: {
+                    states: {
                         value: '',
                         type: 'select'
                     },
@@ -345,7 +345,7 @@
             },
             _initCommentData() {
                 this.commentData.advice = '';
-                this.commentData.result = '';
+                this.commentData.result = '2';
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;

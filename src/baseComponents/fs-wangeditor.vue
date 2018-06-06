@@ -111,6 +111,10 @@
                     vm.holderShow = !realContent;
                 }
             };
+            this.editor.customConfig.pasteTextHandle = function (content) {
+                let contentResult = content.replace(/<style[\s\S]*?<\/style>/g, '');
+                return contentResult;
+            };
             this.editor.customConfig.customUploadImg = function (files, insert) {
                 const xhr = new XMLHttpRequest();
                 const formData = new FormData();
