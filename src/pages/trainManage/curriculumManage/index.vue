@@ -133,6 +133,16 @@
                     </FormItem>
                     </Col>
                     <Col :span="12">
+                    <FormItem label="反馈模板" prop="type">
+                        <Select v-model="classForm.questionnaire_temp"
+                                clearable>
+                            <Option :value="item.id"
+                                    v-for="(item,index) in questionnaire"
+                                    :key="'questionnaire' + index">{{item.name}}</Option>
+                        </Select>
+                    </FormItem>
+                    </Col>
+                    <Col :span="12">
                     <FormItem label="培训类型" prop="type">
                         <Select v-model="classForm.type"
                                 clearable>
@@ -215,7 +225,7 @@
             </Upload>
             <div slot="footer"></div>
         </Modal>
-        <Modal title="签到/评论二维码" v-model="visible" width="800">
+        <Modal title="签到/评论二维码" v-model="visible" width="600">
             <div style="max-height: 500px;overflow-y: auto;:overflow-x hidden;">
             <Row type="flex" justify="center" class="code-row-bg">
                 <Col span="12">
@@ -225,17 +235,17 @@
                      :style="{transform: `rotateZ(${item.deg}deg)`}"
                      style="display: block;margin:auto; text-align: center;"/>
                 </Col>
-                <Col span="12">
-                <img :src="'/oa/upload/' + item.evaluatepicname"
-                     v-for="(item, index) in imgArr"
-                     :key="'prewimg-' + index"
-                     :style="{transform: `rotateZ(${item.deg}deg)`}"
-                     style="display: block;margin:auto; text-align: center;"/>
-                </Col>
+                <!--<Col span="12">-->
+                <!--<img :src="'/oa/upload/' + item.evaluatepicname"-->
+                     <!--v-for="(item, index) in imgArr"-->
+                     <!--:key="'prewimg-' + index"-->
+                     <!--:style="{transform: `rotateZ(${item.deg}deg)`}"-->
+                     <!--style="display: block;margin:auto; text-align: center;"/>-->
+                <!--</Col>-->
             </Row>
             <Row type="flex" justify="center" class="code-row-bg">
                 <Col span="12"><span style="text-align: center;display:block;">签到二维码</span></Col>
-                <Col span="12"><span style="text-align: center;display:block; ">反馈二维码</span></Col>
+                <!--<Col span="12"><span style="text-align: center;display:block; ">反馈二维码</span></Col>-->
             </Row>
     </div>
 
@@ -267,6 +277,8 @@
                             <span>{{item.evaluate_time}}</span>
                             <span style="margin-left: 16px;">反馈人:</span>
                             <span>{{item.user_name}}</span>
+                            <span style="margin-left: 16px;">评分:</span>
+                            <span>{{item.evaluate_score}}</span>
                         </div>
                     </div>
                 </div>
@@ -320,7 +332,8 @@
                 uploadForm: {
                 id: '',
                     title: '',
-                    teacher_id:''
+                    teacher_id: '',
+                    questionnaire_temp: ''
             },
             mubanId: 0,
                 tableHeight: 300,
@@ -353,15 +366,16 @@
                 ]
             },
             classForm: {
-                    out_teacher:'0',
-                    username:'',
-                type: '',
+                    out_teacher: '0',
+                    username: '',
+                     type: '',
                     title: '',
                     class_date: NOW_DAY,
                     period: '',
                     position: '',
                     credit: 0,
                     teacher_id: '',
+                     questionnaire_temp:  1,
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''
@@ -450,7 +464,15 @@
                     render: (h, params) => {
                         return h('span', params.row.has_baoming || 0);
                     }
-        },{
+               }, {
+                        title: '签到人数',
+                        key: 'sign_in',
+                        align: 'center',
+                        width: 100,
+                        render: (h, params) => {
+                            return h('span', params.row.has_baoming || 0);
+                        }
+                    }, {
                 title: '反馈',
                 align: 'center',
                     render: (h, params) => {
@@ -555,6 +577,7 @@
                         }
                     },
                     trainTypeOpt: [],
+                     questionnaire: [],
                         teacherOpt: [],
                         compangsList: []
                 };
@@ -562,6 +585,7 @@
             created() {
                 this._setTableHeight();
                 this._getTrainTypeOpt();
+                this._getQuestionnaire();
                 this._getTeacherOpt();
                 this._getAllCompangsList();
 
@@ -599,7 +623,6 @@
                     _getMyOrderList() {
                     let data = {};
                     data.id = this.planid;
-                    console.log(this.planid);
                     data.page = this.pageData.page;
                     data.pageSize = this.pageData.pageSize;
                     data.status = this.pageData.status === '3' ? '' : this.pageData.status;
@@ -628,7 +651,7 @@
                 change (status) {
                     this.isShow = !this.isShow;
                     this.usernameisShow = !this.usernameisShow;
-                if(status == 1){
+                if(status == 1) {
                     this.classForm.teacher_id= 1019
                 }
             },
@@ -723,6 +746,7 @@
                     position: '',
                     credit: 0,
                     teacher_id: '',
+                    questionnaire_temp: 1,
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''
@@ -774,6 +798,16 @@
                     }
                 });
             },
+             _getQuestionnaire() {
+                 let data = {};
+                 data.page = 1;
+                 data.pageSize = 10000;
+                    this.$http.post('/questionnairepaper/getPaperList', data).then((res) => {
+                        if (res.success) {
+                            this.questionnaire = res.data;
+                        }
+                    });
+                },
             _deletePost() {
                 let data = {};
                 data.ids = this.chooseDataArray.map(x => x.id).join(',');
