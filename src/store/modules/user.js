@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import store from '../index';
 import axios from 'axios';
 import Vue from 'vue';

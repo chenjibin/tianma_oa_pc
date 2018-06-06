@@ -39,7 +39,7 @@
                             <span>{{logDetail.date}} 日志</span>
                         </p>
                         <div class="" v-if="modelFlag">
-                            <div class="" style="min-height: 100px;font-size: 16px;"
+                            <div class="w-e-text" style="min-height: 100px;font-size: 16px;overflow:auto;"
                                  v-html="editorContent"
                                  v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date"></div>
                             <div class="" style="font-size: 14px;"
