@@ -116,10 +116,38 @@
                                 @on-change="_monthDateChange('testtime',$event)"
                                 :value="filterOpt.testtime"></DatePicker>
                 </FormItem>
-                <FormItem label="备用时间" style="margin-right: 0;">
+                <FormItem label="备用时间" >
                     <DatePicker split-panels format="yyyy-MM-dd" type="daterange" style="width: 173px;"
                                 @on-change="_monthDateChange('sparetime',$event)"
                                 :value="filterOpt.sparetime"></DatePicker>
+                </FormItem>
+                <FormItem label="人才">
+                    <Select type="text" style="width: 173px"
+                            @on-change="_filterResultHandler"
+                            v-model="filterOpt.important" clearable>
+                        <Option :value="0">否</Option>
+                        <Option :value="1">是</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="人才级别">
+                    <Select type="text" style="width: 173px"
+                            @on-change="_filterResultHandler"
+                            v-model="filterOpt.level" clearable>
+                        <Option value="A" key="A">A</Option>
+                        <Option value="B" key="B">B</Option>
+                        <Option value="C" key="C">C</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="预约人">
+                    <Select v-model="filterOpt.createBy"
+                            @on-change="_filterResultHandler"
+                            filterable
+                            clearable
+                            remote
+                            :remote-method="_filterPeopleRemote"
+                            :loading="filterPeopleLoading">
+                        <Option v-for="(option) in optionlist" :value="option.id" :key="option.id">{{option.realname + '(' + option.organizename + ')'}}</Option>
+                    </Select>
                 </FormItem>
                 <Button type="success" @click="showAddNew()" style="padding: 6px 5px;">新增</Button>
             </Form>
@@ -178,6 +206,13 @@
                         <Input type="text" style="display: none" v-model="talentBean.id"></Input>
                         <FormItem label="姓名" style="width:460px" prop="name">
                             <Input type="text" :maxlength="20" v-model="talentBean.name"></Input>
+                        </FormItem>
+                        <FormItem label="人才等级" style="width:460px" v-if="talentBean.important === 1" prop="level">
+                            <Select type="text" v-model="talentBean.level" required>
+                                <Option value="A" key="A">A</Option>
+                                <Option value="B" key="B">B</Option>
+                                <Option value="C" key="C">C</Option>
+                            </Select>
                         </FormItem>
                         <FormItem label="性别" style="width:460px">
                             <Select type="text" v-model="talentBean.sex">
@@ -426,7 +461,10 @@
                         </FormItem>
                     </Form>
                 </TabPane>
-                <Button type="ghost" @click="downloadFile" size="small" slot="extra">导出为word</Button>
+                <ButtonGroup slot="extra">
+                    <Button type="primary" @click="changeImportant" size="small" >{{talentBean.important !== 1 ? '放入人才库': '踢出人才库'}}</Button>
+                    <Button type="ghost" @click="downloadFile" size="small">导出为word</Button>
+                </ButtonGroup>
                 <Button type="warning" @click="deleteMe" size="small" slot="extra">删除简历</Button>
             </Tabs>
             <div slot="footer">
@@ -715,11 +753,13 @@
                     politicalstatus: '',
                     emperson: '',
                     emrelate: '',
-                    emphone: ''
+                    emphone: '',
+                    important: 0,
+                    level: ''
                 }, // 简历基本信息模块
                 talentBeanRule: {
                     appointment: [
-                        { required: true, message: 'Please select the date', trigger: 'change' }
+                        { required: true, message: '请选择预约时间', trigger: 'change' }
                     ],
                     name: [
                         { required: true, message: '姓名必填', trigger: 'blur' }
@@ -733,6 +773,9 @@
                     ],
                     resumesource: [
                         { type: 'number', required: true, message: '简历来源必填', trigger: 'change' }
+                    ],
+                    level: [
+                        { required: true, message: '人才级别必填', trigger: 'change' }
                     ]
                 },
                 statusInfo: {}, // 每回合考核数据
@@ -778,7 +821,39 @@
                         title: '姓名',
                         key: 'name',
                         align: 'left',
-                        width: 100
+                        width: 100,
+                        render: (h, params) => {
+                            let name = params.row.name;
+                            let important = params.row.important;
+                            let level = params.row.level;
+                            let colorMapping = {'A': '#FFCC66', 'B': '#FF9966', 'C': '#999'};
+                            if (important === 1) {
+                                let colorT = colorMapping[level];
+                                return h('div', {
+                                    style: {
+                                        position: 'relative'
+                                    }
+                                }, [
+                                    h('span', name),
+                                    h('span', {
+                                        style: {
+                                            color: colorT,
+                                            fontSize: '16px',
+                                            fontWeight: 'bold',
+                                            position: 'absolute',
+                                            lineHeight: '16px',
+                                            right: 0,
+                                            cursor: 'pointer'
+                                        },
+                                        attrs: {
+                                            title: '该简历标记为人才'
+                                        }
+                                    }, level)
+                                ]);
+                            } else {
+                                return h('span', name);
+                            }
+                        }
                     },
                     {
                         title: '岗位',
@@ -997,6 +1072,14 @@
             }
         },
         methods: {
+            changeImportant() {
+                if (this.talentBean.important !== 1) {
+                    this.talentBean.important = 1;
+                } else {
+                    this.talentBean.important = 0;
+                    this.talentBean.level = '';
+                }
+            },
             getPositionData() {
                 var vm = this;
                 this.$http.post('/talentPosition/findTalentPositionList').then((res) => {
@@ -1136,7 +1219,6 @@
                                 vm._findUser(res.message);
                                 if (type === 2) {
                                     vm.settingModalFlag = false;
-                                    return;
                                 }
                             }
                         });
@@ -1242,7 +1324,7 @@
                     cancelText: '取消',
                     loading: true,
                     onOk () {
-                        this.$http.get('/talentLibrary/del?id='+id).then((res) => {
+                        this.$http.get('/talentLibrary/del?id=' + id).then((res) => {
                             that.$Modal.remove();
                             if (res.success) {
                                 that.settingModalFlag = false;
@@ -1300,7 +1382,39 @@
                 this.settingModalFlag = true;
                 this.educationForm = [];
                 this.workingForm = [];
-                this.talentBean = {};
+                this.talentBean.id = null;
+                this.talentBean.postname = '';
+                this.talentBean.monthlysalary = 0;
+                this.talentBean.resumesource = '';
+                this.talentBean.appointment = '';
+                this.talentBean.name = '';
+                this.talentBean.family_in = 0;
+                this.talentBean.age = 18;
+                this.talentBean.yearswork = 0;
+                this.talentBean.sex = '';
+                this.talentBean.marriage = '';
+                this.talentBean.phone = '';
+                this.talentBean.email = '';
+                this.talentBean.address = '';
+                this.talentBean.account = '';
+                this.talentBean.province_id = '';
+                this.talentBean.city_id = '';
+                this.talentBean.area_id = '';
+                this.talentBean.selfevaluation = '';
+                this.talentBean.expertiseskills = '';
+                this.talentBean.projectexperience = '';
+                this.talentBean.languageskills = '';
+                this.talentBean.trainingexperience = '';
+                this.talentBean.remarks = '';
+                this.talentBean.headimg = '';
+                this.talentBean.nation = '';
+                this.talentBean.idnum = '';
+                this.talentBean.politicalstatus = '';
+                this.talentBean.emperson = '';
+                this.talentBean.emrelate = '';
+                this.talentBean.emphone = '';
+                this.talentBean.important = 0;
+                this.talentBean.level = '';
             },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
