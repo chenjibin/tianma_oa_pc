@@ -59,14 +59,14 @@
 </style>
 <script>
     export default {
-        data () {
+        data() {
             return {
                 compactMsgNumber: 0,
                 odmsgNumber: 0,
                 purchaseMsgNumber: 0
             };
         },
-        created () {
+        created() {
             this._toDoData();
         },
         methods: {
@@ -75,7 +75,7 @@
                     name: page
                 });
             },
-            _toDoData () {
+            _toDoData() {
                 this.$http.get('/od/notifyMsgWindow').then((res) => {
                     if (res.success) {
                         let resData = res.data;

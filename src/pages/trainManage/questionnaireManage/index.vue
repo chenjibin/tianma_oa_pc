@@ -125,7 +125,7 @@
     import editorPaper from '../components/editor-paper';
 
     export default {
-        name: 'questionnaireQuestionsManage',
+        name: 'questionnaireManage',
         data() {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {

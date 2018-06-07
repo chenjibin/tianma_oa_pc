@@ -6,7 +6,8 @@
                     <h1>天马知识库</h1>
                     <Button type="text"
                             style="font-size: 16px;margin-left: 16px"
-                            @click.stop="$router.push({name: 'articleHome'})">首页</Button>
+                            @click.stop="$router.push({name: 'articleHome'})">首页
+                    </Button>
                     <div class="search-wrapper"
                          v-clickoutside="clickoutsideHandler"
                          :class="{'is-focus': isFocus}">
@@ -26,7 +27,9 @@
                 </div>
                 <div class="right">
                     <Button type="text"
-                            @click.stop="$router.replace({name: 'home_index'})"><Icon type="chevron-left"></Icon>&nbsp;返回人事系统</Button>
+                            @click.stop="$router.replace({name: 'home_index'})">
+                        <Icon type="chevron-left"></Icon>&nbsp;返回人事系统
+                    </Button>
                 </div>
             </div>
         </div>
@@ -41,9 +44,11 @@
     .route-fade-enter-active, .route-fade-leave-active {
         transition: opacity .3s;
     }
+
     .route-fade-enter, .route-fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
     }
+
     .knowledge-page {
         position: relative;
         width: 100%;
@@ -57,7 +62,7 @@
             top: 0;
             height: 52px;
             background-color: #fff;
-            box-shadow: 0 1px 3px rgba(26,26,26,.1);
+            box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
             background-clip: content-box;
             &-main {
                 display: flex;
@@ -80,7 +85,7 @@
                         border: 1px solid #ebebeb;
                         border-radius: 3px;
                         box-sizing: border-box;
-                        transition: background .2s,border .2s, width 0.2s ease;
+                        transition: background .2s, border .2s, width 0.2s ease;
                         background: #f6f6f6;
                         overflow: hidden;
                         &.is-focus {
@@ -137,10 +142,11 @@
 </style>
 <script>
     import clickoutside from '@/directives/click-outside';
+
     export default {
         name: 'knowledgePublic',
         directives: {clickoutside},
-        data () {
+        data() {
             return {
                 isFocus: false,
                 canSearch: true,

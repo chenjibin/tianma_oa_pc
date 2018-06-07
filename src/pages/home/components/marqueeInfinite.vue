@@ -21,7 +21,7 @@
             left: 0;
             top: 0;
             &-item {
-                padding:8px 0;
+                padding: 8px 0;
                 font-size: 14px;
             }
         }
@@ -38,7 +38,7 @@
             },
             height: String
         },
-        data () {
+        data() {
             return {
                 innerHeight: null,
                 animationY: null,

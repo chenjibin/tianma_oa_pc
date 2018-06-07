@@ -23,8 +23,9 @@
 <script>
     import marqueeInfinite from './marqueeInfinite';
     import moment from 'moment';
+
     export default {
-        data () {
+        data() {
             return {
                 itemData: []
             };

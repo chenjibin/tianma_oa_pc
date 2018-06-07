@@ -24,7 +24,7 @@
                 default: 'green'
             }
         },
-        data () {
+        data() {
             return {
                 rowData: [],
                 loading: false,

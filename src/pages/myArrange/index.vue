@@ -4,12 +4,14 @@
             <template v-for="list in dateList">
                 <h2 class="year-title">{{list.year}}</h2>
                 <Row :gutter="10" style="margin-bottom: 24px;">
-                    <Col :lg="4" :md="6" :sm="8" :xs="12" v-for="(date, dateIndex) in list.date" :key="'date-' + dateIndex">
-                        <Card class="my-arrange-card" @click.native="_cardClick(date)">
-                            <p class="month">{{date.date}}</p>
-                            <Tag color="green" @click.native="_cardClick(date)" v-if="date.type === '已设置'">{{date.type}}</Tag>
-                            <Tag color="red"  v-else>{{date.type}}</Tag>
-                        </Card>
+                    <Col :lg="4" :md="6" :sm="8" :xs="12" v-for="(date, dateIndex) in list.date"
+                         :key="'date-' + dateIndex">
+                    <Card class="my-arrange-card" @click.native="_cardClick(date)">
+                        <p class="month">{{date.date}}</p>
+                        <Tag color="green" @click.native="_cardClick(date)" v-if="date.type === '已设置'">{{date.type}}
+                        </Tag>
+                        <Tag color="red" v-else>{{date.type}}</Tag>
+                    </Card>
                     </Col>
                 </Row>
             </template>
@@ -48,10 +50,11 @@
 <script>
     import moment from 'moment';
     import dateMixin from '@/mixins/dateMixin';
+
     export default {
         name: 'myArrange',
         mixins: [dateMixin],
-        data () {
+        data() {
             return {
                 loading: false,
                 modelFlag: false,
@@ -166,7 +169,6 @@
                 });
             }
         },
-        components: {
-        }
+        components: {}
     };
 </script>

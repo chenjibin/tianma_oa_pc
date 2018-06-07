@@ -15,7 +15,7 @@
                     <div class="article-title">{{item.share_item}}</div>
                     <div class="article-info">
                         <div class="author">
-                            <Avatar :src="$mainHost + item.headimagepath"  size="small"/>
+                            <Avatar :src="$mainHost + item.headimagepath" size="small"/>
                             <span style="margin-left: 2px;">{{item.insert_username}}</span>
                         </div>
                         <div>{{item.menuname}}</div>
@@ -27,7 +27,7 @@
             </div>
             <Spin size="large" fix v-if="tableLoading"></Spin>
             <div class="no-result-block" v-if="!pageData.totalCount && !tableLoading">
-                <img src="../../../images/fail_pic.png" />
+                <img src="../../../images/fail_pic.png"/>
                 <p class="info">暂无相关知识</p>
             </div>
             <Page :total="pageData.totalCount"
@@ -113,10 +113,11 @@
 <script>
     import pageMixin from '@/mixins/pageMixin';
     import utils from '@/libs/util';
+
     export default {
         name: 'articleList',
         mixins: [pageMixin],
-        data () {
+        data() {
             return {
                 cateName: '',
                 pageSize: 10
@@ -149,7 +150,7 @@
             toArticlePage(id) {
                 let params = {};
                 params.name = 'articleDetail';
-                params.params = { id: id };
+                params.params = {id: id};
                 this.$router.push(params);
             },
             getArticleList(query) {

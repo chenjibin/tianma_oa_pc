@@ -17,7 +17,7 @@
             </div>
             <h2 class="title">{{articleTitle}}</h2>
             <div class="article-info">
-                <Avatar :src="$mainHost + articleHeadpic" />
+                <Avatar :src="$mainHost + articleHeadpic"/>
                 <span style="margin-left: 4px;">{{articleAuthor}}</span>
             </div>
             <p class="zan-info">{{thumbUpTimes}}人赞了该文章</p>
@@ -28,11 +28,11 @@
                 </div>
                 <div class="your-comment">
                     <wang-editor
-                            :menus="editorMeun"
-                            :min-height="64"
-                            :defaul-text="defaultText"
-                            ref="wangEditor"
-                            :editorcontent.sync="editorContent"></wang-editor>
+                        :menus="editorMeun"
+                        :min-height="64"
+                        :defaul-text="defaultText"
+                        ref="wangEditor"
+                        :editorcontent.sync="editorContent"></wang-editor>
                     <div class="btn-group" style="text-align: right">
                         <Button type="primary" @click.stop="replyHandler">评论</Button>
                     </div>
@@ -83,7 +83,7 @@
                     text-align: center;
                     cursor: pointer;
                     &:hover .icon-wrapper {
-                        background: rgba(0,132,255,.15);
+                        background: rgba(0, 132, 255, .15);
                         transform: scale(1.1);
                     }
                     &:hover .text {
@@ -98,13 +98,13 @@
                         width: 48px;
                         height: 48px;
                         line-height: 48px;
-                        background-color: rgba(0,132,255,.1);
+                        background-color: rgba(0, 132, 255, .1);
                         color: #0084ff;
                         font-size: 26px;
                         will-change: transform;
                         transition: -webkit-transform .3s;
                         transition: transform .3s;
-                        transition: transform .3s,-webkit-transform .3s;
+                        transition: transform .3s, -webkit-transform .3s;
                     }
                     .text {
                         margin-top: 8px;
@@ -113,7 +113,7 @@
                         color: #0084ff;
                         transition: -webkit-transform .3s;
                         transition: transform .3s;
-                        transition: transform .3s,-webkit-transform .3s;
+                        transition: transform .3s, -webkit-transform .3s;
                     }
                 }
             }
@@ -162,10 +162,11 @@
     import FsCommentList from '@/baseComponents/fs-comment-list';
     import WangEditor from '@/baseComponents/fs-wangeditor';
     import pageMixin from '@/mixins/pageMixin';
+
     export default {
         name: 'articleDetail',
         mixins: [pageMixin],
-        data () {
+        data() {
             return {
                 articleTitle: '',
                 articleAuthor: '',
