@@ -67,7 +67,7 @@
         </Row>
         <Modal v-model="checkLogFlag"
                :mask-closable="false"
-               width="1000">
+               width="1200">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>正在查看 {{logModalData.name + ' ' + logModalData.date}}日志</span>
             </p>
@@ -75,7 +75,7 @@
                 <Row :gutter="24">
                     <Col :span="16">
                         <h3>日志内容</h3>
-                        <div style="margin-top: 16px;max-height: 400px;overflow: auto;" v-html="logModalData.content"></div>
+                        <div class="w-e-text" style="margin-top: 16px;overflow: auto;" v-html="logModalData.content"></div>
                     </Col>
                     <Col :span="8">
                         <h3>上级指导</h3>

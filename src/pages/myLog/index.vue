@@ -2,132 +2,142 @@
     <div id="my-log">
         <Row :gutter="10">
             <Col :lg="14" :md="14">
-                <Card style="margin-bottom: 10px;">
-                    <Row type="flex" justify="center" align="middle" style="margin-bottom: 10px">
-                        <span style="font-size: 18px;cursor: pointer;" >
+            <Card style="margin-bottom: 10px;">
+                <Row type="flex" justify="center" align="middle" style="margin-bottom: 10px">
+                        <span style="font-size: 18px;cursor: pointer;">
                             <Button type="primary"
                                     shape="circle"
                                     @click.stop="_preMonth"
                                     :disabled="btnDisabled"
                                     icon="chevron-left"></Button>
                         </span>
-                        <DatePicker
-                                :open="datePickerFlag"
-                                :value="dateData"
-                                size="large"
-                                @on-change="_dateChange"
-                                type="month">
-                            <span style="padding:0 16px;font-size: 18px;cursor: pointer;" @click="datePickerFlag = !datePickerFlag">{{dateData}}</span>
-                        </DatePicker>
-                        <span style="font-size: 18px;cursor: pointer;">
+                    <DatePicker
+                        :open="datePickerFlag"
+                        :value="dateData"
+                        size="large"
+                        @on-change="_dateChange"
+                        type="month">
+                        <span style="padding:0 16px;font-size: 18px;cursor: pointer;"
+                              @click="datePickerFlag = !datePickerFlag">{{dateData}}</span>
+                    </DatePicker>
+                    <span style="font-size: 18px;cursor: pointer;">
                              <Button type="primary"
                                      @click.stop="_nextMonth"
                                      shape="circle"
                                      :disabled="btnDisabled"
                                      icon="chevron-right"></Button>
                         </span>
-                    </Row>
-                    <Table :columns="columnsData"
-                           :data="tableData"
-                           :loading="loading"
-                           :row-class-name="_rowClassName"
-                           :disabled-hover="true"></Table>
-                    <Modal v-model="modelFlag"
-                           width="740"
-                           :mask-closable="false">
-                        <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                            <span>{{logDetail.date}} 日志</span>
-                        </p>
-                        <div class="" v-if="modelFlag">
-                            <div class="" style="min-height: 100px;font-size: 16px;"
-                                 v-html="editorContent"
-                                 v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date"></div>
-                            <div class="" style="font-size: 14px;"
-                                 v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date">
-                                <div class="guider-block" v-if="upguiders && upguiders.length">
-                                    <h4>上级指导:</h4>
-                                    <ul class="guider-list">
-                                        <li  class="guider-item" v-for="item in upguiders" :key="'guide-' + item.id">
-                                            <span class="guider-name">{{item.guider}}:</span><span v-html="item.content"></span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="guider-block" v-if="upchecks && upchecks.length">
-                                    <h4>备注:</h4>
-                                    <ul class="guider-list">
-                                        <li  class="guider-item" v-for="item in upchecks" :key="'checks-' + item.id" style="position: relative;left: -6px;">
-                                            <span class="guider-name" style="width: auto">【{{item.content}}】</span><span>{{item.addtime}} 查看了你的日志</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div v-if="[0,1,2,3].indexOf(logDetail.type) > -1 || nowDate === logDetail.date">
-                                <span style="display: inline-block;margin-right: 10px;height: 30px;line-height: 30px;vertical-align: top;">日志类型</span>
-                                <Select v-model="logDetail.logType"
-                                        placeholder="日志类型"
-                                        transfer
-                                        style="margin-bottom: 10px;width:200px">
-                                    <Option v-for="item in logTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                                </Select>
-                                <wang-editor
-                                        :menus="editorMeun"
-                                        :editorcontent.sync="editorContent"
-                                        :defaul-text="'日志内容...'"
-                                        img-url="/oa/share/uploadFile"></wang-editor>
-                            </div>
-                        </div>
-                        <div slot="footer">
-                            <div class="" v-if="[0,1,2,3].indexOf(logDetail.type) > -1 || nowDate === logDetail.date">
-
-                                <Button type="primary" :loading="submitLoading" @click="_submitLog">
-                                    <span v-if="!submitLoading">提交日志</span>
-                                    <span v-else>提交中...</span>
-                                </Button>
-                            </div>
-                            <div class="" v-if="[5,6].indexOf(logDetail.type) > -1  && nowDate !== logDetail.date">
-                                <span>指导状态:</span>
-                                <Tag color="green">已指导</Tag>
-                                <span>类型:</span>
-                                <Tag color="blue">{{logDetail.logType1 | _returnLogType}}</Tag>
-                                <span>评级结果:</span>
-                                <Tag color="blue">{{logDetail.commentResult | _returnCommentResult}}</Tag>
-                            </div>
-                        </div>
-                    </Modal>
-                </Card>
-            </Col>
-            <Col :lg="10" :md="10">
-                <Card>
-                    <p  class="log-title">{{dateData}} 日志概览</p>
-                    <div class="each-log-wrapper w-e-text" :style="{maxHeight: logMaxHeight}">
-                        <div class="each-log-look" v-for="item in logLookList">
-                            <p class="time-title">{{item.date}}</p>
-                            <div class="" v-html="item.content"></div>
-                            <div class="guider-block" v-if="item.guide && item.guide.length">
+                </Row>
+                <Table :columns="columnsData"
+                       :data="tableData"
+                       :loading="loading"
+                       :row-class-name="_rowClassName"
+                       :disabled-hover="true"></Table>
+                <Modal v-model="modelFlag"
+                       width="740"
+                       :mask-closable="false">
+                    <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                        <span>{{logDetail.date}} 日志</span>
+                    </p>
+                    <div class="" v-if="modelFlag">
+                        <div class="w-e-text" style="min-height: 100px;font-size: 16px;overflow:auto;"
+                             v-html="editorContent"
+                             v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date"></div>
+                        <div class="" style="font-size: 14px;"
+                             v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date">
+                            <div class="guider-block" v-if="upguiders && upguiders.length">
                                 <h4>上级指导:</h4>
                                 <ul class="guider-list">
-                                    <li  class="guider-item" v-for="guideItem,index in item.guide" :key="'guide' + index">
-                                        <span class="guider-name">{{guideItem.guider}}:</span><span v-html="guideItem.content"></span>
+                                    <li class="guider-item" v-for="item in upguiders" :key="'guide-' + item.id">
+                                        <span class="guider-name">{{item.guider}}:</span><span
+                                        v-html="item.content"></span>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="guider-block" v-if="item.sysmsg && item.sysmsg.length">
+                            <div class="guider-block" v-if="upchecks && upchecks.length">
                                 <h4>备注:</h4>
                                 <ul class="guider-list">
-                                    <li  class="guider-item" style="position: relative; left: -6px;" v-for="sysmsgItem in item.sysmsg" :key="'sysmsg' + sysmsgItem.id">
-                                        <span class="guider-name" style="width: auto">【{{sysmsgItem.content}}】</span><span>{{sysmsgItem.addtime}} 查看了你的日志</span>
+                                    <li class="guider-item" v-for="item in upchecks" :key="'checks-' + item.id"
+                                        style="position: relative;left: -6px;">
+                                        <span class="guider-name" style="width: auto">【{{item.content}}】</span><span>{{item.addtime}} 查看了你的日志</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        <div v-if="[0,1,2,3].indexOf(logDetail.type) > -1 || nowDate === logDetail.date">
+                            <span
+                                style="display: inline-block;margin-right: 10px;height: 30px;line-height: 30px;vertical-align: top;">日志类型</span>
+                            <Select v-model="logDetail.logType"
+                                    placeholder="日志类型"
+                                    transfer
+                                    style="margin-bottom: 10px;width:200px">
+                                <Option v-for="item in logTypeList"
+                                        :value="item.value"
+                                        :key="item.value">{{ item.label }}
+                                </Option>
+                            </Select>
+                            <wang-editor
+                                :menus="editorMeun"
+                                :editorcontent.sync="editorContent"
+                                :defaul-text="'日志内容...'"
+                                img-url="/oa/share/uploadFile"></wang-editor>
+                        </div>
                     </div>
-                </Card>
+                    <div slot="footer">
+                        <div class="" v-if="[0,1,2,3].indexOf(logDetail.type) > -1 || nowDate === logDetail.date">
+
+                            <Button type="primary" :loading="submitLoading" @click="_submitLog">
+                                <span v-if="!submitLoading">提交日志</span>
+                                <span v-else>提交中...</span>
+                            </Button>
+                        </div>
+                        <div class="" v-if="[5,6].indexOf(logDetail.type) > -1  && nowDate !== logDetail.date">
+                            <span>指导状态:</span>
+                            <Tag color="green">已指导</Tag>
+                            <span>类型:</span>
+                            <Tag color="blue">{{logDetail.logType1 | _returnLogType}}</Tag>
+                            <span>评级结果:</span>
+                            <Tag color="blue">{{logDetail.commentResult | _returnCommentResult}}</Tag>
+                        </div>
+                    </div>
+                </Modal>
+            </Card>
+            </Col>
+            <Col :lg="10" :md="10">
+            <Card>
+                <p class="log-title">{{dateData}} 日志概览</p>
+                <div class="each-log-wrapper w-e-text" :style="{maxHeight: logMaxHeight}">
+                    <div class="each-log-look" v-for="item in logLookList">
+                        <p class="time-title">{{item.date}}</p>
+                        <div class="" v-html="item.content"></div>
+                        <div class="guider-block" v-if="item.guide && item.guide.length">
+                            <h4>上级指导:</h4>
+                            <ul class="guider-list">
+                                <li class="guider-item" v-for="guideItem,index in item.guide" :key="'guide' + index">
+                                    <span class="guider-name">{{guideItem.guider}}:</span><span
+                                    v-html="guideItem.content"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="guider-block" v-if="item.sysmsg && item.sysmsg.length">
+                            <h4>备注:</h4>
+                            <ul class="guider-list">
+                                <li class="guider-item" style="position: relative; left: -6px;"
+                                    v-for="sysmsgItem in item.sysmsg" :key="'sysmsg' + sysmsgItem.id">
+                                    <span class="guider-name" style="width: auto">【{{sysmsgItem.content}}】</span><span>{{sysmsgItem.addtime}} 查看了你的日志</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </Card>
             </Col>
         </Row>
     </div>
 </template>
 <style lang="less">
     @import "../../styles/fsBase";
+
     #my-log {
         .each-log-wrapper {
             overflow-y: auto;
@@ -141,7 +151,7 @@
         .each-log-look {
             margin-top: 10px;
             padding: 8px 0;
-            .guider-block{
+            .guider-block {
                 margin-top: 8px;
                 .guider-item {
                     display: flex;
@@ -157,6 +167,7 @@
             }
         }
     }
+
     .ivu-table .mylog-table-row {
         td {
             .ivu-table-cell {
@@ -202,11 +213,12 @@
     import moment from 'moment';
     import WangEditor from '@/baseComponents/fs-wangeditor';
     import dateMixin from '@/mixins/dateMixin';
+
     const NOW_DATE = moment().format('YYYY-MM-DD');
     export default {
         name: 'myLog',
         mixins: [dateMixin],
-        data () {
+        data() {
             return {
                 datePickerFlag: false,
                 submitLoading: false,
