@@ -33,9 +33,10 @@
 </style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
+
     export default {
         name: 'logTotal',
-        data () {
+        data() {
             return {
                 tableHeight: 300,
                 filterOpt: {

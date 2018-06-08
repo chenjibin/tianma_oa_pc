@@ -3,21 +3,21 @@
         <!--<p class="sys-notice-title">天马大小事</p>-->
         <Row>
             <Col :span="12">
-                <Table height="254"
-                       :columns="columns"
-                       :data="pageData.list"
-                       :loading="tableLoading"
-                       :row-class-name="_rowClassName"
-                       @on-row-click="_checkDetails"
-                       class="sys-notice-table"></Table>
-                <Page
-                    :total="pageData.totalCount"
-                    size="small"
-                    :page-size="pageData.pageSize"
-                    @on-change="pageChangeHandler"></Page>
+            <Table height="254"
+                   :columns="columns"
+                   :data="pageData.list"
+                   :loading="tableLoading"
+                   :row-class-name="_rowClassName"
+                   @on-row-click="_checkDetails"
+                   class="sys-notice-table"></Table>
+            <Page
+                :total="pageData.totalCount"
+                size="small"
+                :page-size="pageData.pageSize"
+                @on-change="pageChangeHandler"></Page>
             </Col>
             <Col :span="12">
-                <system-info></system-info>
+            <system-info></system-info>
             </Col>
         </Row>
 
@@ -50,6 +50,7 @@
     .ivu-table .row-cursor {
         cursor: pointer;
     }
+
     .sys-notice {
         margin-bottom: 3px;
         &-title {
@@ -67,9 +68,10 @@
     import moment from 'moment';
     import pageMixin from '@/mixins/pageMixin';
     import systemInfo from './systemInfo';
+
     export default {
         mixins: [pageMixin],
-        data () {
+        data() {
             return {
                 modelFlag: false,
                 noticeData: {

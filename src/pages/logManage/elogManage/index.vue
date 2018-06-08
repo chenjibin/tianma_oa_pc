@@ -2,67 +2,67 @@
     <div>
         <Row :gutter="6">
             <Col :span="4">
-                <fs-dep-tree url="/organize/organizeTreeByUserForRiZhi"
-                             @node-change="_nodeChangeHandler($event)"
-                             :defaultProps="defaultProps"></fs-dep-tree>
-                <Card class="no-write" style="margin-top: 6px" v-if="userName === 'sun'">
-                    <h3>昨日没写日志人员</h3>
-                    <ul style="margin-top: 8px;">
-                        <li v-for="item in noWritePeople">{{item}}</li>
-                    </ul>
-                </Card>
+            <fs-dep-tree url="/organize/organizeTreeByUserForRiZhi"
+                         @node-change="_nodeChangeHandler($event)"
+                         :defaultProps="defaultProps"></fs-dep-tree>
+            <Card class="no-write" style="margin-top: 6px" v-if="userName === 'sun'">
+                <h3>昨日没写日志人员</h3>
+                <ul style="margin-top: 8px;">
+                    <li v-for="item in noWritePeople">{{item}}</li>
+                </ul>
+            </Card>
             </Col>
             <Col :span="20">
-                <Card>
-                    <Form inline :label-width="60">
-                        <FormItem prop="name" label="姓名">
-                            <Input type="text"
-                                   clearable
-                                   v-model="searchData.userName.value"
-                                   placeholder="姓名"></Input>
-                        </FormItem>
-                        <FormItem prop="startDate" label="开始日期">
-                            <DatePicker type="date"
-                                        @on-change="searchData.startDate.value = $event"
-                                        placeholder="开始日期"
-                                        :value="searchData.startDate.value"></DatePicker>
-                        </FormItem>
-                        <FormItem prop="endDate" label="结束日期">
-                            <DatePicker type="date"
-                                        @on-change="searchData.endDate.value = $event"
-                                        placeholder="结束日期"
-                                        :value="searchData.endDate.value"></DatePicker>
-                        </FormItem>
-                        <FormItem label="指导状态">
-                            <Select v-model="searchData.states.value"
-                                    clearable>
-                                <Option value="1">已指导</Option>
-                                <Option value="0">未指导</Option>
-                            </Select>
-                        </FormItem>
-                        <FormItem label="评级结果">
-                            <Select v-model="searchData.resultType.value"
-                                    clearable>
-                                <Option value="1">优秀</Option>
-                                <Option value="2">合格</Option>
-                                <Option value="3">不合格</Option>
-                            </Select>
-                        </FormItem>
-                        <FormItem label="日志类型">
-                            <Select v-model="searchData.type.value"
-                                    clearable>
-                                <Option value="1">休息</Option>
-                                <Option value="0">出勤</Option>
-                            </Select>
-                        </FormItem>
-                    </Form>
-                    <fs-table-page :columns="columns1"
-                                   :size="null"
-                                   :height="tableHeight"
-                                   :params="searchData"
-                                   ref="fsTable"
-                                   url="/journal/maglist"></fs-table-page>
-                </Card>
+            <Card>
+                <Form inline :label-width="60">
+                    <FormItem prop="name" label="姓名">
+                        <Input type="text"
+                               clearable
+                               v-model="searchData.userName.value"
+                               placeholder="姓名"></Input>
+                    </FormItem>
+                    <FormItem prop="startDate" label="开始日期">
+                        <DatePicker type="date"
+                                    @on-change="searchData.startDate.value = $event"
+                                    placeholder="开始日期"
+                                    :value="searchData.startDate.value"></DatePicker>
+                    </FormItem>
+                    <FormItem prop="endDate" label="结束日期">
+                        <DatePicker type="date"
+                                    @on-change="searchData.endDate.value = $event"
+                                    placeholder="结束日期"
+                                    :value="searchData.endDate.value"></DatePicker>
+                    </FormItem>
+                    <FormItem label="指导状态">
+                        <Select v-model="searchData.states.value"
+                                clearable>
+                            <Option value="1">已指导</Option>
+                            <Option value="0">未指导</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem label="评级结果">
+                        <Select v-model="searchData.resultType.value"
+                                clearable>
+                            <Option value="1">优秀</Option>
+                            <Option value="2">合格</Option>
+                            <Option value="3">不合格</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem label="日志类型">
+                        <Select v-model="searchData.type.value"
+                                clearable>
+                            <Option value="1">休息</Option>
+                            <Option value="0">出勤</Option>
+                        </Select>
+                    </FormItem>
+                </Form>
+                <fs-table-page :columns="columns1"
+                               :size="null"
+                               :height="tableHeight"
+                               :params="searchData"
+                               ref="fsTable"
+                               url="/journal/maglist"></fs-table-page>
+            </Card>
             </Col>
         </Row>
         <Modal v-model="checkLogFlag"
@@ -74,29 +74,29 @@
             <div id="check-log-modal-content">
                 <Row :gutter="24">
                     <Col :span="16">
-                        <h3>日志内容</h3>
-                        <div class="w-e-text" style="margin-top: 16px;overflow: auto;" v-html="logModalData.content"></div>
+                    <h3>日志内容</h3>
+                    <div class="w-e-text" style="margin-top: 16px;overflow: auto;" v-html="logModalData.content"></div>
                     </Col>
                     <Col :span="8">
-                        <h3>上级指导</h3>
-                        <div class="log-guider-wrapper">
-                            <ul v-if="!!upGuider.length" class="log-guider-list">
-                                <li v-for="item in upGuider" class="log-guider-item">
-                                    <Row :gutter="1">
-                                        <Col :span="12">
-                                            <span>{{item.guider}}</span>
-                                        </Col>
-                                        <Col :span="12">
-                                            <span>{{item.guidedate | dateFormatter}}</span>
-                                        </Col>
-                                        <Col :span="24" style="margin-top: 8px;">
-                                            <p>{{item.content}}</p>
-                                        </Col>
-                                    </Row>
-                                </li>
-                            </ul>
-                            <p v-else>暂无指导</p>
-                        </div>
+                    <h3>上级指导</h3>
+                    <div class="log-guider-wrapper">
+                        <ul v-if="!!upGuider.length" class="log-guider-list">
+                            <li v-for="item in upGuider" class="log-guider-item">
+                                <Row :gutter="1">
+                                    <Col :span="12">
+                                    <span>{{item.guider}}</span>
+                                    </Col>
+                                    <Col :span="12">
+                                    <span>{{item.guidedate | dateFormatter}}</span>
+                                    </Col>
+                                    <Col :span="24" style="margin-top: 8px;">
+                                    <p>{{item.content}}</p>
+                                    </Col>
+                                </Row>
+                            </li>
+                        </ul>
+                        <p v-else>暂无指导</p>
+                    </div>
                     </Col>
                 </Row>
             </div>
@@ -146,6 +146,7 @@
     import fsDepTree from '@/baseComponents/fs-dep-tree';
     import utils from '@/libs/util';
     import moment from 'moment';
+
     export default {
         name: 'elogManage',
         watch: {
@@ -155,7 +156,7 @@
                 }
             }
         },
-        data () {
+        data() {
             const validateContentLength = (rule, value, callback) => {
                 if (value.length < 2) {
                     callback(new Error('指导内容不能少于两个字！'));
@@ -172,11 +173,11 @@
                 },
                 commentRules: {
                     advice: [
-                        { required: true, message: '评语不能为空！', trigger: 'blur' },
+                        {required: true, message: '评语不能为空！', trigger: 'blur'},
                         {validator: validateContentLength, trigger: 'blur'}
                     ],
                     result: [
-                        { required: true, message: '评价不能为空！', trigger: 'change' }
+                        {required: true, message: '评价不能为空！', trigger: 'change'}
                     ]
                 },
                 upGuider: [],

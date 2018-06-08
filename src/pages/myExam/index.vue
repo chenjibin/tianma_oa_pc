@@ -2,31 +2,31 @@
     <div>
         <Row :gutter="16">
             <Col :xs="24" :sm="24" :md="14" :lg="16">
-                <Card :dis-hover="true">
-                    <h3 style="margin-bottom: 16px">我的成绩</h3>
-                    <fs-table-page :columns="postColumns"
-                                   :height="tableHeight"
-                                   ref="myGradeList"
-                                   url="/examtest/queryScoreList"></fs-table-page>
-                </Card>
+            <Card :dis-hover="true">
+                <h3 style="margin-bottom: 16px">我的成绩</h3>
+                <fs-table-page :columns="postColumns"
+                               :height="tableHeight"
+                               ref="myGradeList"
+                               url="/examtest/queryScoreList"></fs-table-page>
+            </Card>
             </Col>
             <Col :xs="24" :sm="24" :md="10" :lg="8">
-                <Card :dis-hover="true">
-                    <h3 style="margin-bottom: 16px;">我的考试</h3>
-                    <div>
-                        <Card v-for="item, index in myTestList" :key="'my-test-' + index">
+            <Card :dis-hover="true">
+                <h3 style="margin-bottom: 16px;">我的考试</h3>
+                <div>
+                    <Card v-for="item, index in myTestList" :key="'my-test-' + index">
+                        <div class="">
+                            <strong style="font-size: 16px;">{{item.name}}</strong>
                             <div class="">
-                                <strong style="font-size: 16px;">{{item.name}}</strong>
-                                <div class="">
-                                    <span>考试时间：</span><span>{{item.starttime}}</span>
-                                    <span style="margin-left: 8px;">考试时长：</span><span>{{item.totletime}}分钟</span>
-                                </div>
-                                <Button type="primary" style="margin-top: 8px;" @click="_startTest(item)">开始考试</Button>
+                                <span>考试时间：</span><span>{{item.starttime}}</span>
+                                <span style="margin-left: 8px;">考试时长：</span><span>{{item.totletime}}分钟</span>
                             </div>
-                        </Card>
-                    </div>
+                            <Button type="primary" style="margin-top: 8px;" @click="_startTest(item)">开始考试</Button>
+                        </div>
+                    </Card>
+                </div>
 
-                </Card>
+            </Card>
             </Col>
         </Row>
         <Modal v-model="modelFlag" width="1200" :mask-closable="false">
@@ -43,14 +43,14 @@
             </div>
         </Modal>
         <!--<Modal v-model="inExamFlag" width="1200" :mask-closable="false" :closable="false">-->
-            <!--<p slot="header" style="color:#495060;text-align:center;font-size: 18px">-->
-                <!--<span>考试中</span>-->
-            <!--</p>-->
-            <!--<in-exam :id="testPaperId"-->
-                     <!--:paper-id="testId"-->
-                     <!--@submit-paper-success="_submitSuccessHandler"></in-exam>-->
-            <!--<div slot="footer">-->
-            <!--</div>-->
+        <!--<p slot="header" style="color:#495060;text-align:center;font-size: 18px">-->
+        <!--<span>考试中</span>-->
+        <!--</p>-->
+        <!--<in-exam :id="testPaperId"-->
+        <!--:paper-id="testId"-->
+        <!--@submit-paper-success="_submitSuccessHandler"></in-exam>-->
+        <!--<div slot="footer">-->
+        <!--</div>-->
         <!--</Modal>-->
     </div>
 </template>
@@ -60,9 +60,10 @@
     import testResult from '../examination/components/test-result';
     import inExam from './in-exam';
     import utils from '@/libs/util.js';
+
     export default {
         name: 'myExam',
-        data () {
+        data() {
             return {
                 modelFlag: false,
                 exportLoading: false,
@@ -165,7 +166,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function() {
+                                            click: function () {
                                                 vm._checkTest(params.row);
                                             }
                                         }

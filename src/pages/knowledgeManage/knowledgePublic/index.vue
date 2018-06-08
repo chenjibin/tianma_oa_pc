@@ -25,7 +25,7 @@
 </template>
 <style lang="less">
     .fs-article-index {
-        .tree{
+        .tree {
             position: fixed;
             padding: 12px 0;
             z-index: 100;
@@ -34,13 +34,13 @@
             width: 300px;
             background-color: #fff;
             transition: transform 0.3s;
-            transform: translate3d(-100%,0,0);
+            transform: translate3d(-100%, 0, 0);
             .tree-wrapper {
                 max-height: 600px;
                 overflow: auto;
             }
             &.show {
-                transform: translate3d(0,0,0);
+                transform: translate3d(0, 0, 0);
             }
             .btn {
                 position: absolute;
@@ -70,9 +70,10 @@
 </style>
 <script>
     import FsCommentList from '@/baseComponents/fs-comment-list';
+
     export default {
         name: 'articleIndex',
-        data () {
+        data() {
             return {
                 treeShow: false,
                 defaultProps: {

@@ -2,20 +2,21 @@
     <Card class="people-photo">
         <Row type="flex" justify="space-between">
             <Col>
-                <p class="people-photo-title">员工风采</p>
+            <p class="people-photo-title">员工风采</p>
             </Col>
             <Col>
-                <Button type="primary"
-                        shape="circle"
-                        icon="eye"
-                        @click.stop="$router.push({name: 'photoList'})"
-                        style="margin-right: 8px;">查看更多</Button>
+            <Button type="primary"
+                    shape="circle"
+                    icon="eye"
+                    @click.stop="$router.push({name: 'photoList'})"
+                    style="margin-right: 8px;">查看更多
+            </Button>
             </Col>
         </Row>
         <Carousel v-model="value1" class="people-photo-list" autoplay :autoplay-speed="3000">
             <CarouselItem v-for="item in photoData"
                           :key="'photo-' + item.id">
-                <div class="item"  @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
+                <div class="item" @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
                     <img :src="$mainHost + item.file_path">
                     <div class="info">
                         <div class="">
@@ -70,17 +71,17 @@
 </style>
 <script>
     export default {
-        data () {
+        data() {
             return {
                 value1: 0,
                 photoData: []
             };
         },
-        created () {
+        created() {
             this._getShowPhotoData();
         },
         methods: {
-            _getShowPhotoData () {
+            _getShowPhotoData() {
                 let sendData = {};
                 sendData.page = 1;
                 sendData.pageSize = 1000;

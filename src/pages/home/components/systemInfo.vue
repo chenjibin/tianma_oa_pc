@@ -35,6 +35,7 @@
 </style>
 <script>
     import pageMixin from '@/mixins/pageMixin';
+
     export default {
         name: 'systemInfo',
         mixins: [pageMixin],
@@ -55,7 +56,8 @@
                                 case 3:
                                     content = `${addtime} 【${pcontent}】 查看了你的日志`;
                                     break;
-                                case 5: case 9:
+                                case 5:
+                                case 9:
                                     content = pcontent;
                             }
                             return h('span', content);

@@ -2,21 +2,21 @@
     <div class="article-home">
         <Row :gutter="10">
             <Col :span="12" style="margin-bottom: 8px">
-                <Card :padding="0">
-                    <Carousel v-model="value1"
-                              trigger="hover"
-                              autoplay
-                              ref="carousel"
-                              :autoplay-speed="5000">
-                        <CarouselItem v-for="(item, index) in mainBannerData" :key="'banner-' + index">
-                            <div class="demo-carousel" @click.stop="toDetailPage(item.id)">
-                                <div class="demo-carousel-inner">
-                                    <img :src="$mainHost + item.file_path" />
-                                </div>
+            <Card :padding="0">
+                <Carousel v-model="value1"
+                          trigger="hover"
+                          autoplay
+                          ref="carousel"
+                          :autoplay-speed="5000">
+                    <CarouselItem v-for="(item, index) in mainBannerData" :key="'banner-' + index">
+                        <div class="demo-carousel" @click.stop="toDetailPage(item.id)">
+                            <div class="demo-carousel-inner">
+                                <img :src="$mainHost + item.file_path"/>
                             </div>
-                        </CarouselItem>
-                    </Carousel>
-                </Card>
+                        </div>
+                    </CarouselItem>
+                </Carousel>
+            </Card>
             </Col>
             <Col :span="12" style="margin-bottom: 8px">
             <Card :padding="0">
@@ -42,37 +42,40 @@
             <Col :span="12" style="margin-bottom: 8px"
                  v-for="(item,index) in mainBlockData"
                  :key="'main-block' + index">
-                <Card :padding="0">
-                    <div class="article-important-block">
-                        <div class="article-important-block-inner">
-                            <div class="top">
-                                <h2>{{item.name}}</h2>
-                                <Button type="text" @click="checkMore(item)">查看更多<Icon type="ios-arrow-right" style="margin-left: 8px"></Icon></Button>
-                            </div>
-                            <div class="content-list-wrapper">
-                                <Row :gutter="16">
-                                    <Col :span="12" v-for="(article, aindex) in item.share" :key="'article-' + aindex">
-                                    <a href="javascript:void(0)"
-                                       class="item"
-                                       @click.stop="toDetailPage(article.shareId)"
-                                       :title="article.share_item">{{article.share_item}}</a>
-                                    </Col>
-                                </Row>
-                            </div>
+            <Card :padding="0">
+                <div class="article-important-block">
+                    <div class="article-important-block-inner">
+                        <div class="top">
+                            <h2>{{item.name}}</h2>
+                            <Button type="text" @click="checkMore(item)">查看更多
+                                <Icon type="ios-arrow-right" style="margin-left: 8px"></Icon>
+                            </Button>
+                        </div>
+                        <div class="content-list-wrapper">
+                            <Row :gutter="16">
+                                <Col :span="12" v-for="(article, aindex) in item.share" :key="'article-' + aindex">
+                                <a href="javascript:void(0)"
+                                   class="item"
+                                   @click.stop="toDetailPage(article.shareId)"
+                                   :title="article.share_item">{{article.share_item}}</a>
+                                </Col>
+                            </Row>
                         </div>
                     </div>
-                </Card>
+                </div>
+            </Card>
             </Col>
             <Col :span="24">
-                <Row :gutter="10">
-                    <Col :span="6" v-for="(item,index) in mainShowPicData" :key="'show-' + index" style="margin-bottom: 8px;">
-                        <Card :padding="0">
-                            <div class="fs-holder-img" @click.stop="toDetailPage(item.id)">
-                                <img :src="item.file_path" />
-                            </div>
-                        </Card>
-                    </Col>
-                </Row>
+            <Row :gutter="10">
+                <Col :span="6" v-for="(item,index) in mainShowPicData" :key="'show-' + index"
+                     style="margin-bottom: 8px;">
+                <Card :padding="0">
+                    <div class="fs-holder-img" @click.stop="toDetailPage(item.id)">
+                        <img :src="item.file_path"/>
+                    </div>
+                </Card>
+                </Col>
+            </Row>
             </Col>
         </Row>
     </div>
@@ -154,9 +157,10 @@
 </style>
 <script>
     import FsCommentList from '@/baseComponents/fs-comment-list';
+
     export default {
         name: 'articleHome',
-        data () {
+        data() {
             return {
                 value1: 0,
                 mainBlockData: [],
@@ -185,7 +189,7 @@
             toDetailPage(id) {
                 let params = {};
                 params.name = 'articleDetail';
-                params.params = { id: id };
+                params.params = {id: id};
                 this.$router.push(params);
             },
             _getShowPicData() {
