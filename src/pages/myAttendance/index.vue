@@ -27,14 +27,14 @@
     </div>
 </template>
 <style lang="less">
-    .ivu-table  {
+    .ivu-table {
         .fs-row {
             font-size: 16px;
             cursor: pointer;
         }
         .my-attendance-inner {
             font-size: 14px;
-            &.error td{
+            &.error td {
                 background-color: #ff0036;
                 color: #fff;
             }
@@ -43,9 +43,10 @@
 </style>
 <script>
     import moment from 'moment';
+
     export default {
         name: 'myAttendance',
-        data () {
+        data() {
             return {
                 loading: false,
                 loading2: false,

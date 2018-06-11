@@ -96,7 +96,7 @@
                         title: '试题类型',
                         key: 'user_name',
                         align: 'center',
-                        width: 100,
+                        width: 120,
                         render: (h, params) => {
                             return h('span', this.typeOptMap[params.row.type - 1].label);
                         }
@@ -110,9 +110,8 @@
                     {
                         title: '操作',
                         key: 'user_name',
-                        fixed: 'right',
                         align: 'center',
-                        width: 60,
+                        width: 80,
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [

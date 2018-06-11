@@ -17,30 +17,30 @@
 
 <script>
 
-export default {
-    name: 'infoBtn',
-    props: {
-        idName: String,
-        color: String,
-        iconType: String,
-        btnText: String,
-        countSize: {
-            type: String,
-            default: '30px'
+    export default {
+        name: 'infoBtn',
+        props: {
+            idName: String,
+            color: String,
+            iconType: String,
+            btnText: String,
+            countSize: {
+                type: String,
+                default: '30px'
+            },
+            countWeight: {
+                type: Number,
+                default: 700
+            },
+            iconSize: {
+                type: Number,
+                default: 18
+            }
         },
-        countWeight: {
-            type: Number,
-            default: 700
-        },
-        iconSize: {
-            type: Number,
-            default: 18
+        methods: {
+            clickHandler() {
+                this.$emit('card-click');
+            }
         }
-    },
-    methods: {
-        clickHandler() {
-            this.$emit('card-click');
-        }
-    }
-};
+    };
 </script>

@@ -2,10 +2,10 @@
     <div id="exam-people-show">
         <h2 class="title">参加考试人员</h2>
         <div class="wrapper">
-            <div v-for="item, index in peopleList" :key="'people-list-' + index" style="margin-bottom: 16px">
+            <div v-for="(item, index) in peopleList" :key="'people-list-' + index" style="margin-bottom: 16px">
                 <h3 style="margin-bottom: 8px;">{{item.organizeName}}</h3>
                 <Row type="flex">
-                    <Col v-for="people, pindex in item.peopleList"
+                    <Col v-for="(people, pindex) in item.peopleList"
                          :span="3"
                          class="fs-row"
                          :key="'people-' + index + '-' + pindex">

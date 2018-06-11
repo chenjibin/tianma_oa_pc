@@ -2,18 +2,20 @@
     <Card class="coin-change">
         <Row type="flex" justify="space-between" class="coin-change-header">
             <Col>
-                <p class="coin-change-title">金币奖惩记录</p>
+            <p class="coin-change-title">金币奖惩记录</p>
             </Col>
             <Col>
-                <Button type="primary"
-                        shape="circle"
-                        icon="ios-flag-outline"
-                        style="margin-right: 8px;"
-                        @click.stop="_openCoinRanking">金币排行</Button>
-                <Button type="primary"
-                        shape="circle"
-                        icon="ios-search"
-                        @click.stop="_openMyCoinState">我的金币动态</Button>
+            <Button type="primary"
+                    shape="circle"
+                    icon="ios-flag-outline"
+                    style="margin-right: 8px;"
+                    @click.stop="_openCoinRanking">金币排行
+            </Button>
+            <Button type="primary"
+                    shape="circle"
+                    icon="ios-search"
+                    @click.stop="_openMyCoinState">我的金币动态
+            </Button>
             </Col>
         </Row>
         <div class="coin-change-list">
@@ -27,20 +29,20 @@
             </p>
             <Row :gutter="6" style="margin-bottom: 10px;">
                 <Col :md="12" :lg="12">
-                    <coin-ranking tag-color="#19be6b"
-                                  ref="redRanking"
-                                  v-if="modelCoinFlag"
-                                  coin-title="金币排行红榜"
-                                  url="/main/Ranking?type=1">
-                    </coin-ranking>
+                <coin-ranking tag-color="#19be6b"
+                              ref="redRanking"
+                              v-if="modelCoinFlag"
+                              coin-title="金币排行红榜"
+                              url="/main/Ranking?type=1">
+                </coin-ranking>
                 </Col>
                 <Col :md="12" :lg="12">
-                    <coin-ranking tag-color="#ed3f14"
-                                  ref="blackRanking"
-                                  v-if="modelCoinFlag"
-                                  coin-title="金币排行黑榜"
-                                  url="/main/Ranking?type=2">
-                    </coin-ranking>
+                <coin-ranking tag-color="#ed3f14"
+                              ref="blackRanking"
+                              v-if="modelCoinFlag"
+                              coin-title="金币排行黑榜"
+                              url="/main/Ranking?type=2">
+                </coin-ranking>
                 </Col>
             </Row>
             <div slot="footer">
@@ -74,8 +76,9 @@
 <script>
     import coinRanking from './coinRanking';
     import fsTablePage from '@/baseComponents/fs-table-page';
+
     export default {
-        data () {
+        data() {
             return {
                 modelCoinFlag: false,
                 modelFlag: false,

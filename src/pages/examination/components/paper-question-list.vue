@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Form inline :label-width="60"  @submit.native.prevent>
+        <Form inline :label-width="60" @submit.native.prevent>
             <FormItem label="试题名称">
                 <Input type="text"
                        v-model="filterOpt.name.value"
@@ -11,7 +11,7 @@
                         clearable
                         placeholder="筛选分类"
                         style="width: 160px">
-                    <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
+                    <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>
                 </Select>
             </FormItem>
             <FormItem label="试题类型">
@@ -19,7 +19,7 @@
                         clearable
                         placeholder="筛选类型"
                         style="width: 160px">
-                    <Option :value="item.value" v-for="item, index in typeOptMap" :key="index">{{item.label}}</Option>
+                    <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">{{item.label}}</Option>
                 </Select>
             </FormItem>
         </Form>
@@ -36,6 +36,7 @@
 </style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
+
     export default {
         name: 'paperQuestionList',
         props: {
@@ -48,7 +49,7 @@
                 this.filterOpt.id.value = val;
             }
         },
-        data () {
+        data() {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {
                     props: {
@@ -102,7 +103,7 @@
                     {
                         title: '试题分类',
                         align: 'center',
-                        width: 100,
+                        width: 120,
                         render: (h, params) => {
                             return h('span', (this.subjectList.filter(x => x.id === params.row.subject))[0].name);
                         }
@@ -125,9 +126,8 @@
                     {
                         title: '操作',
                         key: 'user_name',
-                        fixed: 'right',
                         align: 'center',
-                        width: 60,
+                        width: 80,
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [

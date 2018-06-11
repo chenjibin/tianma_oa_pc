@@ -11,7 +11,8 @@
                     <Select v-model="filterOpt.subjectPaper.value"
                             style="width: 200px"
                             clearable>
-                        <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
+                        <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="试卷状态">
@@ -19,7 +20,8 @@
                             clearable
                             placeholder="筛选状态"
                             style="width: 100px">
-                        <Option :value="item.status" v-for="item, index in statusList" :key="index">{{item.name}}</Option>
+                        <Option :value="item.status" v-for="(item, index) in statusList" :key="index">{{item.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
@@ -54,7 +56,8 @@
                     </FormItem>
                     <FormItem label="试卷分类">
                         <Select v-model="editorSettingData.subjectPaper">
-                            <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
+                            <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}
+                            </Option>
                         </Select>
                     </FormItem>
                     <FormItem label="是否随机">
@@ -66,7 +69,9 @@
                     <div class="" v-show="editorSettingData.isRandom === 2">
                         <FormItem label="试题分类">
                             <Select v-model="editorSettingData.subject">
-                                <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
+                                <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">
+                                    {{item.name}}
+                                </Option>
                             </Select>
                         </FormItem>
                         <FormItem label="单选题">
@@ -104,15 +109,15 @@
                 <div class="">
                     <Row :gutter="16">
                         <Col :span="12">
-                            <paper-question-list :id="paperId"
-                                                 ref="questionList"
-                                                 @add-success="_getPaperDetail"></paper-question-list>
+                        <paper-question-list :id="paperId"
+                                             ref="questionList"
+                                             @add-success="_getPaperDetail"></paper-question-list>
                         </Col>
                         <Col :span="12">
-                            <editor-paper :id="paperId"
-                                          :editorabled="true"
-                                          @del-question-success="_updateQuestionList"
-                                          ref="paperDetail"></editor-paper>
+                        <editor-paper :id="paperId"
+                                      :editorabled="true"
+                                      @del-question-success="_updateQuestionList"
+                                      ref="paperDetail"></editor-paper>
                         </Col>
                     </Row>
                 </div>
@@ -150,7 +155,8 @@
                         </FormItem>
                         <FormItem label="试卷分类">
                             <Select v-model="paperNameForm.subjectPaper">
-                                <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
+                                <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}
+                                </Option>
                             </Select>
                         </FormItem>
                     </Form>
@@ -167,9 +173,10 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import paperQuestionList from '../components/paper-question-list';
     import editorPaper from '../components/editor-paper';
+
     export default {
         name: 'paperManage',
-        data () {
+        data() {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {
                     props: {
@@ -342,11 +349,19 @@
                                 return h('div', [
                                     colBtn(vm, h, params, {content: '查看试卷', icon: 'eye', foo: vm._checkPaper}),
                                     colBtn(vm, h, params, {content: '关闭试卷', icon: 'close-round', foo: vm._closePaper}),
-                                    colBtn(vm, h, params, {content: '复制试卷', icon: 'ios-copy-outline', foo: vm._copyPaper})
+                                    colBtn(vm, h, params, {
+                                        content: '复制试卷',
+                                        icon: 'ios-copy-outline',
+                                        foo: vm._copyPaper
+                                    })
                                 ]);
                             } else if (status === 3) {
                                 return h('div', [
-                                    colBtn(vm, h, params, {content: '重新发布', icon: 'checkmark-round', foo: vm._republishPaper})
+                                    colBtn(vm, h, params, {
+                                        content: '重新发布',
+                                        icon: 'checkmark-round',
+                                        foo: vm._republishPaper
+                                    })
                                 ]);
                             }
                         }

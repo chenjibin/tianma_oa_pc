@@ -22,6 +22,7 @@
 </style>
 <script>
     import inExam from './in-exam'
+
     export default {
         name: 'inExamPage',
         data() {

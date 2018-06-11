@@ -2,86 +2,86 @@
     <Card>
         <Row type="flex" class="user-infor">
             <Col span="8">
-                <Row class-name="made-child-con-middle" type="flex" align="middle">
-                    <img class="avator-img"
-                         :src="avatorPath"
-                         style="border-radius: 50%;"/>
-                </Row>
+            <Row class-name="made-child-con-middle" type="flex" align="middle">
+                <img class="avator-img"
+                     :src="avatorPath"
+                     style="border-radius: 50%;"/>
+            </Row>
             </Col>
             <Col span="16" style="padding-left:6px;">
-                <Row class-name="made-child-con-middle" type="flex" align="middle">
-                    <div>
-                        <b class="card-user-infor-name">{{userName}}</b>
-                        <p style="font-size: 1.3em;color: #666">{{organizeName + '（' + postName + '）'}}</p>
-                        <p style="font-size: 1.1em;line-height: 1;color: #999;letter-spacing: 2px;">{{companyName}}</p>
-                    </div>
-                </Row>
+            <Row class-name="made-child-con-middle" type="flex" align="middle">
+                <div>
+                    <b class="card-user-infor-name">{{userName}}</b>
+                    <p style="font-size: 1.3em;color: #666">{{organizeName + '（' + postName + '）'}}</p>
+                    <p style="font-size: 1.1em;line-height: 1;color: #999;letter-spacing: 2px;">{{companyName}}</p>
+                </div>
+            </Row>
             </Col>
         </Row>
         <div class="line-gray"></div>
         <Row class="margin-top-8">
             <Col span="8">
-                <span style="font-weight: 700;">金币余额:</span>
-                <span style="font-size: 24px;">{{tmCoin}}</span>
-                <Poptip placement="right-start" width="1200" v-model="coinDescFlag" :transfer="true">
-                    <div slot="content" style="white-space: normal;max-height: 600px;overflow: auto;">
-                        <img src="../../../images/coin_rule_01.jpg"  style="max-width: 100%;"/>
-                        <img src="../../../images/coin_rule_02.jpg"  style="max-width: 100%;"/>
-                        <img src="../../../images/coin_rule_03.jpg"  style="max-width: 100%;"/>
-                        <img src="../../../images/coin_rule_04.jpg"  style="max-width: 100%;"/>
-                        <img src="../../../images/coin_rule_05.jpg"  style="max-width: 100%;"/>
-                        <img src="../../../images/coin_rule_06.jpg"  style="max-width: 100%;"/>
-                        <img src="../../../images/coin_rule_07.jpg"  style="max-width: 100%;"/>
-                        <img src="../../../images/coin_rule_08.jpg"  style="max-width: 100%;"/>
-                    </div>
-                    <span style="cursor: pointer;" @click="coinDescFlag = true">
+            <span style="font-weight: 700;">金币余额:</span>
+            <span style="font-size: 24px;">{{tmCoin}}</span>
+            <Poptip placement="right-start" width="1200" v-model="coinDescFlag" :transfer="true">
+                <div slot="content" style="white-space: normal;max-height: 600px;overflow: auto;">
+                    <img src="../../../images/coin_rule_01.jpg" style="max-width: 100%;"/>
+                    <img src="../../../images/coin_rule_02.jpg" style="max-width: 100%;"/>
+                    <img src="../../../images/coin_rule_03.jpg" style="max-width: 100%;"/>
+                    <img src="../../../images/coin_rule_04.jpg" style="max-width: 100%;"/>
+                    <img src="../../../images/coin_rule_05.jpg" style="max-width: 100%;"/>
+                    <img src="../../../images/coin_rule_06.jpg" style="max-width: 100%;"/>
+                    <img src="../../../images/coin_rule_07.jpg" style="max-width: 100%;"/>
+                    <img src="../../../images/coin_rule_08.jpg" style="max-width: 100%;"/>
+                </div>
+                <span style="cursor: pointer;" @click="coinDescFlag = true">
                         <Icon type="help-circled"></Icon>
                     </span>
-                </Poptip>
+            </Poptip>
             </Col>
             <Col span="16" class="padding-left-8">
-                <Tooltip placement="top" content="修改头像" :transfer="true">
-                    <Button type="ghost"
-                            @click="changeAvatorFlag = true"
-                            shape="circle" icon="person"></Button>
+            <Tooltip placement="top" content="修改头像" :transfer="true">
+                <Button type="ghost"
+                        @click="changeAvatorFlag = true"
+                        shape="circle" icon="person"></Button>
+            </Tooltip>
+            <Poptip placement="right" width="400" v-model="pwsFlag">
+                <div slot="content">
+                    <Form :label-width="80"
+                          :model="passWordForm"
+                          ref="psdForm"
+                          :rules="passWordRule">
+                        <FormItem label="原始密码" prop="oldPwd">
+                            <Input v-model="passWordForm.oldPwd"
+                                   type="password"
+                                   placeholder="请输入原始密码"></Input>
+                        </FormItem>
+                        <FormItem label="新密码" prop="newPwd">
+                            <Input v-model="passWordForm.newPwd"
+                                   type="password"
+                                   placeholder="请输入新密码"></Input>
+                        </FormItem>
+                        <FormItem label="重复新密码" prop="newPwdCheck">
+                            <Input v-model="passWordForm.newPwdCheck"
+                                   type="password"
+                                   placeholder="请输重复新密码"></Input>
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" @click="_submitChangePwd">提交修改</Button>
+                            <Button type="ghost" style="margin-left: 8px" @click="_cancelResetPwd">取消</Button>
+                        </FormItem>
+                    </Form>
+                </div>
+                <Tooltip placement="top" content="修改密码" :transfer="true">
+                    <Button type="ghost" shape="circle" icon="lock-combination"></Button>
                 </Tooltip>
-                <Poptip placement="right" width="400" v-model="pwsFlag">
-                    <div slot="content">
-                        <Form :label-width="80"
-                              :model="passWordForm"
-                              ref="psdForm"
-                              :rules="passWordRule">
-                            <FormItem label="原始密码" prop="oldPwd">
-                                <Input v-model="passWordForm.oldPwd"
-                                       type="password"
-                                       placeholder="请输入原始密码"></Input>
-                            </FormItem>
-                            <FormItem label="新密码" prop="newPwd">
-                                <Input v-model="passWordForm.newPwd"
-                                       type="password"
-                                       placeholder="请输入新密码"></Input>
-                            </FormItem>
-                            <FormItem label="重复新密码" prop="newPwdCheck">
-                                <Input v-model="passWordForm.newPwdCheck"
-                                       type="password"
-                                       placeholder="请输重复新密码"></Input>
-                            </FormItem>
-                            <FormItem>
-                                <Button type="primary" @click="_submitChangePwd">提交修改</Button>
-                                <Button type="ghost" style="margin-left: 8px" @click="_cancelResetPwd">取消</Button>
-                            </FormItem>
-                        </Form>
-                    </div>
-                    <Tooltip placement="top" content="修改密码" :transfer="true">
-                        <Button type="ghost" shape="circle" icon="lock-combination"></Button>
-                    </Tooltip>
-                </Poptip>
-                <!--<Tooltip placement="top" content="进入知识库" :transfer="true">-->
-                    <!--<Button type="ghost"-->
-                            <!--shape="circle"-->
-                            <!--@click.stop="$router.replace({name: 'articleHome'})"-->
-                            <!--icon="ios-book"></Button>-->
-                <!--</Tooltip>-->
+            </Poptip>
+            <!--<Tooltip placement="top" content="进入知识库" :transfer="true">-->
+            <!--<Button type="ghost"-->
+            <!--shape="circle"-->
+            <!--@click.stop="$router.replace({name: 'articleHome'})"-->
+            <!--icon="ios-book"></Button>-->
+            <!--</Tooltip>-->
             </Col>
         </Row>
         <Modal title="修改头像" v-model="changeAvatorFlag" width="800">
@@ -103,6 +103,7 @@
 <style lang="less">
     @import "../home.less";
     @import "../../../styles/common.less";
+
     #change-avator-block {
         display: flex;
         flex-direction: column;
@@ -116,8 +117,9 @@
 <script>
     import Cookies from 'js-cookie';
     import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img';
+
     export default {
-        data () {
+        data() {
             const validatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入新的密码!'));
@@ -191,7 +193,7 @@
             }
         },
         computed: {
-            avatorPath () {
+            avatorPath() {
                 return this.$store.state.user.userInfo.headimagepath;
             },
             userName() {

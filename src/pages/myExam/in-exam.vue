@@ -19,7 +19,7 @@
                          style="margin-bottom:16px;font-weight: 700;"
                          :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">
-                            <Badge  :count="qindex + 1 + ''" class-name="test-badge"></Badge>
+                            <Badge :count="qindex + 1 + ''" class-name="test-badge"></Badge>
                             <span>{{question.name}}</span>
                             <span>({{question.questionmark}}分)</span>
                         </p>
@@ -30,7 +30,7 @@
                         <div class="">
                             <RadioGroup v-model="question.answerNew"
                                         vertical
-                                        v-if="question.type === 1" >
+                                        v-if="question.type === 1">
                                 <div v-for="option in question.optionlist"
                                      style="margin-bottom: 8px"
                                      :key="'option' + option.id">
@@ -40,7 +40,7 @@
                                     </Radio>
                                     <img :src="option.optionpic | _returnPicUrl"
                                          style="max-width: 100%;"
-                                         v-if="option.optionpic" />
+                                         v-if="option.optionpic"/>
                                 </div>
                             </RadioGroup>
                             <CheckboxGroup v-model="question.answerNew"
@@ -91,6 +91,7 @@
     .test-badge {
         background: #333 !important;
     }
+
     .fs-in-exam {
         height: 100%;
         width: 100%;
@@ -135,7 +136,7 @@
                 default: 0
             }
         },
-        data () {
+        data() {
             return {
                 paperInfo: {},
                 examBtnLoading: false,
@@ -153,15 +154,20 @@
             _returnTypeName(val) {
                 let name = '';
                 switch (val) {
-                    case 1: name = '单选题';
+                    case 1:
+                        name = '单选题';
                         break;
-                    case 2: name = '多选题';
+                    case 2:
+                        name = '多选题';
                         break;
-                    case 3: name = '判断题';
+                    case 3:
+                        name = '判断题';
                         break;
-                    case 4: name = '填空题';
+                    case 4:
+                        name = '填空题';
                         break;
-                    case 5: name = '问答题';
+                    case 5:
+                        name = '问答题';
                         break;
                 }
                 return name;
@@ -209,7 +215,9 @@
                 });
             },
             returnNeedList(data) {
-                let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => { return x - y > 0; });
+                let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => {
+                    return x - y > 0;
+                });
                 let storeArray = [];
                 allType.forEach((item) => {
                     let obj = {};
