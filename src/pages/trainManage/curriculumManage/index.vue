@@ -745,6 +745,7 @@
                 let data = {};
                 data.page = 1;
                 data.pageSize = 10000;
+                data.status = '1';
                 this.$http.post('/questionnairepaper/getPaperList', data).then((res) => {
                     if (res.success) {
                         this.questionnaire = res.data;
