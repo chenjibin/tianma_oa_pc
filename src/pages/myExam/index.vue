@@ -42,16 +42,6 @@
                 <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
-        <!--<Modal v-model="inExamFlag" width="1200" :mask-closable="false" :closable="false">-->
-        <!--<p slot="header" style="color:#495060;text-align:center;font-size: 18px">-->
-        <!--<span>考试中</span>-->
-        <!--</p>-->
-        <!--<in-exam :id="testPaperId"-->
-        <!--:paper-id="testId"-->
-        <!--@submit-paper-success="_submitSuccessHandler"></in-exam>-->
-        <!--<div slot="footer">-->
-        <!--</div>-->
-        <!--</Modal>-->
     </div>
 </template>
 <style></style>

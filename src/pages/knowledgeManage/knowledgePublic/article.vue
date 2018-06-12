@@ -21,7 +21,7 @@
                 <span style="margin-left: 4px;">{{articleAuthor}}</span>
             </div>
             <p class="zan-info">{{thumbUpTimes}}人赞了该文章</p>
-            <div class="main-content" v-html="html"></div>
+            <div class="main-content" v-html="html" @click.stop="contentClickHandler"></div>
             <div class="comment-block">
                 <div class="top">
                     <span class="number">{{pageData.totalCount || 0}}条评论</span>
@@ -52,6 +52,13 @@
                       style="margin-top: 16px;"></Page>
             </div>
         </div>
+        <transition name="fade-page">
+            <div class="prew-img" v-show="prewOpen" @click.stop="prewOpen = false">
+                <div class="pic-wrapper">
+                    <img :src="prewUrl" />
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 <style lang="less">
@@ -59,6 +66,28 @@
         padding-top: 20px;
         padding-bottom: 100px;
         background-color: #fff;
+        .prew-img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 10000;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: rgba(0,0,0,0.6);
+            cursor: zoom-out;
+            .pic-wrapper {
+                margin-top: 52px;
+                padding: 92px 40px 40px 40px;
+                img {
+                    max-width: 100%;
+                }
+            }
+        }
         .inner {
             width: 690px;
             margin: 0 auto;
@@ -139,6 +168,10 @@
                     margin: 10px 0;
                     line-height: 1.5;
                 }
+                img {
+                    max-width: 100%;
+                    cursor: zoom-in;
+                }
             }
             .comment-block {
                 margin-top: 16px;
@@ -179,7 +212,9 @@
                 defaultText: '写下你的评论...',
                 html: '',
                 isZan: false,
-                thumbUpId: null
+                thumbUpId: null,
+                prewUrl: '',
+                prewOpen: false
             };
         },
         created() {
@@ -200,6 +235,13 @@
             this.$store.commit('setToHeight', '880px');
         },
         methods: {
+            contentClickHandler(e) {
+                if (e.target.tagName.toLowerCase() === 'img') {
+                    this.prewUrl = e.target.src;
+                    this.prewOpen = true;
+                }
+                console.log(e)
+            },
             _thumbArticle() {
                 if (!this.isZan) {
                     let data = {};
