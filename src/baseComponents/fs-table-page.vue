@@ -1,6 +1,7 @@
 <template>
     <div>
         <Table :height="height"
+               :border="border"
                :columns="columns"
                :data="pageData.list"
                @on-selection-change="selectionChange"
@@ -28,6 +29,10 @@
         name: 'fsTablePage',
         props: {
             columns: Array,
+            border: {
+                type: Boolean,
+                default: false
+            },
             height: {
                 type: Number,
                 default: 400
