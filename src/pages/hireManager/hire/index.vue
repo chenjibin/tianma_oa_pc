@@ -174,7 +174,7 @@
                         </Poptip>
                         <Poptip trigger="hover" title="详细过滤" placement="left">
                             <allStatus v-on:status="changeStatus" :type1="4" slot="content"></allStatus>
-                            <Button type="ghost" @click="changeType(4)" title="只看备选人才">才</Button>
+                            <Button type="ghost" @click="changeType(4)" title="只看备选人才">备</Button>
                         </Poptip>
                         <Poptip trigger="hover" title="详细过滤" placement="left">
                             <allStatus v-on:status="changeStatus" :type1="0" slot="content"></allStatus>
@@ -846,7 +846,7 @@
                                             cursor: 'pointer'
                                         },
                                         attrs: {
-                                            title: '该简历标记为人才'
+                                            title: '该简历被标记为人才'
                                         }
                                     }, level)
                                 ]);
