@@ -406,7 +406,7 @@
                         title: '日期',
                         key: 'user_name',
                         align: 'center',
-                        width: 160,
+                        width: 120,
                         render: (h, params) => {
                             return h('span', moment(params.row.class_date).format('YYYY-MM-DD'));
                         }
@@ -419,7 +419,8 @@
                     },
                     {
                         title: '培训名称',
-                        key: 'title'
+                        key: 'title',
+                        minWidth: 120
                     },
                     {
                         title: '培训类型',
@@ -430,7 +431,7 @@
                         title: '地点',
                         align: 'center',
                         key: 'position',
-                        width: 100
+                        width: 120
                     },
                     {
                         title: '学分',
@@ -474,6 +475,7 @@
                     }, {
                         title: '反馈',
                         align: 'center',
+                        width: 80,
                         render: (h, params) => {
                             let vm = this;
                             let lookBtn = h('Tooltip', {
@@ -502,6 +504,7 @@
                         }
                     }, {
                         title: '签到/评论二维码',
+                        width: 90,
                         align: 'center',
                         render: (h, params) => {
                             let vm = this;
@@ -742,6 +745,7 @@
                 let data = {};
                 data.page = 1;
                 data.pageSize = 10000;
+                data.status = '1';
                 this.$http.post('/questionnairepaper/getPaperList', data).then((res) => {
                     if (res.success) {
                         this.questionnaire = res.data;

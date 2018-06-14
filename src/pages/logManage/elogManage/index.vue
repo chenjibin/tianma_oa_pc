@@ -69,7 +69,7 @@
                :mask-closable="false"
                width="1200">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                <span>正在查看 {{logModalData.name + ' ' + logModalData.date}}日志</span>
+                <span>({{organizeLoop}}) {{logModalData.name + ' ' + logModalData.date}}日志</span>
             </p>
             <div id="check-log-modal-content">
                 <Row :gutter="24">
@@ -107,7 +107,7 @@
                       ref="commentForm"
                       :label-width="60">
                     <FormItem label="指导" prop="advice">
-                        <Input v-model="commentData.advice"
+                        <Input v-model.trim="commentData.advice"
                                type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                                placeholder="指导建议..."></Input>
                     </FormItem>
@@ -167,6 +167,7 @@
             return {
                 tableLoading: false,
                 checkLogFlag: false,
+                organizeLoop: '',
                 commentData: {
                     advice: '',
                     result: '2'
@@ -369,7 +370,8 @@
                 };
                 this.$http.get('/journal/guideJson', {params: data}).then((res) => {
                     if (res.success) {
-                        this.upGuider = res.data;
+                        this.upGuider = res.data.guides;
+                        this.organizeLoop = res.data.organize || '';
                     }
                 });
             },
