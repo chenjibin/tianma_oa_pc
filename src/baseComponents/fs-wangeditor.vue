@@ -1,12 +1,10 @@
 <template>
-    <div class="fs-wangeditor-vue">
+    <div class="fs-wangeditor-vue" :style="{width: width + 'px'}">
         <div class="placeholder" v-show="holderShow">{{defaulText}}</div>
-        <div class="editor">
-            <div class="fs-wangeditor-toolbar" ref="tool"></div>
+        <div class="editor" :style="{width: width + 'px'}">
+            <div class="fs-wangeditor-toolbar" ref="tool" :style="{width: width + 'px'}"></div>
             <div style="padding: 4px 0; color: #ccc"></div>
-            <div class="fs-wangeditot-text"
-                 :style="{minHeight: minHeight + 'px'}"
-                 ref="content"></div>
+            <div class="fs-wangeditot-text" :style="{minHeight: minHeight + 'px',width: width + 'px',maxHeight:maxHeight + 'px',overflow: 'auto'}" ref="content"></div>
         </div>
     </div>
 </template>
@@ -53,10 +51,18 @@
     export default {
         name: 'FsWangeditor',
         props: {
+            width: {
+                type: Number,
+                default: 698
+            },
             imgUrl: String,
             minHeight: {
                 type: Number,
                 default: 500
+            },
+            maxHeight: {
+                type: Number,
+                default: 9999
             },
             defaulText: {
                 type: '',
