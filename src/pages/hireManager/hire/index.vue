@@ -6,7 +6,7 @@
                     <Select type="text" style="width: 173px" clearable
                             @on-change="_filterResultHandler"
                             v-model="filterOpt.companyId"
-                            placeholder="筛选公司" clearable>
+                            placeholder="筛选公司">
                         <Option v-for="item in companyList"
                                 :label="item.name"
                                 :key="'com-' + item.id"
@@ -23,7 +23,7 @@
                     <Select type="text" style="width: 173px" filterable clearable
                             @on-change="_filterResultHandler"
                             v-model="filterOpt.postname"
-                            placeholder="输入筛选岗位" clearable>
+                            placeholder="输入筛选岗位">
                         <Option v-for="item in dataComboList"
                                 :key="'post-' + item.id"
                                 :label="isManger > 1 ?item.name:item.name+' '+item.companyname" :value="item.name">
@@ -37,7 +37,7 @@
                     <Select type="text" style="width: 173px" clearable
                             @on-change="_filterResultHandler" filterable
                             v-model="filterOpt.education"
-                            placeholder="筛选学历" clearable>
+                            placeholder="筛选学历">
                         <Option :value="1">博士研究生</Option>
                         <Option :value="2">硕士研究生</Option>
                         <Option :value="3">本科</Option>
@@ -51,7 +51,7 @@
                     <Select type="text" style="width: 173px" clearable
                             @on-change="_filterResultHandler"
                             v-model="filterOpt.sex"
-                            placeholder="筛选性别" clearable>
+                            placeholder="筛选性别">
                         <Option :value="1">男</Option>
                         <Option :value="2">女</Option>
                     </Select>

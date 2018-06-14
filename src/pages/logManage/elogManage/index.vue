@@ -5,10 +5,10 @@
             <fs-dep-tree url="/organize/organizeTreeByUserForRiZhi"
                          @node-change="_nodeChangeHandler($event)"
                          :defaultProps="defaultProps"></fs-dep-tree>
-            <Card class="no-write" style="margin-top: 6px" v-if="userName === 'sun'">
+            <Card class="no-write" style="margin-top: 6px">
                 <h3>昨日没写日志人员</h3>
                 <ul style="margin-top: 8px;">
-                    <li v-for="item in noWritePeople">{{item}}</li>
+                    <li v-for="item in noWritePeople" :key="'people-' + item.id">{{item.name}}</li>
                 </ul>
             </Card>
             </Col>
@@ -325,9 +325,7 @@
         },
         created() {
             this._setTableHeight();
-            if (this.userName === 'sun') {
-                this._getNoWritePeoloe();
-            }
+            this._getNoWritePeoloe();
         },
         filters: {
             dateFormatter(val) {
@@ -336,7 +334,7 @@
         },
         methods: {
             _getNoWritePeoloe() {
-                this.$http.get('/journal/getNoWrite').then((res) => {
+                this.$http.get('/journal/getNoWriteAll').then((res) => {
                     if (res.success) {
                         this.noWritePeople = res.data;
                     }

@@ -18,7 +18,7 @@
                             <Avatar :src="$mainHost + item.headimagepath" size="small"/>
                             <span style="margin-left: 2px;">{{item.insert_username}}</span>
                         </div>
-                        <div>{{item.menuname}}</div>
+                        <div style="max-width: 360px">{{item.menuname}}</div>
                         <div>点赞{{item.thumb_up_times}}</div>
                         <div>评论{{item.share_comment_times}}</div>
                     </div>
@@ -105,6 +105,7 @@
                     height: 63px;
                     overflow: hidden;
                     transition: all 0.3s ease-in;
+                    word-break: break-all;
                 }
             }
         }
