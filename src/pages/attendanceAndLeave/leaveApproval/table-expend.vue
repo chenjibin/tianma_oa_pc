@@ -68,7 +68,7 @@
                                                    placeholder="工作安排说明..."></Input>
                                         </FormItem>
                                         <FormItem>
-                                            <Button type="primary" @click="_submitOdResult">提交审核</Button>
+                                            <Button :loading="btnLoading" type="primary" @click="_submitOdResult">提交审核</Button>
                                             <Button type="ghost" @click="visible = false" style="margin-left: 8px">取消</Button>
                                         </FormItem>
                                     </Form>
