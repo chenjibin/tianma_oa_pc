@@ -199,7 +199,8 @@
                     },
                     {
                         title: '工单名',
-                        key: 'demand'
+                        key: 'demand',
+                        minWidth: 100
                     },
                     {
                         title: '项目组',

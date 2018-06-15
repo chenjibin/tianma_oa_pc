@@ -174,7 +174,8 @@
                     },
                     {
                         title: '工单名',
-                        key: 'demand'
+                        key: 'demand',
+                        minWidth: 100
                     },
                     {
                         title: '接单人',

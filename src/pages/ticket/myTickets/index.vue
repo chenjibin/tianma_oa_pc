@@ -2,24 +2,24 @@
     <div id="myTickets">
         <Card>
             <Form inline style="width: 100%" :label-width="90">
-                <FormItem label="状态">
-                    <Select v-model="filterOpt.type.value" style="width: 160px" placeholder="筛选状态"  clearable>
+                <FormItem label="状态" style="width: 250px">
+                    <Select v-model="filterOpt.type.value"  placeholder="筛选状态"  clearable>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
                         <Option value="3">已暂停</Option>
                         <Option value="4">不处理</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="优先级">
-                    <Select v-model="filterOpt.priority.value" style="width: 160px" placeholder="筛选优先级"
+                <FormItem label="优先级" style="width: 250px">
+                    <Select v-model="filterOpt.priority.value" placeholder="筛选优先级"
                             clearable>
                         <Option :value="1">普通 <Icon type="flag" color="#2d8cf0"></Icon></Option>
                         <Option :value="2">重要 <Icon type="flag" color="#ff9900"></Icon></Option>
                         <Option :value="3">加急 <Icon type="flag" color="#ed3f14"></Icon></Option>
                     </Select>
                 </FormItem>
-                <FormItem label="权重">
-                    <Select v-model="filterOpt.weight.value" style="width: 150px" placeholder="筛选状态"
+                <FormItem label="权重" style="width: 250px">
+                    <Select v-model="filterOpt.weight.value" placeholder="筛选状态"
                             clearable>
                         <Option value="0.1">0.1</Option>
                         <Option value="0.2">0.2</Option>
@@ -33,14 +33,14 @@
                         <Option value="1">1</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="提交人">
-                    <Input v-model="filterOpt.add_user_name.value" style="width: 160px" placeholder="筛选状态" clearable></Input>
+                <FormItem label="提交人" style="width: 250px">
+                    <Input v-model="filterOpt.add_user_name.value" placeholder="筛选状态" clearable></Input>
                 </FormItem>
-                <FormItem label="开始日期">
-                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)" :value="filterOpt.start_time.value" placeholder="开始日期" style="width: 150px"></DatePicker>
+                <FormItem label="开始日期" style="width: 250px">
+                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)" :value="filterOpt.start_time.value" placeholder="开始日期" ></DatePicker>
                 </FormItem>
-                <FormItem label="结束日期">
-                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
+                <FormItem label="结束日期" style="width: 250px">
+                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" ></DatePicker>
                 </FormItem>
                 <Button @click="monthSalaryModal = true">查看：绩效</Button>
             </Form>

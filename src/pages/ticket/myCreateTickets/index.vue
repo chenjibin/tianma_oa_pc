@@ -89,7 +89,7 @@
                     <!--<InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="newTickets.weight"></InputNumber>-->
                 <!--</FormItem>-->
                 <FormItem label="项目组" style="width: 290px;display: inline-block">
-                    <Select v-model="newTickets.team_id" filterable>
+                    <Select v-model="newTickets.team_id" placement="bottom" filterable>
                         <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user' + option.id">{{option.name}}</Option>
                     </Select>
                 </FormItem>
@@ -290,7 +290,8 @@
                     },
                     {
                         title: '工单名',
-                        key: 'demand'
+                        key: 'demand',
+                        minWidth: 100
                     },
                     {
                         title: '项目组',
