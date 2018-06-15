@@ -471,6 +471,50 @@ export const appRouter = [
         ]
     },
     {
+        path: '/ticket',
+        icon: 'briefcase',
+        name: 'ticket',
+        title: '工单管理',
+        component: Main,
+        children: [
+            {
+                path: 'managerTeams',
+                icon: 'person-stalker',
+                name: 'managerTeams',
+                title: '团队管理',
+                component: _import('ticket/managerTeams')
+            },
+            {
+                path: 'myTickets',
+                icon: 'android-checkbox-outline',
+                name: 'myTickets',
+                title: '我的工单(开发)',
+                component: _import('ticket/myTickets')
+            },
+            {
+                path: 'myCreateTickets',
+                icon: 'android-checkbox-outline',
+                name: 'myCreateTickets',
+                title: '我的工单(业务)',
+                component: _import('ticket/myCreateTickets')
+            },
+            {
+                path: 'superiorManager',
+                icon: 'android-time',
+                name: 'superiorManager',
+                title: '管理工单(上级)',
+                component: _import('ticket/superiorManager')
+            },
+            {
+                path: 'teamTickets',
+                icon: 'android-time',
+                name: 'teamTickets',
+                title: '管理工单(项目组)',
+                component: _import('ticket/teamTickets')
+            }
+        ]
+    },
+    {
         path: '/trainManage',
         icon: 'ribbon-a',
         name: 'trainManage',
