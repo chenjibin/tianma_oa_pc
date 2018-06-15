@@ -10,8 +10,7 @@
                     </Button>
                 </FormItem>
             </Form>
-            <Table :columns="postColumns" ref="attendanceTable" :loading="tableLoading" :height="tableHeight" :data="pageData.list">
-            </Table>
+            <Table :columns="postColumns" ref="attendanceTable" :loading="tableLoading" :height="tableHeight" :data="pageData.list"></Table>
             <Page :total="pageData.totalCount"
                   :current="pageData.page"
                   @on-change="_setPage"
@@ -184,6 +183,10 @@
                         this.team.type = 0;
                         this.team.uid = 0;
                         this.team.childids = [];
+                        this.filterPeopleOpt = [];
+                        this.filterPeopleOpt2 = [];
+                        this.remoteLabel = [];
+                        this.remoteLabel2 = [];
                         this.team.id = '';
                         this._filterResultHandler();
                     }
