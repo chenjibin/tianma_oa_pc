@@ -119,10 +119,13 @@
                 <FormItem label="奖惩筛选">
                     <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
-                            v-model="filterOpt.gradeLeaving" clearable>
+                            v-model="filterOpt.rewardType" clearable>
                         <Option value="1">奖励</Option>
                         <Option value="2">惩罚</Option>
                     </Select>
+                </FormItem>
+                <FormItem label="奖惩时间">
+                    <DatePicker type="daterange" split-panels style="width: 160px" clearable v-model="filterOpt.rewardDate"></DatePicker>
                 </FormItem>
                 <FormItem label="入职日期">
                     <DatePicker type="date" style="width: 160px" clearable
@@ -130,9 +133,7 @@
                                 :value="filterOpt.monthDate"></DatePicker>
                 </FormItem>
                 <FormItem label="到">
-                    <DatePicker type="date" style="width: 160px" clearable
-                                @on-change="_monthEndDateChange"
-                                :value="filterOpt.endmonthDate"></DatePicker>
+                    <DatePicker type="date" style="width: 160px" clearable @on-change="_monthEndDateChange" :value="filterOpt.endmonthDate"></DatePicker>
                 </FormItem>
                 <FormItem label="出生日期">
                     <DatePicker type="date" style="width: 160px" clearable
@@ -556,6 +557,8 @@
                 tableLoading: true,
                 filterOpt: {
                     name: '', // 员工姓名
+                    rewardDate: [],
+                    rewardType: '',
                     monthDate: '', // 入职日期左区间
                     endmonthDate: '', // 入职日期右区间
                     kqstates: '1', // 在职状态
