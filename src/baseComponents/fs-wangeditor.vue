@@ -68,6 +68,10 @@
                 type: '',
                 default: '正文...'
             },
+            zIndex: {
+                type: Number,
+                default: 800
+            },
             menus: {
                 type: Array,
                 default() {
@@ -136,6 +140,7 @@
                 xhr.open('post', vm.imgUrl, true);
                 xhr.send(formData);
             };
+            this.editor.customConfig.zIndex = this.zIndex;
             this.editor.customConfig.menus = this.menus;
             this.editor.customConfig.emotions = [
                 {
