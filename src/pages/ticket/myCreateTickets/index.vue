@@ -73,7 +73,7 @@
                         :editorcontent.sync="newTickets.detail"></wang-editor>
                 </FormItem>
                 <FormItem label="优先级" style="width: 290px;display: inline-block">
-                    <Select v-model="newTickets.priority">
+                    <Select v-model="newTickets.priority" placement="bottom">
                         <Option :value="1">
                             <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
                         </Option>
@@ -121,7 +121,7 @@
                                  :min-height="200" :max-height="250" defaul-text="描述你的需求"  ref="wangEditor" :editorcontent.sync="editTickets.detail"></wang-editor>
                 </FormItem>
                 <FormItem label="优先级" style="width: 270px;display: inline-block">
-                    <Select v-model="editTickets.priority">
+                    <Select v-model="editTickets.priority" placement="bottom">
                         <Option :value="1">
                             <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
                         </Option>
@@ -137,7 +137,7 @@
                     <!--<InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="editTickets.weight"></InputNumber>-->
                 <!--</FormItem>-->
                 <FormItem label="项目组" style="width: 270px;display: inline-block">
-                    <Select v-model="editTickets.team_id" filterable>
+                    <Select v-model="editTickets.team_id" placement="bottom" filterable>
                         <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user2' + option.id">{{option.name}}</Option>
                     </Select>
                 </FormItem>
@@ -151,7 +151,7 @@
                 <span style="display: inline-block" v-if="editTickets.accessory">{{editTickets.accessory}} <Button type="text" @click.prevent="removeFile({name:accessory})">删除</Button></span>
                 <FormItem label="历史" style="width: 565px;">
                     <div style="width: 100%;max-height: 250px;overflow-x: hidden;overflow-y: auto">
-                        <p v-for="item in logs" v-if="item.type==0">
+                        <p :key="item.id" v-for="item in logs" v-if="item.type==0">
                             {{item.content}}
                         </p>
                     </div>
