@@ -116,6 +116,14 @@
                         <Option value="C" label="C"><span>C</span><span style="float:right;color:#ccc;width:50px;text-align: right;">较差</span></Option>
                     </Select>
                 </FormItem>
+                <FormItem label="奖惩筛选">
+                    <Select type="text" style="width: 160px"
+                            @on-change="_inputDebounce"
+                            v-model="filterOpt.gradeLeaving" clearable>
+                        <Option value="1">奖励</Option>
+                        <Option value="2">惩罚</Option>
+                    </Select>
+                </FormItem>
                 <FormItem label="入职日期">
                     <DatePicker type="date" style="width: 160px" clearable
                                 @on-change="_monthDateChange"
