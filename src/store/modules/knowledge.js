@@ -1,7 +1,6 @@
 /**
  * Created by 陈继斌 on 2018/4/16.
  */
-import store from '../index';
 import axios from 'axios';
 
 const knowledge = {

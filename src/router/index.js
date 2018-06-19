@@ -14,7 +14,7 @@ const RouterConfig = {
     routes: routers
 };
 
-export const router = new VueRouter(RouterConfig);
+const router = new VueRouter(RouterConfig);
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start();
     Util.title(to.meta.title);
@@ -58,5 +58,6 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to) => {
     Util.openNewPage(router.app, to.name, to.params, to.query);
     iView.LoadingBar.finish();
-    // window.scrollTo(0, 0);
 });
+
+export default router

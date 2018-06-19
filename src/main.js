@@ -1,26 +1,29 @@
+// const promiseFinally = require('promise.prototype.finally');
 require('es6-promise').polyfill();
+// import 'es6-promise/auto'
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-import 'wangeditor/release/wangEditor.css';
-import { Tree, Cascader, Checkbox} from 'element-ui';
+// import ElementUI from 'element-ui';
+import {Tree, Cascader, Checkbox} from 'element-ui';
 import fsIcon from './baseComponents/fs-icon';
-import { router } from './router/index';
+import router from './router/index';
 import store from './store';
-import '@/locale';
-import App from './app.vue';
-import VueI18n from 'vue-i18n';
+import App from './App.vue';
+import i18n from '@/locale'
 import request from './libs/request';
 import VueLazyload from 'vue-lazyload';
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: '/oa/upload/initListImage.png',
     attempt: 3,
-    // listenEvents: ['transitionend', 'scroll'],
-    throttleWait: 300
+    throttleWait: 1000
 });
-Vue.use(VueI18n);
-Vue.use(iView);
+// Vue.use(VueI18n);
+Vue.use(iView, {
+    i18n: (key, value) => i18n.t(key, value)
+});
+// Vue.use(ElementUI);
 Vue.use(Tree);
 Vue.use(Cascader);
 Vue.use(Checkbox);
@@ -28,9 +31,8 @@ Vue.component('fsIcon', fsIcon);
 Vue.prototype.$http = request;
 Vue.prototype.$mainHost = '';
 Vue.config.productionTip = false;
-Vue.config.keyCodes = {
-    f11: 122
-};
+
+/* eslint-disable no-new */
 new Vue({
     el: '#app',
     router,
@@ -47,4 +49,4 @@ new Vue({
         this.$store.commit('setOpenedList');
         this.$store.commit('initCachepage');
     }
-});
+})

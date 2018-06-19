@@ -1,16 +1,15 @@
 <template>
-    <div id="main" class="app-main">
-        <transition name="fade-page">
-            <router-view></router-view>
-        </transition>
-    </div>
+  <div id="main" class="app-main">
+    <transition name="fade-page">
+      <router-view></router-view>
+    </transition>
+  </div>
 </template>
 
 <script>
     export default {
         data () {
             return {
-                theme: this.$store.state.app.themeColor
             };
         },
         mounted () {
@@ -38,13 +37,13 @@
     list-style: none;
   }
   .gallery-background[lazy=loading] {
-      background-color: #eee;
+    background-color: #eee;
   }
   .fade-page-enter-active, .fade-page-leave-active {
-      transition: opacity .5s;
+    transition: opacity .5s;
   }
   .fade-page-enter, .fade-page-leave-to /* .fade-leave-active below version 2.1.8 */ {
-      opacity: 0;
+    opacity: 0;
   }
   .ivu-scroll-container {
     overflow-y: auto;

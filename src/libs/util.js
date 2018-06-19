@@ -1,6 +1,4 @@
 import axios from 'axios';
-import semver from 'semver';
-import packjson from '../../package.json';
 import store from '../store';
 import {appRouter, page404} from '../router/router';
 
@@ -11,7 +9,6 @@ util.title = function (title) {
     title = title || '天马人事系统';
     window.document.title = title;
 };
-
 util.inOf = function (arr, targetArr) {
     let res = true;
     arr.forEach(item => {
@@ -259,21 +256,6 @@ util.fullscreenEvent = function (vm) {
     // 权限菜单过滤相关
     vm.$store.commit('updateMenulist');
     // 全屏相关
-};
-
-util.checkUpdate = function (vm) {
-    axios.get('https://api.github.com/repos/iview/iview-admin/releases/latest').then(res => {
-        let version = res.data.tag_name;
-        vm.$Notice.config({
-            duration: 0
-        });
-        if (semver.lt(packjson.version, version)) {
-            vm.$Notice.info({
-                title: 'iview-admin更新啦',
-                desc: '<p>iView-admin更新到了' + version + '了，去看看有哪些变化吧</p><a style="font-size:13px;" href="https://github.com/iview/iview-admin/releases" target="_blank">前往github查看</a>'
-            });
-        }
-    });
 };
 
 util.getNeedRouter = function (routeData) {

@@ -5,7 +5,6 @@ import axios from 'axios';
 import qs from 'qs';
 import store from '../store';
 import Vue from 'vue';
-
 axios.defaults.baseURL = '/oa';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
