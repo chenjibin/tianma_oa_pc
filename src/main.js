@@ -1,15 +1,12 @@
-// const promiseFinally = require('promise.prototype.finally');
 require('es6-promise').polyfill();
-// import 'es6-promise/auto'
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-// import ElementUI from 'element-ui';
 import {Tree, Cascader, Checkbox} from 'element-ui';
 import fsIcon from './baseComponents/fs-icon';
 import router from './router/index';
 import store from './store';
-import App from './App.vue';
+import App from './app.vue';
 import i18n from '@/locale'
 import request from './libs/request';
 import VueLazyload from 'vue-lazyload';
