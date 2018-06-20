@@ -379,9 +379,10 @@
                                 this.settingModalFlag = false;
                                 this._getPostData();
                             }
-                        }).finally(() => {
                             this.btnLoading = false;
-                        });
+                        }, () => {
+                            this.btnLoading = false;
+                        })
                     }
                 });
             },

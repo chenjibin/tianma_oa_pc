@@ -1,4 +1,4 @@
-require('es6-promise').polyfill();
+/* eslint-disable */
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
@@ -16,11 +16,9 @@ Vue.use(VueLazyload, {
     attempt: 3,
     throttleWait: 1000
 });
-// Vue.use(VueI18n);
 Vue.use(iView, {
     i18n: (key, value) => i18n.t(key, value)
 });
-// Vue.use(ElementUI);
 Vue.use(Tree);
 Vue.use(Cascader);
 Vue.use(Checkbox);
@@ -29,7 +27,6 @@ Vue.prototype.$http = request;
 Vue.prototype.$mainHost = '';
 Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
 new Vue({
     el: '#app',
     router,

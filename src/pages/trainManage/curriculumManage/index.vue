@@ -606,9 +606,10 @@
                     if (res.success) {
                         this.downloadFile('/oa/download/' + res.data, res.data);
                     }
-                }).finally(() => {
                     this.downloadLoading = false;
-                });
+                }, () => {
+                    this.downloadLoading = false;
+                })
             },
             downloadFile(url, name) {
                 let downloadDom = document.createElement('a');
@@ -778,9 +779,10 @@
                                 this._getTrainTypeOpt();
                                 this.$Message.success('课程类型加成功！');
                             }
-                        }).finally(() => {
                             this.banciBtnLoading = false;
-                        });
+                        }, () => {
+                            this.banciBtnLoading = false;
+                        })
                     }
                 });
             },

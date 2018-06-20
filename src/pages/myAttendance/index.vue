@@ -202,9 +202,10 @@
                     if (res.success) {
                         this.attendanceDetail = res.data;
                     }
-                }).finally(() => {
                     this.loading2 = false;
-                });
+                }, () => {
+                    this.loading2 = false;
+                })
                 this.modelFlag = true;
             },
             _getAttendanceList(page) {
@@ -218,9 +219,10 @@
                         this.attendanceList = res.data;
                         this.pageData.totalCount = res.totalCount;
                     }
-                }).finally(() => {
                     this.loading = false;
-                });
+                }, () => {
+                    this.loading = false;
+                })
             },
             _returnRowClass() {
                 return 'fs-row';

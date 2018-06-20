@@ -210,9 +210,10 @@
                         this.$emit('submit-paper-success');
                         this.$Message.success('交卷成功!');
                     }
-                }).finally(() => {
                     this.examBtnLoading = false;
-                });
+                }, () => {
+                    this.examBtnLoading = false;
+                })
             },
             returnNeedList(data) {
                 let allType = [...(new Set(data.map(x => x.type)))].sort((x, y) => {

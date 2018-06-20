@@ -185,9 +185,10 @@
                                                                 vm.$refs.fsTable._filterResultHandler();
                                                                 vm.$Message.success('修改成功');
                                                             }
-                                                        }).finally(function () {
                                                             vm.$Modal.remove();
-                                                        });
+                                                        }, () => {
+                                                            vm.$Modal.remove();
+                                                        })
                                                     }
                                                 }
                                             });
@@ -236,7 +237,7 @@
                 let vm = this;
                 let d = [];
                 this.$http.post('assetsCategory/queryCategoryFather?pid=' + type).then((res) => {
-                    var data = res.data;
+                    let data = res.data;
                     if (res.success) {
                         for (let i = 0; i < data.length; i++) {
                             let tmp = data[i];
@@ -253,12 +254,16 @@
                             vm.cat1 = d;
                         }
                     }
-                }).finally((res) => {
                     if (item) {
                         item.loading = false;
                         callback();
                     }
-                });
+                }, () => {
+                    if (item) {
+                        item.loading = false;
+                        callback();
+                    }
+                })
             },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();

@@ -181,9 +181,10 @@
                                 this.$Message.success('操作成功!');
                                 this.$emit('op-success');
                             }
-                        }).finally(() => {
                             this.btnLoading = false;
-                        });
+                        }, () => {
+                            this.btnLoading = false;
+                        })
                     }
                 });
             },
@@ -203,9 +204,10 @@
                                 this.$Message.success('操作成功!');
                                 this.$emit('op-success');
                             }
-                        }).finally(() => {
                             this.btnLoading = false;
-                        });
+                        }, () => {
+                            this.btnLoading = false;
+                        })
                     }
                 });
             }

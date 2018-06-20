@@ -397,12 +397,16 @@
                             vm.cat1 = d;
                         }
                     }
-                }).finally((res) => {
                     if (item) {
                         item.loading = false;
                         callback();
                     }
-                });
+                }, () => {
+                    if (item) {
+                        item.loading = false;
+                        callback();
+                    }
+                })
             },
             saveInfo() {
                 var vm = this;

@@ -452,9 +452,10 @@
                         this.$emit('submit-success');
                         this.hideModel();
                     }
-                }).finally(() => {
                     this.loadingBtn = false;
-                });
+                }, () => {
+                    this.loadingBtn = false;
+                })
             },
             submitOd() {
                 this.$refs.leaveForm.validate((valid) => {

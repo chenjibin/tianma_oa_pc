@@ -48,7 +48,6 @@
         },
         created () {
             this._getPostData();
-            // this._setTableHeight();
         },
         data () {
             return {
@@ -81,7 +80,6 @@
                 });
             },
             checkmea(data, node) {
-                console.log(data);
                 this.customerForm.addForm.fname = data.name;
                 this.customerForm.addForm.pid = data.id;
                 this.customerForm.addForm.leaf = data.leaf;

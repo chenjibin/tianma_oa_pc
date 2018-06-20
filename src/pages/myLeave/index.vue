@@ -160,7 +160,8 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function (e) {
+                                                e.stopPropagation()
                                                 vm._delOd(params.row);
                                             }
                                         }

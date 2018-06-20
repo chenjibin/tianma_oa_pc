@@ -203,9 +203,10 @@
                         this.team.id = '';
                         this._filterResultHandler();
                     }
-                }).finally((res2) => {
                     this.addModal = false;
-                });
+                }, () => {
+                    this.addModal = false;
+                })
             },
             _setPage(page) {
                 this.pageData.page = page;

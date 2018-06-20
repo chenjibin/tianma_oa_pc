@@ -610,9 +610,10 @@
                                 this.$Message.success('添加成功!');
                                 this.$store.commit('getTreeData');
                             }
-                        }).finally(() => {
                             this.mubanBtnLoading = false;
-                        });
+                        }, () => {
+                            this.mubanBtnLoading = false;
+                        })
                     }
                 });
             },

@@ -42,9 +42,10 @@ export default {
                         return x;
                     });
                 }
-            }).finally(() => {
                 this.tableLoading = false;
-            });
+            }, () => {
+                this.tableLoading = false;
+            })
         }
     }
 };

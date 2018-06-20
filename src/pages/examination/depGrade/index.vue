@@ -222,9 +222,10 @@
                     if (res.success) {
                         utils.downloadFile('/oa/download/' + res.data, res.data);
                     }
-                }).finally(() => {
                     this.exportLoading = false;
-                });
+                }, () => {
+                    this.exportLoading = false;
+                })
             },
             _nodeChangeHandler(data) {
                 this.filterOpt.organizeId.value = data.id;

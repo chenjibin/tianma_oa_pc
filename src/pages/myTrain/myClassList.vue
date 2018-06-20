@@ -75,9 +75,10 @@
                     if (res.success) {
                         utils.downloadFile('/oa/download/' + res.data, res.data);
                     }
-                }).finally(() => {
                     data.loading = false;
-                });
+                }, () => {
+                    data.loading = false;
+                })
             },
             _getMyClass() {
                 let data = {};

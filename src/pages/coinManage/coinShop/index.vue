@@ -196,9 +196,10 @@
                         this.$refs.orderList.upDateOrderList();
                         this.buyFlag = false;
                     }
-                }).finally(() => {
                     this.subLoading = false;
-                });
+                }, () => {
+                    this.subLoading = false;
+                })
             },
             _getGoodList() {
                 this.$http.get('/order/goldMall').then((res) => {

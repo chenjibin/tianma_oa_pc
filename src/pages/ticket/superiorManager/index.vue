@@ -451,10 +451,12 @@
                         this.editTickets.accessory = '';
                         this.editTickets.priority = 1;
                     }
-                }).finally(() => {
                     this.saveLoading = false;
                     this.editTicketsModal = false;
-                });
+                }, () => {
+                    this.saveLoading = false;
+                    this.editTicketsModal = false;
+                })
             },
             changeDate(type, name, time) {
                 if (type === 1) {
@@ -483,10 +485,12 @@
                         this.$Message.success('修改成功');
                         this.$refs.paperList.getListData();
                     }
-                }).finally(() => {
                     this.saveLoading = false;
                     this.commitModal = false;
-                });
+                }, () => {
+                    this.saveLoading = false;
+                    this.commitModal = false;
+                })
             },
             _filterPeopleRemote(val) {
                 this.$http.get('/workOrder/teamAll').then((res) => {

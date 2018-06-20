@@ -537,12 +537,16 @@
                             vm.cat1 = d;
                         }
                     }
-                }).finally((res) => {
                     if (item) {
                         item.loading = false;
                         callback();
                     }
-                });
+                }, () => {
+                    if (item) {
+                        item.loading = false;
+                        callback();
+                    }
+                })
             },
             getReciveList(id) {
                 var vm = this;
@@ -553,9 +557,10 @@
                             vm.reciveList = res.data;
                             resolve(res);
                         }
-                    }).finally(() => {
                         vm.reciveLoading = false;
-                    });
+                    }, () => {
+                        vm.reciveLoading = false;
+                    })
                 });
             },
             changeCataName(type, arg) {

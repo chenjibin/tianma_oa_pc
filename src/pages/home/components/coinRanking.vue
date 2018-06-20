@@ -64,9 +64,10 @@
                     if (res.success) {
                         this.rowData = res.data;
                     }
-                }).finally(() => {
                     this.loading = false;
-                });
+                }, () => {
+                    this.loading = false;
+                })
             }
         }
     };

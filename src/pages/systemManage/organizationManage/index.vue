@@ -397,6 +397,7 @@
                 });
             },
             renderContent(h, { node, data, store }) {
+                /* eslint-disable */
                 return (
                     <div class="fs-node-wrapper">
                         <div class="title">

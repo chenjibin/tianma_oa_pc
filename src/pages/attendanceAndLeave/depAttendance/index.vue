@@ -283,9 +283,10 @@
                     if (res.success) {
                         this.attendanceDetail = res.data.userRecords;
                     }
-                }).finally(() => {
                     this.loading2 = false;
-                });
+                }, () => {
+                    this.loading2 = false;
+                })
                 this.modelFlag = true;
             },
             _returnRowClass() {

@@ -59,9 +59,10 @@
                     if (res.success) {
                         this.$emit('update:optionlist', res.data);
                     }
-                }).finally(() => {
                     this.filterPeopleLoading = false;
-                });
+                }, () => {
+                    this.filterPeopleLoading = false;
+                })
             }
         }
     };

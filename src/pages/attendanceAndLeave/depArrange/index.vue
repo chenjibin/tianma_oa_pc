@@ -365,9 +365,10 @@
                         this.$Message.success('个人添加成功!');
                         this._getAttendanceData();
                     }
-                }).finally(() => {
                     this.deleteLoading = false;
-                });
+                }, () => {
+                    this.deleteLoading = false;
+                })
             },
             _addPersonMonthChange(date) {
                 this.addPersonForm.month = date;
@@ -380,9 +381,10 @@
                         this.$Message.success('部门添加成功!');
                         this._getAttendanceData();
                     }
-                }).finally(() => {
                     this.deleteLoading = false;
-                });
+                }, () => {
+                    this.deleteLoading = false;
+                })
             },
             _addDepMonthChange(date) {
                 this.addDepForm.month = date;
@@ -420,9 +422,10 @@
                         this._getAttendanceData();
                         this.deleteModalFlag = false;
                     }
-                }).finally(() => {
                     this.deleteLoading = false;
-                });
+                }, () => {
+                    this.deleteLoading = false;
+                })
             },
             _confirmDelete() {
                 this.deleteLoading = true;
@@ -434,9 +437,10 @@
                         this._getAttendanceData();
                         this.deleteModalFlag = false;
                     }
-                }).finally(() => {
                     this.deleteLoading = false;
-                });
+                }, () => {
+                    this.deleteLoading = false;
+                })
             },
             _tableSelectChange(data) {
                 this.chooseDataArr = data;
@@ -451,9 +455,10 @@
                     if (res.success) {
                         this._getDetailData();
                     }
-                }).finally(() => {
                     this.importLoading = false;
-                });
+                }, () => {
+                    this.importLoading = false;
+                })
             },
             _confirmStrangeSetting() {
                 this.btnConfirmDis = true;
@@ -463,9 +468,10 @@
                         this._getDetailData();
                         this.strangeModalFlag = false;
                     }
-                }).finally(() => {
                     this.btnConfirmDis = false;
-                });
+                }, () => {
+                    this.btnConfirmDis = false;
+                })
             },
             _settingStrangeDay(params) {
                 this.strangeModalFlag = true;
@@ -584,9 +590,10 @@
                         this.changeData = storeData;
                         this.changeColums = storeColum;
                     }
-                }).finally(() => {
                     this.loading2 = false;
-                });
+                }, () => {
+                    this.loading2 = false;
+                })
             },
             _checkDetail(obj) {
                 let month = obj.monthdate;

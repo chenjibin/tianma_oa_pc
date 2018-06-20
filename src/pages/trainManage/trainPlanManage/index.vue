@@ -549,9 +549,10 @@
                                 this.$refs.mubanAdd.getListData();
                                 this.$Message.success('操作成功！');
                             }
-                        }).finally(() => {
                             this.mubanBtnLoading = false;
-                        });
+                        }, () => {
+                            this.mubanBtnLoading = false;
+                        })
                     }
                 });
             },

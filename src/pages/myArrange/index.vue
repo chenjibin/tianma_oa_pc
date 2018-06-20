@@ -157,9 +157,10 @@
                         let month = moment(time).month();
                         this.tableData = this.returnDateDetail(year, month, res.dateList);
                     }
-                }).finally(() => {
                     this.loading = false;
-                });
+                }, () => {
+                    this.loading = false;
+                })
             },
             _getArrangeList() {
                 this.$http.get('/arrange/getArrangeStatistic').then((res) => {
