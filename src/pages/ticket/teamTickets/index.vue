@@ -4,7 +4,7 @@
         <Card>
             <Form inline style="width: 100%" :label-width="90">
                 <FormItem label="状态">
-                    <Select v-model="filterOpt.type.value" style="width: 150px" placeholder="筛选状态"  clearable>
+                    <Select v-model="filterOpt.type.value" style="width: 150px" placeholder="筛选状态" clearable>
                         <Option value="-1">不处理</Option>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
@@ -13,23 +13,34 @@
                     </Select>
                 </FormItem>
                 <FormItem label="接单人">
-                    <Input v-model="filterOpt.user_name.value" style="width: 150px" placeholder="筛选状态" clearable></Input>
+                    <Input v-model="filterOpt.user_name.value" style="width: 150px" placeholder="筛选状态"
+                           clearable></Input>
                 </FormItem>
                 <FormItem label="开始日期">
-                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)" :value="filterOpt.start_time.value" placeholder="开始日期" style="width: 150px"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)"
+                                :value="filterOpt.start_time.value" placeholder="开始日期"
+                                style="width: 150px"></DatePicker>
                 </FormItem>
                 <FormItem label="结束日期">
-                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)"
+                                :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
                 </FormItem>
                 <FormItem label="提交人">
-                    <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态" clearable></Input>
+                    <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态"
+                           clearable></Input>
                 </FormItem>
                 <FormItem label="优先级">
                     <Select v-model="filterOpt.priority.value" style="width: 150px" placeholder="筛选优先级"
                             clearable>
-                        <Option :value="1">普通 <Icon type="flag" color="#2d8cf0"></Icon></Option>
-                        <Option :value="2">重要 <Icon type="flag" color="#ff9900"></Icon></Option>
-                        <Option :value="3">加急 <Icon type="flag" color="#ed3f14"></Icon></Option>
+                        <Option :value="1">普通
+                            <Icon type="flag" color="#2d8cf0"></Icon>
+                        </Option>
+                        <Option :value="2">重要
+                            <Icon type="flag" color="#ff9900"></Icon>
+                        </Option>
+                        <Option :value="3">加急
+                            <Icon type="flag" color="#ed3f14"></Icon>
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="权重">
@@ -49,12 +60,14 @@
                 </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
-                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt" url="/workOrder/chargerWorkOrderList"></fs-table-page>
+                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt"
+                           url="/workOrder/chargerWorkOrderList"></fs-table-page>
         </Card>
 
-        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="400" class-name="vertical-center-modal" >
+        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="400"
+               class-name="vertical-center-modal">
             <Form :label-width="60" style="padding: 5px">
-                <input style="display: none" v-model="editTicketsModal.id" />
+                <input style="display: none" v-model="editTicketsModal.id"/>
                 <FormItem label="需求名">
                     <span v-text="editTickets.demand"></span>
                 </FormItem>
@@ -62,10 +75,12 @@
                     <span v-text="editTickets.add_user_name"></span>
                 </FormItem>
                 <FormItem label="开始时间" style="width: 340px;display: inline-block">
-                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'start_time',$event)" :value="editTickets.start_time"></DatePicker>
+                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'start_time',$event)"
+                                :value="editTickets.start_time"></DatePicker>
                 </FormItem>
                 <FormItem label="结束时间" style="width: 340px;display: inline-block">
-                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'end_time', $event)" :value="editTickets.end_time"></DatePicker>
+                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'end_time', $event)"
+                                :value="editTickets.end_time"></DatePicker>
                 </FormItem>
                 <FormItem label="特殊调整" style="width: 340px;display: inline-block">
                     <Select style="width: 100%" v-model="editTickets.type" @on-change="changeType" placeholder="默认不填">
@@ -74,9 +89,11 @@
                         <Option :value="4">驳回</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="指派人员" style="width: 340px;display: inline-block" >
+                <FormItem label="指派人员" style="width: 340px;display: inline-block">
                     <Select v-model="usersIds" multiple>
-                        <Option  v-for="(option, index) in teamOpt" v-if="option.pid === editTickets.team_id" :value="option.uid" :key="'user2' + option.uid">{{option.uname}}</Option>
+                        <Option v-for="option in teamOpt" v-if="option.pid === editTickets.team_id"
+                                :value="option.uid" :key="'user2' + option.uid">{{option.uname}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="历史" style="width: 340px;">
@@ -89,7 +106,8 @@
             </Form>
             <div slot="footer">
                 <Button type="text" @click="editTicketsModal = false;">取消</Button>
-                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save">保存</Button>
+                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save">保存
+                </Button>
             </div>
         </Modal>
     </div>
@@ -432,16 +450,17 @@
 </script>
 
 <style lang="less">
-    #myCreateTickets{
-        .noPadding div{
+    #myCreateTickets {
+        .noPadding div {
             padding: 0;
         }
     }
-    .vertical-center-modal{
+
+    .vertical-center-modal {
         display: flex;
         align-items: center;
         justify-content: center;
-        .ivu-modal{
+        .ivu-modal {
             top: 0;
         }
     }

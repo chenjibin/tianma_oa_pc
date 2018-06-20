@@ -224,7 +224,7 @@
         methods: {
             _validEmpty() {
                 let nowForm = this.depSettingForm;
-                let flag = nowForm.chargerPostId && nowForm.chargerUserId && nowForm.leaderPostId &&nowForm.leaderUserId;
+                let flag = nowForm.chargerPostId && nowForm.chargerUserId && nowForm.leaderPostId && nowForm.leaderUserId;
                 if (!flag) {
                     this.$Message.error('星号项不能为空!');
                 }

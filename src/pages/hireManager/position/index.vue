@@ -7,8 +7,8 @@
                     <Select type="text" style="width: 185px" filterable clearable
                             @on-change="_inputDebounce"
                             v-model="filterOpt.name"
-                            placeholder="输入筛选岗位" clearable>
-                        <Option v-for="(item,index) in dataComboList"
+                            placeholder="输入筛选岗位">
+                        <Option v-for="item in dataComboList"
                                 :label="isManger > 1 ?item.name:item.name+' '+item.companyname"
                                 :key="'post-' + item.id"
                                 :value="item.name">
@@ -51,11 +51,12 @@
                 </FormItem>
                 <FormItem label="所属公司" v-if="isManger === 0 || isManger === 1">
                     <Select type="text" style="width: 173px"
-                            v-model="baseInfo.companyId" >
-                        <Option v-for="(item,index) in companyList"
+                            v-model="baseInfo.companyId">
+                        <Option v-for="item in companyList"
                                 :label="item.name"
                                 :key="'com-' + item.id"
-                                :value="item.id">{{item.name}}</Option>
+                                :value="item.id">{{item.name}}
+                        </Option>
                     </Select>
                 </FormItem>
             </Form>
@@ -74,6 +75,7 @@
     import pageMixin from '@/mixins/pageMixin';
     // lodash输入延时
     import debounce from 'lodash/debounce';
+
     export default {
         name: 'position',
         data() {
@@ -106,8 +108,7 @@
                         align: 'center',
                         render: (h, params) => {
                             var vm = this;
-                            return h('div', {
-                            }, [
+                            return h('div', {}, [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -143,7 +144,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
             this.getPositionCombo();
@@ -195,7 +196,7 @@
                     okText: '删除',
                     cancelText: '取消',
                     loading: true,
-                    onOk () {
+                    onOk() {
                         this.$http.post('/talentPosition/delete', {id: vm.baseInfo.id}).then((res) => {
                             if (res.success) {
                                 vm._filterResultHandler();
@@ -214,23 +215,23 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 500),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 34 - 57 - 49;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _getPostData () {
+            _getPostData() {
                 this.getList('/talentPosition/datalist', this.filterOpt);
             }
         }

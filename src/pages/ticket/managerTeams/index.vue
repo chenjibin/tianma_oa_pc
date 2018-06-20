@@ -10,7 +10,8 @@
                     </Button>
                 </FormItem>
             </Form>
-            <Table :columns="postColumns" ref="attendanceTable" :loading="tableLoading" :height="tableHeight" :data="pageData.list"></Table>
+            <Table :columns="postColumns" ref="attendanceTable" :loading="tableLoading" :height="tableHeight"
+                   :data="pageData.list"></Table>
             <Page :total="pageData.totalCount"
                   :current="pageData.page"
                   @on-change="_setPage"
@@ -26,13 +27,15 @@
                 <FormItem label="项目组名称" style="width: 310px">
                     <Input v-model="team.name"></Input>
                 </FormItem>
-                <FormItem label="项目组组长" style="width: 310px" >
+                <FormItem label="项目组组长" style="width: 310px">
                     <Select v-model="team.uid"
                             filterable
                             remote
                             :label="remoteLabel"
                             :remote-method="_filterPeopleRemote">
-                        <Option v-for="(option, index) in filterPeopleOpt" :value="option.id" :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}</Option>
+                        <Option v-for="option in filterPeopleOpt" :value="option.id" :key="'user' + option.id">
+                            {{option.realname + '(' + option.organizename + ')'}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="项目组组员" style="width: 310px;margin-bottom: 12px">
@@ -42,7 +45,9 @@
                             remote
                             :label="remoteLabel2"
                             :remote-method="_filterPeopleRemote2">
-                        <Option v-for="(option, index) in filterPeopleOpt2" :value="option.id" :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}</Option>
+                        <Option v-for="option in filterPeopleOpt2" :value="option.id"
+                                :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <input v-model="team.id" style="display: none"/>
@@ -57,111 +62,119 @@
 
 <script>
     import pageMixin from '@/mixins/pageMixin';
+
     export default {
         name: 'managerTeams',
         data() {
-          return {
-              addModal: false,
-              team: {
-                  id: '',
-                  name: '',
-                  type: 0,
-                  uid: 0,
-                  childids: []
-              },
-              accessBtn: [],
-              filterPeopleOpt: [],
-              filterPeopleOpt2: [],
-              tableLoading: false,
-              remoteLabel: [],
-              remoteLabel2: [],
-              filterOpt: {
-                  name: '', // 员工姓名
-                  monthDate: '', // 入职日期左区间
-                  endmonthDate: '', // 入职日期右区间
-                  kqstates: '1', // 在职状态
-                  organizeId: '', // 部门名称
-                  postId: '', // 岗位
-                  xueli: '', // 学历
-                  birthday: '', // 出生日期
-                  sex: '',
-                  marryage: '', //  婚否
-                  party: '', // 政治面貌
-                  company: '', // 工作单位
-                  job: '', // 工作岗位
-                  school: '', // 毕业院校
-                  profession: '', // 专业
-                  address: '', // 住址
-                  reasonLeaving: '', // 离职原因
-                  gradeLeaving: '' // 离职级别
-              },
-              postColumns: [
-                  {
-                      title: '项目组名',
-                      key: 'name'
-                  },
-                  {
-                      title: '项目组长',
-                      key: 'uname'
-                  },
-                  {
-                      title: '建立日期',
-                      key: 'add_time'
-                  },
-                  {
-                      title: '小组成员',
-                      render: (h, params) => {
-                          let users = '';
-                          params.row.childids.forEach((item) => {
-                              users += item.uname + ' ';
-                          });
-                          if (users) {
-                              return h('span', users);
-                          } else {
-                              return h('span', '未指派');
-                          }
-                      }
-                  },
-                  {
-                      title: '操作',
-                      key: 'action',
-                      width: 120,
-                      render: (h, params) => {
-                          let vm = this;
-                          let row = params.row;
-                          return h('Button', {
-                                  props: {
-                                      type: 'primary',
-                                      icon: 'edit',
-                                      shape: 'circle'
-                                  },
-                                  on: {
-                                      click: function () {
-                                          vm.remoteLabel = [];
-                                          vm.remoteLabel2 = [];
-                                          vm.team.childids = [];
-                                          vm.team.id = row.id;
-                                          vm.team.name = row.name;
-                                          vm.team.uname = row.uname;
-                                          // 项目负责人
-                                          vm.remoteLabel.push(row.uname);
-                                          row.childids.forEach((item) => {
-                                              vm.remoteLabel2.push(item.uname);
-                                              vm.team.childids.push(item.uid);
-                                          });
-                                          vm.team.filterPeopleOpt = row.childids;
-                                          vm.team.uid = row.uid;
-                                          vm.addModal = true;
-                                      }
-                                  }
-                              }
-                          );
-                      }
-                  }
-              ],
-              tableList: [{id: 1, name: 'java项目组', type: 0, uid: 1324, uname: '张三', add_time: '2018-05-31 12:00:01'}, {id: 1, name: 'java项目组', type: 0, uid: 1324, uname: '王五', 'add_time': '2018-05-31 12:00:01'}],
-              tableHeight: 500
-          };
+            return {
+                addModal: false,
+                team: {
+                    id: '',
+                    name: '',
+                    type: 0,
+                    uid: 0,
+                    childids: []
+                },
+                accessBtn: [],
+                filterPeopleOpt: [],
+                filterPeopleOpt2: [],
+                tableLoading: false,
+                remoteLabel: [],
+                remoteLabel2: [],
+                filterOpt: {
+                    name: '', // 员工姓名
+                    monthDate: '', // 入职日期左区间
+                    endmonthDate: '', // 入职日期右区间
+                    kqstates: '1', // 在职状态
+                    organizeId: '', // 部门名称
+                    postId: '', // 岗位
+                    xueli: '', // 学历
+                    birthday: '', // 出生日期
+                    sex: '',
+                    marryage: '', //  婚否
+                    party: '', // 政治面貌
+                    company: '', // 工作单位
+                    job: '', // 工作岗位
+                    school: '', // 毕业院校
+                    profession: '', // 专业
+                    address: '', // 住址
+                    reasonLeaving: '', // 离职原因
+                    gradeLeaving: '' // 离职级别
+                },
+                postColumns: [
+                    {
+                        title: '项目组名',
+                        key: 'name'
+                    },
+                    {
+                        title: '项目组长',
+                        key: 'uname'
+                    },
+                    {
+                        title: '建立日期',
+                        key: 'add_time'
+                    },
+                    {
+                        title: '小组成员',
+                        render: (h, params) => {
+                            let users = '';
+                            params.row.childids.forEach((item) => {
+                                users += item.uname + ' ';
+                            });
+                            if (users) {
+                                return h('span', users);
+                            } else {
+                                return h('span', '未指派');
+                            }
+                        }
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 120,
+                        render: (h, params) => {
+                            let vm = this;
+                            let row = params.row;
+                            return h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'edit',
+                                        shape: 'circle'
+                                    },
+                                    on: {
+                                        click: function () {
+                                            vm.remoteLabel = [];
+                                            vm.remoteLabel2 = [];
+                                            vm.team.childids = [];
+                                            vm.team.id = row.id;
+                                            vm.team.name = row.name;
+                                            vm.team.uname = row.uname;
+                                            // 项目负责人
+                                            vm.remoteLabel.push(row.uname);
+                                            row.childids.forEach((item) => {
+                                                vm.remoteLabel2.push(item.uname);
+                                                vm.team.childids.push(item.uid);
+                                            });
+                                            vm.team.filterPeopleOpt = row.childids;
+                                            vm.team.uid = row.uid;
+                                            vm.addModal = true;
+                                        }
+                                    }
+                                }
+                            );
+                        }
+                    }
+                ],
+                tableList: [{
+                    id: 1,
+                    name: 'java项目组',
+                    type: 0,
+                    uid: 1324,
+                    uname: '张三',
+                    add_time: '2018-05-31 12:00:01'
+                }, {id: 1, name: 'java项目组', type: 0, uid: 1324, uname: '王五', 'add_time': '2018-05-31 12:00:01'}],
+                tableHeight: 500
+            };
         },
         mixins: [pageMixin],
         methods: {

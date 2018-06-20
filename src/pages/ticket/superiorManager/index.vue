@@ -4,7 +4,7 @@
         <Card>
             <Form inline style="width: 100%" :label-width="90">
                 <FormItem label="状态" style="width: 220px">
-                    <Select style="width: 100%" v-model="filterOpt.type.value" placeholder="筛选状态"  clearable>
+                    <Select style="width: 100%" v-model="filterOpt.type.value" placeholder="筛选状态" clearable>
                         <Option value="-1">不处理</Option>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
@@ -14,21 +14,32 @@
                 </FormItem>
                 <FormItem label="优先级" style="width: 220px">
                     <Select style="width: 100%" v-model="filterOpt.priority.value" placeholder="筛选优先级" clearable>
-                        <Option :value="1">普通 <Icon type="flag" color="#2d8cf0"></Icon></Option>
-                        <Option :value="2">重要 <Icon type="flag" color="#ff9900"></Icon></Option>
-                        <Option :value="3">加急 <Icon type="flag" color="#ed3f14"></Icon></Option>
+                        <Option :value="1">普通
+                            <Icon type="flag" color="#2d8cf0"></Icon>
+                        </Option>
+                        <Option :value="2">重要
+                            <Icon type="flag" color="#ff9900"></Icon>
+                        </Option>
+                        <Option :value="3">加急
+                            <Icon type="flag" color="#ed3f14"></Icon>
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="项目组" style="width: 220px">
                     <Select v-model="filterOpt.team_id.value" filterable clearable>
-                        <Option style="width: 100%" v-for="(option, index) in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
+                        <Option style="width: 100%" v-for="(option, index) in teamOpt" :value="option.id"
+                                :key="'user11' + option.id">{{option.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="开始日期" style="width: 220px">
-                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)" :value="filterOpt.start_time.value" placeholder="开始日期" style="width: 150px"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)"
+                                :value="filterOpt.start_time.value" placeholder="开始日期"
+                                style="width: 150px"></DatePicker>
                 </FormItem>
                 <FormItem label="结束日期" style="width: 220px">
-                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)"
+                                :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
                 </FormItem>
                 <FormItem label="权重" style="width: 220px">
                     <Select v-model="filterOpt.weight.value" style="width: 150px" placeholder="筛选状态" clearable>
@@ -45,15 +56,18 @@
                     </Select>
                 </FormItem>
                 <FormItem label="提交人" style="width: 220px">
-                    <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态" clearable></Input>
+                    <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态"
+                           clearable></Input>
                 </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
-                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt" url="/workOrder/adminWorkOrderList"></fs-table-page>
+                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt"
+                           url="/workOrder/adminWorkOrderList"></fs-table-page>
         </Card>
-        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="400" class-name="vertical-center-modal" >
+        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="400"
+               class-name="vertical-center-modal">
             <Form :label-width="60" style="padding: 5px">
-                <input style="display: none" v-model="editTicketsModal.id" />
+                <input style="display: none" v-model="editTicketsModal.id"/>
                 <FormItem label="需求名">
                     <span v-text="editTickets.demand"></span>
                 </FormItem>
@@ -74,11 +88,14 @@
                     </Select>
                 </FormItem>
                 <FormItem label="权重" style="width: 340px;display: inline-block">
-                    <InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="editTickets.weight"></InputNumber>
+                    <InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"
+                                 v-model="editTickets.weight"></InputNumber>
                 </FormItem>
                 <FormItem label="项目组" style="width: 340px;display: inline-block">
                     <Select disabled v-model="editTickets.team_id" filterable>
-                        <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user2' + option.id">{{option.name}}</Option>
+                        <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user2' + option.id">
+                            {{option.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="历史" style="width: 340px;">
@@ -91,20 +108,25 @@
             </Form>
             <div slot="footer">
                 <Button type="text" @click="editTicketsModal = false;">取消</Button>
-                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save(2)">保存</Button>
+                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save(2)">保存
+                </Button>
             </div>
         </Modal>
-        <Modal v-model="commitModal" :closable="false"  :width="430" :mask-closable="false">
+        <Modal v-model="commitModal" :closable="false" :width="430" :mask-closable="false">
             <Form :label-width="90" style="padding: 5px;margin-top: 10px">
-                <input style="display: none" v-model="commitForm.id" />
+                <input style="display: none" v-model="commitForm.id"/>
                 <FormItem label="进度分数" style="width: 350px;">
-                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1" v-model="commitForm.superior_planScore"></InputNumber>
+                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1"
+                                 v-model="commitForm.superior_planScore"></InputNumber>
                 </FormItem>
                 <FormItem label="质量分数" style="width: 350px;">
-                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1" v-model="commitForm.superior_qualityScore"></InputNumber>
+                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1"
+                                 v-model="commitForm.superior_qualityScore"></InputNumber>
                 </FormItem>
-                <FormItem v-if="commitForm.superior_planScore !== 100 || commitForm.superior_qualityScore !== 100" label="扣分原因" style="width: 350px;">
-                    <Input type="textarea" placeholder="写出扣分原因用以留档。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}" v-model="commitForm.reason"></Input>
+                <FormItem v-if="commitForm.superior_planScore !== 100 || commitForm.superior_qualityScore !== 100"
+                          label="扣分原因" style="width: 350px;">
+                    <Input type="textarea" placeholder="写出扣分原因用以留档。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
+                           v-model="commitForm.reason"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -347,53 +369,53 @@
                             let disableTitle = row.type > 0 ? '不可操作' : '点我编辑';
                             return h('ButtonGroup', [
                                 h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        attrs: {
-                                            title: disableTitle
-                                        },
-                                        style: {
-                                            display: deleted ? 'none' : 'block'
-                                        },
-                                        on: {
-                                            click: function (e) {
-                                                e.stopPropagation();
-                                                vm.editTicketsModal = true;
-                                                vm.logs = row.logs;
-                                                vm.editTickets.id = row.id;
-                                                vm.editTickets.type = row.type;
-                                                vm.editTickets.weight = row.weight;
-                                                vm.editTickets.team_id = row.team_id;
-                                                vm.editTickets.team_name = row.team_name;
-                                                vm.editTickets.demand = row.demand;
-                                                vm.editTickets.add_user_name = row.add_user_name;
-                                                vm.editTickets.superior_qualityScore = row.superior_qualityScore;
-                                                vm.editTickets.superior_planScore = row.superior_planScore;
-                                                vm.editTickets.priority = row.priority;
-                                            }
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    attrs: {
+                                        title: disableTitle
+                                    },
+                                    style: {
+                                        display: deleted ? 'none' : 'block'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm.editTicketsModal = true;
+                                            vm.logs = row.logs;
+                                            vm.editTickets.id = row.id;
+                                            vm.editTickets.type = row.type;
+                                            vm.editTickets.weight = row.weight;
+                                            vm.editTickets.team_id = row.team_id;
+                                            vm.editTickets.team_name = row.team_name;
+                                            vm.editTickets.demand = row.demand;
+                                            vm.editTickets.add_user_name = row.add_user_name;
+                                            vm.editTickets.superior_qualityScore = row.superior_qualityScore;
+                                            vm.editTickets.superior_planScore = row.superior_planScore;
+                                            vm.editTickets.priority = row.priority;
                                         }
-                                    }, '编辑'),
+                                    }
+                                }, '编辑'),
                                 h('Button', {
-                                        props: {
-                                            type: 'success',
-                                            size: 'small'
-                                        },
-                                        attrs: {
-                                            title: '点我打分'
-                                        },
-                                        style: {
-                                            display: showCommit ? 'blobk' : 'none'
-                                        },
-                                        on: {
-                                            click: function (e) {
-                                                e.stopPropagation();
-                                                vm.commitForm.id = row.id;
-                                                vm.commitModal = true;
-                                            }
+                                    props: {
+                                        type: 'success',
+                                        size: 'small'
+                                    },
+                                    attrs: {
+                                        title: '点我打分'
+                                    },
+                                    style: {
+                                        display: showCommit ? 'blobk' : 'none'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm.commitForm.id = row.id;
+                                            vm.commitModal = true;
                                         }
-                                    }, '打分')
+                                    }
+                                }, '打分')
                             ]);
                         }
                     }
@@ -481,16 +503,17 @@
 </script>
 
 <style lang="less">
-    #myCreateTickets{
-        .noPadding div{
+    #myCreateTickets {
+        .noPadding div {
             padding: 0;
         }
     }
-    .vertical-center-modal{
+
+    .vertical-center-modal {
         display: flex;
         align-items: center;
         justify-content: center;
-        .ivu-modal{
+        .ivu-modal {
             top: 0;
         }
     }

@@ -7,7 +7,9 @@
                             @on-change="_inputDebounce"
                             v-model="filterOpt.companyId"
                             placeholder="筛选公司" clearable>
-                        <Option v-for="item in companyList" :label="item.name" :value="item.id" :key="'com-' + item.id">{{item.name}}</Option>
+                        <Option v-for="item in companyList" :label="item.name" :value="item.id" :key="'com-' + item.id">
+                            {{item.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="姓名">
@@ -17,24 +19,32 @@
                            placeholder="筛选姓名"></Input>
                 </FormItem>
                 <FormItem label="状态">
-                    <Select v-model="filterOpt.kqstates"  style="width: 160px" placeholder="筛选状态" @on-change="_inputDebounce" clearable>
+                    <Select v-model="filterOpt.kqstates" style="width: 160px" placeholder="筛选状态"
+                            @on-change="_inputDebounce" clearable>
                         <Option value="-1">全部</Option>
                         <Option value="0">离职</Option>
                         <Option value="1">在职</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="部门" id="orgSelectForm">
-                    <Select element-id="orgSelect" style="width: 160px"  clearable filterable remote :remote-method="orgSearch" :loading="orgSearching"  @on-change="_inputDebounce" v-model="filterOpt.organizeId" placeholder="筛选部门">
-                        <Option v-for="(option, index) in orgList" :label="option.label" :value="option.value" :key="index"><span>{{option.label}}</span><span style="float: right;color: #ccc;font-size: 10px;">{{option.label2}}</span></Option>
+                    <Select element-id="orgSelect" style="width: 160px" clearable filterable remote
+                            :remote-method="orgSearch" :loading="orgSearching" @on-change="_inputDebounce"
+                            v-model="filterOpt.organizeId" placeholder="筛选部门">
+                        <Option v-for="(option, index) in orgList" :label="option.label" :value="option.value"
+                                :key="index"><span>{{option.label}}</span><span
+                                style="float: right;color: #ccc;font-size: 10px;">{{option.label2}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="岗位" id="postSelectForm">
-                    <Select  style="width: 160px" clearable filterable remote :remote-method="postSearch" :loading="postSearching"  @on-change="_inputDebounce" v-model="filterOpt.postId" placeholder="筛选岗位">
+                    <Select style="width: 160px" clearable filterable remote :remote-method="postSearch"
+                            :loading="postSearching" @on-change="_inputDebounce" v-model="filterOpt.postId"
+                            placeholder="筛选岗位">
                         <Option v-for="option in postList"
                                 :label="option.label"
                                 :value="option.value"
                                 :key="'post-' + option.value">
-                            <span :title="option.label" style="max-width: 70px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
+                            <span :title="option.label"
+                                  style="max-width: 70px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
                                 {{option.label}}
                             </span>
                             <span style="float: right;color: #ccc;font-size: 10px;max-width: 60px;display: inline-block;white-space: nowrap;text-overflow: clip;overflow: hidden;">
@@ -102,7 +112,7 @@
                 <FormItem label="离职原因">
                     <Select type="text" style="width: 160px" clearable
                             @on-change="_inputDebounce"
-                            v-model="filterOpt.reasonLeaving" clearable>
+                            v-model="filterOpt.reasonLeaving">
                         <Option value="个人原因">个人原因</Option>
                         <Option value="公司劝退">公司劝退</Option>
                     </Select>
@@ -111,9 +121,12 @@
                     <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
                             v-model="filterOpt.gradeLeaving" clearable>
-                        <Option value="A" label="A"><span>A</span><span style="float:right;color:#ccc;width:50px;text-align: right;">优秀</span></Option>
-                        <Option value="B" label="B"><span>B</span><span style="float:right;color:#ccc;width:50px;text-align: right;">良好</span></Option>
-                        <Option value="C" label="C"><span>C</span><span style="float:right;color:#ccc;width:50px;text-align: right;">较差</span></Option>
+                        <Option value="A" label="A"><span>A</span><span
+                                style="float:right;color:#ccc;width:50px;text-align: right;">优秀</span></Option>
+                        <Option value="B" label="B"><span>B</span><span
+                                style="float:right;color:#ccc;width:50px;text-align: right;">良好</span></Option>
+                        <Option value="C" label="C"><span>C</span><span
+                                style="float:right;color:#ccc;width:50px;text-align: right;">较差</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="入职日期">
@@ -133,21 +146,21 @@
                                 :value="filterOpt.birthday"></DatePicker>
                 </FormItem>
             </Form>
-        <Table :columns="postColumns"
-               ref="attendanceTable"
-               :loading="tableLoading"
-               :height="tableHeight"
-               :data="pageData.list">
-        </Table>
-        <Page :total="pageData.totalCount"
-              :current="pageData.page"
-              @on-change="_setPage"
-              @on-page-size-change="_setPageSize"
-              :page-size="pageData.pageSize"
-              show-sizer
-              show-total
-              show-elevator
-              style="margin-top: 16px;"></Page>
+            <Table :columns="postColumns"
+                   ref="attendanceTable"
+                   :loading="tableLoading"
+                   :height="tableHeight"
+                   :data="pageData.list">
+            </Table>
+            <Page :total="pageData.totalCount"
+                  :current="pageData.page"
+                  @on-change="_setPage"
+                  @on-page-size-change="_setPageSize"
+                  :page-size="pageData.pageSize"
+                  show-sizer
+                  show-total
+                  show-elevator
+                  style="margin-top: 16px;"></Page>
         </Card>
         <Modal v-model="settingModalFlag"
                width="1000"
@@ -166,16 +179,16 @@
                                 <Input type="text" v-model="baseForm.sex" disabled></Input>
                             </FormItem>
                             <FormItem label="手机" style="width:49%;margin-right:1%;">
-                                <Input type="text" :maxlength="11" v-model="baseForm.cellphone" ></Input>
+                                <Input type="text" :maxlength="11" v-model="baseForm.cellphone"></Input>
                             </FormItem>
                             <FormItem label="QQ" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.inphone" ></Input>
+                                <Input type="text" v-model="baseForm.inphone"></Input>
                             </FormItem>
                             <FormItem label="电子邮箱" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.email" ></Input>
+                                <Input type="text" v-model="baseForm.email"></Input>
                             </FormItem>
                             <FormItem label="身份证号码" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.idcard" ></Input>
+                                <Input type="text" v-model="baseForm.idcard"></Input>
                             </FormItem>
                             <FormItem label="出生日期" style="width:49%;margin-right:1%;">
                                 <Input type="text" v-model="baseForm.birthday" disabled></Input>
@@ -187,10 +200,11 @@
                                 <Input type="text" v-model="baseForm.account"></Input>
                             </FormItem>
                             <FormItem label="年龄" style="width:49%;margin-right:1%;">
-                                <InputNumber :min="18" style="width: 100%" type="text" v-model="baseForm.nation"></InputNumber>
+                                <InputNumber :min="18" style="width: 100%" type="text"
+                                             v-model="baseForm.nation"></InputNumber>
                             </FormItem>
                             <FormItem label="政治面貌" style="width:49%;margin-right:1%;">
-                                <Select style="width: 100%" v-model="baseForm.party" >
+                                <Select style="width: 100%" v-model="baseForm.party">
                                     <Option value="党员">党员</Option>
                                     <Option value="预备党员">预备党员</Option>
                                     <Option value="入党积极分子">入党积极分子</Option>
@@ -205,16 +219,19 @@
                                 </Select>
                             </FormItem>
                             <!--<FormItem label="档案编号" style="width:49%;margin-right:1%;">-->
-                                <!--<Input type="text" v-model="baseForm.filenum"></Input>-->
+                            <!--<Input type="text" v-model="baseForm.filenum"></Input>-->
                             <!--</FormItem>-->
                             <FormItem label="详细住址" style="width:49%;margin-right:2%;">
-                                <Input type="textarea" :autosize="{minRows: 3,maxRows: 5}" v-model="baseForm.address"></Input>
+                                <Input type="textarea" :autosize="{minRows: 3,maxRows: 5}"
+                                       v-model="baseForm.address"></Input>
                             </FormItem>
                             <FormItem label="部门经历" style="width:49%;margin-right:1%;">
-                                <Input type="textarea" :autosize="{minRows: 6,maxRows: 15}" v-model="baseForm.organizehistory"></Input>
+                                <Input type="textarea" :autosize="{minRows: 6,maxRows: 15}"
+                                       v-model="baseForm.organizehistory"></Input>
                             </FormItem>
                             <FormItem label="岗位经历" style="width:49%;margin-right:1%;">
-                                <Input type="textarea" :autosize="{minRows: 6,maxRows: 15}" v-model="baseForm.posthistory"></Input>
+                                <Input type="textarea" :autosize="{minRows: 6,maxRows: 15}"
+                                       v-model="baseForm.posthistory"></Input>
                             </FormItem>
                             <FormItem style="width:50.5%">
                                 <Button type="primary" :loading="btnLoading" @click="saveBase()">提交</Button>
@@ -224,15 +241,16 @@
                     </TabPane>
                     <TabPane label="教育状况">
                         <Form ref="educationForm" inline>
-                            <div v-for="(item,index) in educationForm">
+                            <div v-for="(item,index) in educationForm" :key="'edu-' + index">
                                 <FormItem label="时间" style="width:22%">
-                                    <Input type="text" placeholder="2012.09 - 2016.06" v-model="item.workingtime" ></Input>
+                                    <Input type="text" placeholder="2012.09 - 2016.06"
+                                           v-model="item.workingtime"></Input>
                                 </FormItem>
-                                <FormItem label="毕业院校	" style="width:22%">
-                                    <Input type="text" v-model="item.graduationschool" ></Input>
+                                <FormItem label="毕业院校" style="width:22%">
+                                    <Input type="text" v-model="item.graduationschool"></Input>
                                 </FormItem>
                                 <FormItem label="专业" style="width:22%">
-                                    <Input type="text" v-model="item.profession" ></Input>
+                                    <Input type="text" v-model="item.profession"></Input>
                                 </FormItem>
                                 <FormItem label="学历" style="width:22%">
                                     <Select type="text" v-model="item.education">
@@ -246,36 +264,43 @@
                                     </Select>
                                 </FormItem>
                                 <FormItem label="用户id" style="display: none">
-                                    <Input type="text" v-model="baseForm.userid" ></Input>
+                                    <Input type="text" v-model="baseForm.userid"></Input>
                                 </FormItem>
                                 <FormItem label="主键" style="display: none">
-                                    <Input type="text" v-model="item.id" ></Input>
+                                    <Input type="text" v-model="item.id"></Input>
                                 </FormItem>
                                 <FormItem label="操作" style="width:5%">
-                                    <Button style="color:#f46e65;font-size: 16px;padding: 3px 15px;" icon="ios-trash"  @click="delForm(index,'educationForm')"></Button>
+                                    <Button style="color:#f46e65;font-size: 16px;padding: 3px 15px;" icon="ios-trash"
+                                            @click="delForm(index,'educationForm')"></Button>
                                 </FormItem>
                             </div>
                             <FormItem>
-                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(2,educationForm)">提交</Button>
-                                <Button type="success" icon="android-add"  style="margin-left: 8px" @click="educationForm.push({})">增加经历</Button>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading"
+                                        @click="saveRelation(2,educationForm)">提交
+                                </Button>
+                                <Button type="success" icon="android-add" style="margin-left: 8px"
+                                        @click="educationForm.push({})">增加经历
+                                </Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
                     <TabPane label="工作经历">
                         <Form ref="workingForm" inline>
-                            <div v-for="(item,index) in workingForm">
+                            <div v-for="(item,index) in workingForm" :key="'work-form-' + index">
                                 <FormItem label="时间" style="width:12%">
-                                    <Input type="text" placeholder="2012.09 - 2014.09" v-model="item.workingtime" ></Input>
+                                    <Input type="text" placeholder="2012.09 - 2014.09"
+                                           v-model="item.workingtime"></Input>
                                 </FormItem>
                                 <FormItem label="单位" style="width:12%">
-                                    <Input type="text" v-model="item.employer" ></Input>
+                                    <Input type="text" v-model="item.employer"></Input>
                                 </FormItem>
                                 <FormItem label="职务" style="width:12%">
-                                    <Input type="text" v-model="item.duties" ></Input>
+                                    <Input type="text" v-model="item.duties"></Input>
                                 </FormItem>
                                 <FormItem label="月薪" style="width:12%">
-                                    <InputNumber :min="500" :step="500" style="width: 100%" type="text" v-model="item.monthlysalary" ></InputNumber>
+                                    <InputNumber :min="500" :step="500" style="width: 100%" type="text"
+                                                 v-model="item.monthlysalary"></InputNumber>
                                 </FormItem>
                                 <FormItem label="离职原因" style="width:12%">
                                     <Input type="text" v-model="item.reasonleaving"></Input>
@@ -287,36 +312,42 @@
                                     <Input type="text" :maxlength="11" v-model="item.phone"></Input>
                                 </FormItem>
                                 <FormItem label="用户id" style="display: none">
-                                    <Input type="text" v-model="baseForm.userid" ></Input>
+                                    <Input type="text" v-model="baseForm.userid"></Input>
                                 </FormItem>
                                 <FormItem label="主键" style="display: none">
-                                    <Input type="text" v-model="item.id" ></Input>
+                                    <Input type="text" v-model="item.id"></Input>
                                 </FormItem>
                                 <FormItem label="操作" style="width:5%">
-                                    <Button style="color:#f46e65;font-size: 16px;padding: 3px 15px;" icon="ios-trash"  @click="delForm(index,'workingForm')"></Button>
+                                    <Button style="color:#f46e65;font-size: 16px;padding: 3px 15px;" icon="ios-trash"
+                                            @click="delForm(index,'workingForm')"></Button>
                                 </FormItem>
                             </div>
                             <FormItem>
-                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(3,workingForm)">提交</Button>
-                                <Button type="success" icon="android-add"  style="margin-left: 8px" @click="workingForm.push({})">增加经历</Button>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading"
+                                        @click="saveRelation(3,workingForm)">提交
+                                </Button>
+                                <Button type="success" icon="android-add" style="margin-left: 8px"
+                                        @click="workingForm.push({})">增加经历
+                                </Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
                     <TabPane label="社会关系">
-                        <Form ref="socailShipForm"  inline>
+                        <Form ref="socailShipForm" inline>
                             <div v-for="(item,index) in socailShipForm" :key="item.name">
                                 <FormItem label="关系" style="width:13%">
-                                    <Input type="text"  v-model="item.relationship" ></Input>
+                                    <Input type="text" v-model="item.relationship"></Input>
                                 </FormItem>
                                 <FormItem label="姓名" style="width:13%">
-                                    <Input type="text" name="name" v-model="item.name" ></Input>
+                                    <Input type="text" name="name" v-model="item.name"></Input>
                                 </FormItem>
                                 <FormItem label="年龄" style="width:13%">
-                                    <InputNumber :min="10" :step="1" style="width: 100%" type="text" v-model="item.age" ></InputNumber>
+                                    <InputNumber :min="10" :step="1" style="width: 100%" type="text"
+                                                 v-model="item.age"></InputNumber>
                                 </FormItem>
-                                <FormItem label="工作单位	" style="width:13%">
-                                    <Input type="text" v-model="item.employer" ></Input>
+                                <FormItem label="工作单位" style="width:13%">
+                                    <Input type="text" v-model="item.employer"></Input>
                                 </FormItem>
                                 <FormItem label="职务" style="width:13%">
                                     <Input type="text" v-model="item.duties"></Input>
@@ -325,55 +356,69 @@
                                     <Input type="text" :maxlength="11" v-model="item.phone"></Input>
                                 </FormItem>
                                 <FormItem label="用户id" style="display: none">
-                                    <Input type="text" v-model="baseForm.userid" ></Input>
+                                    <Input type="text" v-model="baseForm.userid"></Input>
                                 </FormItem>
                                 <FormItem label="主键" style="display: none">
-                                    <Input type="text" v-model="item.id" ></Input>
+                                    <Input type="text" v-model="item.id"></Input>
                                 </FormItem>
                                 <FormItem label="操作" style="width:5%">
-                                    <Button style="color:#f46e65;font-size: 16px;padding: 3px 15px;" icon="ios-trash"  @click="delForm(index,'socailShipForm')"></Button>
+                                    <Button style="color:#f46e65;font-size: 16px;padding: 3px 15px;" icon="ios-trash"
+                                            @click="delForm(index,'socailShipForm')"></Button>
                                 </FormItem>
                             </div>
                             <FormItem label="紧急联系人" style="width:30%">
-                                <Input type="text" v-model="emergency.emergencycontact" ></Input>
+                                <Input type="text" v-model="emergency.emergencycontact"></Input>
                             </FormItem>
                             <FormItem label="联系人关系" style="width:30%">
-                                <Input type="text" v-model="emergency.contactrelationship" ></Input>
+                                <Input type="text" v-model="emergency.contactrelationship"></Input>
                             </FormItem>
                             <FormItem label="联系人手机" style="width:30%">
-                                <Input type="text" :maxlength="11" v-model="emergency.contactnumber" ></Input>
+                                <Input type="text" :maxlength="11" v-model="emergency.contactnumber"></Input>
                             </FormItem>
                             <FormItem style="width:100%">
-                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(1,socailShipForm)">提交</Button>
-                                <Button type="success" icon="android-add"  style="margin-left: 8px" @click="socailShipForm.push({})">增加关系</Button>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading"
+                                        @click="saveRelation(1,socailShipForm)">提交
+                                </Button>
+                                <Button type="success" icon="android-add" style="margin-left: 8px"
+                                        @click="socailShipForm.push({})">增加关系
+                                </Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
                     <TabPane label="附件管理">
                         <div style="max-height: 400px;overflow-x: hidden;overflow-y: auto;">
-                            <Card >
+                            <Card>
                                 <Row :gutter="16">
-                                    <Col span="12" v-for="(item,index) in fileList" style="margin-bottom: 16px;" :key="index">
-                                        <Row>
-                                            <Col span="8">
-                                                <h4 style="width: 150px;text-overflow: ellipsis;overflow: hidden;white-space:nowrap;">文件名：{{item.file_name}}</h4>
-                                                <h4 style="margin-top: 10px">上传人：{{item.insert_username}}</h4>
-                                            <h4 style="margin-top: 10px">下载：<Button style="font-size: 20px;cursor: pointer" icon="ios-cloud-download-outline" @click="download(item.file_path)"></Button>  </h4>
-                                            </Col>
-                                            <Col span="15" class="fileImg">
-                                                <img style="width: 100%;cursor: pointer;height: 200px;display: block;position: relative" :src="item.file_path" alt="">
-                                                <div class="mouse-on-hover">
-                                                    <Icon type="ios-eye-outline" @click.native="handleView(item.file_path)"></Icon>
-                                                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                                                </div>
-                                            </Col>
-                                        </Row>
+                                    <Col span="12" v-for="(item,index) in fileList" style="margin-bottom: 16px;"
+                                         :key="index">
+                                    <Row>
+                                        <Col span="8">
+                                        <h4 style="width: 150px;text-overflow: ellipsis;overflow: hidden;white-space:nowrap;">
+                                            文件名：{{item.file_name}}</h4>
+                                        <h4 style="margin-top: 10px">上传人：{{item.insert_username}}</h4>
+                                        <h4 style="margin-top: 10px">下载：
+                                            <Button style="font-size: 20px;cursor: pointer"
+                                                    icon="ios-cloud-download-outline"
+                                                    @click="download(item.file_path)"></Button>
+                                        </h4>
+                                        </Col>
+                                        <Col span="15" class="fileImg">
+                                        <img style="width: 100%;cursor: pointer;height: 200px;display: block;position: relative"
+                                             :src="item.file_path" alt="">
+                                        <div class="mouse-on-hover">
+                                            <Icon type="ios-eye-outline"
+                                                  @click.native="handleView(item.file_path)"></Icon>
+                                            <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                                        </div>
+                                        </Col>
+                                    </Row>
                                     </Col>
                                 </Row>
                             </Card>
                         </div>
-                        <Upload name="ifile" :on-success="handleSuccess" :show-upload-list="false" multiple :data="{'ticketno':baseForm.userid}" action="/oa/ticket/uploadticketfiles">
+                        <Upload name="ifile" :on-success="handleSuccess" :show-upload-list="false" multiple
+                                :data="{'ticketno':baseForm.userid}" action="/oa/ticket/uploadticketfiles">
                             <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
                         </Upload>
                     </TabPane>
@@ -383,7 +428,7 @@
 
             </div>
         </Modal>
-        <Modal title="查看图片" v-model="visible" width="800px" >
+        <Modal title="查看图片" v-model="visible" width="800px">
             <img :src="imgsrc" v-if="visible" style="width: 100%;height: 100%">
         </Modal>
     </div>
@@ -395,9 +440,10 @@
     // lodash输入延时
     import debounce from 'lodash/debounce';
     import moment from 'moment';
+
     export default {
         name: 'employeeAchives',
-        data () {
+        data() {
             return {
                 settingModalFlag: false,
                 btnLoading: false,
@@ -498,18 +544,18 @@
                                     }
                                 }, [
                                     h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            icon: 'edit',
-                                            shape: 'circle'
-                                        },
-                                        on: {
-                                            click: function () {
-                                                vm.getUsersInfo(params.row.userId);
-                                                vm.settingModalFlag = true;
+                                            props: {
+                                                type: 'primary',
+                                                icon: 'edit',
+                                                shape: 'circle'
+                                            },
+                                            on: {
+                                                click: function () {
+                                                    vm.getUsersInfo(params.row.userId);
+                                                    vm.settingModalFlag = true;
+                                                }
                                             }
                                         }
-                                    }
                                     )
                                 ])
                             ]);
@@ -519,8 +565,7 @@
                 baseForm: {},
                 visible: false,
                 imgsrc: '',
-                fileList: [
-                ],
+                fileList: [],
                 educationForm: [
                     {
                         graduationtime: '',
@@ -570,7 +615,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
             this.getCompanyList();
@@ -607,7 +652,6 @@
                         that.postSearching = false;
                     }
                 });
-
             },
             orgSearch(q) {
                 let that = this;
@@ -617,7 +661,9 @@
                         that.orgList = res.data.map(item => {
                             return {
                                 label: item.name,
-                                label2: that.companyList.filter(res => { return item.companyid === res.id; })[0].name,
+                                label2: that.companyList.filter(res => {
+                                    return item.companyid === res.id;
+                                })[0].name,
                                 value: item.id
                             };
                         });
@@ -640,7 +686,7 @@
                     okText: '删除',
                     cancelText: '取消',
                     loading: true,
-                    onOk () {
+                    onOk() {
                         this.$http.post('/ticket/deleteTicketFile', item).then((res) => {
                             if (res.success) {
                                 vm.getTicketList(item.ticket_no);
@@ -831,28 +877,32 @@
 </script>
 
 <style scoped>
-    .mouse-on-hover{
+    .mouse-on-hover {
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        background: rgba(0,0,0,.6);
+        background: rgba(0, 0, 0, .6);
         display: none;
     }
-    #orgSelectForm .ivu-form-item-content .ivu-select-dropdown .ivu-select-item{
+
+    #orgSelectForm .ivu-form-item-content .ivu-select-dropdown .ivu-select-item {
         padding: 7px;
     }
-    #postSelectForm .ivu-form-item-content .ivu-select-dropdown .ivu-select-item{
+
+    #postSelectForm .ivu-form-item-content .ivu-select-dropdown .ivu-select-item {
         padding: 7px;
     }
-    .mouse-on-hover i{
+
+    .mouse-on-hover i {
         color: #fff;
         font-size: 60px;
         cursor: pointer;
         margin: 30px;
     }
-    .fileImg:hover .mouse-on-hover{
+
+    .fileImg:hover .mouse-on-hover {
         display: inline-flex;
         justify-content: center;
         align-items: center;
