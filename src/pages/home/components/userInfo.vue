@@ -11,7 +11,12 @@
             <Col span="16" style="padding-left:6px;">
             <Row class-name="made-child-con-middle" type="flex" align="middle">
                 <div>
-                    <b class="card-user-infor-name">{{userName}}</b>
+                    <strong class="card-user-infor-name">
+                        <span>{{userName}}</span>
+                        <span class="level-block">
+                            <fs-show-level></fs-show-level>
+                        </span>
+                    </strong>
                     <p style="font-size: 1.3em;color: #666">{{organizeName + '（' + postName + '）'}}</p>
                     <p style="font-size: 1.1em;line-height: 1;color: #999;letter-spacing: 2px;">{{companyName}}</p>
                 </div>
@@ -76,12 +81,6 @@
                     <Button type="ghost" shape="circle" icon="lock-combination"></Button>
                 </Tooltip>
             </Poptip>
-            <!--<Tooltip placement="top" content="进入知识库" :transfer="true">-->
-            <!--<Button type="ghost"-->
-            <!--shape="circle"-->
-            <!--@click.stop="$router.replace({name: 'articleHome'})"-->
-            <!--icon="ios-book"></Button>-->
-            <!--</Tooltip>-->
             </Col>
         </Row>
         <Modal title="修改头像" v-model="changeAvatorFlag" width="800">
@@ -100,10 +99,13 @@
         </Modal>
     </Card>
 </template>
-<style lang="less">
+<style lang="less" scoped>
     @import "../home.less";
     @import "../../../styles/common.less";
-
+    .level-block {
+        width: 50px;
+        margin-left: 6px;
+    }
     #change-avator-block {
         display: flex;
         flex-direction: column;
@@ -115,8 +117,8 @@
     }
 </style>
 <script>
-    import Cookies from 'js-cookie';
-    import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img';
+    import FsShowLevel from '@/baseComponents/fs-level-show'
+    import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img'
 
     export default {
         data() {
@@ -213,7 +215,8 @@
             }
         },
         components: {
-            fsCropperImg
+            fsCropperImg,
+            FsShowLevel
         }
     };
 </script>
