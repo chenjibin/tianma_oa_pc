@@ -102,7 +102,7 @@
                 <FormItem label="离职原因">
                     <Select type="text" style="width: 160px" clearable
                             @on-change="_inputDebounce"
-                            v-model="filterOpt.reasonLeaving" clearable>
+                            v-model="filterOpt.reasonLeaving">
                         <Option value="个人原因">个人原因</Option>
                         <Option value="公司劝退">公司劝退</Option>
                     </Select>
@@ -116,16 +116,23 @@
                         <Option value="C" label="C"><span>C</span><span style="float:right;color:#ccc;width:50px;text-align: right;">较差</span></Option>
                     </Select>
                 </FormItem>
-                <FormItem label="奖惩筛选">
+                <FormItem label="奖励记录">
                     <Select type="text" style="width: 160px"
                             @on-change="_inputDebounce"
-                            v-model="filterOpt.rewardType" clearable>
-                        <Option value="1">奖励</Option>
-                        <Option value="2">惩罚</Option>
+                            v-model="filterOpt.hasReward" clearable>
+                        <Option value="0">无</Option>
+                        <Option value="1">有</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="惩罚记录">
+                    <Select type="text" style="width: 160px"
+                            @on-change="_inputDebounce" v-model="filterOpt.hasPunished" clearable>
+                        <Option value="0">无</Option>
+                        <Option value="1">有</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="奖惩时间">
-                    <DatePicker type="daterange" split-panels style="width: 160px" clearable v-model="filterOpt.rewardDate"></DatePicker>
+                    <DatePicker type="daterange" @on-change="_changeRewardDate" split-panels style="width: 160px" clearable></DatePicker>
                 </FormItem>
                 <FormItem label="入职日期">
                     <DatePicker type="date" style="width: 160px" clearable
@@ -169,7 +176,7 @@
                     <TabPane label="基本信息">
                         <Form ref="baseForm" :label-width="100" inline style="font-size: 0px">
                             <FormItem label="姓名" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.name"></Input>
+                                <Input type="text" :maxlength="20" v-model="baseForm.name"></Input>
                             </FormItem>
                             <FormItem label="性别" style="width:49%;margin-right:1%;">
                                 <Input type="text" v-model="baseForm.sex" disabled></Input>
@@ -178,22 +185,22 @@
                                 <Input type="text" :maxlength="11" v-model="baseForm.cellphone" ></Input>
                             </FormItem>
                             <FormItem label="QQ" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.inphone" ></Input>
+                                <Input type="text" :maxlength="20" v-model="baseForm.inphone" ></Input>
                             </FormItem>
                             <FormItem label="电子邮箱" style="width:49%;margin-right:1%;">
                                 <Input type="text" v-model="baseForm.email" ></Input>
                             </FormItem>
                             <FormItem label="身份证号码" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.idcard" ></Input>
+                                <Input type="text" :maxlength="18" v-model="baseForm.idcard" ></Input>
                             </FormItem>
                             <FormItem label="出生日期" style="width:49%;margin-right:1%;">
                                 <Input type="text" v-model="baseForm.birthday" disabled></Input>
                             </FormItem>
                             <FormItem label="籍贯" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.origin"></Input>
+                                <Input type="text" :maxlength="50" v-model="baseForm.origin"></Input>
                             </FormItem>
                             <FormItem label="民族" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.account"></Input>
+                                <Input type="text" :maxlength="50" v-model="baseForm.account"></Input>
                             </FormItem>
                             <FormItem label="年龄" style="width:49%;margin-right:1%;">
                                 <InputNumber :min="18" style="width: 100%" type="text" v-model="baseForm.nation"></InputNumber>
@@ -217,7 +224,7 @@
                                 <!--<Input type="text" v-model="baseForm.filenum"></Input>-->
                             <!--</FormItem>-->
                             <FormItem label="详细住址" style="width:49%;margin-right:2%;">
-                                <Input type="textarea" :autosize="{minRows: 3,maxRows: 5}" v-model="baseForm.address"></Input>
+                                <Input type="textarea" :maxlength="255" :autosize="{minRows: 3,maxRows: 5}" v-model="baseForm.address"></Input>
                             </FormItem>
                             <FormItem label="部门经历" style="width:49%;margin-right:1%;">
                                 <Input type="textarea" :autosize="{minRows: 6,maxRows: 15}" v-model="baseForm.organizehistory"></Input>
@@ -233,15 +240,15 @@
                     </TabPane>
                     <TabPane label="教育状况">
                         <Form ref="educationForm" inline>
-                            <div v-for="(item,index) in educationForm">
+                            <div :key="'edu'+item.id" v-for="(item,index) in educationForm">
                                 <FormItem label="时间" style="width:22%">
-                                    <Input type="text" placeholder="2012.09 - 2016.06" v-model="item.workingtime" ></Input>
+                                    <Input type="text" :maxlength="50" placeholder="2012.09 - 2016.06" v-model="item.workingtime" ></Input>
                                 </FormItem>
-                                <FormItem label="毕业院校	" style="width:22%">
-                                    <Input type="text" v-model="item.graduationschool" ></Input>
+                                <FormItem label="毕业院校" style="width:22%">
+                                    <Input type="text" :maxlength="50" v-model="item.graduationschool" ></Input>
                                 </FormItem>
                                 <FormItem label="专业" style="width:22%">
-                                    <Input type="text" v-model="item.profession" ></Input>
+                                    <Input type="text" :maxlength="20" v-model="item.profession" ></Input>
                                 </FormItem>
                                 <FormItem label="学历" style="width:22%">
                                     <Select type="text" v-model="item.education">
@@ -273,24 +280,24 @@
                     </TabPane>
                     <TabPane label="工作经历">
                         <Form ref="workingForm" inline>
-                            <div v-for="(item,index) in workingForm">
+                            <div :key="item.id" v-for="(item,index) in workingForm">
                                 <FormItem label="时间" style="width:12%">
-                                    <Input type="text" placeholder="2012.09 - 2014.09" v-model="item.workingtime" ></Input>
+                                    <Input type="text" placeholder="2012.09 - 2014.09" :maxlength="50" v-model="item.workingtime" ></Input>
                                 </FormItem>
                                 <FormItem label="单位" style="width:12%">
-                                    <Input type="text" v-model="item.employer" ></Input>
+                                    <Input type="text" :maxlength="50"  v-model="item.employer" ></Input>
                                 </FormItem>
                                 <FormItem label="职务" style="width:12%">
-                                    <Input type="text" v-model="item.duties" ></Input>
+                                    <Input type="text" :maxlength="20"  v-model="item.duties" ></Input>
                                 </FormItem>
                                 <FormItem label="月薪" style="width:12%">
-                                    <InputNumber :min="500" :step="500" style="width: 100%" type="text" v-model="item.monthlysalary" ></InputNumber>
+                                    <Input style="width: 100%" :maxlength="20" type="text" v-model="item.monthlysalary" ></Input>
                                 </FormItem>
                                 <FormItem label="离职原因" style="width:12%">
-                                    <Input type="text" v-model="item.reasonleaving"></Input>
+                                    <Input type="text" :maxlength="50" v-model="item.reasonleaving"></Input>
                                 </FormItem>
                                 <FormItem label="证明人" style="width:12%">
-                                    <Input type="text" v-model="item.witness"></Input>
+                                    <Input type="text" :maxlength="10" v-model="item.witness"></Input>
                                 </FormItem>
                                 <FormItem label="公司号码" style="width:12%">
                                     <Input type="text" :maxlength="11" v-model="item.phone"></Input>
@@ -312,23 +319,55 @@
                             </FormItem>
                         </Form>
                     </TabPane>
+                    <TabPane label="奖惩记录">
+                        <Form ref="rewardForm" inline>
+                            <div :key="item.id" v-for="(item,index) in rewardForm" style="font-size: 0">
+                                <FormItem label="时间" style="width:46%">
+                                    <DatePicker style="width: 100%" type="date" v-model="item.rewarddate"></DatePicker>
+                                </FormItem>
+                                <FormItem label="类型" style="width:46%">
+                                    <Select style="width: 100%" v-model="item.rewardtype" >
+                                        <Option :value="0">奖励</Option>
+                                        <Option :value="1">惩罚</Option>
+                                    </Select>
+                                </FormItem>
+                                <FormItem label="奖惩原因" style="width:46%">
+                                    <Input type="textarea" :maxlength="200" placeholder="奖励明细，尽量简短" v-model="item.rewardcontent"></Input>
+                                </FormItem>
+                                <FormItem label="用户id" style="display: none">
+                                    <Input type="text" v-model="baseForm.userid" ></Input>
+                                </FormItem>
+                                <FormItem label="主键" style="display: none">
+                                    <Input type="text" v-model="item.id" ></Input>
+                                </FormItem>
+                                <FormItem label="操作" style="width:5%">
+                                    <Button style="color:#f46e65;font-size: 26px" icon="ios-trash"  @click="delForm(index,'rewardForm')"></Button>
+                                </FormItem>
+                            </div>
+                            <FormItem>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(4,rewardForm)">提交</Button>
+                                <Button type="success" icon="android-add"  style="margin-left: 8px" @click="rewardForm.push({})">增加奖惩</Button>
+                                <Button type="ghost" @click="cancel()">取消修改</Button>
+                            </FormItem>
+                        </Form>
+                    </TabPane>
                     <TabPane label="社会关系">
                         <Form ref="socailShipForm"  inline>
                             <div v-for="(item,index) in socailShipForm" :key="item.name">
                                 <FormItem label="关系" style="width:13%">
-                                    <Input type="text"  v-model="item.relationship" ></Input>
+                                    <Input type="text" :maxlength="20"  v-model="item.relationship" ></Input>
                                 </FormItem>
                                 <FormItem label="姓名" style="width:13%">
-                                    <Input type="text" name="name" v-model="item.name" ></Input>
+                                    <Input type="text" :maxlength="20"  name="name" v-model="item.name" ></Input>
                                 </FormItem>
                                 <FormItem label="年龄" style="width:13%">
                                     <InputNumber :min="10" :step="1" style="width: 100%" type="text" v-model="item.age" ></InputNumber>
                                 </FormItem>
-                                <FormItem label="工作单位	" style="width:13%">
-                                    <Input type="text" v-model="item.employer" ></Input>
+                                <FormItem label="工作单位" style="width:13%">
+                                    <Input type="text" :maxlength="50" v-model="item.employer" ></Input>
                                 </FormItem>
                                 <FormItem label="职务" style="width:13%">
-                                    <Input type="text" v-model="item.duties"></Input>
+                                    <Input type="text" :maxlength="20" v-model="item.duties"></Input>
                                 </FormItem>
                                 <FormItem label="手机" style="width:13%">
                                     <Input type="text" :maxlength="11" v-model="item.phone"></Input>
@@ -344,10 +383,10 @@
                                 </FormItem>
                             </div>
                             <FormItem label="紧急联系人" style="width:30%">
-                                <Input type="text" v-model="emergency.emergencycontact" ></Input>
+                                <Input type="text" :maxlength="50" v-model="emergency.emergencycontact" ></Input>
                             </FormItem>
                             <FormItem label="联系人关系" style="width:30%">
-                                <Input type="text" v-model="emergency.contactrelationship" ></Input>
+                                <Input type="text" :maxlength="50" v-model="emergency.contactrelationship" ></Input>
                             </FormItem>
                             <FormItem label="联系人手机" style="width:30%">
                                 <Input type="text" :maxlength="11" v-model="emergency.contactnumber" ></Input>
@@ -526,6 +565,11 @@
                     }
                 ],
                 baseForm: {},
+                rewardForm: [{
+                    rewardcontent: '',
+                    rewardtype: 0,
+                    rewarddate: moment().format('YYYY-MM-DD')
+                }],
                 visible: false,
                 imgsrc: '',
                 fileList: [
@@ -558,7 +602,8 @@
                 filterOpt: {
                     name: '', // 员工姓名
                     rewardDate: [],
-                    rewardType: '',
+                    hasPunished: '',
+                    hasReward: '',
                     monthDate: '', // 入职日期左区间
                     endmonthDate: '', // 入职日期右区间
                     kqstates: '1', // 在职状态
@@ -618,7 +663,6 @@
                         that.postSearching = false;
                     }
                 });
-
             },
             orgSearch(q) {
                 let that = this;
@@ -728,26 +772,50 @@
                     }
                 }
                 this.$http.post('/employees/addUserRelationship', d).then((res) => {
-                    this.btnLoading = false;
+                    this.$http.get('/employees/findUserRelationship?typeRelationship=' + typerelationship + '&id=' + d.id).then((res2) => {
+                        switch (typerelationship) {
+                            case 1:this.socailShipForm = res2.data; break;
+                            case 2:this.educationForm = res2.data; break;
+                            case 3:this.workingForm = res2.data; break;
+                            case 4:this.rewardForm = res2.data; break;
+                        }
+                    });
                     this.$Message.success('保存附加数据成功！');
+                }).finally(() => {
+                    this.btnLoading = false;
                 });
             },
             cancel() {
                 this.settingModalFlag = false;
                 var d = this.educationForm;
                 var d2 = this.workingForm;
+                var d3 = this.rewardForm;
+                var d4 = this.socailShipForm;
                 // 删除自己新增的空数据
+                // 教育经历
                 for (let i = d.length - 1; i > 0; i--) {
-                    if (!d[i].education) {
+                    if (!d[i].graduationtime && !d[i].education && !d[i].profession && !d[i].graduationschool) {
                         d.splice(i, 1);
                     }
                 }
+                // 工作经历
                 for (let i = d2.length - 1; i > 0; i--) {
-                    if (!d2[i].education) {
+                    if (!d2[i].workingtime && !d2[i].employer && !d2[i].duties && !d[i].monthlysalary) {
                         d2.splice(i, 1);
                     }
                 }
-                // this.educationForm = d;
+                // 奖惩记录
+                for (let i = d3.length - 1; i > 0; i--) {
+                    if (!d3[i].rewarddate && !d3[i].rewardtype && !d3[i].rewardcontent) {
+                        d3.splice(i, 1);
+                    }
+                }
+                // 社会关系
+                for (let i = d4.length - 1; i > 0; i--) {
+                    if (!d4[i].relationship && !d4[i].name) {
+                        d4.splice(i, 1);
+                    }
+                }
             },
             getUsersInfo(id) {
                 var that = this;
@@ -764,6 +832,7 @@
                 // 社会关系
                 this.$http.post('/employees/findUserRelationship', {'id': id, 'typeRelationship': 1}).then((res) => {
                     if (res.success) {
+                        console.log(res.data);
                         that.socailShipForm = res.data;
                         that.emergency.contactrelationship = res.emRelate;
                         that.emergency.emergencycontact = res.emPerson;
@@ -780,6 +849,12 @@
                 this.$http.post('/employees/findUserRelationship', {'id': id, 'typeRelationship': 3}).then((res) => {
                     if (res.success) {
                         that.workingForm = res.data;
+                    }
+                });
+                // 奖惩记录
+                this.$http.post('/employees/findUserRelationship', {'id': id, 'typeRelationship': 4}).then((res) => {
+                    if (res.success) {
+                        that.rewardForm = res.data;
                     }
                 });
                 // 附件列表
@@ -825,6 +900,10 @@
             },
             _monthDateChange(val) {
                 this.filterOpt.monthDate = val;
+                this._filterResultHandler();
+            },
+            _changeRewardDate(val) {
+                this.filterOpt.rewardDate = val;
                 this._filterResultHandler();
             },
             _birthdayChange(val) {
