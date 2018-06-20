@@ -133,9 +133,6 @@
                         </Option>
                     </Select>
                 </FormItem>
-                <!--<FormItem label="权重" style="width: 270px;display: inline-block">-->
-                    <!--<InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="editTickets.weight"></InputNumber>-->
-                <!--</FormItem>-->
                 <FormItem label="项目组" style="width: 270px;display: inline-block">
                     <Select v-model="editTickets.team_id" placement="bottom" filterable>
                         <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user2' + option.id">{{option.name}}</Option>
