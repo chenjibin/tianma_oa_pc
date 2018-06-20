@@ -205,7 +205,7 @@
                     <Form ref="talentBean" :model="talentBean" :label-width="130" :rules="talentBeanRule" style="overflow-y: auto;height: 600px;" inline>
                         <Input type="text" style="display: none" v-model="talentBean.id"></Input>
                         <FormItem label="姓名" style="width:460px" prop="name">
-                            <Input type="text" :maxlength="20" v-model="talentBean.name"></Input>
+                            <Input type="text" :maxlength="20" v-model.trim="talentBean.name"></Input>
                         </FormItem>
                         <FormItem label="人才等级" style="width:460px" v-if="talentBean.important === 1" prop="level">
                             <Select type="text" v-model="talentBean.level" required>
