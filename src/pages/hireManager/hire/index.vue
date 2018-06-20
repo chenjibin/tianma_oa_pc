@@ -1216,7 +1216,9 @@
                             if (res.success) {
                                 vm.$Message.success('保存成功');
                                 vm._filterResultHandler();
-                                vm._findUser(res.message);
+                                if(type === 1){
+                                    vm._findUser(res.message);
+                                }
                                 if (type === 2) {
                                     vm.settingModalFlag = false;
                                 }
@@ -1409,6 +1411,9 @@
                 this.talentBean.headimg = '';
                 this.talentBean.nation = '';
                 this.talentBean.idnum = '';
+                this.talentBean.graduatedschool = '';
+                this.talentBean.education = '';
+                this.talentBean.profession = '';
                 this.talentBean.politicalstatus = '';
                 this.talentBean.emperson = '';
                 this.talentBean.emrelate = '';
