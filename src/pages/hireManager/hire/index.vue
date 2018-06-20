@@ -205,7 +205,7 @@
                     <Form ref="talentBean" :model="talentBean" :label-width="130" :rules="talentBeanRule" style="overflow-y: auto;height: 600px;" inline>
                         <Input type="text" style="display: none" v-model="talentBean.id"></Input>
                         <FormItem label="姓名" style="width:460px" prop="name">
-                            <Input type="text" :maxlength="20" v-model="talentBean.name"></Input>
+                            <Input type="text" :maxlength="20" v-model.trim="talentBean.name"></Input>
                         </FormItem>
                         <FormItem label="人才等级" style="width:460px" v-if="talentBean.important === 1" prop="level">
                             <Select type="text" v-model="talentBean.level" required>
@@ -1216,7 +1216,9 @@
                             if (res.success) {
                                 vm.$Message.success('保存成功');
                                 vm._filterResultHandler();
-                                vm._findUser(res.message);
+                                if(type === 1){
+                                    vm._findUser(res.message);
+                                }
                                 if (type === 2) {
                                     vm.settingModalFlag = false;
                                 }
@@ -1409,6 +1411,9 @@
                 this.talentBean.headimg = '';
                 this.talentBean.nation = '';
                 this.talentBean.idnum = '';
+                this.talentBean.graduatedschool = '';
+                this.talentBean.education = '';
+                this.talentBean.profession = '';
                 this.talentBean.politicalstatus = '';
                 this.talentBean.emperson = '';
                 this.talentBean.emrelate = '';
