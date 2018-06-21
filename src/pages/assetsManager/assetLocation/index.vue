@@ -9,7 +9,7 @@
                             :clearable="true"
                             v-model="filterOpt.name"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <Button type="ghost" @click="addInfo">

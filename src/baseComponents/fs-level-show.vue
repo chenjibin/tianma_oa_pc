@@ -1,9 +1,8 @@
 <template>
     <div class="level-show">
         <Tooltip :content="'综合能力值:' + levelNumber + ' ( ' + levelDesc + ' ) '" placement="top">
-            <img :src="'/oa/static/image/level_' + level + '.png'"/>
+            <img :src="'/oa/static/image/level_' + level + '.png'" v-if="level !== 0"/>
         </Tooltip>
-        <!--<p>{{levelInfo.levelDesc}}</p>-->
     </div>
 </template>
     <style lang="less">
