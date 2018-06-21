@@ -660,7 +660,7 @@
                 if (value) {
                     this.$http.post('/user/getUserInfo', {username: value}).then((res) => {
                         if (res.success && res.data) {
-                            var d = res.data;
+                            let d = res.data;
                             callback(new Error(`用户名被 ${d.organizename}部，${d.realname}占用`));
                         } else {
                             callback();
@@ -991,7 +991,7 @@
                         className: 'tableDataCustom',
                         width: 120,
                         render: (h, params) => {
-                            var vm = this;
+                            let vm = this;
                             return h('div', {
                                 style: {
                                     display: 'flex',
@@ -1081,7 +1081,7 @@
                 }
             },
             getPositionData() {
-                var vm = this;
+                let vm = this;
                 this.$http.post('/talentPosition/findTalentPositionList').then((res) => {
                     vm.positionData = res.data;
                 });
@@ -1111,7 +1111,7 @@
             },
             // 删除附件
             handleRemove(item) {
-                var vm = this;
+                let vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
@@ -1131,7 +1131,7 @@
             },
             // 下载图片
             download(path) {
-                var p = 'http://' + window.location.host + path;
+                let p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
                 downloadDom.href = p;
@@ -1146,10 +1146,10 @@
                 this.showAttachModel = true;
             },
             getTicketList(id) {
-                var that = this;
+                let that = this;
                 this.$http.post('/ticket/ticketFileslist', { 'ticketno': id }).then((res) => {
                     if (res.success) {
-                        var d = res.data;
+                        let d = res.data;
                         for (let i = 0; i < d.length; i++) {
                             d[i].file_path = d[i].file_path.replace('\\..', '\\oa');
                             if (d[i].file_path.indexOf('/oa') < 0) {
@@ -1196,10 +1196,10 @@
                 } else {
                     this.saveBtn2Loading = true;
                 }
-                var vm = this;
+                let vm = this;
                 this.$refs.talentBean.validate(function (isPass) {
                     if (isPass) {
-                        var d = {};
+                        let d = {};
                         d.bean = JSON.stringify(vm.talentBean);
                         let workingForm = vm.workingForm.filter(function(item) {
                             return (item.companyname || item.post || item.monthlysalary || item.starttime || item.endtime);
@@ -1236,8 +1236,8 @@
                 this.statusForm.remarks = this.showUser.remarks;
             },
             forward () {
-                var statusPrev = [-1, 0, 0, 1, 1, 1, 3, 3, 6, 6];
-                var vm = this;
+                let statusPrev = [-1, 0, 0, 1, 1, 1, 3, 3, 6, 6];
+                let vm = this;
                 this.statusTemp = statusPrev[this.showUser.status];
                 this.statusForm = {};
                 this.statusForm.id = this.showUser.id;
@@ -1315,8 +1315,8 @@
                 }
             },
             deleteMe() {
-                var id = this.talentBean.id;
-                var that = this;
+                let id = this.talentBean.id;
+                let that = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
@@ -1336,16 +1336,16 @@
                 });
             },
             getStatusText (num) {
-                var text = ['未预约', '已预约', '已到达', '未到达', '面试合格', '待定', '面试不合格', '合格到达', '合格未到达', '试岗通过', '试岗未通过'];
+                let text = ['未预约', '已预约', '已到达', '未到达', '面试合格', '待定', '面试不合格', '合格到达', '合格未到达', '试岗通过', '试岗未通过'];
                 return text[num + 1];
             },
             saveStatus() {
-                var vm = this;
+                let vm = this;
                 this.$refs['statusForm'].validate((valid) => {
                     if (!valid) {
                         return false;
                     }
-                    var d = vm.statusForm;
+                    let d = vm.statusForm;
                     if (vm.showUser.status === -1) {
                         d.status = 0;
                     }
@@ -1425,7 +1425,7 @@
                 this.filterPeopleLoading = true;
                 this.$http.get('/user/getCheckUser', {params: data}).then((res) => {
                     if (res.success) {
-                        var d = res.data;
+                        let d = res.data;
                         this.optionlist = d.map(item => {
                             return {
                                 'label': item.realname,
@@ -1487,7 +1487,7 @@
                 this.pageData.page = 1;
             },
             _findUser(id) {
-                var vm = this;
+                let vm = this;
                 vm.educationForm = [];
                 vm.workingForm = [];
                 vm.talentBean = {};
@@ -1506,7 +1506,7 @@
                 });
             },
             getPositionCombo() {
-                var vm = this;
+                let vm = this;
                 vm.$http.post('/talentPosition/dataComboList').then((res) => {
                     if (res.success) {
                         vm.dataComboList = res.data;
@@ -1530,7 +1530,7 @@
         #btn-fix-container {
             position: absolute;
             right: 20px;
-            top: 0px;
+            top: 0;
         }
         #btn-fix-container {
             .btn-group-fix {

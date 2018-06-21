@@ -165,7 +165,7 @@
         }
     }
 </style>
-<script>
+<script type="text/jsx">
     import fsSearchUser from '@/baseComponents/fs-search-user';
     import fsSearchPost from '@/baseComponents/fs-search-post';
     export default {
@@ -408,14 +408,15 @@
                                 <i-button  on-click={ () => this.remove(store, data) } size="small" style="margin-left: 6px;" type="error">删除</i-button>
                             </div>
                         </div>
-                    <div class="detail">
-                        <span style="width:160px;">{data.leaderName}</span>
-                        <span style="width:160px;">{data.leaderUserName}</span>
-                        <span style="width:160px;">{data.chargerName}</span>
-                        <span style="width:160px;">{data.chargerUserName}</span>
-                        <span style="width:584px;overflow:hidden;text-overflow" title={data.postNames}>{data.postNames}</span>
-                </div>
-                </div>)
+                        <div class="detail">
+                            <span style="width:160px;">{data.leaderName}</span>
+                            <span style="width:160px;">{data.leaderUserName}</span>
+                            <span style="width:160px;">{data.chargerName}</span>
+                            <span style="width:160px;">{data.chargerUserName}</span>
+                            <span style="width:584px;overflow:hidden;text-overflow" title={data.postNames}>{data.postNames}</span>
+                        </div>
+                    </div>
+                )
             }
         },
         components: {
