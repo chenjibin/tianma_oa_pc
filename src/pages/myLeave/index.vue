@@ -162,7 +162,7 @@
                                         on: {
                                             click: function (e) {
                                                 e.stopPropagation()
-                                                vm._delOd(params.row);
+                                                vm._delOd(params.row)
                                             }
                                         }
                                     })
@@ -181,9 +181,6 @@
             this._setTableHeight();
         },
         methods: {
-            onRowClickHandler(data, index) {
-                this.pageData.list[index]._expanded = !this.pageData.list[index]._expanded;
-            },
             _rotateImg(index) {
                 this.imgArr[index].deg += 90;
             },

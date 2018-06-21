@@ -309,7 +309,7 @@
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _editorSetting(data) {
+            _editorSetting() {
                 this._initEditorSettingData();
                 this.editorSettingFlag = true;
             },

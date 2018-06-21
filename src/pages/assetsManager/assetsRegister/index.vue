@@ -14,12 +14,14 @@
                             v-model="filterOpt.positionName"
                             placeholder="位置名称">
                         <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                            <span>{{item.name}}</span><span :title="item.remarks"
+                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="资产状态">
-                    <Select :clearable="true" style="width: 180px" v-model="filterOpt.approvalStatus" @on-change="_inputDebounce">
+                    <Select :clearable="true" style="width: 180px" v-model="filterOpt.approvalStatus"
+                            @on-change="_inputDebounce">
                         <Option :value="0">在途</Option>
                         <Option :value="1">在用</Option>
                         <Option :value="2">备用</Option>
@@ -27,11 +29,13 @@
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
-                    <Button type="ghost" v-if="accessBtn.indexOf(29) > -1" @click="addInfo" >新增</Button>
-                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(31) > -1" @click="exportExcel" icon="code-download">
+                    <Button type="ghost" v-if="accessBtn.indexOf(29) > -1" @click="addInfo">新增</Button>
+                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(31) > -1" @click="exportExcel"
+                            icon="code-download">
                         导出
                     </Button>
-                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(32) > -1" icon="upload" @click="attachFilesModal = true">
+                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(32) > -1" icon="upload"
+                            @click="attachFilesModal = true">
                         导入
                     </Button>
                 </FormItem>
@@ -54,7 +58,8 @@
                   style="margin-top: 16px;"></Page>
         </Card>
         <Modal v-model="addAssetsModal" :width="385">
-            <Form style="margin-top: 20px" :label-width="100" ref="addAssetsInfo" :model="addAssetsInfo" :rules="addAssetsInfoRules">
+            <Form style="margin-top: 20px" :label-width="100" ref="addAssetsInfo" :model="addAssetsInfo"
+                  :rules="addAssetsInfoRules">
                 <Input type="text" style="display: none" v-model="addAssetsInfo.id"></Input>
                 <FormItem label="资产名称" v-if="!addAssetsInfo.id" prop="nameId">
                     <Cascader style="width: 180px" :data="cat1" v-model="selectArr2" :load-data="loadData"></Cascader>
@@ -63,7 +68,8 @@
                     <Input style="width: 180px" v-model="addAssetsInfo.name" readonly></Input>
                 </FormItem>
                 <FormItem label="申请数量" prop="num" v-if="!addAssetsInfo.id">
-                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="addAssetsInfo.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px"
+                                 v-model="addAssetsInfo.num"></InputNumber>
                 </FormItem>
                 <FormItem label="资产状态">
                     <Select style="width: 180px" v-model="addAssetsInfo.appStatus">
@@ -75,8 +81,13 @@
                 </FormItem>
                 <FormItem label="资产位置" prop="positionName">
                     <Select type="text" style="width: 180px" v-model="addAssetsInfo.positionName" placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :label="item.name" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"  style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                        <Option v-for="(item, index) in positionList"
+                                :label="item.name"
+                                :key="index"
+                                :value="item.name">
+                            <span>{{item.name}}</span>
+                            <span :title="item.remarks"
+                                  style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
                         </Option>
                     </Select>
                 </FormItem>
@@ -91,7 +102,9 @@
             </div>
         </Modal>
         <Modal v-model="attachFilesModal">
-            <Upload accept="application/vnd.ms-excel" :data="{'fileName':'导入资产模版表.xls'}" action="/oa/assetsRegister/importAssetsRecord" name="file" :on-format-error="uploadInfo" :on-success="uploadInfo" type="drag">
+            <Upload accept="application/vnd.ms-excel" :data="{'fileName':'导入资产模版表.xls'}"
+                    action="/oa/assetsRegister/importAssetsRecord" name="file" :on-format-error="uploadInfo"
+                    :on-success="uploadInfo" type="drag">
                 <div style="padding: 20px 0">
                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                     <p>点击或者拖拽上传表格</p>
@@ -109,6 +122,7 @@
     import pageMixin from '@/mixins/pageMixin';
     // lodash输入延时
     import debounce from 'lodash/debounce';
+
     export default {
         name: 'assetsRegister',
         data() {
@@ -188,7 +202,7 @@
                         key: 'scrappedtype',
                         align: 'center',
                         render: (h, params) => {
-                            var status = params.row.scrappedtype;
+                            let status = params.row.scrappedtype;
                             if (status === 1) {
                                 return h('span', '直接销毁');
                             }
@@ -207,7 +221,7 @@
                         align: 'center',
                         render: (h, params) => {
                             let row = params.row;
-                            var vm = this;
+                            let vm = this;
                             return h('Button', {
                                 props: {
                                     type: 'primary',
@@ -215,7 +229,7 @@
                                     shape: 'circle'
                                 },
                                 on: {
-                                    click: function() {
+                                    click: function () {
                                         vm.addAssetsInfo.appStatus = row.appstatus;
                                         vm.addAssetsInfo.id = row.id;
                                         vm.addAssetsInfo.name = row.name;
@@ -278,7 +292,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
             this.getPositionList();
@@ -289,11 +303,11 @@
             this.loadData(null, null, 1);
         },
         watch: {
-            selectArr (arr) {
+            selectArr(arr) {
                 [this.filterOpt.category1_id, this.filterOpt.category2_id, this.filterOpt.category3_id] = arr;
                 this._inputDebounce();
             },
-            selectArr2 (arr) {
+            selectArr2(arr) {
                 [, , this.addAssetsInfo.nameId] = arr;
             }
         },
@@ -302,11 +316,11 @@
                 this.baseInfo = data;
             },
             exportExcel() {
-                var vm = this;
+                let vm = this;
                 this.$Modal.confirm({
                     title: '导出资产',
                     okText: '导出',
-                    render: (h, params) => {
+                    render: (h) => {
                         return h('div', {
                             style: {
                                 margin: '30px auto',
@@ -343,7 +357,7 @@
                             (vm.filterOpt.category3_id || '') + ',' +
                             (vm.filterOpt.approvalStatus || '') + ',' +
                             (vm.filterOpt.positionName || '');
-                        var a = document.createElement('a');
+                        let a = document.createElement('a');
                         a.type = 'download';
                         a.href = '/oa/assetsRegister/export?date=' + vm.filterOpt.date + '&strExport=' + strExport;
                         a.style.display = 'none';
@@ -354,7 +368,7 @@
                     }
                 });
             },
-            uploadInfo(response, file, fileList) {
+            uploadInfo(response) {
                 if (response.success) {
                     this._filterResultHandler();
                     this.$Message.success('导入成功');
@@ -380,7 +394,7 @@
                 let vm = this;
                 let d = [];
                 this.$http.post('assetsCategory/queryCategoryFather?pid=' + type).then((res) => {
-                    var data = res.data;
+                    let data = res.data;
                     if (res.success) {
                         for (let i = 0; i < data.length; i++) {
                             let tmp = data[i];
@@ -409,7 +423,7 @@
                 })
             },
             saveInfo() {
-                var vm = this;
+                let vm = this;
                 this.$refs.addAssetsInfo.validate((isPass) => {
                     if (isPass) {
                         vm.$http.post('assetsRegister/addAndUpdate', vm.addAssetsInfo).then((res) => {
@@ -436,23 +450,23 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 34 - 57 - 49;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _getPostData () {
+            _getPostData() {
                 this.getList('/assetsRegister/appDateList', this.filterOpt);
             }
         }
@@ -460,7 +474,7 @@
 </script>
 
 <style lang="less">
-    #assetsRegister  {
+    #assetsRegister {
         .cusBtn {
             span {
                 vertical-align: middle;
@@ -470,6 +484,5 @@
                 font-size: 19px;
             }
         }
-
     }
 </style>

@@ -126,9 +126,11 @@
         },
         filters: {
             deleteTag(val) {
-                let content = val.replace(/<!--[\w\W\r\n]*?-->/g, '').replace(/<style[\s\S]*?<\/style>/g, '').replace(/\s*/g, '');
-                content = utils.delHtmlTag(content);
-                return content;
+                let content = val.replace(/<!--[\w\W\r\n]*?-->/g, '')
+                                 .replace(/<style[\s\S]*?<\/style>/g, '')
+                                 .replace(/\s*/g, '')
+                content = utils.delHtmlTag(content)
+                return content
             }
         },
         watch: {

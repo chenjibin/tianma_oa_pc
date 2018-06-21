@@ -391,7 +391,7 @@
                         title: '操作',
                         key: 'action',
                         render: (h, params) => {
-                            var vm = this;
+                            let vm = this;
                             return h('div', [
                                 h('Tooltip', {
                                     props: {
@@ -530,7 +530,7 @@
                 });
             },
             download(path) {
-                var p = 'http://' + window.location.host + path;
+                let p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
                 downloadDom.href = p;
@@ -541,8 +541,8 @@
             },
             // 删除关系
             delForm(index, formName) {
-                var row = this[formName][index];
-                var vm = this;
+                let row = this[formName][index];
+                let vm = this;
                 if (row.id) {
                     this.$Modal.confirm({
                         title: '删除提醒',
@@ -617,11 +617,11 @@
             //     // this.educationForm = d;
             // },
             getUsersInfo(id) {
-                var that = this;
+                let that = this;
                 if (id === 0) {
                     return false;
                 }
-                var d = {};
+                let d = {};
                 d.userId = id;
                 this.$http.post('/employees/findEmployee', d).then((res) => {
                     if (res) {
@@ -652,7 +652,7 @@
                 // 附件列表
                 this.$http.post('/ticket/ticketFileslist', {'ticketno': id}).then((res) => {
                     if (res.success) {
-                        var d = res.data;
+                        let d = res.data;
                         for (let i = 0; i < d.length; i++) {
                             d[i].file_path = d[i].file_path.replace('\\..', '\\oa');
                             if (d[i].file_path.indexOf('/oa')) {

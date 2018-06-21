@@ -48,16 +48,19 @@
                         @on-ok="_deletePost">
                     <Button style="margin-left: 8px"
                             type="error"
-                            :disabled="!chooseDataArray.length">删除</Button>
+                            :disabled="!chooseDataArray.length">删除
+                    </Button>
                 </Poptip>
                 <Poptip placement="left" width="400">
                     <Button type="primary"
                             :disabled="!(chooseDataArray.length === 1)"
                             style="margin-left: 8px"
-                            @click="_updateMubanHandler">修改</Button>
+                            @click="_updateMubanHandler">修改
+                    </Button>
                     <Button type="primary"
                             @click="_addMubanHandler"
-                            style="margin-left: 8px">添加岗位</Button>
+                            style="margin-left: 8px">添加岗位
+                    </Button>
                     <div class="banci-add-form" slot="content">
                         <Form :rules="banciRules"
                               :model="banciForm"
@@ -87,18 +90,17 @@
                   ref="classForm"
                   :label-width="100">
                 <Row :gutter="9">
-
                     <Col :span="12">
                     <FormItem label="姓名" v-show="usernameisShow" required>
                         <Input v-model="classForm.username"></Input>
                     </FormItem>
                     </Col>
-                    <Col :span="12" >
-                    <FormItem label="姓名"   v-show="isShow" required >
+                    <Col :span="12">
+                    <FormItem label="姓名" v-show="isShow" required>
                         <fs-search-user v-model="classForm.user_id"
                                         :optionlist.sync="nameForm.nameOpt"
                                         :clearable="true"
-                                        :label="nameForm.nameLabel" ></fs-search-user>
+                                        :label="nameForm.nameLabel"></fs-search-user>
                     </FormItem>
 
                     </Col>
@@ -107,7 +109,8 @@
                         <Select v-model="classForm.post_id">
                             <Option :value="item.id"
                                     v-for="item,index in allPostData"
-                                    :key="'teacherOpt' + index">{{item.name}}</Option>
+                                    :key="'teacherOpt' + index">{{item.name}}
+                            </Option>
                         </Select>
                     </FormItem>
                     </Col>
@@ -138,7 +141,7 @@
                     </Col>
                     <Col :span="24">
                     <FormItem label="授课评价">
-                        <Input v-model="classForm.comment" type="textarea"  :autosize="{minRows: 4,maxRows: 5}"></Input>
+                        <Input v-model="classForm.comment" type="textarea" :autosize="{minRows: 4,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                     <Col :span="24">
@@ -182,23 +185,18 @@
         </Modal>
     </div>
 </template>
-<style>
-
-</style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import fsDepTree from '@/baseComponents/fs-dep-tree';
     import fsSearchUser from '@/baseComponents/fs-search-user';
-    import moment from 'moment';
+
     export default {
         name: 'internalTrainerManage',
-        data () {
+        data() {
             return {
-            isShow: true,
+                isShow: true,
                 usernameisShow: false,
-                isShow:true,
-                usernameisShow:false,
-               modelFlag: false,
+                modelFlag: false,
                 mubanFlag: false,
                 banciBtnLoading: false,
                 checkOrgFlag: false,
@@ -210,24 +208,24 @@
                 classChooseDataArray: [],
                 allPostData: [],
                 nameForm: {
-                nameOpt: [],
+                    nameOpt: [],
                     nameLabel: ''
-            },
-            classId: 0,
+                },
+                classId: 0,
                 classRules: {
-                level: [
-                    {required: true, message: '编制等级不能为空！'}
-                ],
+                    level: [
+                        {required: true, message: '编制等级不能为空！'}
+                    ],
                     class_type: [
-                    {required: true, message: '授课类型不能为空！'}
-                ],
+                        {required: true, message: '授课类型不能为空！'}
+                    ],
                     class_name: [
-                    {required: true, message: '授课课题不能为空！'}
-                ]
-            },
-            classForm: {
-                username: '',
-                user_id: '',
+                        {required: true, message: '授课课题不能为空！'}
+                    ]
+                },
+                classForm: {
+                    username: '',
+                    user_id: '',
                     post_id: '',
                     level: '',
                     class_type: '',
@@ -236,173 +234,173 @@
                     class_times: 0,
                     comment: '',
                     isDefault: 0
-            },
-            banciRules: {
-                postName: [
-                    { required: true, message: '岗位名称不能为空', trigger: 'blur' }
-                ]
-            },
-            banciForm: {
-                postName: '',
+                },
+                banciRules: {
+                    postName: [
+                        {required: true, message: '岗位名称不能为空', trigger: 'blur'}
+                    ]
+                },
+                banciForm: {
+                    postName: '',
                     remark: ''
-            },
-            defaultProps: {
-                children: 'children',
+                },
+                defaultProps: {
+                    children: 'children',
                     label: 'name'
-            },
-            roleData: [],
+                },
+                roleData: [],
                 userColum: [
-                {
-                    title: '姓名',
-                    key: 'realname',
-                    align: 'center',
-                    width: 100
-                },
-                {
-                    title: '部门',
-                    key: 'organizename',
-                    align: 'center'
-                },
-                {
-                    title: '岗位',
-                    key: 'postname',
-                    align: 'center'
-                }
-            ],
+                    {
+                        title: '姓名',
+                        key: 'realname',
+                        align: 'center',
+                        width: 100
+                    },
+                    {
+                        title: '部门',
+                        key: 'organizename',
+                        align: 'center'
+                    },
+                    {
+                        title: '岗位',
+                        key: 'postname',
+                        align: 'center'
+                    }
+                ],
                 mubanColumns: [
-                {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '名称',
-                    align: 'center',
-                    key: 'name'
-                },
-                {
-                    title: '备注',
-                    key: 'remark'
-                }
-            ],
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '名称',
+                        align: 'center',
+                        key: 'name'
+                    },
+                    {
+                        title: '备注',
+                        key: 'remark'
+                    }
+                ],
                 postColumns: [
-                {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '姓名',
-                    key: 'user_name',
-                    align: 'center',
-                    width: 160
-                },
-                {
-                    title: '部门',
-                    align: 'center',
-                    key: 'organize_name'
-                },
-                {
-                    title: '岗位',
-                    align: 'center',
-                    key: 'post_name',
-                    width: 100
-                },
-                {
-                    title: '编制等级',
-                    align: 'center',
-                    key: 'level',
-                    width: 100
-                },
-                {
-                    title: '授课类型',
-                    align: 'center',
-                    key: 'class_type',
-                    width: 200
-                },
-                {
-                    title: '授课课题',
-                    key: 'class_name'
-                },
-                {
-                    title: '授课年限',
-                    align: 'center',
-                    key: 'class_years',
-                    width: 100
-                },
-                {
-                    title: '已授课时',
-                    align: 'center',
-                    key: 'class_times',
-                    width: 100
-                },
-                {
-                    title: '授课评价',
-                    key: 'comment',
-                    width: 200
-                },
-                {
-                    title: '是否默认',
-                    align: 'center',
-                    width: 100,
-                    render: (h, params) => {
-                        return h('Tag', {
-                            props: {
-                                type: 'border',
-                                color: +params.row.isdefault === 0 ? 'red' : 'green'
-                            }
-                        }, +params.row.isdefault === 0 ? '不选中' : '选中');
-                    }
-                },
-                {
-                    title: '操作',
-                    align: 'center',
-                    width: 80,
-                    render: (h, params) => {
-                        let vm = this;
-                        return h('div', [
-                            h('Tooltip', {
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '姓名',
+                        key: 'user_name',
+                        align: 'center',
+                        width: 160
+                    },
+                    {
+                        title: '部门',
+                        align: 'center',
+                        key: 'organize_name'
+                    },
+                    {
+                        title: '岗位',
+                        align: 'center',
+                        key: 'post_name',
+                        width: 100
+                    },
+                    {
+                        title: '编制等级',
+                        align: 'center',
+                        key: 'level',
+                        width: 100
+                    },
+                    {
+                        title: '授课类型',
+                        align: 'center',
+                        key: 'class_type',
+                        width: 200
+                    },
+                    {
+                        title: '授课课题',
+                        key: 'class_name'
+                    },
+                    {
+                        title: '授课年限',
+                        align: 'center',
+                        key: 'class_years',
+                        width: 100
+                    },
+                    {
+                        title: '已授课时',
+                        align: 'center',
+                        key: 'class_times',
+                        width: 100
+                    },
+                    {
+                        title: '授课评价',
+                        key: 'comment',
+                        width: 200
+                    },
+                    {
+                        title: '是否默认',
+                        align: 'center',
+                        width: 100,
+                        render: (h, params) => {
+                            return h('Tag', {
                                 props: {
-                                    content: '修改',
-                                    placement: 'top',
-                                    transfer: true
+                                    type: 'border',
+                                    color: +params.row.isdefault === 0 ? 'red' : 'green'
                                 }
-                            }, [
-                                h('Button', {
+                            }, +params.row.isdefault === 0 ? '不选中' : '选中');
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        width: 80,
+                        render: (h, params) => {
+                            let vm = this;
+                            return h('div', [
+                                h('Tooltip', {
                                     props: {
-                                        type: 'primary',
-                                        icon: 'edit',
-                                        shape: 'circle'
-                                    },
-                                    on: {
-                                        click: function() {
-                                            vm._checkTest(params.row);
-                                        }
+                                        content: '修改',
+                                        placement: 'top',
+                                        transfer: true
                                     }
-                                })
-                            ])
-                        ]);
+                                }, [
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            icon: 'edit',
+                                            shape: 'circle'
+                                        },
+                                        on: {
+                                            click: function () {
+                                                vm._checkTest(params.row);
+                                            }
+                                        }
+                                    })
+                                ])
+                            ]);
+                        }
+                    }
+                ],
+                filterOpt: {
+                    nodeId: {
+                        type: 'date',
+                        value: ''
+                    },
+                    states: {
+                        type: 'select',
+                        value: 1
                     }
                 }
-            ],
-                filterOpt: {
-                nodeId: {
-                    type: 'date',
-                        value: ''
-                },
-                states: {
-                    type: 'select',
-                        value: 1
-                }
-            }
-        };
+            };
         },
         created() {
             this._setTableHeight();
             this._getAllpost();
         },
         methods: {
-            formReset (name) {
+            formReset(name) {
                 this.$refs[name].resetFields();
             },
             _nodeChangeHandler(node) {
@@ -410,8 +408,8 @@
             },
             _initClassForm() {
                 this.classForm = {
-                username: '',
-                user_id: '',
+                    username: '',
+                    user_id: '',
                     post_id: '',
                     level: '',
                     class_type: '',
@@ -420,13 +418,12 @@
                     class_times: 0,
                     comment: '',
                     isDefault: 0
-            };
+                };
                 this.nameForm.nameLabel = '';
                 this.nameForm.nameOpt = [];
                 this.formReset('classForm');
             },
-
-            change (status) {
+            change() {
                 this.isShow = !this.isShow;
                 this.usernameisShow = !this.usernameisShow;
             },

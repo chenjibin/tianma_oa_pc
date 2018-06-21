@@ -76,8 +76,7 @@
                         h3 {
                             letter-spacing: 10px;
                             line-height: 22px;
-                            margin: 0;
-                            margin-bottom: 25px;
+                            margin: 0 0 25px 0;
                             font-size: 16px;
                         }
                         .detail-desc {

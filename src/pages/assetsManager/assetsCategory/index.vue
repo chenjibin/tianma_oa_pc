@@ -21,8 +21,8 @@
                            v-model="customerForm.addForm.fname" :disabled="true"
                            placeholder="父级名称"></Input>
                 </FormItem>
-                    <Input type="text" style="display: none"
-                           v-model="customerForm.addForm.pid"></Input>
+                <Input type="text" style="display: none"
+                       v-model="customerForm.addForm.pid"></Input>
                 <FormItem label="新建名称">
                     <Input type="text" style="width: 173px"
                            v-model="customerForm.addForm.name"
@@ -61,6 +61,7 @@
     // lodash输入延时
     import debounce from 'lodash/debounce';
     import assetsTree from '@/baseComponents/assets-tree.vue';
+
     export default {
         name: 'assetsCategory',
         components: {assetsTree},
@@ -96,11 +97,11 @@
             this._setTableHeight();
         },
         methods: {
-            changeInfo(data) {
+            changeInfo() {
                 this.changeInfoModal = true;
             },
             saveInfo() {
-                var vm = this;
+                let vm = this;
                 vm.$http.post('/assetsCategory/add', vm.customerForm.addForm).then((res) => {
                     if (res.success) {
                         vm.$Message.success('保存成功');
@@ -110,7 +111,7 @@
                 });
             },
             updateInfo() {
-                var vm = this;
+                let vm = this;
                 vm.$http.post('/assetsCategory/add', vm.customerForm.modifyInfo).then((res) => {
                     if (res.success) {
                         vm.$Message.success('保存成功');
@@ -130,14 +131,14 @@
                 this.customerForm = customerForm;
             },
             delInfo() {
-                var vm = this;
+                let vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
                     okText: '删除',
                     cancelText: '取消',
                     loading: true,
-                    onOk () {
+                    onOk() {
                         this.$http.post('/assetsCategory/delete', {id: vm.customerForm.modifyInfo.id}).then((res) => {
                             if (res.success) {
                                 vm.$refs.assetsTree._getPostData();
@@ -155,7 +156,7 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1600),
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 2 - 32 - 10 - 32;
             }
@@ -164,7 +165,7 @@
 </script>
 
 <style lang="less">
-    #assetsCategory{
+    #assetsCategory {
         .custom-tree-node {
             position: relative;
             span.title {
@@ -172,16 +173,16 @@
                 word-spacing: 8px;
                 letter-spacing: 6px;
             }
-            .buttons{
+            .buttons {
                 position: absolute;
                 left: 160px;
                 top: 1px;
-                .oneBtn{
+                .oneBtn {
                     margin-left: 10px;
                     font-size: 12px;
                 }
             }
-            .Lv1{
+            .Lv1 {
                 color: #f7b84f;
             }
         }

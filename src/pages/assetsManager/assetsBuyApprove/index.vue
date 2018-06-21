@@ -346,8 +346,8 @@
                     return;
                 }
                 this.approvalInfo.approvalStatus = type;
-                var vm = this;
-                var refT = this.$refs.fsTable;
+                let vm = this;
+                let refT = this.$refs.fsTable;
                 this.$http.post('assetsManage/approval', vm.approvalInfo).then((res) => {
                     if (res.success) {
                         vm.$Message.success('审批成功');
@@ -366,7 +366,7 @@
                 let vm = this;
                 let d = [];
                 this.$http.post('assetsCategory/queryCategoryFather?pid=' + type).then((res) => {
-                    var data = res.data;
+                    let data = res.data;
                     if (res.success) {
                         for (let i = 0; i < data.length; i++) {
                             let tmp = data[i];

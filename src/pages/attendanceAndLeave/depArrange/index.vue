@@ -218,9 +218,7 @@
         </Modal>
     </div>
 </template>
-<style lang="less">
 
-</style>
 <script>
     import moment from 'moment';
     import pageMixin from '@/mixins/pageMixin';

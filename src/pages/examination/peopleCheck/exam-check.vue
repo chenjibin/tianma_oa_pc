@@ -17,7 +17,7 @@
                         <span>{{typeMap[item.type - 1]}}:</span>
                     </h3>
                     <div class="fs-list-item"
-                         v-for="question,qindex in item.questionList"
+                         v-for="(question,qindex) in item.questionList"
                          style="margin-bottom:16px;font-weight: 700;"
                          :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">

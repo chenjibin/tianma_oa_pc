@@ -316,11 +316,6 @@
                 let sendData = {};
                 sendData.type = 2;//周期复盘
                 sendData.ids = this.classChooseDataArray.map(x => x.id).join(',');
-                // sendData.review_type = this.classChooseDataArray[0].review_type;
-                // sendData.review_time = this.classChooseDataArray[0].review_time;
-                // sendData.organize_name = this.classChooseDataArray[0].organize_name;
-                // sendData.post_name = this.classChooseDataArray[0].post_name;
-                console.log(111)
                 this.$http.post('/train/review_time_export', sendData).then((res) => {
                     if (res.success) {
                         this.downloadFile('/oa/download/' + res.data, res.data);
@@ -330,7 +325,6 @@
                     this.downloadLoading = false;
                 })
             },
-
             _initClassForm() {
                 this.classForm = {
                     target: '',

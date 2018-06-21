@@ -717,10 +717,10 @@
                     }
                 });
             },
-            _uploadProgress(event) {
+            _uploadProgress() {
                 this.spinShow = true;
             },
-            _uploadSuccess(response, file, fileList) {
+            _uploadSuccess(response) {
                 if (response.success) {
                     this.$Message.success('数据导入成功!');
                     this.importModalFlag = false;

@@ -8,7 +8,7 @@
                         placeholder="筛选类型"
                         style="width: 100px">
                     <Option :value="item.id"
-                            v-for="item,index in trainTypeOpt"
+                            v-for="(item,index) in trainTypeOpt"
                             :key="'trainTypeOpt' + index">{{item.name}}</Option>
                 </Select>
             </FormItem>

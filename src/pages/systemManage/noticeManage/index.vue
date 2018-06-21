@@ -413,9 +413,6 @@
                 this.isNoticeType = 'create';
                 this.settingModalFlag = true;
             },
-            _setContent(content) {
-                this.strangeSettingForm.editorContent = content;
-            },
             _monthStartDateChange(date) {
                 this.filterOpt.startDate = date;
             },

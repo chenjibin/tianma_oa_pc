@@ -91,9 +91,7 @@
                                 <Input v-model="banciForm.name"></Input>
                             </FormItem>
                             <FormItem>
-                                <Button type="primary" @click="_addPost" :loading="banciBtnLoading">{{mubanAddType ===
-                                    'add' ? '添加': '修改'}}类型
-                                </Button>
+                                <Button type="primary" @click="_addPost" :loading="banciBtnLoading">{{mubanAddType === 'add' ? '添加': '修改'}}类型</Button>
                             </FormItem>
                         </Form>
                     </div>
@@ -202,8 +200,7 @@
                 </Row>
             </Form>
             <div slot="footer">
-                <Button type="primary" style="margin-left: 8px" @click="_addClassHandler">{{classFormType === 'add'?
-                    '新建' : '修改'}}课程
+                <Button type="primary" style="margin-left: 8px" @click="_addClassHandler">{{classFormType === 'add'? '新建' : '修改'}}课程
                 </Button>
                 <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
@@ -508,9 +505,7 @@
                         align: 'center',
                         render: (h, params) => {
                             let vm = this;
-                            let lookBtn = '';
-                            // if (params.row.imageproof) {
-                            lookBtn = h('Tooltip', {
+                            let lookBtn = h('Tooltip', {
                                 props: {
                                     content: '查看二维码',
                                     placement: 'top',
@@ -532,7 +527,6 @@
                                     }
                                 })
                             ]);
-
                             return h('div', [lookBtn]);
                         }
                     },
@@ -652,10 +646,10 @@
             _uploadFormatErr() {
                 this.$Message.error('上传文件的后缀必须为.xls');
             },
-            _uploadProgress(event) {
+            _uploadProgress() {
                 this.spinShow = true;
             },
-            _uploadSuccess(response, file, fileList) {
+            _uploadSuccess(response) {
                 if (response.success) {
                     this.$Message.success('成绩上传成功!');
                     this.importModalFlag = false;

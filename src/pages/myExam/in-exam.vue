@@ -145,11 +145,6 @@
                 typeMap: ['单选题', '多选题', '判断题', '填空题', '问答题']
             };
         },
-        // watch: {
-        //     id() {
-        //         this._getPaperDetail();
-        //     }
-        // },
         filters: {
             _returnTypeName(val) {
                 let name = '';

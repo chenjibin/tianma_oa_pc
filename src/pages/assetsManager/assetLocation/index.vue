@@ -97,7 +97,7 @@
                         title: '操作',
                         align: 'center',
                         render: (h, params) => {
-                            var vm = this;
+                            let vm = this;
                             return h('div', {
                             }, [
                                 h('Button', {
@@ -152,7 +152,7 @@
                 });
             },
             saveInfo() {
-                var vm = this;
+                let vm = this;
                 vm.$http.post('/assets/add', vm.baseInfo).then((res) => {
                     if (res.success) {
                         vm.$Message.success('保存成功');
@@ -166,7 +166,7 @@
                 this.changeInfoModal = true;
             },
             delInfo(data) {
-                var vm = this;
+                let vm = this;
                 this.baseInfo = data;
                 this.$Modal.confirm({
                     title: '删除提醒',

@@ -628,7 +628,7 @@
         methods: {
             // 下载图片
             download(path) {
-                var p = 'http://' + window.location.host + path;
+                let p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
                 downloadDom.href = p;
@@ -679,7 +679,7 @@
             },
             // 删除附件
             handleRemove(item) {
-                var vm = this;
+                let vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
@@ -699,8 +699,8 @@
             },
             // 删除关系
             delForm(index, formName) {
-                var row = this[formName][index];
-                var vm = this;
+                let row = this[formName][index];
+                let vm = this;
                 if (row.id) {
                     this.$Modal.confirm({
                         title: '删除提醒',
@@ -746,7 +746,7 @@
             },
             // 社会关系 教育程度 工作资历保存
             saveRelation(typerelationship, data) {
-                var d = {};
+                let d = {};
                 this.btnLoading = true;
                 d.typerelationship = typerelationship;
                 d.id = this.baseForm.userid;
@@ -769,8 +769,8 @@
             },
             cancel() {
                 this.settingModalFlag = false;
-                var d = this.educationForm;
-                var d2 = this.workingForm;
+                let d = this.educationForm;
+                let d2 = this.workingForm;
                 // 删除自己新增的空数据
                 for (let i = d.length - 1; i > 0; i--) {
                     if (!d[i].education) {
@@ -785,11 +785,11 @@
                 // this.educationForm = d;
             },
             getUsersInfo(id) {
-                var that = this;
+                let that = this;
                 if (id === 0) {
                     return false;
                 }
-                var d = {};
+                let d = {};
                 d.userId = id;
                 this.$http.post('/employees/findEmployee', d).then((res) => {
                     if (res) {
@@ -821,10 +821,10 @@
                 this.getTicketList(id);
             },
             getTicketList(id) {
-                var that = this;
+                let that = this;
                 this.$http.post('/ticket/ticketFileslist', {'ticketno': id}).then((res) => {
                     if (res.success) {
-                        var d = res.data;
+                        let d = res.data;
                         for (let i = 0; i < d.length; i++) {
                             d[i].file_path = d[i].file_path.replace('\\..', '\\oa');
                             if (d[i].file_path.indexOf('/oa') < 0) {

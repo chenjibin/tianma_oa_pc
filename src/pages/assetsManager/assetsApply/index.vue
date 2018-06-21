@@ -2,7 +2,7 @@
     <!--资产采购/报废申请-->
     <div id="assetsCategory">
         <Card>
-            <div class="center-button-wrapper" v-show="zichanType === 'chooseType'" :style="{minHeight: minHeight}" >
+            <div class="center-button-wrapper" v-show="zichanType === 'chooseType'" :style="{minHeight: minHeight}">
                 <div class="btn" @click="zichanType = 'cbType'">
                     进入资产采购/报废申请
                 </div>
@@ -10,7 +10,7 @@
                     进入资产调拨
                 </div>
             </div>
-            <div class="" v-show="zichanType !== 'dbType'" >
+            <div class="" v-show="zichanType !== 'dbType'">
                 <Form inline :label-width="60">
                     <FormItem label="申请类型">
                         <Select type="text" v-model="filterOpt.appType.value" style="width: 130px">
@@ -19,7 +19,8 @@
                         </Select>
                     </FormItem>
                     <FormItem label="资产名称">
-                        <Cascader style="width: 200px" :data="cat1" @on-change="changeCataName(1, arguments)" :load-data="loadData"></Cascader>
+                        <Cascader style="width: 200px" :data="cat1" @on-change="changeCataName(1, arguments)"
+                                  :load-data="loadData"></Cascader>
                     </FormItem>
                     <FormItem label="位置名称">
                         <Select type="text" style="width: 180px"
@@ -27,11 +28,15 @@
                                 :clearable="true"
                                 v-model="filterOpt.positionName.value"
                                 placeholder="位置名称">
-                            <Option v-for="item, index in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                            <Option v-for="(item, index) in positionList" :key="index" :label="item.name"
+                                    :value="item.name"><span>{{item.name}}</span><span :title="item.remarks"
+                                                                                       style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                            </Option>
                         </Select>
                     </FormItem>
                     <FormItem label="审批状态">
-                        <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true" style="width: 160px">
+                        <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true"
+                                style="width: 160px">
                             <Option :value="0">待审批</Option>
                             <Option :value="1">审批通过</Option>
                             <Option :value="2">审批拒绝</Option>
@@ -46,12 +51,13 @@
                         <Icon type="plus-circled"></Icon>
                         <span>报废申请</span>
                     </Button>
-                    <Button type="primary"  @click="zichanType = 'dbType'">
+                    <Button type="primary" @click="zichanType = 'dbType'">
                         <span>进入资产调拨</span>
                         <Icon type="arrow-right-c"></Icon>
                     </Button>
                 </Form>
-                <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt"
+                <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight"
+                               :params="filterOpt"
                                url="/assetsApplication/applicationList"></fs-table-page>
             </div>
             <div class="" v-show="zichanType === 'dbType'">
@@ -59,23 +65,29 @@
             </div>
         </Card>
         <Modal v-model="addInfoModal" width="320">
-            <Form style="margin-top: 25px" :label-width="90" ref="newApplyForm" :model="newApply" :rules="newApplyRules">
+            <Form style="margin-top: 25px" :label-width="90" ref="newApplyForm" :model="newApply"
+                  :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="newApply.appType"></Input>
                 <FormItem label="资产名称" prop="categoryName" v-if="!newApply.id">
-                    <Cascader style="width: 180px" v-model="selectArr" :data="cat1" :clearable="true" @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
+                    <Cascader style="width: 180px" v-model="selectArr" :data="cat1" :clearable="true"
+                              @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
                 </FormItem>
                 <FormItem label="资产名称" v-if="newApply.id">
                     <Input type="text" style="width: 180px" v-model="newApply.categoryName"></Input>
                 </FormItem>
                 <Input type="text" style="display: none" v-model="newApply.id"></Input>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="newApply.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px"
+                                 v-model="newApply.num"></InputNumber>
                 </FormItem>
                 <FormItem label="资产位置" prop="positionName">
                     <Select type="text" style="width: 180px"
                             v-model="newApply.positionName"
                             placeholder="资产位置">
-                        <Option v-for="item, index in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="item, index in positionList" :key="index" :label="item.name" :value="item.name">
+                            <span>{{item.name}}</span><span :title="item.remarks"
+                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="申请规格" prop="remarks">
@@ -90,9 +102,11 @@
         </Modal>
 
         <Modal v-model="itemsModel" width="350">
-            <div style="margin: 20px 0"><span>选中：</span><span style="font-weight: bold;font-size: 14px;">{{customerForm.modifyInfo.name||''}}</span></div>
+            <div style="margin: 20px 0"><span>选中：</span><span style="font-weight: bold;font-size: 14px;">{{customerForm.modifyInfo.name||''}}</span>
+            </div>
             <div style="height: 390px;overflow: auto;margin-top: 20px">
-                <assetsTree width="250px" :expanded="false" v-on:customerForm="getCustomerForm" ref="assetsTree"></assetsTree>
+                <assetsTree width="250px" :expanded="false" v-on:customerForm="getCustomerForm"
+                            ref="assetsTree"></assetsTree>
             </div>
             <div slot="footer">
                 <Button type="ghost" @click="itemsModel = false;">取消</Button>
@@ -115,6 +129,7 @@
     import assetsTree from '@/baseComponents/assets-tree.vue';
     import fsTablePage from '@/baseComponents/fs-table-page';
     import assetsAllocation from '@/pages/assetsManager/assetsAllocation/index';
+
     export default {
         name: 'assetsApply',
         components: {
@@ -213,14 +228,14 @@
                         title: '操作',
                         align: 'center',
                         render: (h, params) => {
-                            var vm = this;
+                            let vm = this;
                             return h('Button', {
                                 props: {
                                     type: 'success'
                                 },
                                 on: {
                                     click() {
-                                        var d = {};
+                                        let d = {};
                                         d.id = params.row.id;
                                         vm.$http.post('assetsManage/getReceive', d).then((r) => {
                                             if (r.success) {
@@ -282,7 +297,7 @@
                         align: 'center',
                         width: 90,
                         render: (h, params) => {
-                            var status = params.row.scrappedtype;
+                            let status = params.row.scrappedtype;
                             if (status === 1) {
                                 return h('span', '直接销毁');
                             }
@@ -320,9 +335,9 @@
                         align: 'center',
                         width: 130,
                         render: (h, params) => {
-                            var vm = this;
-                            var row = params.row;
-                            var disable = row.approvalstatus > 0;
+                            let vm = this;
+                            let row = params.row;
+                            let disable = row.approvalstatus > 0;
                             return h('div', [
                                 h('Button', {
                                     props: {
@@ -332,7 +347,7 @@
                                         disabled: disable
                                     },
                                     on: {
-                                        click: function() {
+                                        click: function () {
                                             vm.newApply.appType = row.apptype;
                                             vm.newApply.id = row.id;
                                             vm.newApply.categoryName = row.categoryname;
@@ -354,7 +369,7 @@
                                         marginLeft: '10px'
                                     },
                                     on: {
-                                        click: function() {
+                                        click: function () {
                                             vm.delInfo(row);
                                         }
                                     }
@@ -399,7 +414,7 @@
                                         title: '点击查看审批流程'
                                     },
                                     nativeOn: {
-                                        click: function() {
+                                        click: function () {
                                             vm.$http.get('assetsManage/reviewProcess?id=' + params.row.id).then((res) => {
                                                 if (res.success) {
                                                     let data = res.data;
@@ -441,7 +456,7 @@
                                         display: disable2 === true ? 'inline-block' : 'none'
                                     },
                                     nativeOn: {
-                                        click: function() {
+                                        click: function () {
                                             vm.reciveAppid = params.row.id;
                                             vm.getReciveList(params.row.id).then(() => {
                                                 vm.reciveModal = true;
@@ -520,7 +535,7 @@
                 let vm = this;
                 let d = [];
                 this.$http.post('assetsCategory/queryCategoryFather?pid=' + type).then((res) => {
-                    var data = res.data;
+                    let data = res.data;
                     if (res.success) {
                         for (let i = 0; i < data.length; i++) {
                             let tmp = data[i];
@@ -549,7 +564,7 @@
                 })
             },
             getReciveList(id) {
-                var vm = this;
+                let vm = this;
                 vm.reciveLoading = true;
                 return new Promise((resolve, reject) => {
                     this.$http.get('assetsManage/receive?id=' + id).then((res) => {
@@ -564,7 +579,7 @@
                 });
             },
             changeCataName(type, arg) {
-                var [value, selectedData] = arg;
+                let [value, selectedData] = arg;
                 if (selectedData.length === 0) {
                     this.filterOpt.categoryName.value = undefined;
                     this.newApply.categoryName = undefined;
@@ -584,8 +599,8 @@
                 });
             },
             saveInfo() {
-                var vm = this;
-                var newApplyForm = this.$refs.newApplyForm;
+                let vm = this;
+                let newApplyForm = this.$refs.newApplyForm;
                 newApplyForm.validate((vpass) => {
                     if (vpass) {
                         vm.$http.post('/assetsApplication/add', this.newApply).then((res) => {
@@ -613,9 +628,9 @@
                 this.customerForm = customerForm;
             },
             delInfo(row) {
-                var vm = this;
-                var refT = this.$refs.fsTable;
-                var d = {};
+                let vm = this;
+                let refT = this.$refs.fsTable;
+                let d = {};
                 d.id = row.id;
                 d.appType = row.apptype;
                 if (row.approvalstatus > 0) {
@@ -628,7 +643,7 @@
                     okText: '删除',
                     cancelText: '取消',
                     loading: true,
-                    onOk () {
+                    onOk() {
                         this.$http.post('/assetsApplication/delete', d).then((res) => {
                             if (res.success) {
                                 refT._filterResultHandler();
@@ -642,7 +657,7 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1600),
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 2 - 32 - 10 - 32 - 57 - 7;
             }
@@ -651,7 +666,7 @@
 </script>
 
 <style lang="less">
-    .center-button-wrapper{
+    .center-button-wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -662,7 +677,7 @@
         bottom: 0;
         z-index: 2;
         right: 0;
-        background-color: rgba(255,255,255,0.7);
+        background-color: rgba(255, 255, 255, 0.7);
         .btn {
             margin-bottom: 40px;
             padding: 32px 0;
@@ -676,7 +691,7 @@
             cursor: pointer;
             transition: all 0.35s;
         }
-        .btn:hover{
+        .btn:hover {
             background-color: rgb(242, 94, 67);
             padding-right: 25px;
         }
