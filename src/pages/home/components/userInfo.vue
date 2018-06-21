@@ -76,6 +76,9 @@
                     <Button type="ghost" shape="circle" icon="lock-combination"></Button>
                 </Tooltip>
             </Poptip>
+            <Tooltip placement="top" content="查看规章" :transfer="true">
+                <Button type="ghost" @click="showRule" shape="circle" icon="ios-star"></Button>
+            </Tooltip>
             <!--<Tooltip placement="top" content="进入知识库" :transfer="true">-->
             <!--<Button type="ghost"-->
             <!--shape="circle"-->
@@ -98,6 +101,7 @@
                 <Button type="ghost" @click="changeAvatorFlag = false">取消</Button>
             </div>
         </Modal>
+        <ruleModal :dataArr="rulesArr" :showModal.sync="detailModal"></ruleModal>
     </Card>
 </template>
 <style lang="less">
@@ -117,7 +121,7 @@
 <script>
     import Cookies from 'js-cookie';
     import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img';
-
+    import ruleModal from '@/pages/rulesManager/newRule/ruleModal';
     export default {
         data() {
             const validatePass = (rule, value, callback) => {
@@ -142,6 +146,8 @@
             };
             return {
                 changeAvatorFlag: false,
+                detailModal: false,
+                rulesArr: [],
                 pwsFlag: false,
                 coinDescFlag: false,
                 passWordForm: {
@@ -165,6 +171,15 @@
         created() {
         },
         methods: {
+            showRule() {
+                this.$http.get('rugulations/MyList').then((res) => {
+                    if (res.success) {
+                        this.rulesArr = res.data;
+                    }
+                }).finally(() => {
+                    this.detailModal = true;
+                });
+            },
             _cancelResetPwd() {
                 this.$refs.psdForm.resetFields();
                 this.pwsFlag = false;
@@ -213,7 +228,7 @@
             }
         },
         components: {
-            fsCropperImg
+            fsCropperImg, ruleModal
         }
     };
 </script>
