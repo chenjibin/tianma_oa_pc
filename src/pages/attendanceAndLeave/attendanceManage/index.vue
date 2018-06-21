@@ -75,7 +75,6 @@
                         :on-progress="_uploadProgress"
                         :on-format-error="_uploadFormatErr"
                         :on-success="_uploadSuccess"
-                        :on-error="_uploadFail"
                         :format="uploadOpt.format"
                         action="/oa/kq/add">
                     <div style="padding: 20px 0">
@@ -401,7 +400,7 @@
                     {
                         title: '打卡记录',
                         key: 'kq_re',
-                        width: 210,
+                        width: 216,
                         render: (h, params) => {
                             if (params.row.kq_re) {
                                 let flag = params.row.exception === null || +params.row.exception === 0;
@@ -730,8 +729,6 @@
                     this.$Message.error(response.message);
                 }
                 this.spinShow = false;
-            },
-            _uploadFail(error, file, fileList) {
             },
             _uploadFormatErr() {
                 this.$Message.error('上传文件的后缀必须为.xls');

@@ -20,11 +20,7 @@ util.inOf = function (arr, targetArr) {
 };
 
 util.oneOf = function (ele, targetArr) {
-    if (targetArr.indexOf(ele) >= 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return targetArr.indexOf(ele) >= 0
 };
 
 util.showThisRoute = function (itAccess, currentAccess) {
@@ -251,13 +247,6 @@ util.toDefaultPage = function (routers, to, route, next) {
     }
 };
 
-util.fullscreenEvent = function (vm) {
-    vm.$store.commit('initCachepage');
-    // 权限菜单过滤相关
-    vm.$store.commit('updateMenulist');
-    // 全屏相关
-};
-
 util.getNeedRouter = function (routeData) {
     let storePressionString = [];
     appRouter.forEach((item) => {
@@ -292,7 +281,6 @@ util.initMenu = function (router, store, routeData) {
     store.commit('setTagsList', tagsList);
     store.commit('setRouters', syncRouterAll);
     store.commit('setPremissionMenu', syncRouterAll);
-    store.commit('updateMenulist');
 };
 util.getPermissionData = function() {
     return new Promise((resolve, reject) => {

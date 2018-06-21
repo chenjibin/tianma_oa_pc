@@ -1,17 +1,13 @@
 import { otherRouter } from '@/router/router';
 import Util from '@/libs/util';
-import Cookies from 'js-cookie';
-import Vue from 'vue';
 
 const app = {
     state: {
         refresh: true,
         cachePage: [],
-        isPermission: 0,
         premissionMenu: [],
         premissionMenuString: [],
         premissionMenuStringLoaded: false,
-        lang: '',
         isFullScreen: false,
         openedSubmenuArr: [], // 要展开的菜单数组
         menuTheme: 'dark', // 主题
@@ -27,12 +23,10 @@ const app = {
             path: '',
             name: 'home_index'
         }], // 面包屑数组
-        menuList: [],
         routers: [
             otherRouter
         ],
         tagsList: [...otherRouter.children],
-        messageCount: 0,
         dontCache: ['text-editor', 'artical-publish'] // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
     },
     mutations: {
@@ -51,55 +45,6 @@ const app = {
         },
         setTagsList(state, list) {
             state.tagsList.push(...list);
-        },
-        setPermission(state) {
-            state.isPermission = 1;
-        },
-        updateMenulist(state) {
-            let accessCode = parseInt(Cookies.get('access'));
-            let menuList = [];
-            state.premissionMenu.forEach((item, index) => {
-                if (item.access !== undefined) {
-                    if (Util.showThisRoute(item.access, accessCode)) {
-                        if (item.children.length === 1) {
-                            menuList.push(item);
-                        } else {
-                            let len = menuList.push(item);
-                            let childrenArr = [];
-                            childrenArr = item.children.filter(child => {
-                                if (child.access !== undefined) {
-                                    if (child.access === accessCode) {
-                                        return child;
-                                    }
-                                } else {
-                                    return child;
-                                }
-                            });
-                            menuList[len - 1].children = childrenArr;
-                        }
-                    }
-                } else {
-                    if (item.children.length === 1) {
-                        menuList.push(item);
-                    } else {
-                        let len = menuList.push(item);
-                        let childrenArr = [];
-                        childrenArr = item.children.filter(child => {
-                            if (child.access !== undefined) {
-                                if (Util.showThisRoute(child.access, accessCode)) {
-                                    return child;
-                                }
-                            } else {
-                                return child;
-                            }
-                        });
-                        let handledItem = JSON.parse(JSON.stringify(menuList[len - 1]));
-                        handledItem.children = childrenArr;
-                        menuList.splice(len - 1, 1, handledItem);
-                    }
-                }
-            });
-            state.menuList = menuList;
         },
         changeMenuTheme(state, theme) {
             state.menuTheme = theme;
@@ -173,10 +118,9 @@ const app = {
                 state.pageOpenedList.splice(currentIndex + 1);
                 state.pageOpenedList.splice(1, currentIndex - 1);
             }
-            let newCachepage = state.cachePage.filter(item => {
+            state.cachePage = state.cachePage.filter(item => {
                 return item === currentName;
             });
-            state.cachePage = newCachepage;
             localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
         },
         setOpenedList(state) {
@@ -188,18 +132,8 @@ const app = {
         setCurrentPageName(state, name) {
             state.currentPageName = name;
         },
-        setAvator(state, path) {
-            localStorage.avatorImgPath = path;
-        },
-        switchLang(state, lang) {
-            state.lang = lang;
-            Vue.config.lang = lang;
-        },
         clearOpenedSubmenu(state) {
             state.openedSubmenuArr.length = 0;
-        },
-        setMessageCount(state, count) {
-            state.messageCount = count;
         },
         increateTag(state, tagObj) {
             if (!Util.oneOf(tagObj.name, state.dontCache)) {
