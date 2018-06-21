@@ -6,9 +6,11 @@
                     <Input type="text" clearable v-model="searchData.createName.value" placeholder="姓名"></Input>
                 </FormItem>
             </Form>
-            <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList" :height="tableHeight" url="/rugulations/approveList"></fs-table-page>
+            <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
+                           :height="tableHeight" url="/rugulations/approveList"></fs-table-page>
         </Card>
-        <ruleModal :dataArr="detailRow" v-on:change="changed" :canClose="false" :showModal.sync="detailModal"></ruleModal>
+        <ruleModal :dataArr="detailRow" v-on:change="changed" :canClose="false"
+                   :showModal.sync="detailModal"></ruleModal>
     </div>
 </template>
 
@@ -17,6 +19,7 @@
     import fsDepTree from '@/baseComponents/fs-dep-tree';
     import ruleModal from '../newRule/ruleModal';
     import utils from '@/libs/util';
+
     export default {
         name: 'approveRule',
         data() {
@@ -149,10 +152,12 @@
                         this.$Message.success('新增规章成功！');
                         this.$refs.paperList.getListData();
                     }
-                }).finally((res) => {
                     this.newFlag = false;
                     this.saveLoading = false;
-                });
+                }, () => {
+                    this.newFlag = false;
+                    this.saveLoading = false;
+                })
             }
         },
         created() {

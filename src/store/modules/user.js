@@ -1,6 +1,49 @@
 import store from '../index';
 import axios from 'axios';
 import Vue from 'vue';
+const returnNeedLevelInfo = function (val) {
+    const levelArr = [
+        {
+            number: 350,
+            title: '热血青铜'
+        },
+        {
+            number: 450,
+            title: '不屈白银'
+        },
+        {
+            number: 1300,
+            title: '英勇黄金'
+        },
+        {
+            number: 2700,
+            title: '坚韧铂金'
+        },
+        {
+            number: 4900,
+            title: '不朽星钻'
+        },
+        {
+            number: 7700,
+            title: '荣耀皇冠'
+        },
+        {
+            number: 11700,
+            title: '超级王牌'
+        },
+        {
+            number: 16500,
+            title: '无敌战神'
+        }
+    ]
+    for (let i = 1, length = levelArr.length; i <= length; i++) {
+        if (levelArr[i].number > val) {
+            let level = i;
+            let levelDesc = levelArr[i - 1].title
+            return {level, levelDesc}
+        }
+    }
+}
 const user = {
     state: {
         userInfo: {
@@ -12,7 +55,15 @@ const user = {
         },
         currentcompanyname: '',
         companyList: [],
-        mustRead: []
+        mustRead: [],
+        level: 0,
+        levelNumber: 0,
+        levelDesc: '...'
+    },
+    getters: {
+        level: state => state.level,
+        levelNumber: state => state.levelNumber,
+        levelDesc: state => state.levelDesc
     },
     mutations: {
         setUserInfo(state, userInfo) {
@@ -34,6 +85,10 @@ const user = {
                     if (!res.data.headimagepath) res.data.headimagepath = Vue.prototype.$mainHost + '/oa/upload/init/initHead.png';
                     res.data.headimagepath = Vue.prototype.$mainHost + '/oa/upload/head/' + res.data.headimagepath;
                     state.userInfo = res.data;
+                    state.levelNumber = res.data.totalcoin;
+                    let levelObj = returnNeedLevelInfo(state.levelNumber);
+                    state.level = levelObj.level
+                    state.levelDesc = levelObj.levelDesc
                     if (+res.data.ismanger === 0 || +res.data.ismanger === 1) {
                         store.commit('getCompanyList');
                     }

@@ -2,19 +2,21 @@
     <div id="newRule">
         <Row :gutter="6">
             <Col :span="4">
-                <fs-dep-tree style="max-height: 100%" url="/organize/organizeTreeCertainVm" @node-change="_nodeChangeHandler($event)" :defaultProps="defaultProps"></fs-dep-tree>
+            <fs-dep-tree style="max-height: 100%" url="/organize/organizeTreeCertainVm"
+                         @node-change="_nodeChangeHandler($event)" :defaultProps="defaultProps"></fs-dep-tree>
             </Col>
             <Col :span="20">
-                <Card>
+            <Card>
                 <Form inline :label-width="60">
                     <FormItem prop="name" label="创建人">
                         <Input type="text" clearable v-model="searchData.createName.value" placeholder="姓名"></Input>
                     </FormItem>
-                    <FormItem>
+                    <FormItem :label-width="0.1">
                         <Button type="primary" @click="newOne">新增规章</Button>
                     </FormItem>
                 </Form>
-                <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList" :height="tableHeight" url="/rugulations/chargerList"></fs-table-page>
+                <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
+                               :height="tableHeight" url="/rugulations/chargerList"></fs-table-page>
             </Card>
             </Col>
         </Row>
@@ -25,35 +27,35 @@
             </p>
             <Row :gutter="16">
                 <Col :span="17">
-                    <Form ref="noticeFormDom" :label-width="80">
-                        <FormItem label="操作人">
-                            {{realName}}
-                        </FormItem>
-                        <FormItem label="规章内容">
-                            <wang-editor
-                                v-if="newFlag"
-                                :width="660"
-                                :max-height="550"
-                                :menus="editorMeun"
-                                :editorcontent.sync="editorContent"
-                                defaul-text="请填写规章制度"
-                                img-url="/oa/share/uploadFile"></wang-editor>
-                        </FormItem>
-                    </Form>
+                <Form ref="noticeFormDom" :label-width="80">
+                    <FormItem label="操作人">
+                        {{realName}}
+                    </FormItem>
+                    <FormItem label="规章内容">
+                        <wang-editor
+                            v-if="newFlag"
+                            :width="660"
+                            :max-height="550"
+                            :menus="editorMeun"
+                            :editorcontent.sync="editorContent"
+                            defaul-text="请填写规章制度"
+                            img-url="/oa/share/uploadFile"></wang-editor>
+                    </FormItem>
+                </Form>
                 </Col>
                 <Col :span="7">
-                    <h3>发布范围</h3>
-                    <div style="max-height: 490px;overflow:auto;">
-                        <el-tree :data="orgTreeData"
-                                 ref="treeDom"
-                                 show-checkbox
-                                 :expand-on-click-node="false"
-                                 :default-checked-keys="strangeSettingForm.deps"
-                                 :highlight-current="true"
-                                 node-key="id"
-                                 style="margin-top: 10px;"
-                                 :props="defaultProps"></el-tree>
-                    </div>
+                <h3>发布范围</h3>
+                <div style="max-height: 490px;overflow:auto;">
+                    <el-tree :data="orgTreeData"
+                             ref="treeDom"
+                             show-checkbox
+                             :expand-on-click-node="false"
+                             :default-checked-keys="strangeSettingForm.deps"
+                             :highlight-current="true"
+                             node-key="id"
+                             style="margin-top: 10px;"
+                             :props="defaultProps"></el-tree>
+                </div>
                 </Col>
             </Row>
             <div slot="footer">
@@ -71,6 +73,7 @@
     import fsDepTree from '@/baseComponents/fs-dep-tree';
     import ruleModal from './ruleModal';
     import utils from '@/libs/util';
+
     export default {
         name: 'newRule',
         data() {
@@ -238,16 +241,22 @@
                         this.$Message.success('新增规章成功！');
                         this.$refs.paperList.getListData();
                     }
-                }).finally((res) => {
                     this.newFlag = false;
                     this.saveLoading = false;
-                });
+                }, () => {
+                    this.newFlag = false;
+                    this.saveLoading = false;
+                })
             },
             _getAllDepIds(data) {
                 data.forEach((item) => {
                     this.allTreeId.push(item.id);
                     if (item.children) this._getAllDepIds(item.children);
                 });
+            },
+            _setTableHeight() {
+                let dm = document.body.clientHeight;
+                this.tableHeight = dm - 260;
             },
             _getOrgTree() {
                 return new Promise((resolve) => {
@@ -261,7 +270,7 @@
             }
         },
         created() {
-            // this._setTableHeight();
+            this._setTableHeight();
             this._getOrgTree().then((res) => {
                 this._getAllDepIds(res);
             });

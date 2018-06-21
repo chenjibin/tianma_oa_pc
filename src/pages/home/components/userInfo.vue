@@ -236,7 +236,8 @@
             }
         },
         components: {
-            fsCropperImg, ruleModal
+            fsCropperImg,
+            ruleModal,
             FsShowLevel
         }
     };

@@ -10,8 +10,10 @@
             </span>
         </div>
         <Tabs :value="'notice-' + dataArr[0].id" v-if="dataArr.length">
-            <TabPane style="overflow-x: hidden" v-for="item in dataArr" :label="item.orgname" :name="'notice-' + item.id" :key="'notice-' + item.id">
-                <div v-html="item.content" style="margin: 0 auto;width: 790px;max-height:650px;overflow-y:auto;font-size: 16px"></div>
+            <TabPane style="overflow-x: hidden" v-for="item in dataArr" :label="item.orgname"
+                     :name="'notice-' + item.id" :key="'notice-' + item.id">
+                <div v-html="item.content"
+                     style="margin: 0 auto;width: 790px;max-height:650px;overflow-y:auto;font-size: 16px"></div>
             </TabPane>
         </Tabs>
         <div slot="footer" class="footer">
@@ -20,13 +22,13 @@
 </template>
 <style lang="less">
     #ruleModal {
-        .ivu-modal-header{
+        .ivu-modal-header {
             border-bottom: none;
         }
-        .ivu-modal-body{
-            padding: 0px 16px 16px 16px;
+        .ivu-modal-body {
+            padding: 0 16px 16px 16px;
         }
-        .ivu-modal-footer{
+        .ivu-modal-footer {
             display: none;
         }
     }
@@ -34,8 +36,7 @@
 <script>
     export default {
         data() {
-            return {
-            };
+            return {};
         },
         props: {
             showModal: {
