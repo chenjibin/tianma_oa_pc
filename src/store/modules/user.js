@@ -34,6 +34,10 @@ const returnNeedLevelInfo = function (val) {
         {
             number: 16500,
             title: '无敌战神'
+        },
+        {
+            number: 100000000,
+            title: '无敌'
         }
     ]
     for (let i = 1, length = levelArr.length; i <= length; i++) {
@@ -86,9 +90,14 @@ const user = {
                     res.data.headimagepath = Vue.prototype.$mainHost + '/oa/upload/head/' + res.data.headimagepath;
                     state.userInfo = res.data;
                     state.levelNumber = res.data.totalcoin;
-                    let levelObj = returnNeedLevelInfo(state.levelNumber);
-                    state.level = levelObj.level
-                    state.levelDesc = levelObj.levelDesc
+                    if (state.userInfo.lv === 29) {
+                        state.level = 8
+                        state.levelDesc = '无敌战神'
+                    } else {
+                        let levelObj = returnNeedLevelInfo(state.levelNumber);
+                        state.level = levelObj.level
+                        state.levelDesc = levelObj.levelDesc
+                    }
                     if (+res.data.ismanger === 0 || +res.data.ismanger === 1) {
                         store.commit('getCompanyList');
                     }

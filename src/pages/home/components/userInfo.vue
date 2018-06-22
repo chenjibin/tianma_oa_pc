@@ -84,12 +84,18 @@
             <Tooltip placement="top" content="查看规章" :transfer="true">
                 <Button type="ghost" @click="showRule" shape="circle" icon="ios-star"></Button>
             </Tooltip>
-            <!--<Tooltip placement="top" content="进入知识库" :transfer="true">-->
-            <!--<Button type="ghost"-->
-            <!--shape="circle"-->
-            <!--@click.stop="$router.replace({name: 'articleHome'})"-->
-            <!--icon="ios-book"></Button>-->
-            <!--</Tooltip>-->
+            <Poptip placement="right-start"
+                    width="500"
+                    v-model="lotteryFlag">
+                <div slot="content">
+                    <fs-lottery v-if="lotteryFlag"></fs-lottery>
+                </div>
+                <Tooltip placement="top" content="抽奖" :transfer="true">
+                    <Button type="ghost"
+                            shape="circle"
+                            icon="happy-outline"></Button>
+                </Tooltip>
+            </Poptip>
             </Col>
         </Row>
         <Modal title="修改头像" v-model="changeAvatorFlag" width="800">
@@ -112,10 +118,12 @@
 <style lang="less" scoped>
     @import "../home.less";
     @import "../../../styles/common.less";
+
     .level-block {
         width: 50px;
         margin-left: 6px;
     }
+
     #change-avator-block {
         display: flex;
         flex-direction: column;
@@ -130,6 +138,8 @@
     import FsShowLevel from '@/baseComponents/fs-level-show'
     import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img'
     import ruleModal from '@/pages/rulesManager/newRule/ruleModal';
+    import FsLottery from '@/baseComponents/lottery'
+
     export default {
         data() {
             const validatePass = (rule, value, callback) => {
@@ -157,6 +167,7 @@
                 detailModal: false,
                 rulesArr: [],
                 pwsFlag: false,
+                lotteryFlag: false,
                 coinDescFlag: false,
                 passWordForm: {
                     oldPwd: '',
@@ -184,9 +195,10 @@
                     if (res.success) {
                         this.rulesArr = res.data;
                     }
-                }).finally(() => {
                     this.detailModal = true;
-                });
+                }, () => {
+                    this.detailModal = true;
+                })
             },
             _cancelResetPwd() {
                 this.$refs.psdForm.resetFields();
@@ -238,7 +250,8 @@
         components: {
             fsCropperImg,
             ruleModal,
-            FsShowLevel
+            FsShowLevel,
+            FsLottery
         }
     };
 </script>
