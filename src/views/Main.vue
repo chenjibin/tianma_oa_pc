@@ -15,7 +15,7 @@
                 :theme="menuTheme"
                 :before-push="beforePush"
                 :open-names="openedSubmenuArr"
-                :menu-list="menuList">
+                :menu-list="premissionMenu">
                 <div slot="top" class="logo-con">
                     <img v-show="!shrink"  src="../images/tianma_logo_big.jpg" key="max-logo" style="border-radius: 6px;"/>
                     <img v-show="shrink"
@@ -57,7 +57,6 @@
                     </Dropdown>
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
-                    <!--<message-tip v-model="mesCount"></message-tip>-->
                     <theme-switch v-if="premissionMenu.length"></theme-switch>
                     <div class="coin-left">
                         <fs-icon type="moneynew" :size="26" color="#FF5722"></fs-icon>
@@ -142,9 +141,6 @@
             tmCoin() {
                 return this.$store.state.user.userInfo.tm_coin;
             },
-            menuList () {
-                return this.$store.state.app.menuList;
-            },
             pageTagsList () {
                 return this.$store.state.app.pageOpenedList; // 打开的页面的页面对象
             },
@@ -163,9 +159,6 @@
             menuTheme () {
                 return this.$store.state.app.menuTheme;
             },
-            mesCount () {
-                return this.$store.state.app.messageCount;
-            },
             currentCompanyName() {
                 return this.$store.state.user.currentcompanyname;
             },
@@ -179,10 +172,7 @@
                 if (pathArr.length >= 2) {
                     this.$store.commit('addOpenSubmenu', pathArr[1].name);
                 }
-                let messageCount = 3;
-                this.messageCount = messageCount.toString();
                 this.checkTag(this.$route.name);
-                this.$store.commit('setMessageCount', 3);
                 let name = sessionStorage.getItem('newCompany');
                 if (name) {
                     this.$Notice.config({

@@ -5,7 +5,7 @@
         </Tooltip>
     </div>
 </template>
-    <style lang="less">
+<style lang="less">
     .level-show {
         text-align: center;
         font-size: 0;
@@ -15,7 +15,7 @@
     }
 </style>
 <script>
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
     export default {
         name: 'FsLevelShow',
         data() {

@@ -38,6 +38,7 @@
         </div>
         <fs-photo-theater
             :product-id="productId"
+            @update-list="_getPhotoList($route.params.id)"
             v-if="showTheater"
             @close-theater="showTheater = false"></fs-photo-theater>
         <create-photo @close="showCreate = false" v-if="showCreate" @add-success="_photoAddSuccess"></create-photo>
