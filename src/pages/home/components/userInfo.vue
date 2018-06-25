@@ -88,7 +88,7 @@
                     width="500"
                     v-model="lotteryFlag">
                 <div slot="content">
-                    <fs-lottery v-if="lotteryFlag"></fs-lottery>
+                    <fs-lottery v-if="lotteryFlag" :lotteryflag.sync="lotteryFlag"></fs-lottery>
                 </div>
                 <Tooltip placement="top" content="抽奖" :transfer="true">
                     <Button type="ghost"

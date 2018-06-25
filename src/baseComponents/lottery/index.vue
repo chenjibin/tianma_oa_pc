@@ -1,5 +1,8 @@
 <template>
     <div id="lottery-square">
+        <div class="close-btn" @click.stop="hideLottery">
+            <Icon type="android-close" :size="18"></Icon>
+        </div>
         <div class="title-wrapper">
             <img src="./oa_lottery_title.png"/>
         </div>
@@ -15,8 +18,13 @@
                      :lottery-type="lotteryType"
                      ref="lottery"></lottery>
         </div>
-        <div class="btn-wrapper">
-            <span class="btn" @click="isRuleShow = true">活动规则</span>
+        <div class="rule-list">
+            <p class="title">活动规则</p>
+            <ul>
+                <li>1、每次抽奖需扣除10个金币，扣除金币不退还，每天参与抽奖次数不限。</li>
+                <li>2、奖品可直接到人事部领取，有效期至当月月底，预期作废！</li>
+                <li>3、活动解释权归天马人事部所有。</li>
+            </ul>
         </div>
         <transition name="fade-page">
             <div class="new-lottery-mask" v-show="isConfirmShow">
@@ -42,16 +50,6 @@
                 </div>
             </div>
         </transition>
-        <!--<mu-dialog :open="isRuleShow" @close="isRuleShow = false" title="活动规则">-->
-        <!--<div class="rule-list">-->
-        <!--<ul>-->
-        <!--<li>1、每次抽奖需扣除10个金币，扣除金币不退还，每天参与抽奖次数不限。</li>-->
-        <!--<li>2、奖品可直接到人事部领取，有效期至当月月底，预期作废！</li>-->
-        <!--<li>3、活动解释权归天马人事部所有。</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--<mu-flat-button primary label="关闭" @click="isRuleShow = false" slot="actions"/>-->
-        <!--</mu-dialog>-->
     </div>
 </template>
 
@@ -70,6 +68,27 @@
         background-image: url(./oa_mobil_lottery_bg.png);
         background-repeat: no-repeat;
         background-position: center;
+        & > .close-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .rule-list {
+            .title {
+                font-size: 14px;
+            }
+            padding: 12px 0;
+            width: 90%;
+            margin: 0 auto;
+            color: #fff;
+        }
         .fs-dialog-block {
             width: 50%;
             background: #fff;
@@ -100,7 +119,7 @@
                     font-size: 20px;
                     font-weight: 700;
                     color: #dc0707;
-                    text-shadow: 0px 0px 5px #fff;
+                    text-shadow: 0 0 5px #fff;
                     p {
                         width: 66%;
                         margin: 0 auto;
@@ -132,7 +151,7 @@
                         background-color: #f33401;
                         color: #fff;
                         border-radius: 30px;
-                        box-shadow: 0px 0px 0px 4px #ffd864;
+                        box-shadow: 0 0 0 4px #ffd864;
                         font-weight: 700;
                     }
                 }
@@ -183,6 +202,9 @@
     import marquee from './marquee'
 
     export default {
+        props: {
+            lotteryflag: Boolean
+        },
         data() {
             return {
                 priceIndex: 0,
@@ -192,14 +214,17 @@
                 confirmTitle: '恭喜你，中奖啦！',
                 confirmContent: '10个金币',
                 isConfirmShow: false,
-                isRuleShow: false,
                 getPriceNameList: []
             }
         },
         methods: {
+            hideLottery() {
+                this.$emit('update:lotteryflag', false)
+            },
             _startRoll() {
                 this.$http.get('/lottery/shakeItUp').then((res) => {
                     if (res.status_code === 'success') {
+                        this.$store.commit('updateUserInfo')
                         if (+res.type === 0) {
                             setTimeout(() => {
                                 this.isPrice = 0
