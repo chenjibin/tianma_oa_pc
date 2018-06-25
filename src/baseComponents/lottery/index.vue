@@ -260,10 +260,8 @@
                 this.priceInfo && this.priceInfo.forEach((item, index) => {
                     if (item.type === 0) arr.push(index)
                 })
-                arr.sort(() => {
-                    return Math.floor(Math.random() * 3) - 1
-                })
-                return arr[0]
+                let storeIndex = Math.floor(Math.random() * arr.length)
+                return arr[storeIndex]
             },
             _returnGetPriceIndex(id) {
                 let priceIndex

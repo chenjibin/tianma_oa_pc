@@ -132,7 +132,7 @@
             position: absolute;
             z-index: 100;
             padding: 2px;
-            transition: opacity 0.1s;
+            transition: all 0.1s;
             .btn-img {
                 img {
                     transition: transform 0.1s;
@@ -141,6 +141,7 @@
                     }
                 }
             }
+
             .inner {
                 background-color: #f1a620;
                 border-radius: 10px;
@@ -150,6 +151,9 @@
                     width: 100%;
                     height: 100%;
                 }
+            }
+            &.active .inner {
+                transform: scale3d(0.95,0.95,0.95);
             }
             &.active .inner::before {
                 content: '';

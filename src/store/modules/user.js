@@ -51,7 +51,7 @@ const returnNeedLevelInfo = function (val) {
 const user = {
     state: {
         userInfo: {
-            headimagepath: Vue.prototype.$mainHost + '/oa/upload/init/initHead.png',
+            headimagepath: '/oa/upload/init/initHead.png',
             realname: '...',
             tm_coin: '...',
             organizename: '...',
