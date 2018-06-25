@@ -132,15 +132,32 @@
                         align: 'center',
                         width: 160,
                         render: (h, params) => {
-                            return h('img', {
+                            return h('div', {
                                 style: {
-                                    maxWidth: '100%',
-                                    height: 'auto'
-                                },
-                                attrs: {
-                                    src: '/oa/upload/' + params.row.image_path
+                                    padding: '8px 0'
                                 }
-                            });
+                            }, [
+                                h('img', {
+                                    style: {
+                                        maxWidth: '100%',
+                                        height: 'auto',
+                                        display: 'block'
+                                    },
+                                    attrs: {
+                                        src: '/oa/upload/' + params.row.image_path
+                                    }
+                                })
+                            ])
+                            // return h('img', {
+                            //     style: {
+                            //         maxWidth: '100%',
+                            //         height: 'auto',
+                            //         display: 'block'
+                            //     },
+                            //     attrs: {
+                            //         src: '/oa/upload/' + params.row.image_path
+                            //     }
+                            // });
                         }
                     },
                     {

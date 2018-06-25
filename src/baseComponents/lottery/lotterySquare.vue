@@ -14,7 +14,7 @@
         <li class="price-item"
             @click.stop="_startRoll"
             :style="{width: centerBtn.width + 'px', left: centerBtn.left + 'px', top: centerBtn.top + 'px'}">
-            <div class="fs-square-img" style="cursor:pointer;">
+            <div class="fs-square-img btn-img" style="cursor:pointer;">
                 <img src="./oa_lottery_btn.png"/>
             </div>
         </li>
@@ -105,7 +105,7 @@
                     }, 100)
                 } else {
                     if (this.nowCircle > this.circle) {
-                        this.speed += 10
+                        this.speed += 2
                     } else {
                         this.speed -= 40
                         if (this.speed < 30) this.speed = 30
@@ -133,6 +133,14 @@
             z-index: 100;
             padding: 2px;
             transition: opacity 0.1s;
+            .btn-img {
+                img {
+                    transition: transform 0.1s;
+                    &:active {
+                        transform: scale3d(0.9,0.9,0.9);
+                    }
+                }
+            }
             .inner {
                 background-color: #f1a620;
                 border-radius: 10px;
