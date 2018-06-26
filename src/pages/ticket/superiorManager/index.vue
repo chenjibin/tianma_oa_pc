@@ -5,11 +5,11 @@
             <Form inline style="width: 100%" :label-width="90">
                 <FormItem label="状态" style="width: 220px">
                     <Select style="width: 100%" v-model="filterOpt.type.value" placeholder="筛选状态"  clearable>
-                        <Option value="-1">不处理</Option>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
                         <Option value="3">已暂停</Option>
+                        <Option value="4">不处理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="优先级" style="width: 220px">
@@ -201,6 +201,27 @@
                         title: '工单名',
                         key: 'demand',
                         minWidth: 100
+                    },
+                    {
+                        title: '提单人',
+                        key: 'add_user_name',
+                        width: 90
+                    },
+                    {
+                        title: '接单人',
+                        align: 'center',
+                        width: 120,
+                        render: (h, params) => {
+                            let users = '';
+                            params.row.childids.forEach((item) => {
+                                users += item.user_name + ' ';
+                            });
+                            if (users) {
+                                return h('span', users);
+                            } else {
+                                return h('span', '未指派');
+                            }
+                        }
                     },
                     {
                         title: '项目组',

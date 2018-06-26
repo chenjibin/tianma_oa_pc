@@ -5,11 +5,11 @@
             <Form inline style="width: 100%" :label-width="90">
                 <FormItem label="状态">
                     <Select v-model="filterOpt.type.value" style="width: 150px" placeholder="筛选状态"  clearable>
-                        <Option value="-1">不处理</Option>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
                         <Option value="3">已暂停</Option>
+                        <Option value="4">不处理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="接单人">
