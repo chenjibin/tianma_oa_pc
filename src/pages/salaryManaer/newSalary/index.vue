@@ -360,8 +360,9 @@
                         'isResize': true,
                         'isEdit': true
                     });
+                    this.rowColumn[key] = '';
                 }
-                if (tableData == null) {
+                if (tableData === null) {
                     tableData = [];
                 }
                 for (let i = 0; i < tableData.length; i++) {
@@ -388,13 +389,18 @@
                         kv[re.field] = re.title;
                     }
                     d.kv = JSON.stringify(kv);
+                    // 保存表头
                     this.$http.post('/perform/saveMainColumns', d).then((res) => {
                         if (res.success) {
                             this.header.id = res.message;
+                            // 保存表数据
                             if (this.tableData.data.length > 0) {
+                                // 拼出我需要的数据
+                                // [key_id:1,arr:{id:xx,values:{}},{id:xx2,values:{}}]
                                 let d2 = {};
                                 d2.key_id = this.tableData;
                                 d2.arr = JSON.stringify(this.tableData.data);
+
                                 that.$http.post('/perform/addValueArrays', d2).then(res => {
                                 });
                             }
@@ -421,7 +427,7 @@
                             cancelText: '取消',
                             loading: true,
                             onOk() {
-                                that.$http.post('/perform/deleteValues', {id: row.id}).then((res) => {
+                                that.$http.post('/perform/deleteValueArrs', {ids: arr.join(',')}).then((res) => {
                                     if (res.success) {
                                         that.tableData.data = _differenceWith(this.tableData.data, this.selection, _isEqual);
                                     }
