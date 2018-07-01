@@ -60,6 +60,7 @@
                 tableData: {
                     data: []
                 },
+                params: '',
                 changeInfoModal: false,
                 tableLoading: false,
                 pageData: {
@@ -131,46 +132,50 @@
                 this.getList('/perform/getMyAllList', data);
             },
             detail(data) {
+                this.header.id = '';
+                this.header.name = '';
+                this.header.columns = [];
                 this.tableData.data = [];
                 var columnObj = {};
                 var tableData = {};
-                var tableData1 = {};
                 data.forEach((item, index) => {
                     console.log(item)
-                    let params = item;
+                    this.params = item;
                 try {
-                    columnObj = eval('(' + params.kv + ')');
-                    tableData = eval('(' + params.values + ')');
+                    columnObj = eval('(' + this.params.kv + ')');
+                    tableData = eval('(' + this.params.values + ')');
 
                     tableData.score = item.score;
                 } catch (e) {
                     this.$Message.error('数据格式不规范');
                 }
-                this.header.id = params.id;
-                this.header.name = params.name;
+
                 // this.tableData.key_id = params.id;
-                    var ab= '';
+
+
+                if (tableData === null) {
+                    tableData = [];
+                }
+                    this.tableData.data.push(tableData);
+                })
+                this.header.id = this.params.id;
+                this.header.name = this.params.name;
                 for (let key in columnObj) {
                     this.header.columns.push({
                         'title': columnObj[key],
                         'key': key,
                         'align': 'center'
                     });
-                    ab = key;
 
                 }
-                    this.header.columns.push({
-                        'title': '得分',
-                        'key': 'score',
-                        'align': 'center'
-                    });
-                if (tableData === null) {
-                    tableData = [];
-                }
-                })
+                console.log(this.header)
+                this.header.columns.push({
+                    'title': '得分',
+                    'key': 'score',
+                    'align': 'center'
+                });
+                // console.log(this.header)
 
-
-                this.tableData.data.push(tableData);
             }
 
         }
