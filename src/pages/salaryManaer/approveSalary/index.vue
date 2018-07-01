@@ -133,15 +133,23 @@
                                 return;
                             }
                             // 打分不全,补全数组
-                            debugger;
+                            console.log(val);
+                            let time = d.time;
                             if (vm.score.length < val.length) {
-                                let num = val.length - vm.score.length;
-                                let time = d.time;
-                                for (let i = 0; i < num; i++) {
-                                    vm.score.push({id: '', time: time, score: 100, valuesId: '', userId: d.id, userName: params.realName});
+                                for (let i = 0; i < val.length; i++) {
+                                    let obj = val[i];
+                                    let flag = false;
+                                    for (let j = 0; j < vm.score.length; j++) {
+                                        if (obj.id === vm.score[j].valuesId) {
+                                            flag = true;
+                                            continue;
+                                        }
+                                    }
+                                    if (!flag) {
+                                        vm.score.push({id: '', time: time, score: 100, valuesId: obj.id, userId: d.id, userName: params.realName});
+                                    }
                                 }
                             }
-                            let score = data0.score;
                             for (let key in columnObj) {
                                 vm.markColumns.push({
                                     'title': columnObj[key],
@@ -166,8 +174,6 @@
                                         on: {
                                             input: (val) => {
                                                 vm.score[params.index].score = val;
-                                                console.log(params.row);
-                                                vm.score[params.index].valuesId = params.row.id;
                                             }
                                         }
                                     });
