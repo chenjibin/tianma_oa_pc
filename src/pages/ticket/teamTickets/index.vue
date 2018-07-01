@@ -56,7 +56,7 @@
             <Form :label-width="60" style="padding: 5px">
                 <input style="display: none" v-model="editTicketsModal.id" />
                 <FormItem label="需求名">
-                    <span v-text="editTickets.demand"></span>
+                    <span v-text="editTickets.demand" style="width: 300px;overflow: hidden;display: inline-block;white-space: nowrap;text-overflow: ellipsis;"></span>
                 </FormItem>
                 <FormItem label="创建人" style="width: 270px">
                     <span v-text="editTickets.add_user_name"></span>
