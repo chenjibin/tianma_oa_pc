@@ -1,13 +1,21 @@
 <template>
     <div id="newSalary">
         <Card>
-            <Form>
+            <Form inline :label-width="40">
+                <FormItem label="月份">
+                    <DatePicker type="month" placeholder="月份" @on-change="(v)=>{searchData.month.value = v}"
+                                :value="searchData.month.value"></DatePicker>
+                </FormItem>
+                <FormItem label="名称">
+                    <Input type="text" placeholder="方案名" clearable v-model="searchData.name.value"></Input>
+                </FormItem>
                 <FormItem>
                     <Button @click="initNew">新增考核方案</Button>
-
+                    <Button v-if="showCopyNew" @click="copyNew">复制上月考核方案</Button>
                 </FormItem>
             </Form>
             <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
+                           @empty="onEmpty"
                            :height="tableHeight" url="/perform/findAllKeyAndValues"></fs-table-page>
         </Card>
         <Modal v-model="showTable" id="showTable" :mask-closable="false" :closable="false" width="1200">
@@ -103,7 +111,8 @@
                 <Col :span="10">
                     <Form inline :label-width="90">
                         <FormItem label="独立绑定人员">
-                            <Select v-model="bindUser.usersIds" multiple filterable remote :label="bindUser.remoteLabel2" :remote-method="_filterPeopleRemote">
+                            <Select v-model="bindUser.usersIds" multiple filterable remote
+                                    :label="bindUser.remoteLabel2" :remote-method="_filterPeopleRemote">
                                 <Option v-for="(option) in bindUser.filterPeopleOpt" :value="option.id"
                                         :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}
                                 </Option>
@@ -126,6 +135,7 @@
     import _uniqWith from 'lodash/uniqWith';
     import _isEqual from 'lodash/isEqual';
     import {VTable, VPagination} from 'vue-easytable';
+    import moment from 'moment';
     import fsTablePage from '@/baseComponents/fs-table-page';
 
     export default {
@@ -135,13 +145,24 @@
         },
         data() {
             return {
+                now_month: moment().format('YYYY-MM'),
                 showTable: false,
                 saveLoading: false,
                 addNewColumns: false,
                 editUserModel: false,
+                showCopyNew: false,
                 filterText: '',
                 bindType: '',
-                searchData: {},
+                searchData: {
+                    month: {
+                        value: moment().format('YYYY-MM'),
+                        type: 'select'
+                    },
+                    name: {
+                        value: '',
+                        type: 'input'
+                    }
+                },
                 bindUser: {
                     key_id: '',
                     filterPeopleOpt: [],
@@ -224,7 +245,7 @@
                                         shape: 'circle'
                                     },
                                     attrs: {
-                                        title: '查看'
+                                        title: '查看编辑'
                                     },
                                     on: {
                                         click: function () {
@@ -271,11 +292,31 @@
                 this.tableData.key_id = '';
                 this.showTable = true;
             },
+            // 已有的方案选定一个快速复制
             quickNew(p) {
                 var row = JSON.parse(p);
                 row.id = '';
                 row.name = row.name + ' 副本';
                 this.detail(row);
+            },
+            // 查不到数据时触发
+            onEmpty() {
+                if (this.searchData.month.value === this.now_month) {
+                    this.showCopyNew = true;
+                    return;
+                }
+                this.showCopyNew = false;
+            },
+            // 快速复制一份上月的方案
+            copyNew() {
+                let d = {};
+                d.time = this.now_month;
+                this.$http.post('/perform/quickAddNextMonthKeyAndValue', d).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('新建成功！');
+                        this.$refs.paperList.getListData();
+                    }
+                });
             },
             // 增加动态列
             addColumn() {

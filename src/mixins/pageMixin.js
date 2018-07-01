@@ -29,21 +29,24 @@ export default {
                 page: this.pageData.page,
                 pageSize: this.pageData.pageSize
             }, params || {});
-            this.$http.post(url, data).then((res) => {
-                if (res.success) {
-                    this.pageData.totalCount = res.totalCount;
-                    this.pageData.list = res.data.map(x => {
-                        if (this.isExpend) {
-                            x._expanded = false;
-                        }
-                        if (this.isSelection) {
-                            x._checked = false;
-                        }
-                        return x;
-                    });
-                }
-            }).finally(() => {
-                this.tableLoading = false;
+            return new Promise((resolve, reject) => {
+                this.$http.post(url, data).then((res) => {
+                    if (res.success) {
+                        this.pageData.totalCount = res.totalCount;
+                        this.pageData.list = res.data.map(x => {
+                            if (this.isExpend) {
+                                x._expanded = false;
+                            }
+                            if (this.isSelection) {
+                                x._checked = false;
+                            }
+                            return x;
+                        });
+                        resolve(this.pageData.list);
+                    }
+                }).finally(() => {
+                    this.tableLoading = false;
+                });
             });
         }
     }

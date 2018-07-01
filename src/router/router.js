@@ -548,21 +548,21 @@ export const appRouter = [
     },
     {
         path: '/salaryManaer',
-        icon: 'ios-star',
+        icon: 'android-contacts',
         name: 'salaryManaer',
         title: '绩效管理',
         component: Main,
         children: [
             {
                 path: 'newSalary',
-                icon: 'ios-star',
+                icon: 'ios-folder-outline',
                 name: 'newSalary',
                 title: '绩效方案管理',
                 component: _import('salaryManaer/newSalary')
             },
             {
                 path: 'approveSalary',
-                icon: 'ios-star',
+                icon: 'ios-folder-outline',
                 name: 'approveSalary',
                 title: '绩效打分',
                 component: _import('salaryManaer/approveSalary')
