@@ -86,7 +86,7 @@
                         vm.btnLoading = false;
                     };
                     // 开始上传
-                    xhr.open('POST', vm.$mainHost + '/oa/share/uploadFile', true);
+                    xhr.open('POST', vm.$mainHost + '/oa/user/uploadfile', true);
                     xhr.send(formData);
                 }, vm.fileData.fileType || 'image/png');
             },
@@ -103,6 +103,7 @@
             }
         },
         mounted() {
+            console.log(this)
             let img1 = document.getElementById('crop-img');
             this.cropper = new Cropper(img1, {
                 dragMode: 'move',
