@@ -235,6 +235,15 @@ export const otherRouter = {
             name: 'ownspace_index',
             component: resolve => { require(['@/views/own-space/own-space.vue'], resolve); }
         },
+        {
+            path: 'mySalary',
+            title: '我的绩效',
+            meta: {
+                whiteIn: true
+            },
+            name: 'mySalary',
+            component: resolve => { require(['@/pages/salaryManaer/mySalary/index.vue'], resolve); }
+        },
         { path: 'message', title: '消息中心', name: 'message_index', component: resolve => { require(['@/views/message/message.vue'], resolve); } }
     ]
 };
@@ -534,6 +543,29 @@ export const appRouter = [
                 name: 'approveRule',
                 title: '规章审批',
                 component: _import('rulesManager/approveRule')
+            }
+        ]
+    },
+    {
+        path: '/salaryManaer',
+        icon: 'android-contacts',
+        name: 'salaryManaer',
+        title: '绩效管理',
+        component: Main,
+        children: [
+            {
+                path: 'newSalary',
+                icon: 'ios-folder-outline',
+                name: 'newSalary',
+                title: '绩效方案管理',
+                component: _import('salaryManaer/newSalary')
+            },
+            {
+                path: 'approveSalary',
+                icon: 'ios-folder-outline',
+                name: 'approveSalary',
+                title: '绩效打分',
+                component: _import('salaryManaer/approveSalary')
             }
         ]
     },

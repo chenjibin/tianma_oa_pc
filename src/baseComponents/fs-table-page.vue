@@ -150,7 +150,11 @@
             getListData() {
                 this.$emit('update:choosearray', []);
                 let params = this.returnNeedParams();
-                this.getList(this.url, params);
+                this.getList(this.url, params).then((res) => {
+                    if (res.length === 0) {
+                        this.$emit('empty', []);
+                    }
+                });
             }
         }
     };

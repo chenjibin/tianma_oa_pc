@@ -71,6 +71,10 @@
                         btn-text="知识"
                         @card-click="$router.replace({name: 'articleHome'})"></info-btn>
                     </Col>
+                    <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
+                        <info-btn iconType="android-contacts"
+                            color="rgb(242, 94, 67)" btn-text="绩效" @card-click="$router.replace({name: 'mySalary'})"></info-btn>
+                    </Col>
                 </Row>
                 </Col>
                 <Col :md="24" :lg="24" :style="{marginBottom: '3px'}">
