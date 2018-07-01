@@ -4,6 +4,7 @@
             <Form>
                 <FormItem>
                     <Button @click="initNew">新增考核方案</Button>
+
                 </FormItem>
             </Form>
             <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
@@ -29,7 +30,7 @@
                     <Button :disabled="header.columns.length === 0" @click="delTarget">删除选中</Button>
                 </Form>
                 <div
-                    style="position: absolute;right: 0px;bottom: 0;transition: right 600ms cubic-bezier(0.175, 0.885, 0.32, 1.575);"
+                    style="position: absolute;right: 0px;bottom: 0;transition: right 1s cubic-bezier(0.175, 0.885, 0.32, 1.575);"
                     :style="{right:header.columns.length?'-41px':'0px'}">
                     <Button title="加一行数据" :disabled="header.columns.length === 0" type="ghost"
                             style="height: 41px;padding: 6px 12px"
@@ -85,23 +86,6 @@
                 <p style="color:#495060;text-align:center;font-size: 18px">绩效绑定</p>
             </div>
             <Row :gutter="16">
-                <Col :span="10">
-                    <Form inline :label-width="60">
-                        <FormItem label="姓名">
-                            <Input type="text"
-                                   v-model="filterOpt.realName.value"
-                                   placeholder="筛选姓名"></Input>
-                        </FormItem>
-                    </Form>
-                    <fs-table-page v-if="editUserModel" :columns="userColumns"
-                                   :size="null"
-                                   :height="500"
-                                   :params="filterOpt"
-                                   :pageSizeOpt="[20, 60, 100, 1000]"
-                                   :choosearray.sync="chooseDataArr"
-                                   ref="tablePage"
-                                   url="/perform/getUserList"></fs-table-page>
-                </Col>
                 <Col :span="14">
                     <div style="max-height: 606px;overflow:auto;">
                         <Input v-model="filterText" size="large" placeholder="快速查找部门"></Input>
@@ -116,9 +100,23 @@
                                  :props="defaultProps"></el-tree>
                     </div>
                 </Col>
+                <Col :span="10">
+                    <Form inline :label-width="90">
+                        <FormItem label="独立绑定人员">
+                            <Select v-model="bindUser.usersIds" multiple filterable remote :label="bindUser.remoteLabel2" :remote-method="_filterPeopleRemote">
+                                <Option v-for="(option) in bindUser.filterPeopleOpt" :value="option.id"
+                                        :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}
+                                </Option>
+                            </Select>
+                        </FormItem>
+                    </Form>
+                </Col>
             </Row>
+            <div slot="footer">
+                <Button type="text" @click="editUserModel = false;">取消</Button>
+                <Button type="primary" @click="bind">确定</Button>
+            </div>
         </Modal>
-        <div slot="footer"></div>
     </div>
 </template>
 
@@ -144,43 +142,13 @@
                 filterText: '',
                 bindType: '',
                 searchData: {},
-                chooseDataArr: [],
-                filterOpt: {
-                    organizeName: {
-                        value: '',
-                        type: 'input'
-                    },
-                    realName: {
-                        value: '',
-                        type: 'input'
-                    },
-                    id: {
-                        value: this.id,
-                        type: 'select'
-                    }
+                bindUser: {
+                    key_id: '',
+                    filterPeopleOpt: [],
+                    remoteLabel2: [],
+                    usersIds: [],
+                    orgIds: []
                 },
-                userColumns: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
-                        title: '姓名',
-                        key: 'realname',
-                        width: 100
-                    },
-                    {
-                        title: '部门',
-                        align: 'center',
-                        key: 'organizename'
-                    },
-                    {
-                        title: '岗位',
-                        key: 'postname',
-                        align: 'center'
-                    }
-                ],
                 newColumns: [],
                 selection: [],
                 tableData: {
@@ -207,8 +175,27 @@
                         minWidth: 100
                     },
                     {
+                        title: '月度',
+                        key: 'time',
+                        align: 'center',
+                        minWidth: 100
+                    },
+                    {
+                        title: '绑定状态',
+                        align: 'center',
+                        minWidth: 100,
+                        render: (h, params) => {
+                            let row = params.row;
+                            if (row.organizeids || row.userids) {
+                                return h('span', '已绑定');
+                            } else {
+                                return h('span', '未绑定');
+                            }
+                        }
+                    },
+                    {
                         title: '操作',
-                        width: 160,
+                        width: 180,
                         render: (h, params) => {
                             let vm = this;
                             let arr = [
@@ -248,18 +235,19 @@
                                         marginRight: '4px'
                                     }
                                 }),
+                                // 这里是为了从已有的方案中快速的建立一份副本来修改，满足某些方案很类似但是有少许不一致的情况
                                 h('Button', {
                                     props: {
-                                        type: 'ghost',
-                                        icon: 'trash-a',
+                                        type: 'primary',
+                                        icon: 'plus',
                                         shape: 'circle'
                                     },
                                     attrs: {
-                                        title: '删除'
+                                        title: '快速复制'
                                     },
                                     on: {
                                         click: function () {
-                                            vm.detail(params.row);
+                                            vm.quickNew(JSON.stringify(params.row));
                                         }
                                     },
                                     style: {
@@ -282,6 +270,12 @@
                 this.tableData.data = [];
                 this.tableData.key_id = '';
                 this.showTable = true;
+            },
+            quickNew(p) {
+                var row = JSON.parse(p);
+                row.id = '';
+                row.name = row.name + ' 副本';
+                this.detail(row);
             },
             // 增加动态列
             addColumn() {
@@ -310,7 +304,6 @@
                             this.rowColumn[res.field] = '';
                         }
                     });
-                    console.log(this.header.columns);
                     // 新建的列在表单已有的数据中不能直接使用，双向绑定无效。这里做一个初始化
                     let d = JSON.parse(JSON.stringify(that.tableData.data));
                     if (d.length >= 1) {
@@ -331,7 +324,6 @@
             },
             //
             detail(params) {
-                console.log(params);
                 this.header.columns = [{
                     'width': 60,
                     'titleAlign': 'center',
@@ -393,15 +385,24 @@
                     this.$http.post('/perform/saveMainColumns', d).then((res) => {
                         if (res.success) {
                             this.header.id = res.message;
+                            this.tableData.key_id = res.message;
                             // 保存表数据
                             if (this.tableData.data.length > 0) {
                                 // 拼出我需要的数据
                                 // [key_id:1,arr:{id:xx,values:{}},{id:xx2,values:{}}]
                                 let d2 = {};
-                                d2.key_id = this.tableData;
-                                d2.arr = JSON.stringify(this.tableData.data);
-
+                                d2.key_id = this.tableData.key_id;
+                                let arr = [];
+                                this.tableData.data.forEach((res) => {
+                                    arr.push({'id': res.id, values: res});
+                                });
+                                d2.arr = JSON.stringify(arr);
                                 that.$http.post('/perform/addValueArrays', d2).then(res => {
+                                    if (res.success) {
+                                        that.$Message.success('成功');
+                                        that.$refs.paperList.getListData();
+                                        that.showTable = false;
+                                    }
                                 });
                             }
                         }
@@ -415,10 +416,15 @@
                 if (this.selection.length <= 0) {
                     this.$Message.info('想删除什么？请选中');
                 } else {
-                    console.log(this.selection);
                     let arr = this.selection.filter((res) => {
                         return res.id;
+                    }).map((res2) => {
+                        return res2.id;
                     });
+                    if (arr.length === 0) {
+                        that.tableData.data = _differenceWith(that.tableData.data, that.selection, _isEqual);
+                        return;
+                    }
                     if (arr.length > 0) {
                         that.$Modal.confirm({
                             title: '删除提醒',
@@ -427,9 +433,9 @@
                             cancelText: '取消',
                             loading: true,
                             onOk() {
-                                that.$http.post('/perform/deleteValueArrs', {ids: arr.join(',')}).then((res) => {
-                                    if (res.success) {
-                                        that.tableData.data = _differenceWith(this.tableData.data, this.selection, _isEqual);
+                                that.$http.post('/perform/deleteValuesArr', {ids: arr.join(',')}).then((res2) => {
+                                    if (res2.success) {
+                                        that.tableData.data = _differenceWith(that.tableData.data, that.selection, _isEqual);
                                     }
                                 }).finally(() => {
                                     that.$Modal.remove();
@@ -439,14 +445,38 @@
                     }
                 }
             },
-            searchAllData() {
-                this.$http.post('/salary/findAllKeyAndValues').then((res) => {
-
+            bind() {
+                let d = {};
+                d.organizeIds = this.$refs.treeDom.getCheckedKeys().join(',');
+                d.userIds = this.bindUser.usersIds.join(',');
+                d.id = this.bindUser.key_id;
+                this.$http.post('/perform/bindKey', d).then((res) => {
+                    if (res.success) {
+                        this.editUserModel = false;
+                        this.$refs.paperList.getListData();
+                        this.$Message.success('绑定部门、人员修改成功');
+                    }
                 });
             },
             editUserMapping(param) {
+                var vm = this;
+                vm.bindUser.usersIds = [];
+                vm.bindUser.remoteLabel2 = [];
                 this.editUserModel = true;
-                this.$refs.treeDom.setCheckedKeys(param.organizeid ? param.organizeid.split(',').filter(x => !!x) : []);
+                this.bindUser.key_id = param.id;
+                this.$http.post('/perform/getUserList', {id: param.id}).then((res) => {
+                    if (res.success) {
+                        let d = res.data;
+                        d.forEach((item) => {
+                            vm.bindUser.usersIds.push(item.id);
+                            vm.bindUser.remoteLabel2.push(item.realname);
+                        });
+                    }
+                });
+                if (param.usersids) {
+                    this.bindUser.usersIds = param.usersids.substring(1, param.usersids.length - 1).split(',');
+                }
+                this.$refs.treeDom.setCheckedKeys(param.organizeids ? param.organizeids.split(',').filter(x => !!x) : []);
             },
             filterNode(value, data) {
                 if (!value) return true;
@@ -472,7 +502,6 @@
                 this.selection = selection;
             },
             _selectChange(selection, rowData) {
-                console.log(selection);
                 this.selection = selection;
             },
             _selectGroupChange(selection) {
@@ -480,15 +509,23 @@
             },
             _cellEditDone(newValue, oldValue, rowIndex, rowData, field) {
                 this.tableData.data[rowIndex][field] = newValue;
-                // this.$refs.v
-                // 接下来处理你的业务逻辑，数据持久化等...
+            },
+            _filterPeopleRemote(val) {
+                let data = {};
+                data.name = val;
+                this.bindUser.filterPeopleOpt = [];
+                this.$http.post('/user/getCheckUser', data).then((res) => {
+                    if (res.success) {
+                        this.bindUser.filterPeopleOpt = res.data;
+                    }
+                });
             }
-
         },
         created() {
             this._getOrgTree().then((res) => {
                 this._getAllDepIds(res);
             });
+            this._filterPeopleRemote();
         },
         watch: {
             filterText(val) {
