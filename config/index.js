@@ -12,16 +12,14 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: { //消炎 'http://192.168.15.22:8080' 孙运超 'http://192.168.17.27:80' 张瑞 'http://192.168.15.169:8080' 胡 'http://192.168.14.51:8080'
       '/oa': {
-        target: "http://192.168.15.22:8080",
+        target: "http://192.168.15.169:8080",
         changeOrigin: true
-
       }
     },
-
     // Various Dev Server settings
-    host: '192.168.18.146', // can be overwritten by process.env.HOST
-    port: 8058, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: true,
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    port: 8056, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
@@ -62,7 +60,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 

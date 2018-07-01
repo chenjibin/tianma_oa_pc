@@ -178,6 +178,11 @@
                         minWidth: 100
                     },
                     {
+                        title: '提单人',
+                        key: 'add_user_name',
+                        width: 90
+                    },
+                    {
                         title: '接单人',
                         align: 'center',
                         width: 120,
@@ -214,6 +219,13 @@
                                 }
                             });
                         }
+                    },
+                    {
+                        title: '添加时间',
+                        className: 'noPadding',
+                        key: 'add_time',
+                        align: 'center',
+                        width: 190
                     },
                     {
                         title: '开始日期',
