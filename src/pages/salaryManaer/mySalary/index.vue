@@ -60,7 +60,14 @@
                 tableData: {
                     data: []
                 },
-                changeInfoModal: false
+                changeInfoModal: false,
+                tableLoading: false,
+                pageData: {
+                    list: [],
+                    page: 1,
+                    pageSize: 20,
+                    totalCount: 0
+                }
 
             };
         },
@@ -71,8 +78,39 @@
 
         },
         methods: {
-
-
+            initPage() {
+                this.pageData.page = 1;
+            },
+            setPage(page) {
+                this.pageData.page = page;
+            },
+            setPageSize(size) {
+                this.pageData.pageSize = size;
+            },
+            getList(url, params) {
+                this.tableLoading = true;
+                let data = Object.assign({
+                    page: this.pageData.page,
+                    pageSize: this.pageData.pageSize
+                }, params || {});
+                this.$http.post(url, data).then((res) => {
+                    if (res.success) {
+                        this.detail(res.data);
+                        this.pageData.totalCount = res.totalCount;
+                        this.pageData.list = res.data.map(x => {
+                            if (this.isExpend) {
+                                x._expanded = false;
+                            }
+                            if (this.isSelection) {
+                                x._checked = false;
+                            }
+                            return x;
+                        });
+                    }
+                }).finally(() => {
+                    this.tableLoading = false;
+                });
+            },
             getPositionList() {
                 let data = {};
                 data.time = this.addDepForm.month;
@@ -93,7 +131,6 @@
                 this.getList('/perform/getMyAllList', data);
             },
             detail(data) {
-
                 this.tableData.data = [];
                 var columnObj = {};
                 var tableData = {};
