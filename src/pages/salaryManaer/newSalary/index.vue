@@ -445,6 +445,8 @@
                                         that.showTable = false;
                                     }
                                 });
+                            } else {
+                                that.$Message.success('保存成功');
                             }
                         }
                     }).finally(() => {

@@ -4,7 +4,7 @@
             <Form inline :label-width="90">
                 <FormItem label="月份">
                     <DatePicker type="month" placeholder="月份" @on-change="_addDepMonthChange"
-                                :value="month"></DatePicker>
+                                :value="searchData.month.value"></DatePicker>
                 </FormItem>
                 <FormItem label="姓名">
                     <Input type="text" placeholder="姓名" v-model="searchData.name.value"></Input>
@@ -40,9 +40,12 @@
                     name: {
                         value: '',
                         type: 'input'
+                    },
+                    month: {
+                        value: moment().format('YYYY-MM'),
+                        type: 'select'
                     }
                 },
-                month: NOW_MONTH,
                 markColumns: [],
                 tableData: [],
                 score: [],
@@ -64,7 +67,7 @@
                         align: 'center',
                         minWidth: 100,
                         render: (h, params) => {
-                            return h('span', this.month);
+                            return h('span', this.searchData.month.value);
                         }
                     },
                     {
@@ -72,11 +75,18 @@
                         width: 180,
                         render: (h, params) => {
                             let vm = this;
+                            let cnt = params.row.cnt;
+                            let text = '打分';
+                            let color = 'green';
+                            if (cnt > 0) {
+                                text = '查看';
+                                color = 'blue';
+                            }
                             let arr = [
                                 h('Tag', {
                                     props: {
                                         type: 'dot',
-                                        color: 'green'
+                                        color: color
                                     },
                                     attrs: {
                                         title: '考核'
@@ -89,7 +99,7 @@
                                     style: {
                                         marginRight: '4px'
                                     }
-                                }, '打分')
+                                }, text)
                             ];
                             return h('div', arr);
                         }
@@ -102,7 +112,7 @@
                 let d = {};
                 d.id = params.id;
                 d.userid = params.id;
-                d.time = this.month;
+                d.time = this.searchData.month.value;
                 this.tableData = [];
                 this.markColumns = [];
                 vm.score = [];
@@ -118,7 +128,12 @@
                             }
                             let columnObj = eval('(' + records.kv + ')');
                             let val = eval('(' + records.val + ')');
+                            if (val === null) {
+                                this.$Message.info('指定月他没有被绑定绩效方案，请联系人事');
+                                return;
+                            }
                             // 打分不全,补全数组
+                            debugger;
                             if (vm.score.length < val.length) {
                                 let num = val.length - vm.score.length;
                                 let time = d.time;
@@ -168,11 +183,14 @@
             },
             saveScore() {
                 this.$http.post('/perform/addUsersScoreArray', {scoreArr: JSON.stringify(this.score)}).then((res) => {
-                    console.log(res);
+                    if (res.success) {
+                        this.$Message.success('保存成功');
+                        this.markModal = false;
+                    }
                 });
             },
             _addDepMonthChange(date) {
-                this.month = date;
+                this.searchData.month.value = date;
             }
         }
     };
