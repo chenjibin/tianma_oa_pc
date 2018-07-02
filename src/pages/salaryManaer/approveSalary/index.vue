@@ -129,7 +129,7 @@
                             let columnObj = eval('(' + records.kv + ')');
                             let val = eval('(' + records.val + ')');
                             if (val === null) {
-                                this.$Message.info('指定月他没有被绑定绩效方案，请联系人事');
+                                this.$Message.info('指定月他绑定的绩效方案没有可打分项，请联系人事');
                                 return;
                             }
                             // 打分不全,补全数组
