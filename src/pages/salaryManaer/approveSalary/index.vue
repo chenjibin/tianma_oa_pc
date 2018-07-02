@@ -133,7 +133,6 @@
                                 return;
                             }
                             // 打分不全,补全数组
-                            console.log(val);
                             let time = d.time;
                             if (vm.score.length < val.length) {
                                 for (let i = 0; i < val.length; i++) {
