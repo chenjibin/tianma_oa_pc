@@ -157,6 +157,47 @@
                                     'align': 'center'
                                 });
                             }
+
+                            vm.markColumns.push({
+                                'title': '目标值',
+                                'align': 'center',
+                                'width': 110,
+                                render: (h, params) => {
+                                    return h('Input', {
+                                        props: {
+                                            value: vm.score[params.index].target
+                                        },
+                                        style: {
+                                            width: '100%'
+                                        },
+                                        on: {
+                                            input: (val) => {
+                                                vm.score[params.index].target = val;
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                            vm.markColumns.push({
+                                'title': '实际值',
+                                'align': 'center',
+                                'width': 110,
+                                render: (h, params) => {
+                                    return h('Input', {
+                                        props: {
+                                            value: vm.score[params.index].real
+                                        },
+                                        style: {
+                                            width: '100%'
+                                        },
+                                        on: {
+                                            input: (val) => {
+                                                vm.score[params.index].real = val;
+                                            }
+                                        }
+                                    });
+                                }
+                            });
                             vm.markColumns.push({
                                 'title': '分数',
                                 'align': 'center',
@@ -192,6 +233,7 @@
                     if (res.success) {
                         this.$Message.success('保存成功');
                         this.markModal = false;
+                        this.$refs.paperList.getListData();
                     }
                 });
             },

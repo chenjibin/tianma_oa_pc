@@ -18,7 +18,6 @@
         ></Table>
         </Card>
 
-
     </div>
 </template>
 
@@ -76,7 +75,6 @@
         mixins: [pageMixin],
         created () {
             this.getPositionList();
-
         },
         methods: {
             initPage() {
@@ -118,7 +116,6 @@
                 this.$http.post('/perform/getMyAllList', data).then((res) => {
                     if (res.success) {
                         this.detail(res.data);
-
                     }
                 });
             },
@@ -144,14 +141,14 @@
                 try {
                     columnObj = eval('(' + this.params.kv + ')');
                     tableData = eval('(' + this.params.values + ')');
-
                     tableData.score = item.score;
+                    tableData.target = item.target;
+                    tableData.real = item.real;
                 } catch (e) {
                     this.$Message.error('数据格式不规范');
                 }
 
                 // this.tableData.key_id = params.id;
-
 
                 if (tableData === null) {
                     tableData = [];
@@ -166,16 +163,23 @@
                         'key': key,
                         'align': 'center'
                     });
-
                 }
-                console.log(this.header)
+                this.header.columns.push({
+                    'title': '目标值',
+                    'key': 'real',
+                    'align': 'center'
+                });
+                this.header.columns.push({
+                    'title': '实际值',
+                    'key': 'target',
+                    'align': 'center'
+                });
                 this.header.columns.push({
                     'title': '得分',
                     'key': 'score',
                     'align': 'center'
                 });
                 // console.log(this.header)
-
             }
 
         }
