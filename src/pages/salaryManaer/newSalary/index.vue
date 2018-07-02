@@ -3,7 +3,7 @@
         <Card>
             <Form inline :label-width="40">
                 <FormItem label="月份">
-                    <DatePicker type="month" placeholder="月份" @on-change="(v)=>{searchData.month.value = v}"
+                    <DatePicker type="month" placeholder="月份" @on-change="(v)=>{searchData.month.value = v;showCopyNew = false;}"
                                 :value="searchData.month.value"></DatePicker>
                 </FormItem>
                 <FormItem label="名称">
