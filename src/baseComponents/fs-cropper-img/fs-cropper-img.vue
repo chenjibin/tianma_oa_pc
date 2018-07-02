@@ -103,7 +103,6 @@
             }
         },
         mounted() {
-            console.log(this)
             let img1 = document.getElementById('crop-img');
             this.cropper = new Cropper(img1, {
                 dragMode: 'move',

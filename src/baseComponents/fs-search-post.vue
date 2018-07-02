@@ -8,7 +8,7 @@
             :label="label"
             :remote-method="_filterPeopleRemote"
             :loading="filterPeopleLoading">
-        <Option v-for="(option, index) in optionlist"
+        <Option v-for="option in optionlist"
                 :value="option.id"
                 :key="'post' + option.id">{{option.name + '(' + option.organizename + ')'}}</Option>
     </Select>
@@ -59,9 +59,10 @@
                     if (res.success) {
                         this.$emit('update:optionlist', res.data);
                     }
-                }).finally(() => {
                     this.filterPeopleLoading = false;
-                });
+                }, () => {
+                    this.filterPeopleLoading = false;
+                })
             }
         }
     };
