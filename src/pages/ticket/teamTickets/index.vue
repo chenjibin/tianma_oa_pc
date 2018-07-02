@@ -56,7 +56,7 @@
             <Form :label-width="60" style="padding: 5px">
                 <input style="display: none" v-model="editTicketsModal.id" />
                 <FormItem label="需求名">
-                    <span v-text="editTickets.demand"></span>
+                    <span v-text="editTickets.demand" style="width: 300px;overflow: hidden;display: inline-block;white-space: nowrap;text-overflow: ellipsis;"></span>
                 </FormItem>
                 <FormItem label="创建人" style="width: 270px">
                     <span v-text="editTickets.add_user_name"></span>
@@ -178,6 +178,11 @@
                         minWidth: 100
                     },
                     {
+                        title: '提单人',
+                        key: 'add_user_name',
+                        width: 90
+                    },
+                    {
                         title: '接单人',
                         align: 'center',
                         width: 120,
@@ -214,6 +219,13 @@
                                 }
                             });
                         }
+                    },
+                    {
+                        title: '添加时间',
+                        className: 'noPadding',
+                        key: 'add_time',
+                        align: 'center',
+                        width: 190
                     },
                     {
                         title: '开始日期',

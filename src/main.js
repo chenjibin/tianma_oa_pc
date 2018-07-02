@@ -13,6 +13,7 @@ import App from './app.vue';
 import VueI18n from 'vue-i18n';
 import request from './libs/request';
 import VueLazyload from 'vue-lazyload';
+
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: '/oa/upload/initListImage.png',
@@ -32,6 +33,10 @@ Vue.config.productionTip = false;
 Vue.config.keyCodes = {
     f11: 122
 };
+if (process.env.NODE_ENV !== 'production') {
+    var Mock = require('mockjs');
+    Vue.prototype.$mock = Mock;
+}
 new Vue({
     el: '#app',
     router,
