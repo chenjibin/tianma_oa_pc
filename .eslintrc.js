@@ -27,13 +27,14 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'indent': 0,
     'quotes': ['error', 'single'],
-    'semi': ['error', 'always'],
+    'semi': 0,
 //        "no-console": ["error"],
     'no-empty': 2,
     'no-eq-null': 2,
     'space-before-function-paren': 0,
     'no-new': 0,
     'no-fallthrough': 0,
-    'no-unreachable': 0
+    'no-unreachable': 0,
+    'vue/no-parsing-error': [2, { 'x-invalid-end-tag': false }]
   }
 }
