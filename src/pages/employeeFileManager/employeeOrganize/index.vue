@@ -48,6 +48,24 @@
                             <Option value="初中">初中</Option>
                         </Select>
                     </FormItem>
+                    <FormItem label="奖励记录">
+                        <Select type="text" style="width: 160px"
+                                @on-change="_inputDebounce"
+                                v-model="filterOpt.hasReward" clearable>
+                            <Option value="0">无</Option>
+                            <Option value="1">有</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem label="惩罚记录">
+                        <Select type="text" style="width: 160px"
+                                @on-change="_inputDebounce" v-model="filterOpt.hasPunished" clearable>
+                            <Option value="0">无</Option>
+                            <Option value="1">有</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem label="奖惩时间">
+                        <DatePicker type="daterange" @on-change="_changeRewardDate" split-panels style="width: 160px" clearable></DatePicker>
+                    </FormItem>
                     <FormItem label="入职日期">
                         <DatePicker type="date" style="width: 120px"
                                     @on-change="_monthDateChange"
@@ -228,6 +246,30 @@
                                 <!--<Button type="success" icon="android-add"  style="margin-left: 8px" @click="workingForm.push({})">增加经历</Button>-->
                                 <!--<Button type="ghost" @click="cancel()">取消修改</Button>-->
                             <!--</FormItem>-->
+                        </Form>
+                    </TabPane>
+                    <TabPane label="奖惩记录">
+                        <Form ref="rewardForm" inline>
+                            <div :key="item.id" v-for="(item,index) in rewardForm" style="font-size: 0">
+                                <FormItem label="时间" style="width:46%">
+                                    <DatePicker style="width: 100%" type="date" v-model="item.rewarddate"></DatePicker>
+                                </FormItem>
+                                <FormItem label="类型" style="width:46%">
+                                    <Select style="width: 100%" v-model="item.rewardtype" >
+                                        <Option :value="0">奖励</Option>
+                                        <Option :value="1">惩罚</Option>
+                                    </Select>
+                                </FormItem>
+                                <FormItem label="奖惩原因" style="width:46%">
+                                    <Input type="textarea" :maxlength="200" placeholder="奖励明细，尽量简短" v-model="item.rewardcontent"></Input>
+                                </FormItem>
+                                <FormItem label="用户id" style="display: none">
+                                    <Input type="text" v-model="baseForm.userid" ></Input>
+                                </FormItem>
+                                <FormItem label="主键" style="display: none">
+                                    <Input type="text" v-model="item.id" ></Input>
+                                </FormItem>
+                            </div>
                         </Form>
                     </TabPane>
                     <TabPane label="社会关系">
@@ -431,47 +473,38 @@
                 ],
                 educationForm: [
                     {
-                        graduationtime: '2014-2017',
-                        graduationschool: '南信院',
-                        profession: '软江工程',
-                        education: '专科'
-                    },
-                    {
-                        graduationtime: '2018-2019',
-                        graduationschool: '南信院2',
-                        profession: '软江工程2',
-                        education: '专科2'
+                        graduationtime: '',
+                        graduationschool: '',
+                        profession: '',
+                        education: ''
                     }
                 ],
                 workingForm: [
                     {
-                        workingtime: '2014-2017',
-                        employer: '南信院',
-                        duties: 'zhiwu',
-                        monthlysalary: 'yuexing',
-                        reasonleaving: '不高兴',
-                        witness: 'ssss'
-                    },
-                    {
-                        workingtime: '2014-2017',
-                        employer: '南信院',
-                        duties: 'zhiwu',
-                        monthlysalary: 'yuexing',
-                        reasonleaving: '不高兴',
-                        witness: 'ssss',
-                        companyphone: '123123'
+                        workingtime: '',
+                        employer: '',
+                        duties: '',
+                        monthlysalary: '',
+                        reasonleaving: '',
+                        witness: ''
                     }
                 ],
+                rewardForm: [{
+                    rewardcontent: '',
+                    rewardtype: 0,
+                    rewarddate: moment().format('YYYY-MM-DD')
+                }],
                 socailShipForm: [],
                 emergency: {
-                    emergencycontact: '父亲',
-                    contactrelationship: 'aaaaaaa',
-                    contactnumber: 15996118723
+                    emergencycontact: '',
+                    contactrelationship: '',
+                    contactnumber: ''
                 },
                 tableLoading: true,
                 filterOpt: {
                     name: '', // 员工姓名
                     monthDate: '', // 入职日期左区间
+                    rewardDate: [], // 奖惩日期
                     endmonthDate: '', // 入职日期右区间
                     kqstates: 1, // 在职状态
                     organizeName: '', // 部门名称
@@ -649,6 +682,12 @@
                         that.workingForm = res.data;
                     }
                 });
+                // 奖惩记录
+                this.$http.post('/employees/findUserRelationship', {'id': id, 'typeRelationship': 4}).then((res) => {
+                    if (res.success) {
+                        that.rewardForm = res.data;
+                    }
+                });
                 // 附件列表
                 this.$http.post('/ticket/ticketFileslist', {'ticketno': id}).then((res) => {
                     if (res.success) {
@@ -663,6 +702,11 @@
                     }
                 });
             },
+            // 奖惩时间
+            _changeRewardDate(val) {
+                this.filterOpt.rewardDate = val;
+                this._filterResultHandler();
+            },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1500),
@@ -676,7 +720,7 @@
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;
-                this.tableHeight = dm - 260;
+                this.tableHeight = dm - 320;
             },
             _setPage(page) {
                 this.pageData.page = page;
