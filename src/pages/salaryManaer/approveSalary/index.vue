@@ -9,6 +9,9 @@
                 <FormItem label="姓名">
                     <Input type="text" placeholder="姓名" v-model="searchData.name.value"></Input>
                 </FormItem>
+                <FormItem label="部门">
+                    <Input type="text" placeholder="部门" v-model="searchData.organizeName.value"></Input>
+                </FormItem>
             </Form>
             <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
                            :height="tableHeight" url="/perform/getEmployee"></fs-table-page>
@@ -38,6 +41,10 @@
             return {
                 searchData: {
                     name: {
+                        value: '',
+                        type: 'input'
+                    },
+                    organizeName: {
                         value: '',
                         type: 'input'
                     },
