@@ -5,7 +5,7 @@
                :columns="columns"
                :data="pageData.list"
                @on-selection-change="selectionChange"
-               @on-row-click="rowClickHandler"
+               @on-row-dblclick="rowClickHandler"
                @on-sort-change="tableSortChange"
                :loading="tableLoading"></Table>
         <Page :total="pageData.totalCount"
