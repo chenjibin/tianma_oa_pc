@@ -3,7 +3,7 @@
         <Card>
             <Form inline :label-width="40">
                 <FormItem label="月份">
-                    <DatePicker type="month" placeholder="月份" @on-change="(v)=>{searchData.month.value = v}"
+                    <DatePicker type="month" placeholder="月份" @on-change="(v)=>{searchData.month.value = v;showCopyNew = false;}"
                                 :value="searchData.month.value"></DatePicker>
                 </FormItem>
                 <FormItem label="名称">
@@ -36,6 +36,7 @@
                         克隆最后一行
                     </Button>
                     <Button :disabled="header.columns.length === 0" @click="delTarget">删除选中</Button>
+                    <Button :disabled="header.columns.length === 0" @click="delColumn">删除列</Button>
                 </Form>
                 <div
                     style="position: absolute;right: 0px;bottom: 0;transition: right 1s cubic-bezier(0.175, 0.885, 0.32, 1.575);"
@@ -155,6 +156,7 @@
                 showCopyNew: false,
                 filterText: '',
                 bindType: '',
+                delselect: '',
                 searchData: {
                     month: {
                         value: NOW_MONTH,
@@ -217,9 +219,9 @@
                         }
                     },
                     {
-                        title: '操作',
+                        title: '编辑',
+                        width: 140,
                         align: 'center',
-                        width: 180,
                         render: (h, params) => {
                             let vm = this;
                             let arr = [
@@ -258,7 +260,18 @@
                                     style: {
                                         marginRight: '4px'
                                     }
-                                }),
+                                })
+                            ];
+                            return h('div', arr);
+                        }
+                    },
+                    {
+                        title: '操作',
+                        width: 140,
+                        align: 'center',
+                        render: (h, params) => {
+                            let vm = this;
+                            let arr = [
                                 // 这里是为了从已有的方案中快速的建立一份副本来修改，满足某些方案很类似但是有少许不一致的情况
                                 h('Button', {
                                     props: {
@@ -272,6 +285,24 @@
                                     on: {
                                         click: function () {
                                             vm.quickNew(JSON.stringify(params.row));
+                                        }
+                                    },
+                                    style: {
+                                        marginRight: '4px'
+                                    }
+                                }),
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'close',
+                                        shape: 'circle'
+                                    },
+                                    attrs: {
+                                        title: '删除'
+                                    },
+                                    on: {
+                                        click: function () {
+                                            vm.delOne(params.row);
                                         }
                                     },
                                     style: {
@@ -294,6 +325,43 @@
                 this.tableData.data = [];
                 this.tableData.key_id = '';
                 this.showTable = true;
+            },
+            delColumn() {
+                let that = this;
+                let c = that.header.columns;
+                this.delselect = '';
+                this.$Modal.confirm({
+                    render: (h) => {
+                        let arr = [];
+                        for (let i = 1; i < c.length; i++) {
+                            let temp = c[i];
+                            arr.push(
+                                h('Option', {
+                                    props: {
+                                        value: i,
+                                        label: temp.title
+                                    }
+                                })
+                            );
+                        }
+                        return h('Select', {
+                            props: {
+                                value: that.delselect
+                            },
+                            on: {
+                                'on-change': (val) => {
+                                    console.log(val);
+                                    that.delselect = val;
+                                    console.log(that.delselect);
+                                }
+                            }
+                        }, arr);
+                    },
+                    onOk: () => {
+                        that.header.columns.splice(that.delselect, 1);
+                        that.$refs.vt.resize();
+                    }
+                })
             },
             // 已有的方案选定一个快速复制
             quickNew(p) {
@@ -523,6 +591,26 @@
                     this.bindUser.usersIds = param.usersids.substring(1, param.usersids.length - 1).split(',');
                 }
                 this.$refs.treeDom.setCheckedKeys(param.organizeids ? param.organizeids.split(',').filter(x => !!x) : []);
+            },
+            delOne(row) {
+                let that = this;
+                this.$Modal.confirm({
+                    title: '删除提醒',
+                    content: '是否确认删除？',
+                    okText: '删除',
+                    cancelText: '取消',
+                    loading: true,
+                    onOk() {
+                        that.$http.post('/perform/deleteKey', {id: row.id}).then((res2) => {
+                            if (res2.success) {
+                                that.$refs.paperList.getListData();
+                                that.$Message.success('删除成功');
+                            }
+                        }).finally(() => {
+                            that.$Modal.remove();
+                        });
+                    }
+                });
             },
             filterNode(value, data) {
                 if (!value) return true;

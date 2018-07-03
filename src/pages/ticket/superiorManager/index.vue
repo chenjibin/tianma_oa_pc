@@ -55,7 +55,7 @@
             <Form :label-width="60" style="padding: 5px">
                 <input style="display: none" v-model="editTicketsModal.id" />
                 <FormItem label="需求名">
-                    <span v-text="editTickets.demand"></span>
+                    <span v-text="editTickets.demand" :title="editTickets.demand" style="width: 300px;overflow: hidden;display: inline-block;white-space: nowrap;text-overflow: ellipsis;"></span>
                 </FormItem>
                 <FormItem label="创建人" style="width: 340px;display: inline-block">
                     <span v-text="editTickets.add_user_name"></span>
@@ -74,11 +74,25 @@
                     </Select>
                 </FormItem>
                 <FormItem label="权重" style="width: 340px;display: inline-block">
-                    <InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="editTickets.weight"></InputNumber>
+                    <InputNumber :min="0.01" style="width: 100%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight"></InputNumber>
+                </FormItem>
+                <FormItem label="开始时间" style="width: 340px;display: inline-block">
+                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'start_time',$event)"
+                                :value="editTickets.start_time"></DatePicker>
+                </FormItem>
+                <FormItem label="结束时间" style="width: 340px;display: inline-block">
+                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'end_time', $event)"
+                                :value="editTickets.end_time"></DatePicker>
                 </FormItem>
                 <FormItem label="项目组" style="width: 340px;display: inline-block">
-                    <Select disabled v-model="editTickets.team_id" filterable>
-                        <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user2' + option.id">{{option.name}}</Option>
+                    <Select v-model="editTickets.team_id" filterable>
+                        <Option @change="changeTeam" v-for="(option, index) in teamOpt" :value="option.id" :key="'team' + option.id">{{option.name}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="指派人员" style="width: 340px;display: inline-block">
+                    <Select v-model="usersIds" multiple>
+                        <Option v-for="option in teamUser"  v-if="option.pid === editTickets.team_id" :value="option.uid" :key="'user3' + option.id">{{option.uname}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="历史" style="width: 340px;">
@@ -130,6 +144,9 @@
                 saveLoading: false,
                 commitModal: false,
                 logs: [],
+                teamOpt: [],
+                teamUser: [],
+                usersIds: [],
                 commitForm: {
                     id: '',
                     superior_qualityScore: 100,
@@ -140,6 +157,8 @@
                     id: '',
                     weight: 0.1,
                     add_user_name: '',
+                    start_time: '',
+                    end_time: '',
                     team_id: '',
                     type: 0,
                     team_name: '',
@@ -384,15 +403,21 @@
                                                 vm.editTicketsModal = true;
                                                 vm.logs = row.logs;
                                                 vm.editTickets.id = row.id;
+                                                vm.usersIds = [];
                                                 vm.editTickets.type = row.type;
                                                 vm.editTickets.weight = row.weight;
                                                 vm.editTickets.team_id = row.team_id;
                                                 vm.editTickets.team_name = row.team_name;
+                                                vm.editTickets.start_time = row.start_time;
+                                                vm.editTickets.end_time = row.end_time;
                                                 vm.editTickets.demand = row.demand;
                                                 vm.editTickets.add_user_name = row.add_user_name;
                                                 vm.editTickets.superior_qualityScore = row.superior_qualityScore;
                                                 vm.editTickets.superior_planScore = row.superior_planScore;
                                                 vm.editTickets.priority = row.priority;
+                                                row.childids.forEach((item) => {
+                                                    vm.usersIds.push(item.userid);
+                                                });
                                             }
                                         }
                                     }, '编辑'),
@@ -425,8 +450,13 @@
         components: {fsTablePage, expandRow, WangEditor},
         mixins: [pageMixin],
         methods: {
+            changeTeam(val) {
+                let d = {};
+                console.log(val);
+            },
             save(type) {
                 let vm = this;
+                let d = this.editTickets;
                 if (this.editTickets.weight < 0.05) {
                     this.$Message.info('权重未设置');
                     return;
@@ -435,8 +465,22 @@
                     this.$Message.info('优先级未设置');
                     return;
                 }
+                // 三个都存在
+                if ((vm.usersIds || vm.usersIds.length > 0) && d.start_time && d.end_time) {
+                    if (moment(d.start_time).isAfter(d.end_time)) {
+                        this.$Message.info('开始时间晚于结束时间，请检查');
+                        return false;
+                    }
+                    // 都不存在
+                } else if ((!vm.usersIds || vm.usersIds.length === 0) && !d.start_time && !d.end_time) {
+                    d.type = 0;
+                } else {
+                    this.$Message.info('时间和人员都不设置或者都要设置');
+                    return;
+                }
                 this.saveLoading = true;
-                this.$http.post('/workOrder/addOrder', this.editTickets).then((res) => {
+                d.ids = vm.usersIds.join(',');
+                this.$http.post('/workOrder/addOrder', d).then((res) => {
                     if (res.success) {
                         this.$Message.success('修改需求成功');
                         this.$refs.paperList.getListData();
@@ -488,9 +532,17 @@
                 });
             },
             _filterPeopleRemote(val) {
+                this.teamUser = [];
+                this.usersIds = [];
+                let vm = this;
                 this.$http.get('/workOrder/teamAll').then((res) => {
                     if (res.success) {
-                        this.teamOpt = res.data;
+                        vm.teamOpt = res.data;
+                        for (let i = 0; i < vm.teamOpt.length; i++) {
+                            let arr = vm.teamOpt[i].childids;
+                            vm.teamUser = vm.teamUser.concat(arr);
+                            console.log(vm.teamUser);
+                        }
                     }
                 });
             }

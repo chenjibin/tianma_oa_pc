@@ -163,6 +163,11 @@
                         minWidth: 150
                     },
                     {
+                        title: '提单人',
+                        key: 'add_user_name',
+                        width: 90
+                    },
+                    {
                         title: '状态',
                         key: 'type',
                         width: 70,
