@@ -326,7 +326,8 @@
             },
             delColumn() {
                 let that = this;
-                let c = that.header.columns
+                let c = that.header.columns;
+                this.delselect = '';
                 this.$Modal.confirm({
                     render: (h) => {
                         let arr = [];
