@@ -465,19 +465,18 @@
                     this.$Message.info('优先级未设置');
                     return;
                 }
-                if (d.type !== null && d.type !== 4) {
-                    if (!d.start_time || !d.end_time) {
-                        this.$Message.info('未选择时间');
-                        return false;
-                    }
+                // 三个都存在
+                if ((vm.usersIds || vm.usersIds.length > 0) && d.start_time && d.end_time) {
                     if (moment(d.start_time).isAfter(d.end_time)) {
                         this.$Message.info('开始时间晚于结束时间，请检查');
                         return false;
                     }
-                    if (!vm.usersIds || vm.usersIds.length === 0) {
-                        this.$Message.info('未选择成员');
-                        return false;
-                    }
+                    // 都不存在
+                } else if ((!vm.usersIds || vm.usersIds.length === 0) && !d.start_time && !d.end_time) {
+                    d.type = 0;
+                } else {
+                    this.$Message.info('时间和人员都不设置或者都要设置');
+                    return;
                 }
                 this.saveLoading = true;
                 d.ids = vm.usersIds.join(',');
