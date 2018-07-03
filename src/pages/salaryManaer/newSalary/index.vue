@@ -138,6 +138,8 @@
     import moment from 'moment';
     import fsTablePage from '@/baseComponents/fs-table-page';
 
+    const NOW_MONTH = moment().format('YYYY-MM')
+
     export default {
         name: 'newSalary',
         components: {
@@ -145,7 +147,7 @@
         },
         data() {
             return {
-                now_month: moment().format('YYYY-MM'),
+                now_month: NOW_MONTH,
                 showTable: false,
                 saveLoading: false,
                 addNewColumns: false,
@@ -155,7 +157,7 @@
                 bindType: '',
                 searchData: {
                     month: {
-                        value: moment().format('YYYY-MM'),
+                        value: NOW_MONTH,
                         type: 'select'
                     },
                     name: {
@@ -216,6 +218,7 @@
                     },
                     {
                         title: '操作',
+                        align: 'center',
                         width: 180,
                         render: (h, params) => {
                             let vm = this;
