@@ -91,11 +91,9 @@
 </template>
 
 <script>
-    import pageMixin from '@/mixins/pageMixin';
     import fsTablePage from '@/baseComponents/fs-table-page';
     import expandRow from '../myCreateTickets/table-expand';
     import moment from 'moment';
-    import FsForm from '../../../baseComponents/fs-form/form';
 
     export default {
         name: 'myTickets',
@@ -311,8 +309,7 @@
                 tableHeight: 700
             };
         },
-        components: {FsForm, fsTablePage, expandRow},
-        mixins: [pageMixin],
+        components: {fsTablePage, expandRow},
         methods: {
             changeDate(type, name, time) {
                 if (type === 1) {
@@ -326,9 +323,9 @@
                 this.money = (t / 100 - 1) * val;
             },
             searchSalary(val) {
-                console.log(val);
-                let d = {}, vm = this;
-                d.time = val;
+                let d = {}
+                let vm = this
+                d.time = val
                 d.user_id = this.user_id;
                 this.$http.post('/workOrder/total', d).then((res) => {
                     vm.monthSalary.allcount = res.data.allcount;

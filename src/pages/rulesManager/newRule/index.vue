@@ -114,6 +114,7 @@
                     {
                         title: '操作',
                         width: 120,
+                        align: 'center',
                         render: (h, params) => {
                             let vm = this;
                             let arr = [
@@ -281,7 +282,10 @@
             }
         },
         components: {
-            fsDepTree, WangEditor, fsTablePage, ruleModal
+            fsDepTree,
+            WangEditor,
+            fsTablePage,
+            ruleModal
         }
     };
 </script>

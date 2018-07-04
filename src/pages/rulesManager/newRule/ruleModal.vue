@@ -1,5 +1,5 @@
 <template>
-    <Modal id="ruleModal" v-model="showModal" :closable="canClose" @on-visible-change="changeMe" width="800">
+    <Modal id="ruleModal" :value="showModal" :closable="canClose" @on-visible-change="changeMe" width="800">
         <div slot="header" style="color:#495060;text-align:center;font-size: 18px;font-weight:bold;">
             <span>规章制度</span>
             <span v-if="!canClose" style="position: absolute;top: 1px;right: 1px">
@@ -54,9 +54,7 @@
         },
         methods: {
             changeMe(val) {
-                if (!val) {
-                    this.$emit('update:showModal', false);
-                }
+                this.$emit('update:showModal', val);
             },
             changeType(type) {
                 if (this.dataArr.length <= 0) {
@@ -67,9 +65,10 @@
                 d.states = type;
                 this.$http.post('rugulations/updateStates', d).then((res) => {
                     this.$Message.success('审核成功！');
-                }).finally((res) => {
                     this.$emit('change', false);
-                });
+                }, () => {
+                    this.$emit('change', false);
+                })
             }
         }
     };

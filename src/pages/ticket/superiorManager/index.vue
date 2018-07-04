@@ -21,7 +21,7 @@
                 </FormItem>
                 <FormItem label="项目组" style="width: 220px">
                     <Select v-model="filterOpt.team_id.value" filterable clearable>
-                        <Option style="width: 100%" v-for="(option, index) in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
+                        <Option style="width: 100%" v-for="option in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="开始日期" style="width: 220px">
@@ -86,7 +86,7 @@
                 </FormItem>
                 <FormItem label="项目组" style="width: 340px;display: inline-block">
                     <Select v-model="editTickets.team_id" filterable>
-                        <Option @change="changeTeam" v-for="(option, index) in teamOpt" :value="option.id" :key="'team' + option.id">{{option.name}}</Option>
+                        <Option  v-for="option in teamOpt" :value="option.id" :key="'team' + option.id">{{option.name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="指派人员" style="width: 340px;display: inline-block">
@@ -97,15 +97,15 @@
                 </FormItem>
                 <FormItem label="历史" style="width: 340px;">
                     <div style="width: 100%;max-height: 250px;overflow-x: hidden;overflow-y: auto">
-                        <p v-for="item in logs" v-if="item.type==0">
+                        <p v-for="item in logs" v-if="+item.type === 0">
                             {{item.content}}
                         </p>
                     </div>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" @click="editTicketsModal = false;">取消</Button>
-                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save(2)">保存</Button>
+                <Button type="text" @click="editTicketsModal = false">取消</Button>
+                <Button :disabled="+editTickets.type === 2" type="primary" :loading="saveLoading" @click="save(2)">保存</Button>
             </div>
         </Modal>
         <Modal v-model="commitModal" :closable="false"  :width="430" :mask-closable="false">
@@ -167,7 +167,6 @@
                     demand: '',
                     priority: 1
                 },
-                teamOpt: [],
                 filterOpt: {
                     weight: {
                         value: '',
@@ -450,10 +449,6 @@
         components: {fsTablePage, expandRow, WangEditor},
         mixins: [pageMixin],
         methods: {
-            changeTeam(val) {
-                let d = {};
-                console.log(val);
-            },
             save(type) {
                 let vm = this;
                 let d = this.editTickets;
@@ -545,7 +540,6 @@
                         for (let i = 0; i < vm.teamOpt.length; i++) {
                             let arr = vm.teamOpt[i].childids;
                             vm.teamUser = vm.teamUser.concat(arr);
-                            console.log(vm.teamUser);
                         }
                     }
                 });

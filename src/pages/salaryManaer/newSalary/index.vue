@@ -3,7 +3,7 @@
         <Card>
             <Form inline :label-width="40">
                 <FormItem label="月份">
-                    <DatePicker type="month" placeholder="月份" @on-change="(v)=>{searchData.month.value = v;showCopyNew = false;}"
+                    <DatePicker type="month" placeholder="月份" @on-change="_monthChangeHanfler"
                                 :value="searchData.month.value"></DatePicker>
                 </FormItem>
                 <FormItem label="名称">
@@ -18,7 +18,7 @@
                            @empty="onEmpty"
                            :height="tableHeight" url="/perform/findAllKeyAndValues"></fs-table-page>
         </Card>
-        <Modal v-model="showTable" id="showTable" :mask-closable="false" :closable="false" width="1200">
+        <Modal v-model="showTable" id="newSalary-showTable" :mask-closable="false" :closable="false" width="1200">
             <div slot="header">
                 <Button :loading="saveLoading" :disabled="header.columns.length ===0 || !header.name" @click="saveTable"
                         style="float: right;border-radius: 0" type="success">保存
@@ -318,6 +318,10 @@
             };
         },
         methods: {
+            _monthChangeHanfler(val) {
+                this.searchData.month.value = val
+                this.showCopyNew = false
+            },
             initNew() {
                 this.header.name = '';
                 this.header.id = '';
@@ -365,7 +369,7 @@
             },
             // 已有的方案选定一个快速复制
             quickNew(p) {
-                var row = JSON.parse(p);
+                let row = JSON.parse(p);
                 row.id = '';
                 row.name = row.name + ' 副本';
                 this.detail(row);
@@ -391,7 +395,7 @@
             },
             // 增加动态列
             addColumn() {
-                var that = this;
+                let that = this;
                 if (this.newColumns.length >= 1 && this.newColumns[0].title) {
                     let arr = [].concat(this.header.columns).concat(this.newColumns);
                     let arr2 = _uniqWith(arr, _isEqual);
@@ -443,8 +447,8 @@
                     'type': 'selection'
                 }];
                 this.tableData.data = [];
-                var columnObj = {};
-                var tableData = [];
+                let columnObj = {};
+                let tableData = [];
                 try {
                     tableData = eval('(' + params.val + ')');
                     columnObj = eval('(' + params.kv + ')');
@@ -674,7 +678,7 @@
 </script>
 
 <style lang="less">
-    #showTable {
+    #newSalary-showTable {
         .ivu-modal-header {
             border-bottom: none;
             padding: 0;

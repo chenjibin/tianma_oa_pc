@@ -1,7 +1,6 @@
 <template>
     <div id="assetslocation">
         <Card>
-
         <Form ref="searchData" :model="addDepForm" inline :label-width="60">
             <FormItem label="月份">
                 <DatePicker type="month"
@@ -9,15 +8,12 @@
                             @on-change="_addDepMonthChange"
                             :value="addDepForm.month"></DatePicker>
             </FormItem>
-
         </Form>
         <Table :loading="tableLoading"
                :height="tableHeight"
                :columns="header.columns"
-               :data="tableData.data"
-        ></Table>
+               :data="tableData.data"></Table>
         </Card>
-
     </div>
 </template>
 
@@ -106,9 +102,10 @@
                             return x;
                         });
                     }
-                }).finally(() => {
                     this.tableLoading = false;
-                });
+                }, () => {
+                    this.tableLoading = false;
+                })
             },
             getPositionList() {
                 let data = {};
@@ -133,8 +130,8 @@
                 this.header.name = '';
                 this.header.columns = [];
                 this.tableData.data = [];
-                var columnObj = {};
-                var tableData = {};
+                let columnObj = {};
+                let tableData = {};
                 data.forEach((item, index) => {
                     console.log(item)
                     this.params = item;
@@ -147,8 +144,6 @@
                 } catch (e) {
                     this.$Message.error('数据格式不规范');
                 }
-
-                // this.tableData.key_id = params.id;
 
                 if (tableData === null) {
                     tableData = [];
@@ -179,9 +174,7 @@
                     'key': 'score',
                     'align': 'center'
                 });
-                // console.log(this.header)
             }
-
         }
     };
 

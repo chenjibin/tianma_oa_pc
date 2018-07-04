@@ -19,8 +19,7 @@
         <Modal v-model="markModal" :width="1100">
             <Table :height="600"
                    :columns="markColumns"
-                   :data="tableData"
-            ></Table>
+                   :data="tableData"></Table>
             <div slot="footer">
                 <Button type="text" @click="markModal = false">取消</Button>
                 <Button type="primary" @click="saveScore">保存</Button>
@@ -49,7 +48,7 @@
                         type: 'input'
                     },
                     month: {
-                        value: moment().format('YYYY-MM'),
+                        value: NOW_MONTH,
                         type: 'select'
                     }
                 },
@@ -73,7 +72,7 @@
                         title: '月度',
                         align: 'center',
                         minWidth: 100,
-                        render: (h, params) => {
+                        render: (h) => {
                             return h('span', this.searchData.month.value);
                         }
                     },

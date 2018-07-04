@@ -3,7 +3,7 @@
         <Card>
             <Form inline style="width: 100%" :label-width="90">
                 <FormItem label="状态" style="width: 200px">
-                    <Select v-model="filterOpt.type.value" style="width: 100%"  placeholder="筛选状态"  clearable>
+                    <Select v-model="filterOpt.type.value" style="width: 100%" placeholder="筛选状态" clearable>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
@@ -12,17 +12,23 @@
                     </Select>
                 </FormItem>
                 <FormItem label="只看自己" style="width: 200px" v-if="accessBtn.indexOf(37) > -1">
-                    <Select v-model="filterOpt.me.value" style="width: 100%"  placeholder="筛选状态"  clearable>
+                    <Select v-model="filterOpt.me.value" style="width: 100%" placeholder="筛选状态" clearable>
                         <Option value="0">看所有人</Option>
                         <Option value="1">只看自己</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="优先级" style="width: 200px">
-                    <Select v-model="filterOpt.priority.value" style="width: 100%"  placeholder="筛选优先级"
+                    <Select v-model="filterOpt.priority.value" style="width: 100%" placeholder="筛选优先级"
                             clearable>
-                        <Option :value="1">普通 <Icon type="flag" color="#2d8cf0"></Icon></Option>
-                        <Option :value="2">重要 <Icon type="flag" color="#ff9900"></Icon></Option>
-                        <Option :value="3">加急 <Icon type="flag" color="#ed3f14"></Icon></Option>
+                        <Option :value="1">普通
+                            <Icon type="flag" color="#2d8cf0"></Icon>
+                        </Option>
+                        <Option :value="2">重要
+                            <Icon type="flag" color="#ff9900"></Icon>
+                        </Option>
+                        <Option :value="3">加急
+                            <Icon type="flag" color="#ed3f14"></Icon>
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="权重" style="width: 200px">
@@ -40,63 +46,77 @@
                     </Select>
                 </FormItem>
                 <FormItem label="提交人" style="width: 200px">
-                    <Input style="width: 100%"  v-model="filterOpt.add_user_name.value"  placeholder="筛选状态" clearable></Input>
+                    <Input style="width: 100%" v-model="filterOpt.add_user_name.value" placeholder="筛选状态"
+                           clearable></Input>
                 </FormItem>
                 <FormItem label="开始日期" style="width: 200px">
-                    <DatePicker  style="width: 100%" type="date" @on-change="changeDate(1, 'start_time', $event)" :value="filterOpt.start_time.value" placeholder="开始日期"></DatePicker>
+                    <DatePicker style="width: 100%" type="date" @on-change="changeDate(1, 'start_time', $event)"
+                                :value="filterOpt.start_time.value" placeholder="开始日期"></DatePicker>
                 </FormItem>
                 <FormItem label="结束日期" style="width: 200px">
-                    <DatePicker style="width: 100%"  type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期"></DatePicker>
+                    <DatePicker style="width: 100%" type="date" @on-change="changeDate(1, 'end_time', $event)"
+                                :value="filterOpt.end_time.value" placeholder="结束日期"></DatePicker>
                 </FormItem>
                 <FormItem>
                     <Button style="width: 100%" type="primary" @click="newTicketsModal = true">新增需求</Button>
                 </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
-                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt" url="/workOrder/myCreateOrder"></fs-table-page>
+                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt"
+                           url="/workOrder/myCreateOrder"></fs-table-page>
         </Card>
-        <Modal v-model="newTicketsModal" :closable="false"  :width="650" :height="887" :mask-closable="false">
+        <Modal v-model="newTicketsModal" :closable="false" :width="650" :height="887" :mask-closable="false">
             <Form :label-width="60" style="padding: 5px">
-                <input style="display: none" v-model="newTickets.id" />
+                <input style="display: none" v-model="newTickets.id"/>
                 <FormItem label="需求名">
-                    <input v-model="newTickets.demand" style="border: none;border-bottom: solid 1px #c3c3c3;width: 520px;outline: none"></input>
+                    <input v-model="newTickets.demand"
+                           style="border: none;border-bottom: solid 1px #c3c3c3;width: 520px;outline: none" />
                 </FormItem>
                 <FormItem label="创建人">
                     <span v-text="newTickets.add_user_name"></span>
                 </FormItem>
                 <FormItem label="详细需求">
                     <wang-editor v-if="newTicketsModal" :width="520"
-                        :menus="['head', 'bold', 'fontSize','list','backColor','link','quote','table','image']"
-                        :min-height="200" :max-height="350"
-                        defaul-text="描述你的需求"
-                        ref="wangEditor"
-                        :editorcontent.sync="newTickets.detail"></wang-editor>
+                                 :menus="['head', 'bold', 'fontSize','list','backColor','link','quote','table','image']"
+                                 :min-height="200" :max-height="350"
+                                 defaul-text="描述你的需求"
+                                 ref="wangEditor"
+                                 :editorcontent.sync="newTickets.detail"></wang-editor>
                 </FormItem>
                 <FormItem label="优先级" style="width: 290px;display: inline-block">
                     <Select v-model="newTickets.priority" placement="bottom">
                         <Option :value="1">
-                            <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
+                            <span
+                                style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
                         </Option>
                         <Option :value="2">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
                         </Option>
                         <Option :value="3">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
                         </Option>
                     </Select>
                 </FormItem>
                 <!--<FormItem label="权重" style="width: 290px;display: inline-block">-->
-                    <!--<InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="newTickets.weight"></InputNumber>-->
+                <!--<InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="newTickets.weight"></InputNumber>-->
                 <!--</FormItem>-->
                 <FormItem label="项目组" style="width: 290px;display: inline-block">
                     <Select v-model="newTickets.team_id" placement="bottom" filterable>
-                        <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user' + option.id">{{option.name}}</Option>
+                        <Option v-for="option in teamOpt" :value="option.id" :key="'user' + option.id">
+                            {{option.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="附件" style="width: 290px;display: inline-block">
-                    <Upload  :max-size="20480" ref="uploadEdit" :on-remove="removeFile" action="/oa/workOrder/uploadfile" :on-success="handleSuccess" :on-error="uploaderror" style="width: 100%" name="File">
+                    <Upload :max-size="20480" ref="uploadEdit" :on-remove="removeFile" action="/oa/workOrder/uploadfile"
+                            :on-success="handleSuccess" :on-error="uploaderror" style="width: 100%" name="File">
                         <div style="width: 100%">
-                            <Button :disabled="!!newTickets.accessory" type="ghost"><Icon type="paper-airplane" :size="20" style="vertical-align: middle;"></Icon><span style="margin-left: 10px;font-size: 15px;vertical-align: middle">文 件 上 传</span></Button>
+                            <Button :disabled="!!newTickets.accessory" type="ghost">
+                                <Icon type="paper-airplane" :size="20" style="vertical-align: middle;"></Icon>
+                                <span style="margin-left: 10px;font-size: 15px;vertical-align: middle">文 件 上 传</span>
+                            </Button>
                         </div>
                     </Upload>
                 </FormItem>
@@ -107,69 +127,89 @@
             </div>
         </Modal>
 
-        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="650" class-name="vertical-center-modal" >
+        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="650"
+               class-name="vertical-center-modal">
             <Form :label-width="60" style="padding: 5px">
-                <input style="display: none" v-model="editTicketsModal.id" />
+                <input style="display: none" v-model="editTicketsModal.id"/>
                 <FormItem label="需求名">
-                    <input v-model="editTickets.demand" style="border: none;border-bottom: solid 1px #c3c3c3;width: 500px;outline: none"></input>
+                    <input v-model="editTickets.demand"
+                           style="border: none;border-bottom: solid 1px #c3c3c3;width: 500px;outline: none" />
                 </FormItem>
                 <FormItem label="创建人" style="width: 270px;display: inline-block">
                     <span v-text="editTickets.add_user_name"></span>
                 </FormItem>
                 <FormItem label="详细需求">
-                    <wang-editor v-if="editTicketsModal" :width="565" :menus="['head', 'bold', 'fontSize','list','backColor','link','quote','table','image']"
-                                 :min-height="200" :max-height="250" defaul-text="描述你的需求"  ref="wangEditor" :editorcontent.sync="editTickets.detail"></wang-editor>
+                    <wang-editor v-if="editTicketsModal" :width="565"
+                                 :menus="['head', 'bold', 'fontSize','list','backColor','link','quote','table','image']"
+                                 :min-height="200" :max-height="250" defaul-text="描述你的需求" ref="wangEditor"
+                                 :editorcontent.sync="editTickets.detail"></wang-editor>
                 </FormItem>
                 <FormItem label="优先级" style="width: 270px;display: inline-block">
                     <Select v-model="editTickets.priority" placement="bottom">
                         <Option :value="1">
-                            <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
+                            <span
+                                style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
                         </Option>
                         <Option :value="2">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
                         </Option>
                         <Option :value="3">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="项目组" style="width: 270px;display: inline-block">
                     <Select v-model="editTickets.team_id" placement="bottom" filterable>
-                        <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user2' + option.id">{{option.name}}</Option>
+                        <Option v-for="option in teamOpt" :value="option.id" :key="'user2' + option.id">
+                            {{option.name}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="附件" style="width: 270px;display: inline-block;">
-                    <Upload :show-upload-list="false" :max-size="20480" ref="uploadEdit" :on-remove="removeFile" action="/oa/workOrder/uploadfile" :on-success="handleSuccess" :on-error="uploaderror" style="width: 100%" name="File">
+                    <Upload :show-upload-list="false" :max-size="20480" ref="uploadEdit" :on-remove="removeFile"
+                            action="/oa/workOrder/uploadfile" :on-success="handleSuccess" :on-error="uploaderror"
+                            style="width: 100%" name="File">
                         <div>
-                            <Button :disabled="!!editTickets.accessory" type="ghost"><Icon type="paper-airplane" :size="20" style="vertical-align: middle;"></Icon><span style="margin-left: 10px;font-size: 15px;vertical-align: middle">文 件 上 传</span></Button>
+                            <Button :disabled="!!editTickets.accessory" type="ghost">
+                                <Icon type="paper-airplane" :size="20" style="vertical-align: middle;"></Icon>
+                                <span style="margin-left: 10px;font-size: 15px;vertical-align: middle">文 件 上 传</span>
+                            </Button>
                         </div>
                     </Upload>
                 </FormItem>
-                <span style="display: inline-block" v-if="editTickets.accessory">{{editTickets.accessory}} <Button type="text" @click.prevent="removeFile({name:accessory})">删除</Button></span>
+                <span style="display: inline-block" v-if="editTickets.accessory">{{editTickets.accessory}} <Button
+                    type="text" @click.prevent="removeFile({name:accessory})">删除</Button></span>
                 <FormItem label="历史" style="width: 565px;">
                     <div style="width: 100%;max-height: 250px;overflow-x: hidden;overflow-y: auto">
-                        <p :key="item.id" v-for="item in logs" v-if="item.type==0">
+                        <p :key="item.id" v-for="item in logs" v-if="+item.type === 0">
                             {{item.content}}
                         </p>
                     </div>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" @click="editTicketsModal = false;">取消</Button>
-                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save(2)">保存</Button>
+                <Button type="text" @click="editTicketsModal = false">取消</Button>
+                <Button :disabled="+editTickets.type === 2" type="primary" :loading="saveLoading" @click="save(2)">保存
+                </Button>
             </div>
         </Modal>
-        <Modal v-model="commitModal" :closable="false"  :width="430" :mask-closable="false">
+        <Modal v-model="commitModal" :closable="false" :width="430" :mask-closable="false">
             <Form :label-width="90" style="padding: 5px;margin-top: 10px">
-                <input style="display: none" v-model="commitForm.id" />
+                <input style="display: none" v-model="commitForm.id"/>
                 <FormItem label="进度分数" style="width: 350px;">
-                    <InputNumber :min="1" style="width: 100%" :max="100" :step="1" :precision="0" v-model="commitForm.business_planScore"></InputNumber>
+                    <InputNumber :min="1" style="width: 100%" :max="100" :step="1" :precision="0"
+                                 v-model="commitForm.business_planScore"></InputNumber>
                 </FormItem>
                 <FormItem label="质量分数" style="width: 350px;">
-                    <InputNumber :min="1" style="width: 100%" :max="100" :step="1" :precision="0" v-model="commitForm.business_qualityScore"></InputNumber>
+                    <InputNumber :min="1" style="width: 100%" :max="100" :step="1" :precision="0"
+                                 v-model="commitForm.business_qualityScore"></InputNumber>
                 </FormItem>
-                <FormItem v-if="commitForm.business_planScore !== 100 || commitForm.business_qualityScore !== 100" label="扣分原因" style="width: 350px;">
-                    <Input type="textarea" placeholder="写出扣分原因用以留档。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}" v-model="commitForm.reason"></Input>
+                <FormItem v-if="commitForm.business_planScore !== 100 || commitForm.business_qualityScore !== 100"
+                          label="扣分原因" style="width: 350px;">
+                    <Input type="textarea" placeholder="写出扣分原因用以留档。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
+                           v-model="commitForm.reason"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -644,7 +684,7 @@
                 this.newTickets.accessory = file.name;
                 this.editTickets.accessory = file.name;
             },
-            removeFile(file, fileList) {
+            removeFile(file) {
                 this.$http.get('/workOrder/delfile?name=' + file.name).then((res) => {
                     this.newTickets.accessory = '';
                     this.editTickets.accessory = '';
@@ -663,16 +703,17 @@
 </script>
 
 <style lang="less">
-    #myCreateTickets{
-        .noPadding div{
+    #myCreateTickets {
+        .noPadding div {
             padding: 0;
         }
     }
-    .vertical-center-modal{
+
+    .vertical-center-modal {
         display: flex;
         align-items: center;
         justify-content: center;
-        .ivu-modal{
+        .ivu-modal {
             top: 0;
         }
     }

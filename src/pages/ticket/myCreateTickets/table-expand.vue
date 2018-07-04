@@ -31,7 +31,6 @@
         },
         methods: {
             downloadfile() {
-                console.log(this.row);
                 let downloadDom = document.createElement('a');
                 downloadDom.href = '/oa/upload/work/' + this.row.add_user_id + '/' + this.row.accessory;
                 downloadDom.download = this.row.accessory;

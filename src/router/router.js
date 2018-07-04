@@ -227,24 +227,14 @@ export const otherRouter = {
             component: _import('myTrain')
         },
         {
-            path: 'ownspace',
-            title: '个人中心',
-            meta: {
-                whiteIn: true
-            },
-            name: 'ownspace_index',
-            component: resolve => { require(['@/views/own-space/own-space.vue'], resolve); }
-        },
-        {
             path: 'mySalary',
             title: '我的绩效',
             meta: {
                 whiteIn: true
             },
             name: 'mySalary',
-            component: resolve => { require(['@/pages/salaryManaer/mySalary/index.vue'], resolve); }
-        },
-        { path: 'message', title: '消息中心', name: 'message_index', component: resolve => { require(['@/views/message/message.vue'], resolve); } }
+            component: _import('salaryManaer/mySalary')
+        }
     ]
 };
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
