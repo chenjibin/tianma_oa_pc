@@ -488,8 +488,8 @@
                                 h('Button', {
                                     props: {
                                         type: 'ghost',
-                                        icon: 'ios-eye',
-                                        shape: 'circle',
+                                        icon: 'drag',
+
                                         size: 'small'
                                     },
                                     on: {
