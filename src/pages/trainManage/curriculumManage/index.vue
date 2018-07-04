@@ -457,7 +457,7 @@
                         width: 100
                     },
                     {
-                        title: '已参人数',
+                        title: '报名人数',
                         key: 'has_baoming',
                         align: 'center',
                         width: 100,
@@ -470,7 +470,7 @@
                         align: 'center',
                         width: 100,
                         render: (h, params) => {
-                            return h('span', params.row.has_baoming || 0);
+                            return h('span', params.row.sign_in || 0);
                         }
                     }, {
                         title: '反馈',
