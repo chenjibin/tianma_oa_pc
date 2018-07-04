@@ -1,7 +1,7 @@
 <template>
     <div id="myCreateTickets">
         <Card>
-            <Form inline style="width: 100%" :label-width="90">
+            <Form inline style="width: 100%" :label-width="70">
                 <FormItem label="状态" style="width: 200px">
                     <Select v-model="filterOpt.type.value" style="width: 100%" placeholder="筛选状态" clearable>
                         <Option value="0">待处理</Option>
@@ -679,8 +679,7 @@
                     }
                 });
             },
-            handleSuccess(response, file, fileList) {
-                console.log(file);
+            handleSuccess(response, file) {
                 this.newTickets.accessory = file.name;
                 this.editTickets.accessory = file.name;
             },

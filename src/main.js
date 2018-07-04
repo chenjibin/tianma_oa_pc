@@ -18,7 +18,6 @@ Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: '/oa/upload/initListImage.png',
     attempt: 3,
-    // listenEvents: ['transitionend', 'scroll'],
     throttleWait: 300
 });
 Vue.use(VueI18n);
@@ -34,7 +33,7 @@ Vue.config.keyCodes = {
     f11: 122
 };
 if (process.env.NODE_ENV !== 'production') {
-    var Mock = require('mockjs');
+    const Mock = require('mockjs');
     Vue.prototype.$mock = Mock;
 }
 new Vue({
