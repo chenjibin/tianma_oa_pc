@@ -157,9 +157,10 @@
                         this.photo = [...this.photo, ...res.data];
                         this.pageData.totalPage = Math.ceil(res.totalCount / this.pageData.pageSize);
                     }
-                }).finally(() => {
                     this.canLoad = true;
-                });
+                }, () => {
+                    this.canLoad = true;
+                })
             },
             _getPhotoList() {
                 this.pageData.page = 1;

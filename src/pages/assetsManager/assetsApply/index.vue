@@ -537,15 +537,19 @@
                             vm.cat1 = d;
                         }
                     }
-                }).finally((res) => {
                     if (item) {
                         item.loading = false;
                         callback();
                     }
-                });
+                }, () => {
+                    if (item) {
+                        item.loading = false;
+                        callback();
+                    }
+                })
             },
             getReciveList(id) {
-                var vm = this;
+                let vm = this;
                 vm.reciveLoading = true;
                 return new Promise((resolve, reject) => {
                     this.$http.get('assetsManage/receive?id=' + id).then((res) => {
@@ -553,13 +557,14 @@
                             vm.reciveList = res.data;
                             resolve(res);
                         }
-                    }).finally(() => {
                         vm.reciveLoading = false;
-                    });
+                    }, () => {
+                        vm.reciveLoading = false;
+                    })
                 });
             },
             changeCataName(type, arg) {
-                var [value, selectedData] = arg;
+                let [value, selectedData] = arg;
                 if (selectedData.length === 0) {
                     this.filterOpt.categoryName.value = undefined;
                     this.newApply.categoryName = undefined;
@@ -579,8 +584,8 @@
                 });
             },
             saveInfo() {
-                var vm = this;
-                var newApplyForm = this.$refs.newApplyForm;
+                let vm = this;
+                let newApplyForm = this.$refs.newApplyForm;
                 newApplyForm.validate((vpass) => {
                     if (vpass) {
                         vm.$http.post('/assetsApplication/add', this.newApply).then((res) => {
@@ -608,9 +613,9 @@
                 this.customerForm = customerForm;
             },
             delInfo(row) {
-                var vm = this;
-                var refT = this.$refs.fsTable;
-                var d = {};
+                let vm = this;
+                let refT = this.$refs.fsTable;
+                let d = {};
                 d.id = row.id;
                 d.appType = row.apptype;
                 if (row.approvalstatus > 0) {

@@ -478,7 +478,7 @@
             },
             // 保存表格
             saveTable() {
-                var that = this;
+                let that = this;
                 if (this.header.columns.length > 0) {
                     let d = {};
                     this.saveLoading = true;
@@ -520,9 +520,10 @@
                                 that.$Message.success('保存成功');
                             }
                         }
-                    }).finally(() => {
                         that.saveLoading = false;
-                    });
+                    }, () => {
+                        that.saveLoading = false;
+                    })
                 }
             },
             delTarget() {
@@ -551,9 +552,10 @@
                                     if (res2.success) {
                                         that.tableData.data = _differenceWith(that.tableData.data, that.selection, _isEqual);
                                     }
-                                }).finally(() => {
                                     that.$Modal.remove();
-                                });
+                                }, () => {
+                                    that.$Modal.remove();
+                                })
                             }
                         });
                     }
@@ -573,7 +575,7 @@
                 });
             },
             editUserMapping(param) {
-                var vm = this;
+                let vm = this;
                 vm.bindUser.usersIds = [];
                 vm.bindUser.remoteLabel2 = [];
                 this.editUserModel = true;
@@ -606,9 +608,10 @@
                                 that.$refs.paperList.getListData();
                                 that.$Message.success('删除成功');
                             }
-                        }).finally(() => {
                             that.$Modal.remove();
-                        });
+                        }, () => {
+                            that.$Modal.remove();
+                        })
                     }
                 });
             },

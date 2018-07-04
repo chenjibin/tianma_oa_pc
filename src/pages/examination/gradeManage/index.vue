@@ -169,9 +169,10 @@
                     if (res.success) {
                         this.downloadFile('/oa/upload/' + res.data, res.data);
                     }
-                }).finally(() => {
                     this.exportLoading = false;
-                });
+                }, () => {
+                    this.exportLoading = false;
+                })
             },
             _checkTest(data) {
                 this.testCheckId = data.id;

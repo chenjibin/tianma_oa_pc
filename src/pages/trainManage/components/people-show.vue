@@ -125,9 +125,10 @@
                     if (res.success) {
                         this.peopleList = this._returnNeedList(res.data);
                     }
-                }).finally(() => {
                     this.loading = false;
-                });
+                }, () => {
+                    this.loading = false;
+                })
             }
         },
         components: {}

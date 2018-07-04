@@ -170,9 +170,10 @@
                         this.team.id = '';
                         this.$refs.attendanceTable.getListData()
                     }
-                }).finally((res2) => {
                     this.addModal = false;
-                });
+                }, () => {
+                    this.addModal = false;
+                })
             },
             _filterPeopleRemote(val) {
                 let data = {};

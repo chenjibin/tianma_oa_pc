@@ -966,9 +966,10 @@
                     if (res.success) {
                         this.specAccessData.filterPeopleOpt = res.data;
                     }
-                }).finally(() => {
                     this.specAccessData.filterPeopleLoading = false;
-                });
+                }, () => {
+                    this.specAccessData.filterPeopleLoading = false;
+                })
             },
             _addNewDep() {
                 let obj = {};
@@ -1021,9 +1022,10 @@
                                 this._getUserData();
                                 this.coinSettingFlag = false;
                             }
-                        }).finally(() => {
                             this.coinAddLoading = false;
-                        });
+                        }, () => {
+                            this.coinAddLoading = false;
+                        })
                     }
                 });
             },
@@ -1274,9 +1276,10 @@
                     if (res.success) {
                         this.banCiList = res.data;
                     }
-                }).finally(() => {
                     this.tableBanciLoading = false;
-                });
+                }, () => {
+                    this.tableBanciLoading = false;
+                })
             },
             _addBanci() {
                 this.$refs.banciForm.validate((valid) => {
@@ -1294,9 +1297,10 @@
                                 this._getBanCiData();
                                 this.$Message.success('班次添加成功');
                             }
-                        }).finally(() => {
                             this.banciBtnLoading = false;
-                        });
+                        }, () => {
+                            this.banciBtnLoading = false;
+                        })
                     }
                 });
             },

@@ -617,9 +617,10 @@
                         this.$Message.success(this.deleteMonth + '考勤数据删除成功!');
                         this.deleteModalFlag = false;
                     }
-                }).finally(() => {
                     this.deleteLoading = false;
-                });
+                }, () => {
+                    this.deleteLoading = false;
+                })
             },
             _exportMonthChange(date) {
                 this.exportMonth = date;
@@ -639,9 +640,10 @@
                         document.getElementById('hrefToExportTable').click();
                         this.exportModalFlag = false;
                     }
-                }).finally(() => {
                     this.exportLoading = false;
-                });
+                }, () => {
+                    this.exportLoading = false;
+                })
             },
             _completeThisMonth() {
                 let data = {};
@@ -754,9 +756,10 @@
                     if (res.success) {
                         this.attendanceOpt.data = res.data;
                     }
-                }).finally(() => {
                     this.tableLoading2 = false;
-                });
+                }, () => {
+                    this.tableLoading2 = false;
+                })
             },
             _getPostData() {
                 this.$refs.attendanceTable.getListData();

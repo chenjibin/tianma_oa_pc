@@ -397,15 +397,19 @@
                             vm.cat1 = d;
                         }
                     }
-                }).finally((res) => {
                     if (item) {
                         item.loading = false;
                         callback();
                     }
-                });
+                }, () => {
+                    if (item) {
+                        item.loading = false;
+                        callback();
+                    }
+                })
             },
             saveInfo() {
-                var vm = this;
+                let vm = this;
                 this.$refs.addAssetsInfo.validate((isPass) => {
                     if (isPass) {
                         vm.$http.post('assetsRegister/addAndUpdate', vm.addAssetsInfo).then((res) => {

@@ -159,9 +159,10 @@
                         this.classListData = res.data;
                         this.pageData.totalCount = res.totalCount;
                     }
-                }).finally(() => {
                     this.spinShow = false;
-                });
+                }, () => {
+                    this.spinShow = false;
+                })
             }
         }
     };

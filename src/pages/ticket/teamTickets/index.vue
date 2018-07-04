@@ -425,10 +425,12 @@
                         this.editTickets.accessory = '';
                         this.editTickets.priority = 1;
                     }
-                }).finally(() => {
                     this.saveLoading = false;
                     this.editTicketsModal = false;
-                });
+                }, () => {
+                    this.saveLoading = false;
+                    this.editTicketsModal = false;
+                })
             },
             changeDate(type, name, time) {
                 if (type === 1) {

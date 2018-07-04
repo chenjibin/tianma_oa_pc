@@ -150,9 +150,10 @@
                         this.$refs.tablePage.getListData();
                         this.$emit('add-success');
                     }
-                }).finally(() => {
                     this.btnLoading = false;
-                });
+                }, () => {
+                    this.btnLoading = false;
+                })
             },
             _updateList() {
                 this.$refs.tablePage.getListData();
@@ -167,9 +168,10 @@
                         this.$refs.tablePage.getListData();
                         this.$emit('add-success');
                     }
-                }).finally(() => {
                     this.btnLoading = false;
-                });
+                }, () => {
+                    this.btnLoading = false;
+                })
             }
         },
         components: {

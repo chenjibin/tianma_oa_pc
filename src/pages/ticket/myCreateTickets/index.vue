@@ -502,9 +502,10 @@
                                                             } else {
                                                                 vm.$Message.error('删除失败');
                                                             }
-                                                        }).finally(() => {
                                                             vm.$Modal.remove();
-                                                        });
+                                                        }, () => {
+                                                            vm.$Modal.remove();
+                                                        })
                                                     }
                                                 });
                                             }
@@ -567,10 +568,12 @@
                             vm.newTickets.accessory = '';
                             vm.newTickets.priority = 1;
                         }
-                    }).finally(() => {
                         this.saveLoading = false;
                         this.newTicketsModal = false;
-                    });
+                    }, () => {
+                        this.saveLoading = false;
+                        this.newTicketsModal = false;
+                    })
                 } else if (type === 2) {
                     this.saveLoading = true;
                     this.$http.post('/workOrder/addOrder', this.editTickets).then((res) => {
@@ -587,10 +590,12 @@
                             this.$refs.uploadEdit.clearFiles();
                             this.editTickets.priority = 1;
                         }
-                    }).finally(() => {
                         this.saveLoading = false;
                         this.editTicketsModal = false;
-                    });
+                    }, () => {
+                        this.saveLoading = false;
+                        this.editTicketsModal = false;
+                    })
                 }
             },
             changeDate(type, name, time) {
@@ -620,10 +625,12 @@
                         this.$Message.success('修改成功');
                         this.$refs.paperList.getListData();
                     }
-                }).finally(() => {
                     this.saveLoading = false;
                     this.commitModal = false;
-                });
+                }, () => {
+                    this.saveLoading = false;
+                    this.commitModal = false;
+                })
             },
             _filterPeopleRemote(val) {
                 this.$http.get('/workOrder/teamAll').then((res) => {

@@ -259,9 +259,10 @@
                     if (res.success) {
                         this.downloadFile('/oa/download/' + res.data, res.data);
                     }
-                }).finally(() => {
                     this.downloadLoading = false;
-                });
+                }, () => {
+                    this.downloadLoading = false;
+                })
             },
             _addClassHandler() {
                 let data = JSON.parse(JSON.stringify(this.classForm));

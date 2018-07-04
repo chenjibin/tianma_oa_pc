@@ -448,7 +448,7 @@
                 let vm = this;
                 let d = [];
                 this.$http.post('assetsCategory/queryCategoryFather?pid=' + type).then((res) => {
-                    var data = res.data;
+                    let data = res.data;
                     if (res.success) {
                         for (let i = 0; i < data.length; i++) {
                             let tmp = data[i];
@@ -465,17 +465,21 @@
                             vm.cat1 = d;
                         }
                     }
-                }).finally((res) => {
                     if (item) {
                         item.loading = false;
                         callback();
                     }
-                });
+                }, () => {
+                    if (item) {
+                        item.loading = false;
+                        callback();
+                    }
+                })
             },
             saveInfo() {
-                var vm = this;
-                var refT = this.$refs.fsTable;
-                var newApplyForm = this.$refs.newApplyForm;
+                let vm = this;
+                let refT = this.$refs.fsTable;
+                let newApplyForm = this.$refs.newApplyForm;
                 newApplyForm.validate((vpass) => {
                     if (vpass) {
                         vm.$http.post('/assetsAllocation/add', this.newApply).then((res) => {
@@ -494,8 +498,8 @@
                     return;
                 }
                 this.approvalInfo.approvalStatus = type;
-                var vm = this;
-                var refT = this.$refs.fsTable;
+                let vm = this;
+                let refT = this.$refs.fsTable;
                 this.$http.post('assetsAllocation/approval', vm.approvalInfo).then((res) => {
                     if (res.success) {
                         vm.$Message.success('审批成功');
@@ -515,9 +519,9 @@
                 this.addInfoModal = true;
             },
             delInfo(row) {
-                var vm = this;
-                var refT = this.$refs.fsTable;
-                var d = {};
+                let vm = this;
+                let refT = this.$refs.fsTable;
+                let d = {};
                 d.id = row.id;
                 if (row.approvalstatus > 0) {
                     this.$Message.info('审批中的资产不能删除');

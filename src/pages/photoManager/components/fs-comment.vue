@@ -257,9 +257,10 @@
                         this._initToUserInfo();
                         this._getCommentList();
                     }
-                }).finally(() => {
                     this.canComment = true;
-                });
+                }, () => {
+                    this.canComment = true;
+                })
             },
             _thumbComment(data) {
                 if (data.thumbupid) {

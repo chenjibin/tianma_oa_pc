@@ -236,13 +236,13 @@
                 }
                 this.exportLoading = true;
                 this.$http.post('/train/trainee_credit_list_excel', data).then((res) => {
-                    console.log(res);
                     if (res.success) {
                         this.downloadFile('/oa/download/' + res.data, res.data);
                     }
-                }).finally(() => {
                     this.exportLoading = false;
-                });
+                }, () => {
+                    this.exportLoading = false;
+                })
             },
             _changeCredit(data) {
                 this.initFormData();
@@ -272,9 +272,10 @@
                         this.$refs.creditTable.getListData();
                         this.$Message.success('学分修改成功!');
                     }
-                }).finally(() => {
                     this.btnLoading = false;
-                });
+                }, () => {
+                    this.btnLoading = false;
+                })
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;

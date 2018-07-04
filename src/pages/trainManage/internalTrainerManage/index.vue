@@ -468,9 +468,10 @@
                                 this._getAllpost();
                                 this.$Message.success('操作成功！');
                             }
-                        }).finally(() => {
                             this.banciBtnLoading = false;
-                        });
+                        }, () => {
+                            this.banciBtnLoading = false;
+                        })
                     }
                 });
             },

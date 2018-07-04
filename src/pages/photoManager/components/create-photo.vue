@@ -174,9 +174,10 @@
                     if (res.success) {
                         this.$emit('add-success');
                     }
-                }).finally(() => {
                     this.canSubmit = true;
-                });
+                }, () => {
+                    this.canSubmit = true;
+                })
             },
             closeHandler() {
                 this.$emit('close');

@@ -364,10 +364,12 @@
                         let month = moment(ym).month();
                         this.tableData = this.returnDateDetail(year, month, res.data);
                     }
-                }).finally(() => {
                     this.loading = false;
                     this.btnDisabled = false;
-                });
+                }, () => {
+                    this.loading = false;
+                    this.btnDisabled = false;
+                })
             },
             _dateChange(date) {
                 this.dateData = date;
@@ -446,10 +448,12 @@
                         this.$Message.success('日志提交成功！');
                         this._getLogInfo(this.dateData);
                     }
-                }).finally(() => {
                     this.modelFlag = false;
                     this.submitLoading = false;
-                });
+                }, () => {
+                    this.modelFlag = false;
+                    this.submitLoading = false;
+                })
             },
             _rowRender(i) {
                 return (h, params) => {

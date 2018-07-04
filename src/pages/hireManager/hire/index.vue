@@ -1441,9 +1441,10 @@
                             };
                         });
                     }
-                }).finally(() => {
                     this.filterPeopleLoading = false;
-                });
+                }, () => {
+                    this.filterPeopleLoading = false;
+                })
             },
             _filterResultHandler () {
                 this.initPage();

@@ -309,9 +309,10 @@
                                 this._getPostData();
                                 this.settingModalFlag = false;
                             }
-                        }).finally(() => {
                             this.btnDisabled = false;
-                        });
+                        }, () => {
+                            this.btnDisabled = false;
+                        })
                     }
                 });
             },
@@ -332,9 +333,10 @@
                                 this._getPostData();
                                 this.settingModalFlag = false;
                             }
-                        }).finally(() => {
                             this.btnDisabled = false;
-                        });
+                        }, () => {
+                            this.btnDisabled = false;
+                        })
                     }
                 });
             },

@@ -44,9 +44,10 @@ export default {
                         });
                         resolve(this.pageData.list);
                     }
-                }).finally(() => {
                     this.tableLoading = false;
-                });
+                }, () => {
+                    this.tableLoading = false;
+                })
             });
         }
     }
