@@ -84,18 +84,18 @@
             <Tooltip placement="top" content="查看规章" :transfer="true">
                 <Button type="ghost" @click="showRule" shape="circle" icon="ios-star"></Button>
             </Tooltip>
-            <!--<Poptip placement="right-start"-->
-                    <!--width="500"-->
-                    <!--v-model="lotteryFlag">-->
-                <!--<div slot="content">-->
-                    <!--<fs-lottery v-if="lotteryFlag" :lotteryflag.sync="lotteryFlag"></fs-lottery>-->
-                <!--</div>-->
-                <!--<Tooltip placement="top" content="抽奖" :transfer="true">-->
-                    <!--<Button type="ghost"-->
-                            <!--shape="circle"-->
-                            <!--icon="happy-outline"></Button>-->
-                <!--</Tooltip>-->
-            <!--</Poptip>-->
+            <Poptip placement="right-start"
+                    width="500"
+                    v-model="lotteryFlag">
+                <div slot="content">
+                    <fs-lottery v-if="lotteryFlag" :lotteryflag.sync="lotteryFlag"></fs-lottery>
+                </div>
+                <Tooltip placement="top" content="抽奖" :transfer="true">
+                    <Button type="ghost"
+                            shape="circle"
+                            icon="happy-outline"></Button>
+                </Tooltip>
+            </Poptip>
             </Col>
         </Row>
         <Modal title="修改头像" v-model="changeAvatorFlag" width="800">
