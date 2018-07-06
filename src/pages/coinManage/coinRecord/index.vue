@@ -29,6 +29,8 @@
                         <Option value="伯乐点">伯乐点</Option>
                         <Option value="智慧点">智慧点</Option>
                         <Option value="无属性">无属性</Option>
+                        <Option value="抽奖">抽奖</Option>
+                        <Option value="抽奖奖品">抽奖奖品</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="开始日期">
