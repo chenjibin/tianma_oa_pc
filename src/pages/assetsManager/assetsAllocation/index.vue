@@ -98,8 +98,8 @@
                         <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
-                <FormItem label="申请备注" prop="remarks">
-                    <Input type="text" style="width: 180px" v-model="newApply.remarks" prop="remarks" placeholder="规格"></Input>
+                <FormItem label="申请原因" prop="remarks">
+                    <Input type="text" style="width: 180px" v-model="newApply.remarks" prop="remarks" placeholder="规格和原因"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -170,6 +170,10 @@
                         value: '',
                         type: 'select'
                     },
+                    remarks: {
+                        value: '',
+                        type: 'select'
+                    },
                     approvalStatus: {
                         value: 0,
                         type: 'select'
@@ -195,18 +199,18 @@
                     {
                         title: '移入资产位置',
                         key: 'inpositionname',
-                        width: 120,
+                        width: 100,
                         align: 'center'
                     },
                     {
                         title: '移出资产位置',
                         key: 'outpositionname',
-                        width: 120,
+                        width: 100,
                         align: 'center'
                     },
                     {
-                        title: '申请部门',
-                        key: 'organizename',
+                        title: '备注',
+                        key: 'remarks',
                         align: 'center'
                     },
                     {
@@ -398,7 +402,7 @@
                         {required: true, message: '资产位置不能为空!', trigger: 'change'}
                     ],
                     remarks: [
-                        {required: true, message: '请填写规格或备注', trigger: 'blur'}
+                        {required: true, message: '请填写规格和原因', trigger: 'blur'}
                     ],
                     content: [
                         {required: true, message: '请填写审批内容', trigger: 'blur'}
