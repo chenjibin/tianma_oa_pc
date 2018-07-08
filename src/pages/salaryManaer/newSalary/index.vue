@@ -31,10 +31,6 @@
                         <Input v-model="header.name" placeholder="eg.商品小组绩效方案"></Input>
                     </FormItem>
                     <Button type="success" @click="addNewColumns = true;">增加列</Button>
-                    <Button :disabled="header.columns.length === 0"
-                            @click="tableData.data.push(JSON.parse(JSON.stringify(tableData.data[tableData.data.length - 1])))">
-                        克隆最后一行
-                    </Button>
                     <Button :disabled="header.columns.length === 0" @click="delTarget">删除选中</Button>
                     <Button :disabled="header.columns.length === 0" @click="delColumn">删除列</Button>
                 </Form>
