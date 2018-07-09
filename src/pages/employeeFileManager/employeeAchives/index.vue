@@ -171,7 +171,7 @@
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>详细信息</span>
             </p>
-            <div class="">
+            <div class="" v-if="settingModalFlag">
                 <Tabs type="card">
                     <TabPane label="基本信息">
                         <Form ref="baseForm" :label-width="100" inline style="font-size: 0px">
@@ -353,12 +353,12 @@
                     </TabPane>
                     <TabPane label="社会关系">
                         <Form ref="socailShipForm"  inline>
-                            <div v-for="(item,index) in socailShipForm" :key="item.name">
+                            <div v-for="(item,index) in socailShipForm" :key="item.id">
                                 <FormItem label="关系" style="width:13%">
                                     <Input type="text" :maxlength="20"  v-model="item.relationship" ></Input>
                                 </FormItem>
                                 <FormItem label="姓名" style="width:13%">
-                                    <Input type="text" :maxlength="20"  name="name" v-model="item.name" ></Input>
+                                    <Input type="text" :maxlength="20"  v-model="item.name" ></Input>
                                 </FormItem>
                                 <FormItem label="年龄" style="width:13%">
                                     <InputNumber :min="10" :step="1" style="width: 100%" type="text" v-model="item.age" ></InputNumber>
@@ -393,7 +393,7 @@
                             </FormItem>
                             <FormItem style="width:100%">
                                 <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(1,socailShipForm)">提交</Button>
-                                <Button type="success" icon="android-add"  style="margin-left: 8px" @click="socailShipForm.push({})">增加关系</Button>
+                                <Button type="success" icon="android-add"  style="margin-left: 8px" @click="_addNewSocail()">增加关系</Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
@@ -637,6 +637,11 @@
             }
         },
         methods: {
+            _addNewSocail() {
+                let obj = {}
+                obj.storeId = +(new Date())
+                this.socailShipForm.push(obj)
+            },
             // 下载图片
             download(path) {
                 let p = 'http://' + window.location.host + path;
@@ -833,7 +838,6 @@
                 // 社会关系
                 this.$http.post('/employees/findUserRelationship', {'id': id, 'typeRelationship': 1}).then((res) => {
                     if (res.success) {
-                        console.log(res.data);
                         that.socailShipForm = res.data;
                         that.emergency.contactrelationship = res.emRelate;
                         that.emergency.emergencycontact = res.emPerson;

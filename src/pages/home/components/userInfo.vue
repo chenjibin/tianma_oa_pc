@@ -40,8 +40,8 @@
                     <img src="../../../images/coin_rule_08.jpg" style="max-width: 100%;"/>
                 </div>
                 <span style="cursor: pointer;" @click="coinDescFlag = true">
-                        <Icon type="help-circled"></Icon>
-                    </span>
+                    <Icon type="help-circled"></Icon>
+                </span>
             </Poptip>
             </Col>
             <Col span="16" class="padding-left-8">
