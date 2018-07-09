@@ -16,7 +16,7 @@
         <Carousel v-model="value1" class="people-photo-list" autoplay :autoplay-speed="3000">
             <CarouselItem v-for="item in photoData"
                           :key="'photo-' + item.id">
-                <div class="item" @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})">
+                <div class="item"  @click.stop="$router.push({name: 'photoList'})">
                     <img :src="$mainHost + item.file_path">
                     <div class="info">
                         <div class="">

@@ -730,7 +730,7 @@
                     appointment: '',
                     name: '',
                     family_in: 0,
-                    age: 18,
+                    age: '',
                     yearswork: 0,
                     sex: '',
                     marriage: '',
@@ -1391,7 +1391,6 @@
                 this.talentBean.appointment = '';
                 this.talentBean.name = '';
                 this.talentBean.family_in = 0;
-                this.talentBean.age = 18;
                 this.talentBean.yearswork = 0;
                 this.talentBean.sex = '';
                 this.talentBean.marriage = '';
