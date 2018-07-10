@@ -167,6 +167,10 @@
                 <Form :model="strangeSettingForm" :label-width="80">
                     <FormItem label="异常类型">
                         <Select v-model="strangeSettingForm.type" clearable>
+                            <Option value="正常">正常</Option>
+                            <Option value="休息">休息</Option>
+                            <Option value="调休">调休</Option>
+                            <Option value="与排班不一致">与排班不一致</Option>
                             <Option value="事假">事假</Option>
                             <Option value="病假">病假</Option>
                             <Option value="婚假">婚假</Option>
@@ -174,14 +178,10 @@
                             <Option value="年假" >年假</Option>
                             <Option value="法假">法假</Option>
                             <Option value="出差">出差</Option>
-                            <Option value="调休">调休</Option>
-                            <Option value="休息">休息</Option>
                             <Option value="旷工">旷工</Option>
-                            <Option value="正常">正常</Option>
                             <Option value="生日假">生日假</Option>
                             <Option value="未入职">未入职</Option>
                             <Option value="丧假">丧假</Option>
-                            <Option value="与排班不一致">与排班不一致</Option>
                             <Option value="无薪假">无薪假</Option>
                             <Option value="带薪假">带薪假</Option>
                             <Option value="陪护假" >陪护假</Option>
