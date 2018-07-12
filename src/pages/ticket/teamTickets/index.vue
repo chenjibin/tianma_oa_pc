@@ -13,8 +13,8 @@
                     </Select>
                 </FormItem>
                 <FormItem label="接单人">
-                    <Input v-model="filterOpt.user_name.value" style="width: 150px" placeholder="筛选状态"
-                           clearable></Input>
+                <Input v-model="filterOpt.user_name.value" style="width: 150px" placeholder="筛选状态"
+                       clearable></Input>
                 </FormItem>
                 <FormItem label="开始日期">
                     <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)"
@@ -29,6 +29,10 @@
                     <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态"
                            clearable></Input>
                 </FormItem>
+                <FormItem label="详情">
+                    <Input v-model="filterOpt.detail.value" style="width: 150px" placeholder="筛选详情"
+                           clearable></Input>
+                </FormItem>
                 <FormItem label="优先级">
                     <Select v-model="filterOpt.priority.value" style="width: 150px" placeholder="筛选优先级"
                             clearable>
@@ -41,21 +45,6 @@
                         <Option :value="3">加急
                             <Icon type="flag" color="#ed3f14"></Icon>
                         </Option>
-                    </Select>
-                </FormItem>
-                <FormItem label="权重">
-                    <Select v-model="filterOpt.weight.value" style="width: 150px" placeholder="筛选状态"
-                            clearable>
-                        <Option value="0.1">0.1</Option>
-                        <Option value="0.2">0.2</Option>
-                        <Option value="0.3">0.3</Option>
-                        <Option value="0.4">0.4</Option>
-                        <Option value="0.5">0.5</Option>
-                        <Option value="0.6">0.6</Option>
-                        <Option value="0.7">0.7</Option>
-                        <Option value="0.8">0.8</Option>
-                        <Option value="0.9">0.9</Option>
-                        <Option value="1">1</Option>
                     </Select>
                 </FormItem>
             </Form>
@@ -165,6 +154,10 @@
                         type: 'select'
                     },
                     add_user_name: {
+                        type: 'input',
+                        value: ''
+                    },
+                    detail: {
                         type: 'input',
                         value: ''
                     },
