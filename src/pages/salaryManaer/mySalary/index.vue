@@ -161,12 +161,12 @@
                 }
                 this.header.columns.push({
                     'title': '目标值',
-                    'key': 'real',
+                    'key': 'target',
                     'align': 'center'
                 });
                 this.header.columns.push({
                     'title': '实际值',
-                    'key': 'target',
+                    'key': 'real',
                     'align': 'center'
                 });
                 this.header.columns.push({

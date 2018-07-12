@@ -141,7 +141,7 @@
                 </div>
             </Modal>
             <Modal v-model="settingModalFlag"
-                   width="1200"
+                   width="1400"
                    :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                     <span>{{attendanceOpt.userName + ' ' + attendanceOpt.monthDate}} 考勤总汇</span>
@@ -153,6 +153,7 @@
                            :data="attendanceOpt.data"></Table>
                 </div>
                 <div slot="footer">
+                    <Button type="primary" style="margin-left: 8px" @click="_removeThisMonth">清空漏打卡</Button>
                     <Button type="primary" @click="_completeThisMonth">完成 {{attendanceOpt.userName}} 该月审核</Button>
                     <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
                 </div>
@@ -422,6 +423,11 @@
                         key: 'k_date',
                         align: 'center',
                         width: 110
+                    },{
+                        title: '星期',
+                        key: 'xing',
+                        align: 'center',
+                        width: 110
                     },
                     {
                         title: '工种',
@@ -654,6 +660,18 @@
                         this.$Message.success('操作成功!');
                         this._getPostData();
                         this.settingModalFlag = false;
+                    }
+                });
+            },
+            _removeThisMonth() {
+                let data = {};
+                data.user_name = this.attendanceOpt.userName;
+                data.record_month = this.attendanceOpt.monthDate;
+                this.$http.post('/kq/removeClock', data).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('操作成功!');
+                        this._getUserStatistic();
+                        this._getPostData();
                     }
                 });
             },
