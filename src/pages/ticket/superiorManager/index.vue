@@ -47,6 +47,9 @@
                 <FormItem label="提交人" style="width: 220px">
                     <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态" clearable></Input>
                 </FormItem>
+                <FormItem label="详情" style="width: 220px">
+                    <Input v-model="filterOpt.detail.value" style="width: 150px" placeholder="筛选状态" clearable></Input>
+                </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
                            :size="null" ref="paperList" :height="tableHeight" :params="filterOpt" url="/workOrder/adminWorkOrderList"></fs-table-page>
@@ -193,6 +196,10 @@
                         type: 'select'
                     },
                     add_user_name: {
+                        type: 'input',
+                        value: ''
+                    },
+                    detail: {
                         type: 'input',
                         value: ''
                     }
