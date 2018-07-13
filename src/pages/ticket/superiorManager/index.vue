@@ -459,10 +459,6 @@
             save(type) {
                 let vm = this;
                 let d = this.editTickets;
-                if (this.editTickets.weight < 0.05) {
-                    this.$Message.info('权重未设置');
-                    return;
-                }
                 if (!this.editTickets.priority) {
                     this.$Message.info('优先级未设置');
                     return;
