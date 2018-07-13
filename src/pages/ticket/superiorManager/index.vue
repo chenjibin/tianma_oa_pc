@@ -108,7 +108,7 @@
             </Form>
             <div slot="footer">
                 <Button type="text" @click="editTicketsModal = false">取消</Button>
-                <Button :disabled="+editTickets.type === 2" type="primary" :loading="saveLoading" @click="save(2)">保存</Button>
+                <Button  type="primary" :loading="saveLoading" @click="save(2)">保存</Button>
             </div>
         </Modal>
         <Modal v-model="commitModal" :closable="false"  :width="430" :mask-closable="false">
