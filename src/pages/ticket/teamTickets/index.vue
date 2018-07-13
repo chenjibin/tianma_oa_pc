@@ -29,8 +29,8 @@
                     <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态"
                            clearable></Input>
                 </FormItem>
-                <FormItem label="详情">
-                    <Input v-model="filterOpt.detail.value" style="width: 150px" placeholder="筛选详情"
+                <FormItem label="关键词">
+                    <Input v-model="filterOpt.detail.value" style="width: 150px" placeholder="筛选标题或详情"
                            clearable></Input>
                 </FormItem>
                 <FormItem label="优先级">
