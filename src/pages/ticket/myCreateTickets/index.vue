@@ -57,6 +57,11 @@
                     <DatePicker style="width: 100%" type="date" @on-change="changeDate(1, 'end_time', $event)"
                                 :value="filterOpt.end_time.value" placeholder="结束日期"></DatePicker>
                 </FormItem>
+                <FormItem label="项目组" style="width: 220px">
+                    <Select v-model="filterOpt.team_id.value" filterable clearable>
+                        <Option style="width: 100%" v-for="option in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
+                    </Select>
+                </FormItem>
                 <FormItem>
                     <Button style="width: 100%" type="primary" @click="newTicketsModal = true">新增需求</Button>
                 </FormItem>
@@ -279,6 +284,10 @@
                 teamOpt: [],
                 filterOpt: {
                     weight: {
+                        value: '',
+                        type: 'select'
+                    },
+                    team_id: {
                         value: '',
                         type: 'select'
                     },
