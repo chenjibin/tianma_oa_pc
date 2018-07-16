@@ -100,6 +100,19 @@
                 </Button>
             </div>
         </Modal>
+        <Modal v-model="commitModal" :closable="true" :width="430" :mask-closable="false">
+            <Form :label-width="90" style="padding: 5px;margin-top: 10px">
+                <input style="display: none" v-model="commitForm.id"/>
+                <FormItem label="备注" style="width: 350px;">
+                    <Input type="textarea" placeholder="写出任务解析。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
+                           v-model="commitForm.content"></Input>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="success" @click="commitModal = false">取消</Button>
+                <Button type="success" :loading="saveLoading" @click="commit">完成</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -118,6 +131,7 @@
             return {
                 editTicketsModal: false,
                 saveLoading: false,
+                commitModal: false,
                 logs: [],
                 usersIds: [],
                 userslabels: [],
@@ -130,6 +144,10 @@
                     type: 0,
                     demand: '',
                     priority: 1
+                },
+                commitForm: {
+                    id: '',
+                    content: ''
                 },
                 teamOpt: [],
                 filterOpt: {
@@ -363,6 +381,24 @@
                                             }
                                         }
                                     }, '调整'
+                                ),
+                                h('Button', {
+                                        props: {
+                                            type: 'success',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: '点我备注'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.commitForm.id = row.id;
+                                                vm.commitForm.content = '';
+                                                vm.commitModal = true;
+                                            }
+                                        }
+                                    }, '备注'
                                 )
                             ]);
                         }
@@ -423,6 +459,26 @@
                 }, () => {
                     this.saveLoading = false;
                     this.editTicketsModal = false;
+                })
+            },
+            commit() {
+                let f = this.commitForm;
+                let length = f.content.trim();
+                if (length < 8) {
+                    this.$Message.info('不是有效的备注,至少大于八个字符');
+                    return;
+                }
+                this.saveLoading = true;
+                this.$http.post('workOrder/addLogByCharger', this.commitForm).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('指导备注添加成功');
+                        this.$refs.paperList.getListData();
+                    }
+                    this.saveLoading = false;
+                    this.commitModal = false;
+                }, () => {
+                    this.saveLoading = false;
+                    this.commitModal = false;
                 })
             },
             changeDate(type, name, time) {

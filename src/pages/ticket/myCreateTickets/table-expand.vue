@@ -4,7 +4,7 @@
             <Row :gutter="16">
                 <Col :span="2">
                     <div style="text-align: center">
-                        <h3 style="margin-bottom: 20px">扣分细则</h3>
+                        <h3 style="margin-bottom: 20px">备注信息</h3>
                     </div>
                 </Col>
                 <Col :span="22" v-html="logs">
