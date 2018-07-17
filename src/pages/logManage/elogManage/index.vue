@@ -11,6 +11,12 @@
                     <li v-for="item in noWritePeople" :key="'people-' + item.id">{{item.name}}</li>
                 </ul>
             </Card>
+            <Card class="no-write" style="margin-top: 6px">
+                <h3>日志未指导人员</h3>
+                <ul style="margin-top: 8px;">
+                    <li v-for="item in noGuidePeople" :key="'people-' + item.id">{{item.name}}</li>
+                </ul>
+            </Card>
             </Col>
             <Col :span="20">
             <Card>
@@ -320,6 +326,7 @@
                 },
                 tableHeight: 300,
                 noWritePeople: [],
+                noGuidePeople: [],
                 userName: this.$store.state.user.userInfo.username
             };
         },
@@ -336,7 +343,8 @@
             _getNoWritePeoloe() {
                 this.$http.get('/journal/getNoWriteAll').then((res) => {
                     if (res.success) {
-                        this.noWritePeople = res.data;
+                        this.noWritePeople = res.data.filter(x => x.states === 0)
+                        this.noGuidePeople = res.data.filter(x => x.states === 1)
                     }
                 });
             },
