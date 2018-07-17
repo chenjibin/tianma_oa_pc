@@ -129,6 +129,19 @@
                 <Button type="success" :loading="saveLoading" @click="commit">完成</Button>
             </div>
         </Modal>
+        <Modal v-model="commitModals" :closable="true" :width="430" :mask-closable="false">
+            <Form :label-width="90" style="padding: 5px;margin-top: 10px">
+                <input style="display: none" v-model="commitForms.id"/>
+                <FormItem label="备注" style="width: 350px;">
+                    <Input type="textarea" placeholder="写出任务解析。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
+                           v-model="commitForms.content"></Input>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="success" @click="commitModals = false">取消</Button>
+                <Button type="success" :loading="saveLoading" @click="commits">完成</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -146,6 +159,7 @@
                 editTicketsModal: false,
                 saveLoading: false,
                 commitModal: false,
+                commitModals: false,
                 logs: [],
                 teamOpt: [],
                 teamUser: [],
@@ -155,6 +169,10 @@
                     superior_qualityScore: 100,
                     superior_planScore: 100,
                     reason: ''
+                },
+                commitForms: {
+                    id: '',
+                    content: ''
                 },
                 editTickets: {
                     id: '',
@@ -442,10 +460,31 @@
                                             click: function (e) {
                                                 e.stopPropagation();
                                                 vm.commitForm.id = row.id;
+                                                vm.commitForm.superior_planScore = 100;
+                                                vm.commitForm.superior_qualityScore = 100;
+                                                vm.commitForm.reason = '';
                                                 vm.commitModal = true;
                                             }
                                         }
-                                    }, '打分')
+                                    }, '打分'),
+                                h('Button', {
+                                        props: {
+                                            type: 'success',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: '点我备注'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.commitForms.id = row.id;
+                                                vm.commitForms.content = '';
+                                                vm.commitModals = true;
+                                            }
+                                        }
+                                    }, '备注'
+                                )
                             ]);
                         }
                     }
@@ -505,6 +544,26 @@
                 } else if (type === 2) {
                     this.editTickets[name] = time;
                 }
+            },
+            commits() {
+                let f = this.commitForms;
+                let length = f.content.trim();
+                if (length < 8) {
+                    this.$Message.info('不是有效的备注,至少大于八个字符');
+                    return;
+                }
+                this.saveLoading = true;
+                this.$http.post('workOrder/addLogByCharger', this.commitForms).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('指导备注添加成功');
+                        this.$refs.paperList.getListData();
+                    }
+                    this.saveLoading = false;
+                    this.commitModals = false;
+                }, () => {
+                    this.saveLoading = false;
+                    this.commitModals = false;
+                })
             },
             commit() {
                 let f = this.commitForm;
