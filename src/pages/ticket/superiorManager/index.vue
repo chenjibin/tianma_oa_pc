@@ -460,6 +460,9 @@
                                             click: function (e) {
                                                 e.stopPropagation();
                                                 vm.commitForm.id = row.id;
+                                                vm.commitForm.superior_planScore = 100;
+                                                vm.commitForm.superior_qualityScore = 100;
+                                                vm.commitForm.reason = '';
                                                 vm.commitModal = true;
                                             }
                                         }

@@ -576,6 +576,9 @@
                                             click: function (e) {
                                                 e.stopPropagation();
                                                 vm.commitForm.id = row.id;
+                                                vm.commitForm.business_planScore = 100;
+                                                vm.commitForm.business_qualityScore = 100;
+                                                vm.commitForm.reason = '';
                                                 vm.commitModal = true;
                                             }
                                         }
