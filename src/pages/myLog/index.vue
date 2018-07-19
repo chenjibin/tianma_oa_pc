@@ -216,7 +216,7 @@
         .each-log-wrapper {
             position: relative;
             overflow-y: auto;
-            overflow-x: hidden;
+            min-height: 200px;
         }
         .log-title {
             color: @fs-title-color;

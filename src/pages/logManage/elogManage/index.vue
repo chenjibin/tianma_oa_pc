@@ -195,6 +195,7 @@
             position: relative;
             margin-top: 16px;
             overflow: hidden;
+            min-height: 200px;
             .log-guider-list {
                 .log-guider-item {
                     padding: 8px 0;
