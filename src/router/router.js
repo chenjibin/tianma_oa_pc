@@ -628,7 +628,7 @@ export const appRouter = [
         path: '/coinManage',
         icon: 'ios-pricetags',
         name: 'coinManage',
-        title: '金币管理',
+        title: '员工财富管理',
         component: Main,
         children: [
             {
@@ -665,6 +665,13 @@ export const appRouter = [
                 name: 'goodsExchangeManage',
                 title: '兑换管理',
                 component: _import('coinManage/goodsExchangeManage')
+            },
+            {
+                path: 'foodCardManage',
+                icon: 'ios-pricetags',
+                name: 'foodCardManage',
+                title: '饭卡管理',
+                component: _import('coinManage/foodCardManage')
             }
         ]
     },
