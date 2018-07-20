@@ -27,6 +27,15 @@ export const inExamRouter = {
     },
     component: resolve => { require(['@/pages/myExam/in-exam-page.vue'], resolve); }
 };
+export const foodRouter = {
+    path: '/foodPublic',
+    title: '食堂',
+    name: 'foodPublic',
+    meta: {
+        whiteIn: true
+    },
+    component: resolve => { require(['@/pages/foodClient/index.vue'], resolve); }
+}
 export const knowledgeRouter = {
     path: '/knowledgePublic',
     title: '知识库',
@@ -772,6 +781,7 @@ export const routers = [
     loginRouter,
     otherRouter,
     guestRouter,
+    foodRouter,
     knowledgeRouter,
     photoRouter,
     inExamRouter,

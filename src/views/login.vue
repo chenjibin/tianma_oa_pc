@@ -134,9 +134,16 @@ export default {
             }
             this.$http.post('/login/login', this.form).then((res) => {
                 if (res.success) {
-                    this.$router.push({
-                        name: 'home_index'
-                    });
+                    const roelName = res.data[0].rolename
+                    if (roelName !== '食堂') {
+                        this.$router.push({
+                            name: 'home_index'
+                        });
+                    } else {
+                        this.$router.push({
+                            name: 'foodPublic'
+                        });
+                    }
                 }
             });
         }

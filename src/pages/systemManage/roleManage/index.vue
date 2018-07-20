@@ -11,19 +11,24 @@
                     </ButtonGroup>
                 </FormItem>
             </Form>
-            <Table :columns="postColumns"
-                   :loading="tableLoading"
-                   :height="tableHeight"
-                   :data="pageData.list"></Table>
-            <Page :total="pageData.totalCount"
-                  :current="pageData.page"
-                  @on-change="_setPage"
-                  @on-page-size-change="_setPageSize"
-                  :page-size="pageData.pageSize"
-                  show-sizer
-                  show-total
-                  show-elevator
-                  style="margin-top: 16px;"></Page>
+            <fs-table-page :columns="postColumns"
+                           :size="null"
+                           :height="tableHeight"
+                           ref="fsTable"
+                           url="/role/getPageAllRole"></fs-table-page>
+            <!--<Table :columns="postColumns"-->
+                   <!--:loading="tableLoading"-->
+                   <!--:height="tableHeight"-->
+                   <!--:data="pageData.list"></Table>-->
+            <!--<Page :total="pageData.totalCount"-->
+                  <!--:current="pageData.page"-->
+                  <!--@on-change="_setPage"-->
+                  <!--@on-page-size-change="_setPageSize"-->
+                  <!--:page-size="pageData.pageSize"-->
+                  <!--show-sizer-->
+                  <!--show-total-->
+                  <!--show-elevator-->
+                  <!--style="margin-top: 16px;"></Page>-->
             <Modal v-model="settingModalFlag"
                    width="600"
                    :mask-closable="false">
@@ -107,7 +112,7 @@
     }
 </style>
 <script>
-    import pageMixin from '@/mixins/pageMixin';
+    import fsTablePage from '@/baseComponents/fs-table-page';
     export default {
         name: 'roleManage',
         data () {
@@ -192,10 +197,8 @@
                 return this.$store.state.user.userInfo.ismanger;
             }
         },
-        mixins: [pageMixin],
         created() {
             this._getAccessMenu();
-            this._getPostData();
             this._setTableHeight();
             this.getCompanyList();
         },
@@ -253,20 +256,12 @@
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage(page) {
-                this.pageData.page = page;
-                this._getPostData();
-            },
-            _setPageSize(size) {
-                this.pageData.pageSize = size;
-                this._getPostData();
-            },
             _addPostOpen() {
                 this._initPostForm();
                 this.settingModalFlag = true;
             },
             _getPostData() {
-                this.getList('/role/getAllRole');
+                this.$refs.fsTable.getListData();
             },
             _confirmAccess() {
                 let pageArr = [];
@@ -305,6 +300,8 @@
                 });
             }
         },
-        components: {}
+        components: {
+            fsTablePage
+        }
     };
 </script>

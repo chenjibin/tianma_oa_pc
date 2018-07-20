@@ -25,28 +25,21 @@
                                 :transfer="true"
                                 placeholder="输入查询角色" style="width: 200px">
                             <Option :value="item.id" :label="isManger > 1 ?item.name:item.name+' '+item.companyname"
-                                    v-for="(item, index) in roleCombo" :key="'role' + index">{{item.name}} <span
-                                v-if="isManger == 0 || isManger == 1" :title="item.companyname"
+                                    v-for="(item, index) in roleCombo" :key="'role' + index">
+                                {{item.name}}
+                                <span v-if="isManger == 0 || isManger == 1" :title="item.companyname"
                                 style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.companyname}}</span>
                             </Option>
                         </Select>
                     </FormItem>
                     <FormItem label="状态">
-                        <Select v-model="searchData.states.value"
+                        <Select v-model="searchData.card_states.value"
                                 clearable
                                 placeholder="筛选状态"
                                 style="width: 100px">
-                            <Option value="1">启用</Option>
-                            <Option value="0">禁用</Option>
+                            <Option value="1">注销</Option>
+                            <Option value="0">使用中</Option>
                         </Select>
-                    </FormItem>
-                    <FormItem :label-width="0.1">
-                        <ButtonGroup>
-                            <Button type="primary">
-                                <Icon type="plus-round"></Icon>
-                                新增人员
-                            </Button>
-                        </ButtonGroup>
                     </FormItem>
                 </Form>
                 <fs-table-page :columns="columns1"
@@ -60,26 +53,85 @@
         </Row>
         <Modal v-model="checkLogFlag"
                :mask-closable="false"
-               width="1200">
+               width="800">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>（{{realName}}）饭卡设置</span>
             </p>
+            <div id="food-setting-modal">
+                <div class="food-set-line">
+                    <h3>饭卡状态:</h3>
+                    <i-switch v-model="cardStates"
+                              size="large"
+                              :true-value="0"
+                              :false-value="1"
+                              @on-change="cardStatesChange">
+                        <span slot="open">使用</span>
+                        <span slot="close">注销</span>
+                    </i-switch>
+                </div>
+                <div class="food-set-line">
+                    <h3>饭卡卡号:</h3>
+                    <template v-if="cardNumber">
+                        <Input v-model="cardNumber" size="large" readonly style="width: 240px" ></Input>
+                        <Button type="primary" @click.stop="bindOpen = true">绑定新饭卡</Button>
+                    </template>
+                    <Button type="primary" v-else @click.stop="bindOpen = true">绑定饭卡</Button>
+                    <div class="expend-block" v-show="bindOpen" style="margin-top: 8px">
+                        <Input v-model="newCardNumber" size="large" style="width: 240px" ></Input>
+                        <Button type="primary" @click.stop="confirmBindCard">确认绑定</Button>
+                        <Button @click.stop="bindOpen = false">取消</Button>
+                    </div>
+                </div>
+                <div class="food-set-line">
+                    <h3>饭卡餐费:</h3>
+                    <div class="">
+                        <span>余额:</span>
+                        <span>{{mealfee}}</span>
+                        <Button type="text" @click.stop="cashInOpen = true">充值</Button>
+                    </div>
+                    <div class="expend-block" v-show="cashInOpen" style="margin-top: 8px">
+                        <Input v-model="cashIn" size="large" style="width: 240px" ></Input>
+                        <Button type="primary" @click.stop="confirmCashIn">确认充值</Button>
+                        <Button @click.stop="cashInOpen = false">取消</Button>
+                    </div>
+                </div>
+            </div>
             <div slot="footer">
             </div>
         </Modal>
     </div>
 </template>
-<style>
-
+<style lang="less">
+    #food-setting-modal {
+        .food-set-line {
+            margin-bottom: 32px;
+            font-size: 16px;
+            h3 {
+                margin-bottom: 8px;
+                font-size: 18px;
+            }
+        }
+    }
 </style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import fsDepTree from '@/baseComponents/fs-dep-tree';
+
     export default {
         name: 'foodCardManage',
         data() {
             return {
                 tableHeight: 300,
                 checkLogFlag: false,
+                bindOpen: false,
+                cashInOpen: false,
+                newCardNumber: null,
+                cashIn: null,
+                id: null,
+                realName: '',
+                cardStates: 0,
+                cardNumber: 0,
+                mealfee: 0,
                 columns1: [
                     {
                         type: 'selection',
@@ -111,71 +163,37 @@
                         width: 120
                     },
                     {
-                        title: '账户余额',
-                        key: 'tm_coin',
-                        sortable: true,
+                        title: '卡号',
+                        key: 'cardnumber',
+                        width: 160
+                    },
+                    {
+                        title: '餐费',
+                        key: 'mealfee',
                         align: 'center',
-                        width: 110
+                        width: 120
                     },
                     {
                         title: '状态',
-                        key: 'states',
+                        key: 'card_states',
                         align: 'center',
                         width: 100,
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
                                     type: 'border',
-                                    color: +params.row.states === 1 ? 'green' : 'red'
+                                    color: +params.row.card_states === 1 ? 'red' : 'green'
                                 }
-                            }, +params.row.states === 1 ? '启用' : '禁用');
+                            }, +params.row.card_states === 1 ? '注销' : '使用中');
                         }
                     },
                     {
                         title: '操作',
                         align: 'center',
-                        width: 180,
+                        width: 90,
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        icon: 'arrow-shrink',
-                                        shape: 'circle'
-                                    },
-                                    attrs: {
-                                        title: '特殊权限设置'
-                                    },
-                                    on: {
-                                        click: function (e) {
-                                            e.stopPropagation();
-                                            vm._specAccessOpen(params.row);
-                                        }
-                                    },
-                                    style: {
-                                        marginRight: '4px'
-                                    }
-                                }),
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        icon: 'key',
-                                        shape: 'circle'
-                                    },
-                                    attrs: {
-                                        title: '用户授权'
-                                    },
-                                    on: {
-                                        click: function (e) {
-                                            e.stopPropagation();
-                                            vm._userAccessOpen(params.row);
-                                        }
-                                    },
-                                    style: {
-                                        marginRight: '4px'
-                                    }
-                                }),
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -210,8 +228,8 @@
                         value: '',
                         type: 'input'
                     },
-                    states: {
-                        value: '1',
+                    card_states: {
+                        value: '0',
                         type: 'select'
                     },
                     roleId: {
@@ -235,6 +253,44 @@
             }
         },
         methods: {
+            confirmBindCard() {
+                const {id, newCardNumber} = this
+                this.$http.post('/card/bindCardNumber', {id, cardNumber: newCardNumber}).then((res) => {
+                    if (res.success) {
+                        this._updateTable()
+                    }
+                    console.log(res)
+                })
+            },
+            confirmCashIn() {
+            },
+            cardStatesChange(val) {
+                let sendData = {}
+                sendData.id = this.id
+                sendData.cardStates = val
+                this.$http.post('/card/updateCardStates', sendData).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('饭卡状态设置成功！')
+                    }
+                    console.log(res)
+                })
+            },
+            _initEditorField() {
+                this.bindOpen = false
+                this.cashInOpen = false
+                this.newCardNumber = null
+                this.cashIn = null
+            },
+            _editorSetting(data) {
+                console.log(data)
+                this._initEditorField()
+                this.realName = data.realname
+                this.cardStates = data.card_states
+                this.id = data.id
+                this.mealfee = data.mealfee
+                this.cardNumber = data.cardnumber
+                this.checkLogFlag = true
+            },
             _getRoleData() {
                 this.$http.get('/role/getRoleCombo').then((res) => {
                     if (res.success) {
@@ -244,16 +300,27 @@
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;
-                this.tableHeight = dm - 280;
+                this.tableHeight = dm - 260;
             },
             _checkLogOpen(data) {
             },
             _nodeChangeHandler(node) {
                 this.searchData.nodeId.value = node.id;
+            },
+            _getNewUserInfo() {
+                this.$http.get('/user/getUserById', {params: {id: this.id}}).then((res) => {
+                    if (res.success) {
+
+                    }
+                })
+            },
+            _updateTable() {
+                this.$refs.fsTable.getListData()
             }
         },
         created() {
-            this._setTableHeight();
+            this._setTableHeight()
+            this._getRoleData()
         },
         components: {
             fsTablePage,
