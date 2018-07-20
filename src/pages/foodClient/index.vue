@@ -12,13 +12,13 @@
                         </FormItem>
                         <FormItem prop="startDate" label="开始日期">
                             <DatePicker type="date"
-                                        @on-change="searchData.start.value = $event"
+                                        @on-change="_startDateChange"
                                         placeholder="开始日期"
                                         :value="searchData.start.value"></DatePicker>
                         </FormItem>
                         <FormItem prop="startDate" label="结束日期">
                             <DatePicker type="date"
-                                        @on-change="searchData.end.value = $event"
+                                        @on-change="_endDateChange"
                                         placeholder="结束日期"
                                         :value="searchData.end.value"></DatePicker>
                         </FormItem>
@@ -51,6 +51,10 @@
                                          @key-enter="enterHandler"
                                          v-model="cardNumber"></fs-input-number>
                     </div>
+                    <div class="cash desc">
+                        <span>{{totalTitle}}</span>
+                        <span style="font-weight: 700">{{totalMoney}}元</span>
+                    </div>
                 </div>
             </Card>
             </Col>
@@ -79,6 +83,9 @@
             align-items: center;
             text-align: center;
             .cash {
+                &.desc {
+                    font-size: 18px;
+                }
                 margin-bottom: 64px;
                 .food-input-wrapper {
                     position: relative;
@@ -119,8 +126,10 @@
             return {
                 cash: null,
                 cardNumber: null,
+                totalMoney: 0,
                 innerHeight: 400,
                 tableHeight: 400,
+                totalTitle: '今日消费总额',
                 columns1: [
                     {
                         title: '内容',
@@ -137,6 +146,32 @@
                         key: 'createname',
                         align: 'center',
                         width: 160
+                    },
+                    {
+                        title: '操作',
+                        width: 80,
+                        render: (h, params) => {
+                            let vm = this;
+                            let returnBtn = params.row.type === 1 ? h('Button', {
+                                props: {
+                                    type: 'primary',
+                                    icon: 'reply',
+                                    shape: 'circle'
+                                },
+                                attrs: {
+                                    title: '退款'
+                                },
+                                on: {
+                                    click: function () {
+                                        vm._returnMoney(params.row);
+                                    }
+                                },
+                                style: {
+                                    marginRight: '4px'
+                                }
+                            }) : ''
+                            return h('div', [returnBtn]);
+                        }
                     }
                 ],
                 searchData: {
@@ -158,7 +193,27 @@
         created() {
             this._setHeight()
         },
+        computed: {},
         methods: {
+            _returnMoney(data) {
+                this.$Modal.confirm({
+                    title: '退款提醒',
+                    content: `确认对（${data.content}）这条记录进行退款麽？`,
+                    okText: '确认退款',
+                    cancelText: '取消',
+                    onOk: () => {
+                        this.$http.post('/card/refund', {id: data.id}).then((res) => {
+                            if (res.success) {
+                                this.$Modal.success({
+                                    title: '成功',
+                                    content: '退款成功!'
+                                });
+                                this.$refs.userTable.getListData()
+                            }
+                        })
+                    }
+                });
+            },
             _initInput() {
                 this.cash = null
                 this.cardNumber = null
@@ -166,7 +221,7 @@
             enterHandler(e) {
                 const {cash, cardNumber} = this
                 if (!cash) {
-                    this.$Modal.warning({
+                    this.$Modal.error({
                         title: '提醒',
                         content: '请先输入金额，再刷卡!',
                         onOk: () => {
@@ -184,8 +239,39 @@
                         this.$Message.success('扣费成功!')
                         this.$refs.userTable.getListData()
                         this._initInput()
+                    } else {
+                        this.$Modal.error({
+                            title: '提醒',
+                            content: res.message,
+                            onOk: () => {
+                                this._initInput()
+                            }
+                        })
                     }
                 })
+            },
+            _computedTotalTitle() {
+                const start = this.searchData.start.value
+                const end = this.searchData.end.value
+                if (start && end) {
+                    this.totalTitle = `${start} 到 ${end} 的消费总额:`
+                } else if (!start && end) {
+                    this.totalTitle = `${end} 之前的消费总额:`
+                } else if (start && !end) {
+                    this.totalTitle = `${start} 至今的消费总额:`
+                } else if (!start && !end) {
+                    this.totalTitle = '今日消费总额:'
+                }
+            },
+            _startDateChange(date) {
+                this.searchData.start.value = date
+                this._computedTotalTitle()
+                console.log(date)
+            },
+            _endDateChange(date) {
+                this.searchData.end.value = date
+                this._computedTotalTitle()
+                console.log(date)
             },
             _setHeight() {
                 let dm = document.body.clientHeight;
