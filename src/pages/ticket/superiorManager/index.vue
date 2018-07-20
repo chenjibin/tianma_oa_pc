@@ -3,6 +3,9 @@
     <div id="superiorManager">
         <Card>
             <Form inline style="width: 100%" :label-width="90">
+                <FormItem label="工单id" style="width: 220px">
+                    <Input v-model="filterOpt.id.value" style="width: 150px" placeholder="筛选id" clearable></Input>
+                </FormItem>
                 <FormItem label="状态" style="width: 220px">
                     <Select style="width: 100%" v-model="filterOpt.type.value" placeholder="筛选状态"  clearable>
                         <Option value="0">待处理</Option>
@@ -217,6 +220,10 @@
                         type: 'input',
                         value: ''
                     },
+                    id: {
+                        type: 'input',
+                        value: ''
+                    },
                     detail: {
                         type: 'input',
                         value: ''
@@ -241,9 +248,14 @@
                         }
                     },
                     {
+                        title: '工单id',
+                        key: 'id',
+                        minWidth: 80
+                    },
+                    {
                         title: '工单名',
                         key: 'demand',
-                        minWidth: 100
+                        minWidth: 80
                     },
                     {
                         title: '提单人',

@@ -179,7 +179,7 @@
                                 <Input type="text" :maxlength="20" v-model="baseForm.name"></Input>
                             </FormItem>
                             <FormItem label="性别" style="width:49%;margin-right:1%;">
-                                <Input type="text" v-model="baseForm.sex" disabled></Input>
+                                <Input type="text" v-model="baseForm.sex" ></Input>
                             </FormItem>
                             <FormItem label="手机" style="width:49%;margin-right:1%;">
                                 <Input type="text" :maxlength="11" v-model="baseForm.cellphone" ></Input>
