@@ -33,12 +33,17 @@
                 currentValue: this.value
             }
         },
+        watch: {
+            value (val) {
+                this.currentValue = val;
+            }
+        },
         methods: {
             change (event) {
                 let val = event.target.value.trim();
                 const isEmptyString = val.length === 0;
                 if (isEmptyString) {
-                    this.setValue(0);
+                    this.setValue(null);
                     return;
                 }
                 val = Number(val);

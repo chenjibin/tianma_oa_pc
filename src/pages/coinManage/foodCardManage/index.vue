@@ -62,8 +62,8 @@
                     <h3>饭卡状态:</h3>
                     <i-switch v-model="cardStates"
                               size="large"
-                              :true-value="0"
-                              :false-value="1"
+                              :true-value="1"
+                              :false-value="0"
                               @on-change="cardStatesChange">
                         <span slot="open">使用</span>
                         <span slot="close">注销</span>
@@ -182,9 +182,9 @@
                             return h('Tag', {
                                 props: {
                                     type: 'border',
-                                    color: +params.row.card_states === 1 ? 'red' : 'green'
+                                    color: +params.row.card_states === 0 ? 'red' : 'green'
                                 }
-                            }, +params.row.card_states === 1 ? '注销' : '使用中');
+                            }, +params.row.card_states === 0 ? '注销' : '使用中');
                         }
                     },
                     {
@@ -224,12 +224,16 @@
                         value: '',
                         type: 'input'
                     },
+                    states: {
+                        value: 1,
+                        type: 'select'
+                    },
                     postName: {
                         value: '',
                         type: 'input'
                     },
                     card_states: {
-                        value: '0',
+                        value: '',
                         type: 'select'
                     },
                     roleId: {
@@ -258,11 +262,22 @@
                 this.$http.post('/card/bindCardNumber', {id, cardNumber: newCardNumber}).then((res) => {
                     if (res.success) {
                         this._updateTable()
+                        this._getNewUserInfo()
+                        this._initEditorField()
                     }
                     console.log(res)
                 })
             },
             confirmCashIn() {
+                const {id, cashIn} = this
+                this.$http.post('/card/recharge', {id, money: cashIn}).then((res) => {
+                    if (res.success) {
+                        this._updateTable()
+                        this._getNewUserInfo()
+                        this._initEditorField()
+                    }
+                    console.log(res)
+                })
             },
             cardStatesChange(val) {
                 let sendData = {}
@@ -271,6 +286,9 @@
                 this.$http.post('/card/updateCardStates', sendData).then((res) => {
                     if (res.success) {
                         this.$Message.success('饭卡状态设置成功！')
+                        this._updateTable()
+                        this._getNewUserInfo()
+                        this._initEditorField()
                     }
                     console.log(res)
                 })
@@ -310,7 +328,12 @@
             _getNewUserInfo() {
                 this.$http.get('/user/getUserById', {params: {id: this.id}}).then((res) => {
                     if (res.success) {
-
+                        const data = res.data
+                        this.realName = data.realname
+                        this.cardStates = data.card_states
+                        this.id = data.id
+                        this.mealfee = data.mealfee
+                        this.cardNumber = data.cardnumber
                     }
                 })
             },
