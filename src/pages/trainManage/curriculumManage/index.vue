@@ -91,8 +91,7 @@
                                 <Input v-model="banciForm.name"></Input>
                             </FormItem>
                             <FormItem>
-                                <Button type="primary" @click="_addPost" :loading="banciBtnLoading">{{mubanAddType ===
-                                    'add' ? '添加': '修改'}}类型
+                                <Button type="primary" @click="_addPost" :loading="banciBtnLoading">{{mubanAddType === 'add' ? '添加': '修改'}}类型
                                 </Button>
                             </FormItem>
                         </Form>
@@ -202,8 +201,7 @@
                 </Row>
             </Form>
             <div slot="footer">
-                <Button type="primary" style="margin-left: 8px" @click="_addClassHandler">{{classFormType === 'add'?
-                    '新建' : '修改'}}课程
+                <Button type="primary" style="margin-left: 8px" @click="_addClassHandler">{{classFormType === 'add'? '新建' : '修改'}}课程
                 </Button>
                 <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>

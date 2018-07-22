@@ -67,7 +67,7 @@
         </Row>
     </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
     .food-client {
         padding: 16px;
         .cash-btn {
