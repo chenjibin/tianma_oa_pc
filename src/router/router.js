@@ -243,6 +243,15 @@ export const otherRouter = {
             },
             name: 'mySalary',
             component: _import('salaryManaer/mySalary')
+        },
+        {
+            path: 'myFoodCard',
+            title: '我的饭卡',
+            meta: {
+                whiteIn: true
+            },
+            name: 'myFoodCard',
+            component: _import('myFoodCard')
         }
     ]
 };
@@ -677,10 +686,17 @@ export const appRouter = [
             },
             {
                 path: 'foodCardManage',
-                icon: 'ios-pricetags',
+                icon: 'card',
                 name: 'foodCardManage',
                 title: '饭卡管理',
                 component: _import('coinManage/foodCardManage')
+            },
+            {
+                path: 'foodCardLog',
+                icon: 'card',
+                name: 'foodCardLog',
+                title: '饭卡记录',
+                component: _import('coinManage/foodCardLog')
             }
         ]
     },
