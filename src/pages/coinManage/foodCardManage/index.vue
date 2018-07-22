@@ -2,7 +2,7 @@
     <div>
         <Row :gutter="6">
             <Col :span="4">
-            <fs-dep-tree url="/organize/userOrganizeTree?fatherId=-1"
+            <fs-dep-tree url="/organize/userOrganizeTreeByCard?fatherId=-1"
                          @node-change="_nodeChangeHandler($event)"
                          :defaultProps="defaultProps"></fs-dep-tree>
             </Col>

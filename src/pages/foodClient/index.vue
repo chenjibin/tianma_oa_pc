@@ -5,10 +5,10 @@
             <Card>
                 <div class="info-inner" :style="{height: innerHeight + 'px'}">
                     <Form ref="searchData" :model="searchData" inline :label-width="80">
-                        <FormItem prop="realName" label="姓名">
+                        <FormItem prop="realName" label="卡号" :label-width="40">
                             <Input type="text"
-                                   v-model="searchData.userName.value"
-                                   placeholder="筛选姓名"></Input>
+                                   v-model="searchData.cardNumber.value"
+                                   placeholder="筛选卡号"></Input>
                         </FormItem>
                         <FormItem prop="startDate" label="开始日期">
                             <DatePicker type="date"
@@ -21,6 +21,12 @@
                                         @on-change="_endDateChange"
                                         placeholder="结束日期"
                                         :value="searchData.end.value"></DatePicker>
+                        </FormItem>
+                        <FormItem :label-width="0.1">
+                            <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
+                                <span v-if="!exportLoading">导出</span>
+                                <span v-else>导出中...</span>
+                            </Button>
                         </FormItem>
                     </Form>
                     <fs-table-page :columns="columns1"
@@ -35,6 +41,10 @@
             <Col :span="12">
             <Card>
                 <div class="cash-inner" :style="{height: innerHeight + 'px'}">
+                    <div class="cash desc">
+                        <span>{{totalTitle}}</span>
+                        <span style="font-weight: 700">{{totalMoney}}元</span>
+                    </div>
                     <div class="cash">
                         <span class="label">消费</span>
                         <fs-input-number :inputClasses="'food-input'"
@@ -50,10 +60,6 @@
                                          :inputWrapClasses="'food-input-wrapper'"
                                          @key-enter="enterHandler"
                                          v-model="cardNumber"></fs-input-number>
-                    </div>
-                    <div class="cash desc">
-                        <span>{{totalTitle}}</span>
-                        <span style="font-weight: 700">{{totalMoney}}元</span>
                     </div>
                 </div>
             </Card>
@@ -84,7 +90,8 @@
             text-align: center;
             .cash {
                 &.desc {
-                    font-size: 18px;
+                    margin-bottom: 100px;
+                    font-size: 32px;
                 }
                 margin-bottom: 64px;
                 .food-input-wrapper {
@@ -119,17 +126,20 @@
 <script>
     import fsInputNumber from '@/baseComponents/fs-input-number'
     import fsTablePage from '@/baseComponents/fs-table-page'
+    import utils from '@/libs/util'
 
     export default {
         name: 'foodPublic',
         data() {
             return {
+                exportLoading: false,
                 cash: null,
                 cardNumber: null,
                 totalMoney: 0,
                 innerHeight: 400,
                 tableHeight: 400,
                 totalTitle: '今日消费总额',
+                canKou: true,
                 columns1: [
                     {
                         title: '内容',
@@ -175,7 +185,7 @@
                     }
                 ],
                 searchData: {
-                    userName: {
+                    cardNumber: {
                         value: '',
                         type: 'input'
                     },
@@ -192,9 +202,27 @@
         },
         created() {
             this._setHeight()
+            this._getTotalMoney()
         },
         computed: {},
         methods: {
+            _exportGrade() {
+                this.exportLoading = true;
+                let data = {};
+                let searchData = this.searchData;
+                data.cardNumber = searchData.cardNumber.value;
+                data.start = searchData.start.value;
+                data.end = searchData.end.value;
+                this.$http.post('/card/exportDetailbyShiTang', data).then((res) => {
+                    console.log(res)
+                    if (res.success) {
+                        utils.downloadFile(res.path, res.filename)
+                    }
+                    this.exportLoading = false;
+                }, () => {
+                    this.exportLoading = false;
+                })
+            },
             _returnMoney(data) {
                 this.$Modal.confirm({
                     title: '退款提醒',
@@ -209,6 +237,7 @@
                                     content: '退款成功!'
                                 });
                                 this.$refs.userTable.getListData()
+                                this._getTotalMoney()
                             }
                         })
                     }
@@ -234,9 +263,12 @@
                     this.$Message.error('请输入卡号!')
                     return
                 }
+                if (!this.canKou) return
+                this.canKou = false
                 this.$http.post('/card/consumeByUser', {cardNumber, money: cash}).then((res) => {
                     if (res.success) {
                         this.$Message.success('扣费成功!')
+                        this._getTotalMoney()
                         this.$refs.userTable.getListData()
                         this._initInput()
                     } else {
@@ -248,6 +280,9 @@
                             }
                         })
                     }
+                    this.canKou = true
+                }, () => {
+                    this.canKou = true
                 })
             },
             _computedTotalTitle() {
@@ -266,17 +301,27 @@
             _startDateChange(date) {
                 this.searchData.start.value = date
                 this._computedTotalTitle()
-                console.log(date)
+                this._getTotalMoney()
             },
             _endDateChange(date) {
                 this.searchData.end.value = date
                 this._computedTotalTitle()
-                console.log(date)
+                this._getTotalMoney()
             },
             _setHeight() {
                 let dm = document.body.clientHeight;
                 this.innerHeight = dm - 64;
                 this.tableHeight = dm - 240;
+            },
+            _getTotalMoney() {
+                let sendData = {}
+                sendData.start = this.searchData.start.value
+                sendData.end = this.searchData.end.value
+                this.$http.get('/card/getTotal', {params: sendData}).then((res) => {
+                    if (res.success) {
+                        this.totalMoney = res.data.total
+                    }
+                })
             }
         },
         components: {
