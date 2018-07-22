@@ -41,6 +41,15 @@
                             <Option value="0">使用中</Option>
                         </Select>
                     </FormItem>
+                    <FormItem :label-width="0.1">
+                        <ButtonGroup>
+                            <Button type="success"
+                                    @click="_openUploadModel">
+                                <Icon type="ios-cloud-upload-outline"></Icon>
+                                批量充值
+                            </Button>
+                        </ButtonGroup>
+                    </FormItem>
                 </Form>
                 <fs-table-page :columns="columns1"
                                :size="null"
@@ -99,6 +108,33 @@
             <div slot="footer">
             </div>
         </Modal>
+        <Modal v-model="importModalFlag"
+               width="400"
+               :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>批量充值</span>
+            </p>
+            <Button type="success"
+                    style="margin-bottom: 10px;"
+                    @click="_downloadGradeMuban">
+                <Icon type="ios-cloud-download-outline"></Icon>
+                下载模板
+            </Button>
+            <Upload type="drag"
+                    :show-upload-list="false"
+                    :on-progress="_uploadProgress"
+                    :on-format-error="_uploadFormatErr"
+                    :on-success="_uploadSuccess"
+                    :format="uploadFormat"
+                    action="/oa/card/bulkImport">
+                <div style="padding: 20px 0">
+                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                    <p>点击或者拖拽文件到这里上传(后缀为.xls的文件)</p>
+                </div>
+                <Spin size="large" fix v-show="spinShow">成绩上传中...</Spin>
+            </Upload>
+            <div slot="footer"></div>
+        </Modal>
     </div>
 </template>
 <style lang="less">
@@ -114,8 +150,9 @@
     }
 </style>
 <script>
-    import fsTablePage from '@/baseComponents/fs-table-page';
-    import fsDepTree from '@/baseComponents/fs-dep-tree';
+    import fsTablePage from '@/baseComponents/fs-table-page'
+    import fsDepTree from '@/baseComponents/fs-dep-tree'
+    import utils from '@/libs/util'
 
     export default {
         name: 'foodCardManage',
@@ -125,6 +162,9 @@
                 checkLogFlag: false,
                 bindOpen: false,
                 cashInOpen: false,
+                importModalFlag: false,
+                spinShow: false,
+                uploadFormat: ['xls'],
                 newCardNumber: null,
                 cashIn: null,
                 id: null,
@@ -137,6 +177,12 @@
                         type: 'selection',
                         width: 60,
                         align: 'center'
+                    },
+                    {
+                        title: '用户ID',
+                        key: 'id',
+                        align: 'center',
+                        width: 80
                     },
                     {
                         title: '姓名',
@@ -257,6 +303,27 @@
             }
         },
         methods: {
+            _downloadGradeMuban() {
+                utils.downloadFile('/oa/down/批量充值模板.xls', '批量充值模板.xls');
+            },
+            _openUploadModel() {
+                this.importModalFlag = true;
+            },
+            _uploadProgress(event) {
+                this.spinShow = true;
+            },
+            _uploadFormatErr() {
+                this.$Message.error('上传文件的后缀必须为.xls');
+            },
+            _uploadSuccess(response, file, fileList) {
+                if (response.success) {
+                    this.$Message.success('批量充值成功!');
+                    this.importModalFlag = false;
+                } else {
+                    this.$Message.error(response.message);
+                }
+                this.spinShow = false;
+            },
             confirmBindCard() {
                 const {id, newCardNumber} = this
                 this.$http.post('/card/bindCardNumber', {id, cardNumber: newCardNumber}).then((res) => {
