@@ -370,6 +370,7 @@
             },
             _getTotalMoney() {
                 let sendData = {}
+                sendData.cardNumber = this.searchData.cardNumber.value
                 sendData.start = this.searchData.start.value
                 sendData.end = this.searchData.end.value
                 this.$http.get('/card/getTotal', {params: sendData}).then((res) => {
