@@ -4,6 +4,7 @@
             :class="inputClasses"
             autocomplete="off"
             spellcheck="false"
+            ref="numberInput"
             @input="change"
             @change="change"
             @keydown.stop="keyDown"
@@ -39,6 +40,9 @@
             }
         },
         methods: {
+            focus() {
+                this.$refs.numberInput.focus()
+            },
             change (event) {
                 let val = event.target.value.trim();
                 const isEmptyString = val.length === 0;

@@ -61,6 +61,7 @@
                         <span class="label">消费</span>
                         <fs-input-number :inputClasses="'food-input'"
                                          :inputWrapClasses="'food-input-wrapper'"
+                                         ref="consumeInput"
                                          @key-enter="enterHandler"
                                          v-model="cash">
                             <span class="unit">元</span>
@@ -336,6 +337,7 @@
                             }
                         })
                     }
+                    this.$refs.consumeInput.focus()
                     this.canKou = true
                 }, () => {
                     this.canKou = true

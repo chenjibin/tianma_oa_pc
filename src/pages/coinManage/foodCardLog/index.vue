@@ -4,11 +4,13 @@
             <Form ref="searchData" :model="searchData" inline :label-width="80">
                 <FormItem prop="cardNumber" label="卡号">
                     <Input type="text"
+                           clearable
                            v-model="searchData.cardNumber.value"
                            placeholder="筛选卡号"></Input>
                 </FormItem>
                 <FormItem prop="realName" label="姓名">
                     <Input type="text"
+                           clearable
                            v-model="searchData.userName.value"
                            placeholder="筛选姓名"></Input>
                 </FormItem>
