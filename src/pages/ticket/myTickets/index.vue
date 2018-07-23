@@ -2,6 +2,9 @@
     <div id="myTickets">
         <Card>
             <Form inline style="width: 100%" :label-width="90">
+                <FormItem label="工单id" style="width: 220px">
+                    <Input v-model="filterOpt.id.value" style="width: 150px" placeholder="筛选id" clearable></Input>
+                </FormItem>
                 <FormItem label="状态" style="width: 250px">
                     <Select v-model="filterOpt.type.value"  placeholder="筛选状态"  clearable>
                         <Option value="1">处理中</Option>
@@ -134,6 +137,10 @@
                         value: '',
                         type: 'datepicker'
                     },
+                    id: {
+                        type: 'input',
+                        value: ''
+                    },
                     priority: {
                         value: '',
                         type: 'select'
@@ -154,6 +161,11 @@
                                 }
                             });
                         }
+                    },
+                    {
+                        title: '工单id',
+                        key: 'id',
+                        minWidth: 80
                     },
                     {
                         title: '工单名',

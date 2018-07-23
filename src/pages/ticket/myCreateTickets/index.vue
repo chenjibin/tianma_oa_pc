@@ -2,6 +2,9 @@
     <div id="myCreateTickets">
         <Card>
             <Form inline style="width: 100%" :label-width="70">
+                <FormItem label="工单id" style="width: 220px">
+                    <Input v-model="filterOpt.id.value" style="width: 150px" placeholder="筛选id" clearable></Input>
+                </FormItem>
                 <FormItem label="状态" style="width: 200px">
                     <Select v-model="filterOpt.type.value" style="width: 100%" placeholder="筛选状态" clearable>
                         <Option value="0">待处理</Option>
@@ -295,6 +298,10 @@
                         value: '',
                         type: 'select'
                     },
+                    id: {
+                        type: 'input',
+                        value: ''
+                    },
                     type: {
                         value: '',
                         type: 'select'
@@ -333,6 +340,11 @@
                                 }
                             });
                         }
+                    },
+                    {
+                        title: '工单id',
+                        key: 'id',
+                        minWidth: 80
                     },
                     {
                         title: '工单名',
