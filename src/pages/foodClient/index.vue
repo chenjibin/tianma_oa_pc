@@ -269,6 +269,7 @@
                 data.cardNumber = searchData.cardNumber.value;
                 data.start = searchData.start.value;
                 data.end = searchData.end.value;
+                data.type = searchData.type.value
                 this.$http.post('/card/exportDetailbyShiTang', data).then((res) => {
                     if (res.success) {
                         utils.downloadFile(res.path, res.filename)

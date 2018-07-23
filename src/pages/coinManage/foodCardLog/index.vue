@@ -49,6 +49,7 @@
                            :size="null"
                            :height="tableHeight"
                            :params="searchData"
+                           @get-list="_getTotalMoney"
                            ref="userTable"
                            url="/card/logList"></fs-table-page>
         </Card>
@@ -164,7 +165,6 @@
         },
         created() {
             this._setHeight()
-            this._getTotalMoney()
         },
         methods: {
             _exportGrade() {
@@ -175,6 +175,7 @@
                 data.cardNumber = searchData.cardNumber.value;
                 data.start = searchData.start.value;
                 data.end = searchData.end.value;
+                data.type = searchData.type.value;
                 this.$http.post('/card/exportDetail', data).then((res) => {
                     if (res.success) {
                         utils.downloadFile(res.path, res.filename)
@@ -186,11 +187,9 @@
             },
             _startDateChange(date) {
                 this.searchData.start.value = date
-                this._getTotalMoney()
             },
             _endDateChange(date) {
                 this.searchData.end.value = date
-                this._getTotalMoney()
             },
             _returnMoney(data) {
                 this.$Modal.confirm({
@@ -206,7 +205,6 @@
                                     content: '退款成功!'
                                 });
                                 this.$refs.userTable.getListData()
-                                this._getTotalMoney()
                             }
                         })
                     }
@@ -216,11 +214,8 @@
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _getTotalMoney() {
-                let sendData = {}
-                sendData.start = this.searchData.start.value
-                sendData.end = this.searchData.end.value
-                this.$http.get('/card/getTotal', {params: sendData}).then((res) => {
+            _getTotalMoney(params) {
+                this.$http.get('/card/getTotal', {params: params}).then((res) => {
                     if (res.success) {
                         this.totalMoney = res.data.total
                     }
