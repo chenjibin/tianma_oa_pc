@@ -2,7 +2,7 @@
     <div>
         <Card>
             <Form ref="searchData" :model="searchData" inline :label-width="80">
-                <FormItem prop="realName" label="卡号">
+                <FormItem prop="cardNumber" label="卡号">
                     <Input type="text"
                            v-model="searchData.cardNumber.value"
                            placeholder="筛选卡号"></Input>
@@ -12,19 +12,19 @@
                            v-model="searchData.userName.value"
                            placeholder="筛选姓名"></Input>
                 </FormItem>
-                <FormItem prop="startDate" label="开始日期">
+                <FormItem prop="start" label="开始日期">
                     <DatePicker type="date"
                                 @on-change="_startDateChange"
                                 placeholder="开始日期"
                                 :value="searchData.start.value"></DatePicker>
                 </FormItem>
-                <FormItem prop="startDate" label="结束日期">
+                <FormItem prop="end" label="结束日期">
                     <DatePicker type="date"
                                 @on-change="_endDateChange"
                                 placeholder="结束日期"
                                 :value="searchData.end.value"></DatePicker>
                 </FormItem>
-                <FormItem label="类型">
+                <FormItem label="类型" prop="type">
                     <Select v-model="searchData.type.value"
                             clearable
                             placeholder="筛选类型"
