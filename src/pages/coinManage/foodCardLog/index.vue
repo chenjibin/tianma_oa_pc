@@ -2,12 +2,12 @@
     <div>
         <Card>
             <Form ref="searchData" :model="searchData" inline :label-width="80">
-                <FormItem prop="realName" label="卡号" :label-width="40">
+                <FormItem prop="realName" label="卡号">
                     <Input type="text"
                            v-model="searchData.cardNumber.value"
                            placeholder="筛选卡号"></Input>
                 </FormItem>
-                <FormItem prop="realName" label="姓名" :label-width="40">
+                <FormItem prop="realName" label="姓名">
                     <Input type="text"
                            v-model="searchData.userName.value"
                            placeholder="筛选姓名"></Input>
@@ -24,11 +24,25 @@
                                 placeholder="结束日期"
                                 :value="searchData.end.value"></DatePicker>
                 </FormItem>
+                <FormItem label="类型">
+                    <Select v-model="searchData.type.value"
+                            clearable
+                            placeholder="筛选类型"
+                            style="width: 160px">
+                        <Option v-for="(item,index) in typeStore" :value="index" :key="'type-log-' + index">{{item}}</Option>
+                    </Select>
+                </FormItem>
                 <FormItem :label-width="0.1">
                     <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
                         <span v-if="!exportLoading">导出</span>
                         <span v-else>导出中...</span>
                     </Button>
+                </FormItem>
+                <FormItem :label-width="0.1">
+                    <div class="" style="font-size: 16px;font-weight: 700;">
+                        <span>金额:</span>
+                        <span>{{totalMoney}}元</span>
+                    </div>
                 </FormItem>
             </Form>
             <fs-table-page :columns="columns1"
@@ -52,12 +66,13 @@
             return {
                 exportLoading: false,
                 tableHeight: 400,
+                totalMoney: 0,
                 typeStore: [
                     '充值',
                     '消费',
                     '餐卡状态变更信息',
                     '消费退款记录',
-                    '已退款的消费退款记录',
+                    '已退款的消费记录',
                     '充值退款记录',
                     '已退款的充值记录',
                     '异常记录'
@@ -139,12 +154,17 @@
                     end: {
                         value: '',
                         type: 'date'
+                    },
+                    type: {
+                        value: '',
+                        type: 'select'
                     }
                 }
             }
         },
         created() {
             this._setHeight()
+            this._getTotalMoney()
         },
         methods: {
             _exportGrade() {
@@ -166,9 +186,11 @@
             },
             _startDateChange(date) {
                 this.searchData.start.value = date
+                this._getTotalMoney()
             },
             _endDateChange(date) {
                 this.searchData.end.value = date
+                this._getTotalMoney()
             },
             _returnMoney(data) {
                 this.$Modal.confirm({
@@ -193,6 +215,16 @@
             _setHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
+            },
+            _getTotalMoney() {
+                let sendData = {}
+                sendData.start = this.searchData.start.value
+                sendData.end = this.searchData.end.value
+                this.$http.get('/card/getTotal', {params: sendData}).then((res) => {
+                    if (res.success) {
+                        this.totalMoney = res.data.total
+                    }
+                })
             }
         },
         components: {
