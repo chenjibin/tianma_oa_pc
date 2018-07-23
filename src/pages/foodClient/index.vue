@@ -4,10 +4,11 @@
             <Col :span="12">
             <Card>
                 <div class="info-inner" :style="{height: innerHeight + 'px'}">
-                    <Form ref="searchData" :model="searchData" inline :label-width="80">
-                        <FormItem prop="realName" label="卡号" :label-width="40">
+                    <Form ref="searchData" :model="searchData" inline :label-width="60">
+                        <FormItem prop="realName" label="卡号">
                             <Input type="text"
                                    v-model="searchData.cardNumber.value"
+                                   clearable
                                    placeholder="筛选卡号"></Input>
                         </FormItem>
                         <FormItem prop="startDate" label="开始日期">
@@ -21,6 +22,14 @@
                                         @on-change="_endDateChange"
                                         placeholder="结束日期"
                                         :value="searchData.end.value"></DatePicker>
+                        </FormItem>
+                        <FormItem label="类型" prop="type">
+                            <Select v-model="searchData.type.value"
+                                    clearable
+                                    placeholder="筛选类型"
+                                    style="width: 160px">
+                                <Option v-for="item in typeStore" :value="item.value" :key="'type-log-' + item.value">{{item.title}}</Option>
+                            </Select>
                         </FormItem>
                         <FormItem :label-width="0.1">
                             <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
@@ -40,6 +49,9 @@
             </Col>
             <Col :span="12">
             <Card>
+                <div class="tool-btn">
+                    <Button type="error" @click.stop="logoutHandler">退出登录</Button>
+                </div>
                 <div class="cash-inner" :style="{height: innerHeight + 'px'}">
                     <div class="cash desc">
                         <span>{{totalTitle}}</span>
@@ -67,9 +79,15 @@
         </Row>
     </div>
 </template>
-<style lang="less" scoped>
+<style lang="less">
     .food-client {
         padding: 16px;
+        .tool-btn {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            z-index: 10;
+        }
         .cash-btn {
             background-color: #dc0707;
             color: #fff;
@@ -140,10 +158,33 @@
                 tableHeight: 400,
                 totalTitle: '今日消费总额',
                 canKou: true,
+                typeStore: [
+                    {
+                        value: 1,
+                        title: '消费'
+                    },
+                    {
+                        value: 3,
+                        title: '消费退款记录'
+                    },
+                    {
+                        value: 4,
+                        title: '已退款的消费记录'
+                    }
+                ],
                 columns1: [
                     {
                         title: '内容',
                         key: 'content'
+                    },
+                    {
+                        title: '类型',
+                        key: 'type',
+                        align: 'center',
+                        width: 200,
+                        render: (h, params) => {
+                            return h('span', this.typeStore.filter(x => x.value === +params.row.type)[0].title)
+                        }
                     },
                     {
                         title: '消费时间',
@@ -196,6 +237,10 @@
                     end: {
                         value: '',
                         type: 'date'
+                    },
+                    type: {
+                        value: '',
+                        type: 'select'
                     }
                 }
             }
@@ -206,6 +251,17 @@
         },
         computed: {},
         methods: {
+            logoutHandler() {
+                this.$Modal.confirm({
+                    title: '退出登录提醒',
+                    content: '确定退出登录？',
+                    okText: '确认退出',
+                    cancelText: '取消',
+                    onOk: () => {
+                        this.$store.commit('logout');
+                    }
+                });
+            },
             _exportGrade() {
                 this.exportLoading = true;
                 let data = {};
@@ -214,7 +270,6 @@
                 data.start = searchData.start.value;
                 data.end = searchData.end.value;
                 this.$http.post('/card/exportDetailbyShiTang', data).then((res) => {
-                    console.log(res)
                     if (res.success) {
                         utils.downloadFile(res.path, res.filename)
                     }
