@@ -38,6 +38,14 @@
                         <h2 class="title">余额</h2>
                         <p class="content">{{this.mealFree}}元</p>
                     </div>
+                    <div class="each-line">
+                        <h2 class="title">明日预约</h2>
+                        <div class="btb-group">
+                            <Button type="primary" size="large" disabled>早餐已预约</Button>
+                            <Button type="primary" size="large">预约午餐</Button>
+                            <Button type="primary" size="large">预约晚餐</Button>
+                        </div>
+                    </div>
                 </div>
             </Card>
             </Col>
@@ -66,6 +74,9 @@
             text-align: center;
             .each-line {
                 margin-bottom: 32px;
+                .btb-group {
+                    margin-top: 24px;
+                }
                 .title {
                     font-size: 32px;
                 }
@@ -127,7 +138,8 @@
         },
         created() {
             this._setHeight()
-            this._getTotalMoney()
+            // this._getTotalMoney()
+            this._getMyAppintment()
         },
         computed: {
             cardNumber() {
@@ -169,6 +181,11 @@
                 let dm = document.body.clientHeight;
                 this.innerHeight = dm - 164;
                 this.tableHeight = dm - 280;
+            },
+            _getMyAppintment() {
+                this.$http.get('card/getMyAppintment').then((res) => {
+                    console.log(res)
+                })
             },
             _getTotalMoney() {
                 let sendData = {}

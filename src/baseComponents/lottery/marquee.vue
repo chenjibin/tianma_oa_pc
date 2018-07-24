@@ -11,10 +11,6 @@
     </div>
 </template>
 <script>
-    import {prefixStyle} from '@/libs/dom'
-
-    const transform = prefixStyle('transform')
-
     export default {
         name: 'lottery',
         props: {
