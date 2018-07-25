@@ -1,6 +1,6 @@
 <template>
     <div class="food-client">
-        <Row :gutter="16">
+        <Row :gutter="8">
             <Col :span="12">
             <Card>
                 <div class="info-inner" :style="{height: innerHeight + 'px'}">
@@ -117,7 +117,7 @@
 </template>
 <style lang="less">
     .food-client {
-        padding: 16px;
+        padding: 8px;
         .tool-btn {
             position: absolute;
             right: 12px;
@@ -429,7 +429,7 @@
             },
             _setHeight() {
                 let dm = document.body.clientHeight;
-                this.innerHeight = dm - 64;
+                this.innerHeight = dm - 48;
                 this.tableHeight = dm - 240;
             },
             _getAppointmentTotal() {

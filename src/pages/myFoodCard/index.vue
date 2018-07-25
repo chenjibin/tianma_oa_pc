@@ -1,6 +1,6 @@
 <template>
     <div class="food-client">
-        <Row :gutter="16">
+        <Row :gutter="8">
             <Col :span="12">
             <Card>
                 <div class="info-inner" :style="{height: innerHeight + 'px'}">
@@ -41,9 +41,28 @@
                     <div class="each-line">
                         <h2 class="title">明日预约</h2>
                         <div class="btb-group">
-                            <Button type="primary" size="large" disabled>早餐已预约</Button>
-                            <Button type="primary" size="large">预约午餐</Button>
-                            <Button type="primary" size="large">预约晚餐</Button>
+                            <fs-appointment-btn
+                                :states="morningStates"
+                                type="morning"
+                                :id="appointmentId"
+                                type-title="早餐"
+                                @states-change="_getMyAppintment"></fs-appointment-btn>
+                            <fs-appointment-btn
+                                :states="afternoonStates"
+                                :id="appointmentId"
+                                type="afternoon"
+                                type-title="午餐"
+                                @states-change="_getMyAppintment"></fs-appointment-btn>
+                            <fs-appointment-btn
+                                :states="dinnerStates"
+                                :id="appointmentId"
+                                type="dinner"
+                                type-title="晚餐"
+                                @states-change="_getMyAppintment"></fs-appointment-btn>
+                        </div>
+                        <div class="beizhu">
+                            <span>备注:预定没去或去了没预定，很容易造成食物浪费或紧缺，为了大家更好的就餐，请酌情而定哦（周六周日请务必认真填写，谢谢您的帮忙）。
+</span>
                         </div>
                     </div>
                 </div>
@@ -76,6 +95,12 @@
                 margin-bottom: 32px;
                 .btb-group {
                     margin-top: 24px;
+                    display: flex;
+                    justify-content: center;
+                }
+                .beizhu {
+                    margin-top: 16px;
+                    text-align: left;
                 }
                 .title {
                     font-size: 32px;
@@ -90,6 +115,7 @@
 <script>
     import fsInputNumber from '@/baseComponents/fs-input-number'
     import fsTablePage from '@/baseComponents/fs-table-page'
+    import fsAppointmentBtn from './fs-appointment-btn'
     import utils from '@/libs/util'
 
     export default {
@@ -100,6 +126,7 @@
                 totalMoney: 0,
                 innerHeight: 400,
                 tableHeight: 400,
+                appointmentId: 0,
                 totalTitle: '今日消费总额',
                 columns1: [
                     {
@@ -133,7 +160,10 @@
                         value: '',
                         type: 'date'
                     }
-                }
+                },
+                morningStates: 0,
+                afternoonStates: 0,
+                dinnerStates: 0
             }
         },
         created() {
@@ -146,7 +176,7 @@
                 return this.$store.state.user.userInfo.cardnumber || '...';
             },
             mealFree() {
-                return this.$store.state.user.userInfo.mealfee || '...';
+                return this.$store.state.user.userInfo.mealfee;
             }
         },
         methods: {
@@ -158,7 +188,6 @@
                 data.start = searchData.start.value;
                 data.end = searchData.end.value;
                 this.$http.post('/card/exportDetailbyShiTang', data).then((res) => {
-                    console.log(res)
                     if (res.success) {
                         utils.downloadFile(res.path, res.filename)
                     }
@@ -184,7 +213,11 @@
             },
             _getMyAppintment() {
                 this.$http.get('card/getMyAppintment').then((res) => {
-                    console.log(res)
+                    const data = res.data
+                    this.appointmentId = data.id
+                    this.morningStates = data.morning
+                    this.afternoonStates = data.afternoon
+                    this.dinnerStates = data.dinner
                 })
             },
             _getTotalMoney() {
@@ -200,7 +233,8 @@
         },
         components: {
             fsInputNumber,
-            fsTablePage
+            fsTablePage,
+            fsAppointmentBtn
         }
     }
 </script>
