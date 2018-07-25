@@ -246,7 +246,7 @@ export const otherRouter = {
         },
         {
             path: 'myFoodCard',
-            title: '我的饭卡',
+            title: '我的餐卡',
             meta: {
                 whiteIn: true
             },
@@ -688,14 +688,14 @@ export const appRouter = [
                 path: 'foodCardManage',
                 icon: 'card',
                 name: 'foodCardManage',
-                title: '饭卡管理',
+                title: '餐卡管理',
                 component: _import('coinManage/foodCardManage')
             },
             {
                 path: 'foodCardLog',
                 icon: 'card',
                 name: 'foodCardLog',
-                title: '饭卡记录',
+                title: '餐卡记录',
                 component: _import('coinManage/foodCardLog')
             }
         ]

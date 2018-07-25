@@ -78,7 +78,7 @@
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn iconType="card"
-                              color="rgb(242, 94, 67)" btn-text="饭卡"
+                              color="rgb(242, 94, 67)" btn-text="餐卡"
                               @card-click="$router.replace({name: 'myFoodCard'})"></info-btn>
                     </Col>
                 </Row>

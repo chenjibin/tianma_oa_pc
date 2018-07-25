@@ -38,6 +38,40 @@
                         <h2 class="title">余额</h2>
                         <p class="content">{{this.mealFree}}元</p>
                     </div>
+                    <div class="each-line yuding">
+                        <p class="title">今日预定数据</p>
+                        <div class="yuding-content-block">
+                            <div class="yuding-content-item">
+                                <span>早餐:</span>
+                                <span>{{morningToday}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>中餐:</span>
+                                <span>{{afternoonToday}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>晚餐:</span>
+                                <span>{{dinnerToday}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="each-line yuding">
+                        <p class="title">明日预定数据</p>
+                        <div class="yuding-content-block">
+                            <div class="yuding-content-item">
+                                <span>早餐:</span>
+                                <span>{{morningTomorrow}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>中餐:</span>
+                                <span>{{afternoonTomorrow}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>晚餐:</span>
+                                <span>{{dinnerTomorrow}}</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="each-line">
                         <h2 class="title">明日预约</h2>
                         <div class="btb-group">
@@ -46,19 +80,19 @@
                                 type="morning"
                                 :id="appointmentId"
                                 type-title="早餐"
-                                @states-change="_getMyAppintment"></fs-appointment-btn>
+                                @states-change="_statesChangeHandler"></fs-appointment-btn>
                             <fs-appointment-btn
                                 :states="afternoonStates"
                                 :id="appointmentId"
                                 type="afternoon"
                                 type-title="午餐"
-                                @states-change="_getMyAppintment"></fs-appointment-btn>
+                                @states-change="_statesChangeHandler"></fs-appointment-btn>
                             <fs-appointment-btn
                                 :states="dinnerStates"
                                 :id="appointmentId"
                                 type="dinner"
                                 type-title="晚餐"
-                                @states-change="_getMyAppintment"></fs-appointment-btn>
+                                @states-change="_statesChangeHandler"></fs-appointment-btn>
                         </div>
                         <div class="beizhu">
                             <span>备注:预定没去或去了没预定，很容易造成食物浪费或紧缺，为了大家更好的就餐，请酌情而定哦（周六周日请务必认真填写，谢谢您的帮忙）。
@@ -93,6 +127,20 @@
             text-align: center;
             .each-line {
                 margin-bottom: 32px;
+                &.yuding {
+                    .title {
+                        font-size: 24px;
+                        font-weight: 700;
+                    }
+                    .yuding-content-block {
+                        display: flex;
+                        margin-top: 8px;
+                        font-size: 18px;
+                    }
+                    .yuding-content-item {
+                        margin: 0 8px;
+                    }
+                }
                 .btb-group {
                     margin-top: 24px;
                     display: flex;
@@ -163,12 +211,18 @@
                 },
                 morningStates: 0,
                 afternoonStates: 0,
-                dinnerStates: 0
+                dinnerStates: 0,
+                afternoonToday: 0,
+                afternoonTomorrow: 0,
+                dinnerToday: 0,
+                dinnerTomorrow: 0,
+                morningToday: 0,
+                morningTomorrow: 0
             }
         },
         created() {
             this._setHeight()
-            // this._getTotalMoney()
+            this._getAppointmentTotal()
             this._getMyAppintment()
         },
         computed: {
@@ -219,6 +273,23 @@
                     this.afternoonStates = data.afternoon
                     this.dinnerStates = data.dinner
                 })
+            },
+            _getAppointmentTotal() {
+                this.$http.get('card/getAppointmentTotal').then((res) => {
+                    if (res.success) {
+                        const data = res.data
+                        this.morningToday = data.morning_today
+                        this.morningTomorrow = data.morning_tomorrow
+                        this.afternoonToday = data.afternoon_today
+                        this.afternoonTomorrow = data.afternoon_tomorrow
+                        this.dinnerToday = data.dinner_today
+                        this.dinnerTomorrow = data.dinner_tomorrow
+                    }
+                })
+            },
+            _statesChangeHandler() {
+                this._getAppointmentTotal()
+                this._getMyAppintment()
             },
             _getTotalMoney() {
                 let sendData = {}
