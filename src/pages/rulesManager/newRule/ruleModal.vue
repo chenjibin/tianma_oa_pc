@@ -2,10 +2,10 @@
     <Modal id="ruleModal" :value="showModal" :closable="canClose" @on-visible-change="changeMe" width="800">
         <div slot="header" style="color:#495060;text-align:center;font-size: 18px;font-weight:bold;">
             <span>规章制度</span>
-            <span v-if="!canClose" style="position: absolute;top: 1px;right: 1px">
+            <span v-if="!canClose" style="position: absolute;top: 6px;right: 6px">
                 <ButtonGroup>
-                    <Button @click="changeType(2)" style="border-radius: 0" type="ghost">驳回</Button>
-                    <Button @click="changeType(1)" style="border-radius: 0 6px 0 0" type="success">通过</Button>
+                    <Button @click="changeType(2)" type="error">驳回</Button>
+                    <Button @click="changeType(1)" type="success">通过</Button>
                 </ButtonGroup>
             </span>
         </div>

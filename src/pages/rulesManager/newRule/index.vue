@@ -31,6 +31,10 @@
                     <FormItem label="操作人">
                         {{realName}}
                     </FormItem>
+                    <FormItem label="规章标题">
+                        <Input type="text"
+                               v-model="ruleTitle"></Input>
+                    </FormItem>
                     <FormItem label="规章内容">
                         <wang-editor
                             v-if="newFlag"
@@ -83,6 +87,7 @@
                 detailModal: false,
                 detailRow: [],
                 ruleId: '',
+                ruleTitle: '',
                 postColumns: [
                     {
                         title: '创建人',
@@ -93,6 +98,11 @@
                         title: '添加日期',
                         key: 'add_time',
                         width: 120
+                    },
+                    {
+                        title: '规章标题',
+                        key: 'name',
+                        ellipsis: true
                     },
                     {
                         title: '规章内容',
@@ -216,12 +226,14 @@
             edit(data) {
                 this.editorContent = data.content;
                 this.ruleId = data.id;
+                this.ruleTitle = data.name;
                 this.$refs.treeDom.setCheckedKeys(data.organizeid ? data.organizeid.split(',').filter(x => !!x) : []);
                 this.newFlag = true;
             },
             newOne() {
                 this.editorContent = '';
                 this.ruleId = '';
+                this.ruleTitle = '';
                 this.$refs.treeDom.setCheckedKeys([]);
                 this.newFlag = true;
             },
@@ -229,6 +241,7 @@
                 let d = {};
                 d.organizeId = this.$refs.treeDom.getCheckedKeys().join(',');
                 d.content = this.editorContent;
+                d.name = this.ruleTitle || '';
                 if (this.ruleId) {
                     d.id = this.ruleId;
                 }

@@ -82,7 +82,7 @@
                 </Tooltip>
             </Poptip>
             <Tooltip placement="top" content="查看规章" :transfer="true">
-                <Button type="ghost" @click="showRule" shape="circle" icon="ios-star"></Button>
+                <Button type="ghost" @click="showRuleModal = true" shape="circle" icon="ios-star"></Button>
             </Tooltip>
             <Poptip placement="right-start"
                     width="500"
@@ -112,7 +112,14 @@
                 <Button type="ghost" @click="changeAvatorFlag = false">取消</Button>
             </div>
         </Modal>
-        <ruleModal :dataArr="rulesArr" :showModal.sync="detailModal"></ruleModal>
+        <Modal id="rule-modal-new" v-model="showRuleModal" width="1200">
+            <div slot="header" style="color:#495060;text-align:center;font-size: 18px;font-weight:bold;">
+                <span>规章制度</span>
+            </div>
+            <show-rule v-if="showRuleModal"></show-rule>
+            <div slot="footer" class="footer">
+            </div>
+        </Modal>
     </Card>
 </template>
 <style lang="less" scoped>
@@ -139,6 +146,7 @@
     import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img'
     import ruleModal from '@/pages/rulesManager/newRule/ruleModal';
     import FsLottery from '@/baseComponents/lottery'
+    import ShowRule from '../../rulesManager/components/show-rule';
 
     export default {
         data() {
@@ -165,6 +173,7 @@
             return {
                 changeAvatorFlag: false,
                 detailModal: false,
+                showRuleModal: false,
                 rulesArr: [],
                 pwsFlag: false,
                 lotteryFlag: false,
@@ -248,6 +257,7 @@
             }
         },
         components: {
+            ShowRule,
             fsCropperImg,
             ruleModal,
             FsShowLevel,

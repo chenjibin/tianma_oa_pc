@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="each-line">
-                        <h2 class="title">明日预约</h2>
+                        <h2 class="title">我的明日预约</h2>
                         <div class="btb-group">
                             <fs-appointment-btn
                                 :states="morningStates"
