@@ -4,13 +4,12 @@
             <span v-if="states === 0">预约{{typeTitle}}</span>
             <span v-else>{{typeTitle}}已预约</span>
         </Button>
-        <Tooltip content="取消预约">
+        <Tooltip content="取消预约" v-if="states === 1">
             <Button type="error"
                     shape="circle"
                     icon="close"
                     style="margin-top: 12px"
-                    @click="_cancelAppointment"
-                    v-if="states === 1"></Button>
+                    @click="_cancelAppointment"></Button>
         </Tooltip>
     </div>
 </template>

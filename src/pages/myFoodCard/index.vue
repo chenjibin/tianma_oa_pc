@@ -30,13 +30,18 @@
             <Col :span="12">
             <Card>
                 <div class="cash-inner" :style="{height: innerHeight + 'px'}">
-                    <div class="each-line">
-                        <h2 class="title">卡号</h2>
-                        <p class="content">{{this.cardNumber}}</p>
-                    </div>
-                    <div class="each-line">
-                        <h2 class="title">余额</h2>
-                        <p class="content">{{this.mealFree}}元</p>
+                    <div class="food-card-info-wrap">
+                        <div class="food-card-info"></div>
+                        <div class="info-block">
+                            <div class="info-item">
+                                <span>卡号:</span>
+                                <span>{{cardNumber}}</span>
+                            </div>
+                            <div class="info-item">
+                                <span>余额:</span>
+                                <span>{{mealFree}}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="each-line yuding">
                         <p class="title">今日预定数据</p>
@@ -125,16 +130,49 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            .food-card-info-wrap {
+                position: relative;
+                margin-bottom: 24px;
+                width: 60%;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 1px 1px 4px 2px #c0c4cc;
+                .info-block {
+                    padding: 12px;
+                    position: absolute;
+                    display: flex;
+                    justify-content: space-around;
+                    left: 0;
+                    width: 100%;
+                    bottom: 0;
+                    background-color: rgba(0,0,0,0.8);
+                    .info-item {
+                        font-size: 16px;
+                        font-weight: 700;
+                        color: #fff;
+                    }
+                }
+            }
+            .food-card-info {
+                position: relative;
+                width: 100%;
+                padding-top: 65%;
+                background-image: url(../../images/food_card_bg.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
             .each-line {
                 margin-bottom: 32px;
                 &.yuding {
+                    display: flex;
+                    align-items: center;
                     .title {
-                        font-size: 24px;
+                        font-size: 20px;
                         font-weight: 700;
                     }
                     .yuding-content-block {
                         display: flex;
-                        margin-top: 8px;
                         font-size: 18px;
                     }
                     .yuding-content-item {
@@ -147,11 +185,12 @@
                     justify-content: center;
                 }
                 .beizhu {
-                    margin-top: 16px;
+                    margin: 24px auto 0 auto;
+                    width: 80%;
                     text-align: left;
                 }
                 .title {
-                    font-size: 32px;
+                    font-size: 24px;
                 }
                 .content {
                     font-size: 24px;
