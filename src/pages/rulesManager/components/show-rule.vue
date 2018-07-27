@@ -14,7 +14,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="content" v-html="companyContent">
+                    <div class="content w-e-text" v-html="companyContent">
                     </div>
                 </div>
             </TabPane>
@@ -22,7 +22,7 @@
                 <div class="tab-inner">
                     <div class="left">
                         <ul class="item-list">
-                            <li v-for="item in departmentRule"
+                            <li v-for="(item,index) in departmentRule"
                                 :key="'department-' + item.id"
                                 :class="{'active': index === departmentIndex}"
                                 @click.stop="_checkDepContent(item,index)"
@@ -31,7 +31,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="content" v-html="departmentContent">
+                    <div class="content w-e-text" v-html="departmentContent">
                     </div>
                 </div>
             </TabPane>
@@ -70,6 +70,7 @@
                 flex: 1;
                 height: 650px;
                 overflow: auto;
+                font-size: 16px;
             }
         }
     }
