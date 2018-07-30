@@ -22,7 +22,7 @@
                              v-for="(item, index) in productInfo.files"
                              :class="{'prev-scene': index < currentIndex, 'next-scene': index > currentIndex}"
                              :key="'pic-' + index">
-                            <img :src="$mainHost + item.file_path" v-if="index <= imgLoadIndex" />
+                            <img :src="$mainHost + item.file_path" v-if="index <= imgLoadIndex"/>
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">
@@ -34,13 +34,20 @@
                 </div>
                 <div class="fs-theater-swiper-thumb">
                     <div class="thumb-container" :style="{'transform': `translate3d(${transformX},0,0)`}">
-                        <a class="thumb-item"
-                           @click.stop="currentIndex = index"
-                           :class="{'current': index === currentIndex}"
-                           :style="{'background-image': `url(${$mainHost + item.file_path})`}"
-                           v-for="(item, index) in productInfo.files"
-                           v-if="index <= imgLoadIndex"
-                           :key="'thumb-' + index"></a>
+                        <Tooltip placement="top" content="test"
+                                 v-if="index <= imgLoadIndex"
+                                 :disabled="item.status !== 3 || index !== currentIndex"
+                                 v-for="(item, index) in productInfo.files"
+                                 :key="'thumb-' + index">
+                            <a class="thumb-item"
+                               @click.stop="currentIndex = index"
+                               :class="{'current': index === currentIndex}"
+                               :style="{'background-image': `url(${$mainHost + item.file_path})`}"
+                               :key="'thumb-' + index"></a>
+                            <div class="api" slot="content">
+                                <Button type="error" @click.native="_delOnePhoto(item)">删除</Button>
+                            </div>
+                        </Tooltip>
                     </div>
                 </div>
             </div>
@@ -49,7 +56,8 @@
             <div class="actions">
                 <a class="action" @click="_thumbHandler">
                     <Icon type="heart" :color="productInfo.thumbupid ? '#ff0036' : '#fff'" size="24"></Icon>
-                    <span :style="{'color': productInfo.thumbupid ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
+                    <span
+                        :style="{'color': productInfo.thumbupid ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
                 </a>
                 <a class="action">
                     <Icon type="chatbox" color="#fff" size="24"></Icon>
@@ -69,7 +77,9 @@
             <div class="head">
                 <img class="user-pic" :src="$mainHost + productInfo.headimagepath" v-if="productInfo.headimagepath">
                 <p class="user-name">{{productInfo.insert_username || ''}}</p>
-                <p class="desc"><time>{{productInfo.createTime || ''}}</time></p>
+                <p class="desc">
+                    <time>{{productInfo.createTime || ''}}</time>
+                </p>
             </div>
             <fs-comment :id="productId"></fs-comment>
         </div>
@@ -96,7 +106,7 @@
             z-index: 999;
             .number {
                 font-size: 18px;
-                color: rgba(255,255,255,0.8);
+                color: rgba(255, 255, 255, 0.8);
             }
             .tool-btns {
                 padding-right: 48px;
@@ -129,7 +139,7 @@
                     z-index: 1;
                     width: 100px;
                     &:hover {
-                        background-color: rgba(0,0,0,.2);
+                        background-color: rgba(0, 0, 0, .2);
                     }
                     &.prev {
                         left: 0;
@@ -197,7 +207,7 @@
                             top: 0;
                             right: 0;
                             bottom: 0;
-                            background-color: rgba(0,0,0,.6);
+                            background-color: rgba(0, 0, 0, .6);
                         }
                     }
                 }
@@ -278,6 +288,7 @@
 <script>
     import {on, off} from '@/libs/dom';
     import FsComment from '../components/fs-comment';
+
     export default {
         name: 'FsPhotoTheater',
         props: {
@@ -313,6 +324,36 @@
             }
         },
         methods: {
+            _delOnePhoto(item) {
+                if (this.productInfo.files.length !== 1) {
+                    this.$Modal.confirm({
+                        content: '确认删除这张照片么？',
+                        onOk: () => {
+                            let id = item.id
+                            this.$http.post('/staffPresence/deleteImage', {id}).then((res) => {
+                                if (res.success) {
+                                    this._getProductDetail()
+                                }
+                            })
+                        }
+                    });
+                } else {
+                    this.$Modal.confirm({
+                        content: '此作品集还剩一张图片,是否删除整个作品集合?',
+                        onOk: () => {
+                            let sendData = {};
+                            sendData.articleId = this.productInfo.id;
+                            this.$http.post('/staffPresence/delSelfArticle', sendData).then((res) => {
+                                if (res.success) {
+                                    this.$Message.success('删除成功!');
+                                    this.$emit('close-theater');
+                                    this.$emit('update-list');
+                                }
+                            });
+                        }
+                    });
+                }
+            },
             _returnSmallImg(photo) {
                 let filePath = photo.file_path;
                 let fileName = photo.file_name;
@@ -400,6 +441,7 @@
                 this.$http.get('/staffPresence/getArticle', {params: sendData}).then((res) => {
                     if (res.success) {
                         this.productInfo = res.data;
+                        this.currentIndex = Math.min(this.productInfo.files.length - 1, this.currentIndex)
                     }
                 });
             }

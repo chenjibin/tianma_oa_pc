@@ -19,8 +19,7 @@
                                 clearable
                                 placeholder="筛选角色"
                                 style="width: 100px">
-                            <Option :value="item.id" v-for="(item, index) in roleData" :key="index">{{item.name}}
-                            </Option>
+                            <Option :value="item.id" v-for="(item, index) in roleData" :key="index">{{item.name}}</Option>
                         </Select>
                     </FormItem>
                     <FormItem :label-width="0.1">
@@ -40,9 +39,9 @@
                                 删除计划
                             </Button>
                             <Button type="primary"
-                                    @click="addDepModalFlag = true">
-                                <Icon type="ios-trash-outline"></Icon>
-                                导出
+                            @click="addDepModalFlag = true">
+                            <Icon type="ios-trash-outline"></Icon>
+                            导出
                             </Button>
                         </ButtonGroup>
                     </FormItem>
@@ -73,8 +72,7 @@
                         @on-ok="_deleteMuban">
                     <Button style="margin-left: 8px"
                             type="error"
-                            :disabled="!chooseDataArray.length">删除
-                    </Button>
+                            :disabled="!chooseDataArray.length">删除</Button>
                 </Poptip>
 
                 <Poptip placement="left"
@@ -82,12 +80,10 @@
                     <Button type="primary"
                             :disabled="!(chooseDataArray.length === 1)"
                             style="margin-left: 8px"
-                            @click="_updateMubanHandler">修改模板
-                    </Button>
+                            @click="_updateMubanHandler">修改模板</Button>
                     <Button type="primary"
                             @click="_addMubanHandler"
-                            style="margin-left: 8px">添加模板
-                    </Button>
+                            style="margin-left: 8px">添加模板</Button>
                     <div class="banci-add-form" slot="content">
                         <Form :rules="mubanRules"
                               :model="mubanForm"
@@ -102,9 +98,9 @@
                             <FormItem label="字段类型" style="text-align: left;">
                                 <Select v-model="mubanForm.keyType"
                                         style="width: 100px">
-                                    <Option value="textfield">文本</Option>
-                                    <Option value="textarea">文本域</Option>
-                                    <Option value="numberfield">数字</Option>
+                                    <Option value="textfield" >文本</Option>
+                                    <Option value="textarea" >文本域</Option>
+                                    <Option value="numberfield" >数字</Option>
                                 </Select>
                             </FormItem>
                             <FormItem label="备注" prop="remark">
@@ -128,10 +124,8 @@
                      ref="formPlan"
                      v-model="trainData"></fs-form>
             <div slot="footer">
-                <Button type="primary" style="margin-left: 8px" v-show="examine" @click="_approvalPlan" id="sh">审核通过
-                </Button>
-                <Button type="primary" style="margin-left: 8px" v-show="subplan" @click="_submitPlan" id="tijh">提交计划
-                </Button>
+                <Button type="primary" style="margin-left: 8px" v-show="examine"  @click="_approvalPlan" id="sh">审核通过</Button>
+                <Button type="primary" style="margin-left: 8px" v-show="subplan"  @click="_submitPlan" id="tijh">提交计划</Button>
                 <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
@@ -175,16 +169,15 @@
                     <Select v-model="planForm.people" multiple>
                         <Option v-for="(item, index) in allTeacherOpt"
                                 :value="item.user_id"
-                                :key="'charge-' + index">{{ item.user_name + '(' + item.organize_name + '·' + item.postname + '·' + item.post_name + ')'}}</Option>
+                                :key="'charge-' + index">{{ item.user_name + '(' + item.organize_name + '·'  + item.postname + '·' + item.post_name + ')'}}</Option>
                     </Select>
                     <Poptip
-                            confirm
-                            title="您确清空当前选中的负责人么？"
-                            @on-ok="planForm.people = []">
+                        confirm
+                        title="您确清空当前选中的负责人么？"
+                        @on-ok="planForm.people = []">
                         <Button type="ghost"
                                 icon="trash-a"
-                                style="margin-top: 8px;">一键清空负责人
-                        </Button>
+                                style="margin-top: 8px;">一键清空负责人</Button>
                     </Poptip>
 
                 </FormItem>
@@ -192,8 +185,7 @@
                     <CheckboxGroup v-model="planForm.project">
                         <Checkbox :label="item.id"
                                   :key="'project' + index"
-                                  v-for="(item,index) in allProjectOpt">{{item.name}}
-                        </Checkbox>
+                                  v-for="(item,index) in allProjectOpt">{{item.name}}</Checkbox>
                     </CheckboxGroup>
                 </FormItem>
             </Form>
@@ -214,11 +206,10 @@
     import fsSearchUser from '@/baseComponents/fs-search-user';
     import fsForm from '@/baseComponents/fs-form/form';
     import moment from 'moment';
-
     const NOW_MONTH = moment().format('YYYY-MM');
     export default {
         name: 'trainPlanManage',
-        data() {
+        data () {
             return {
                 modelFlag: false,
                 mubanFlag: false,
@@ -389,7 +380,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function (e) {
+                                            click: function(e) {
                                                 e.stopPropagation();
                                                 vm._checkTest(params.row);
                                             }
@@ -433,7 +424,7 @@
             this._getAllTeacherOpt();
         },
         methods: {
-            formReset(name) {
+            formReset (name) {
                 this.$refs[name].resetFields();
             },
             downloadFile(url, name) {

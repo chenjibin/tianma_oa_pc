@@ -3,8 +3,7 @@
         <Card>
             <Form inline :label-width="60" @submit.native.prevent>
                 <FormItem label="奖品名称">
-                    <Input @on-change="_inputDebounce"
-                           v-model="filterOpt.goodsName"
+                    <Input v-model="filterOpt.name.value"
                            placeholder="筛选奖品名称"></Input>
                 </FormItem>
                 <FormItem :label-width="0.1">
@@ -16,20 +15,12 @@
                     </ButtonGroup>
                 </FormItem>
             </Form>
-            <Table :columns="postColumns"
-                   :loading="tableLoading"
-                   :height="tableHeight"
-                   :data="pageData.list"></Table>
-            <Page :total="pageData.totalCount"
-                  :current="pageData.page"
-                  @on-change="_setPage"
-                  @on-page-size-change="_setPageSize"
-                  :page-size="pageData.pageSize"
-                  placement="top"
-                  show-sizer
-                  show-total
-                  show-elevator
-                  style="margin-top: 16px;"></Page>
+            <fs-table-page :columns="postColumns"
+                           :size="null"
+                           :height="tableHeight"
+                           :params="filterOpt"
+                           ref="priceTable"
+                           url="/lottery/goodslist"></fs-table-page>
             <Modal v-model="editorSettingFlag"
                    width="600"
                    :mask-closable="false">
@@ -40,7 +31,7 @@
                       :rules="formRule"
                       ref="formFo"
                       :model="editorSettingData">
-                    <FormItem label="是否下架">
+                    <FormItem label="是否下架" v-show="editorType === 'update'">
                         <i-switch v-model="editorSettingData.isDown" size="large">
                             <span slot="open">上架</span>
                             <span slot="close">下架</span>
@@ -92,7 +83,7 @@
                     <Button type="primary"
                             :loading="btnLoading"
                             @click="_confirmAddGoods">
-                        {{editorType === 'create' ? '添加商品' : '修改商品'}}
+                        {{editorType === 'create' ? '添加奖品' : '修改奖品'}}
                     </Button>
                     <Button type="ghost" style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
                 </div>
@@ -101,9 +92,8 @@
     </div>
 </template>
 <script>
-    import pageMixin from '@/mixins/pageMixin';
+    import fsTablePage from '@/baseComponents/fs-table-page';
     import fsImgUpload from '@/baseComponents/fs-img-upload-new';
-    import debounce from 'lodash/debounce';
     export default {
         name: 'prizeManage',
         data () {
@@ -112,8 +102,10 @@
                 btnLoading: false,
                 editorType: 'create',
                 filterOpt: {
-                    goodsName: '',
-                    status: ''
+                    name: {
+                        value: '',
+                        type: 'input'
+                    }
                 },
                 editorSettingData: {
                     goodsName: '',
@@ -122,7 +114,6 @@
                     price: 0,
                     probability: 0,
                     isDown: true,
-                    goodPic: '',
                     id: 0
                 },
                 postColumns: [
@@ -139,12 +130,34 @@
                     {
                         title: '图片',
                         align: 'center',
+                        width: 160,
                         render: (h, params) => {
-                            return h('img', {
-                                attrs: {
-                                    src: '/oa/upload/' + params.row.image_path
+                            return h('div', {
+                                style: {
+                                    padding: '8px 0'
                                 }
-                            });
+                            }, [
+                                h('img', {
+                                    style: {
+                                        maxWidth: '100%',
+                                        height: 'auto',
+                                        display: 'block'
+                                    },
+                                    attrs: {
+                                        src: '/oa/upload/' + params.row.image_path
+                                    }
+                                })
+                            ])
+                            // return h('img', {
+                            //     style: {
+                            //         maxWidth: '100%',
+                            //         height: 'auto',
+                            //         display: 'block'
+                            //     },
+                            //     attrs: {
+                            //         src: '/oa/upload/' + params.row.image_path
+                            //     }
+                            // });
                         }
                     },
                     {
@@ -201,7 +214,8 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function (e) {
+                                                e.stopPropagation();
                                                 vm._editorSetting(params.row);
                                             }
                                         }
@@ -220,15 +234,7 @@
                 tableHeight: 500
             };
         },
-        imgFile: {
-            handler(val) {
-                this.editorSettingData.goodPic = val.length ? val[0].name : '';
-            },
-            deep: true
-        },
-        mixins: [pageMixin],
         created() {
-            this._getPostData();
             this._setTableHeight();
         },
         methods: {
@@ -238,39 +244,29 @@
                     if (valid) {
                         let data = {};
                         let settingData = vm.editorSettingData;
-                        if (!settingData.goodPic) {
+                        if (!this.imgFile.length) {
                             vm.$Message.error('商品图片不能为空!');
                             return;
                         }
                         data.lottery_name = settingData.goodsName;
-                        data.statistic = settingData.isDown ? '上架' : '下架';
-                        data.classify = settingData.type;
+                        data.classification = settingData.type;
                         data.price = settingData.price;
                         data.probability = settingData.probability;
-                        data.uploadName = settingData.goodPic;
-                        data.id = settingData.id;
+                        data.uploadName = this.imgFile[0].name;
+                        data.number = settingData.number;
+                        if (this.editorType === 'update') {
+                            data.id = settingData.id;
+                            data.status = settingData.isDown ? '上架' : '下架';
+                        }
                         vm.$http.post('/lottery/addGoods', data).then((res) => {
                             if (res.success) {
                                 vm.editorSettingFlag = false;
                                 vm.$Message.success('操作成功!');
-                                vm._getPostData();
+                                vm.$refs.priceTable.getListData();
                             }
                         });
                     }
                 });
-            },
-            _updateEditor(data) {
-                this.editorType = 'update';
-                this._initEditorSettingData();
-                let settingData = this.editorSettingData;
-                settingData.id = data.id;
-                settingData.price = data.price;
-                settingData.goodsName = data.name;
-                settingData.goodPic = data.image_path;
-                settingData.type = data.classify;
-                settingData.isDown = data.statistic === '上架';
-                this.imgFile = [{url: '/oa/upload/' + data.image_path, name: data.image_path, status: 'finished'}];
-                this.editorSettingFlag = true;
             },
             _createGoods() {
                 this._initEditorSettingData();
@@ -282,46 +278,35 @@
                 settingData.goodsName = '';
                 settingData.type = '卡券类';
                 settingData.price = 0;
-                settingData.isDown = true;
-                settingData.goodPic = '';
+                settingData.isDown = false;
                 settingData.probability = 0;
                 settingData.number = 0;
                 settingData.id = 0;
                 this.imgFile = [];
                 this.$refs.imgUploadFo.removeAllPicFlie();
             },
-            _inputDebounce: debounce(function () {
-                this._filterResultHandler();
-            }, 600),
-            _filterResultHandler() {
-                this.initPage();
-                this._getPostData();
-            },
             _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             },
-            _setPage(page) {
-                this.pageData.page = page;
-                this._getPostData();
-            },
-            _setPageSize(size) {
-                this.pageData.pageSize = size;
-                this._getPostData();
-            },
-            _editorSetting() {
+            _editorSetting(data) {
+                this.editorType = 'update';
                 this._initEditorSettingData();
+                let settingData = this.editorSettingData;
+                settingData.id = data.id;
+                settingData.price = data.price;
+                settingData.goodsName = data.lottery_name;
+                settingData.type = data.classification;
+                settingData.isDown = data.status === '上架';
+                settingData.probability = data.probability;
+                settingData.number = data.number;
+                this.imgFile = [{url: '/oa/upload/' + data.image_path, name: data.image_path, status: 'finished'}];
                 this.editorSettingFlag = true;
-            },
-            _getPostData() {
-                let data = {};
-                data.name = this.filterOpt.goodsName;
-                // data.status = this.filterOpt.status;
-                this.getList('/lottery/goodslist', data);
             }
         },
         components: {
-            fsImgUpload
+            fsImgUpload,
+            fsTablePage
         }
     };
 </script>

@@ -346,8 +346,8 @@
                     return;
                 }
                 this.approvalInfo.approvalStatus = type;
-                let vm = this;
-                let refT = this.$refs.fsTable;
+                var vm = this;
+                var refT = this.$refs.fsTable;
                 this.$http.post('assetsManage/approval', vm.approvalInfo).then((res) => {
                     if (res.success) {
                         vm.$Message.success('审批成功');

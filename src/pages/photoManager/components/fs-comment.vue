@@ -240,7 +240,6 @@
                 sendData.parentId = this.parentId;
                 if (this.parentId) {
                     sendData.content = this.commentContent.replace(this.preContent, '');
-                    console.log(this.commentContent.replace(this.preContent, ''));
                 } else {
                     sendData.content = this.commentContent;
                 }

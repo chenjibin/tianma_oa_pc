@@ -1,4 +1,5 @@
 /* eslint-disable */
+const Promise = require('es6-promise').Promise;
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
@@ -26,10 +27,10 @@ Vue.component('fsIcon', fsIcon);
 Vue.prototype.$http = request;
 Vue.prototype.$mainHost = '';
 Vue.config.productionTip = false;
-
 new Vue({
     el: '#app',
     router,
+    i18n,
     store,
     render: h => h(App),
     data: {

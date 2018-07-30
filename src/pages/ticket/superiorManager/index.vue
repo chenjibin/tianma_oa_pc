@@ -3,43 +3,35 @@
     <div id="superiorManager">
         <Card>
             <Form inline style="width: 100%" :label-width="90">
+                <FormItem label="工单id" style="width: 220px">
+                    <Input v-model="filterOpt.id.value" style="width: 150px" placeholder="筛选id" clearable></Input>
+                </FormItem>
                 <FormItem label="状态" style="width: 220px">
-                    <Select style="width: 100%" v-model="filterOpt.type.value" placeholder="筛选状态" clearable>
-                        <Option value="-1">不处理</Option>
+                    <Select style="width: 100%" v-model="filterOpt.type.value" placeholder="筛选状态"  clearable>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
                         <Option value="3">已暂停</Option>
+                        <Option value="4">不处理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="优先级" style="width: 220px">
                     <Select style="width: 100%" v-model="filterOpt.priority.value" placeholder="筛选优先级" clearable>
-                        <Option :value="1">普通
-                            <Icon type="flag" color="#2d8cf0"></Icon>
-                        </Option>
-                        <Option :value="2">重要
-                            <Icon type="flag" color="#ff9900"></Icon>
-                        </Option>
-                        <Option :value="3">加急
-                            <Icon type="flag" color="#ed3f14"></Icon>
-                        </Option>
+                        <Option :value="1">普通 <Icon type="flag" color="#2d8cf0"></Icon></Option>
+                        <Option :value="2">重要 <Icon type="flag" color="#ff9900"></Icon></Option>
+                        <Option :value="3">加急 <Icon type="flag" color="#ed3f14"></Icon></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="项目组" style="width: 220px">
                     <Select v-model="filterOpt.team_id.value" filterable clearable>
-                        <Option style="width: 100%" v-for="(option, index) in teamOpt" :value="option.id"
-                                :key="'user11' + option.id">{{option.name}}
-                        </Option>
+                        <Option style="width: 100%" v-for="option in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="开始日期" style="width: 220px">
-                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)"
-                                :value="filterOpt.start_time.value" placeholder="开始日期"
-                                style="width: 150px"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)" :value="filterOpt.start_time.value" placeholder="开始日期" style="width: 150px"></DatePicker>
                 </FormItem>
                 <FormItem label="结束日期" style="width: 220px">
-                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)"
-                                :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
                 </FormItem>
                 <FormItem label="权重" style="width: 220px">
                     <Select v-model="filterOpt.weight.value" style="width: 150px" placeholder="筛选状态" clearable>
@@ -56,20 +48,20 @@
                     </Select>
                 </FormItem>
                 <FormItem label="提交人" style="width: 220px">
-                    <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态"
-                           clearable></Input>
+                    <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态" clearable></Input>
+                </FormItem>
+                <FormItem label="关键词" style="width: 220px">
+                    <Input v-model="filterOpt.detail.value" style="width: 150px" placeholder="筛选标题或详情" clearable></Input>
                 </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
-                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt"
-                           url="/workOrder/adminWorkOrderList"></fs-table-page>
+                           :size="null" ref="paperList" :height="tableHeight" :params="filterOpt" url="/workOrder/adminWorkOrderList"></fs-table-page>
         </Card>
-        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="400"
-               class-name="vertical-center-modal">
+        <Modal v-model="editTicketsModal" :mask-closable="false" :closable="false" :width="400" class-name="vertical-center-modal" >
             <Form :label-width="60" style="padding: 5px">
-                <input style="display: none" v-model="editTicketsModal.id"/>
+                <input style="display: none" v-model="editTicketsModal.id" />
                 <FormItem label="需求名">
-                    <span v-text="editTickets.demand"></span>
+                    <span v-text="editTickets.demand" :title="editTickets.demand" style="width: 300px;overflow: hidden;display: inline-block;white-space: nowrap;text-overflow: ellipsis;"></span>
                 </FormItem>
                 <FormItem label="创建人" style="width: 340px;display: inline-block">
                     <span v-text="editTickets.add_user_name"></span>
@@ -88,50 +80,69 @@
                     </Select>
                 </FormItem>
                 <FormItem label="权重" style="width: 340px;display: inline-block">
-                    <InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"
-                                 v-model="editTickets.weight"></InputNumber>
+                    <InputNumber :min="0.01" style="width: 100%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight"></InputNumber>
+                </FormItem>
+                <FormItem label="开始时间" style="width: 340px;display: inline-block">
+                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'start_time',$event)"
+                                :value="editTickets.start_time"></DatePicker>
+                </FormItem>
+                <FormItem label="结束时间" style="width: 340px;display: inline-block">
+                    <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'end_time', $event)"
+                                :value="editTickets.end_time"></DatePicker>
                 </FormItem>
                 <FormItem label="项目组" style="width: 340px;display: inline-block">
-                    <Select disabled v-model="editTickets.team_id" filterable>
-                        <Option v-for="(option, index) in teamOpt" :value="option.id" :key="'user2' + option.id">
-                            {{option.name}}
+                    <Select v-model="editTickets.team_id" filterable>
+                        <Option  v-for="option in teamOpt" :value="option.id" :key="'team' + option.id">{{option.name}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="指派人员" style="width: 340px;display: inline-block">
+                    <Select v-model="usersIds" multiple>
+                        <Option v-for="option in teamUser"  v-if="option.pid === editTickets.team_id" :value="option.uid" :key="'user3' + option.id">{{option.uname}}
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="历史" style="width: 340px;">
                     <div style="width: 100%;max-height: 250px;overflow-x: hidden;overflow-y: auto">
-                        <p v-for="item in logs" v-if="item.type==0">
+                        <p v-for="item in logs" v-if="+item.type === 0">
                             {{item.content}}
                         </p>
                     </div>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" @click="editTicketsModal = false;">取消</Button>
-                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save(2)">保存
-                </Button>
+                <Button type="text" @click="editTicketsModal = false">取消</Button>
+                <Button  type="primary" :loading="saveLoading" @click="save(2)">保存</Button>
             </div>
         </Modal>
-        <Modal v-model="commitModal" :closable="false" :width="430" :mask-closable="false">
+        <Modal v-model="commitModal" :closable="false"  :width="430" :mask-closable="false">
             <Form :label-width="90" style="padding: 5px;margin-top: 10px">
-                <input style="display: none" v-model="commitForm.id"/>
+                <input style="display: none" v-model="commitForm.id" />
                 <FormItem label="进度分数" style="width: 350px;">
-                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1"
-                                 v-model="commitForm.superior_planScore"></InputNumber>
+                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1" v-model="commitForm.superior_planScore"></InputNumber>
                 </FormItem>
                 <FormItem label="质量分数" style="width: 350px;">
-                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1"
-                                 v-model="commitForm.superior_qualityScore"></InputNumber>
+                    <InputNumber :min="1" style="width: 100%" :max="100" :precision="0" :step="1" v-model="commitForm.superior_qualityScore"></InputNumber>
                 </FormItem>
-                <FormItem v-if="commitForm.superior_planScore !== 100 || commitForm.superior_qualityScore !== 100"
-                          label="扣分原因" style="width: 350px;">
-                    <Input type="textarea" placeholder="写出扣分原因用以留档。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
-                           v-model="commitForm.reason"></Input>
+                <FormItem v-if="commitForm.superior_planScore !== 100 || commitForm.superior_qualityScore !== 100" label="扣分原因" style="width: 350px;">
+                    <Input type="textarea" placeholder="写出扣分原因用以留档。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}" v-model="commitForm.reason"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
                 <Button type="text" @click="commitModal = false">取消</Button>
                 <Button type="success" :loading="saveLoading" @click="commit">完成</Button>
+            </div>
+        </Modal>
+        <Modal v-model="commitModals" :closable="true" :width="430" :mask-closable="false">
+            <Form :label-width="90" style="padding: 5px;margin-top: 10px">
+                <input style="display: none" v-model="commitForms.id"/>
+                <FormItem label="备注" style="width: 350px;">
+                    <Input type="textarea" placeholder="写出任务解析。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
+                           v-model="commitForms.content"></Input>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="success" @click="commitModals = false">取消</Button>
+                <Button type="success" :loading="saveLoading" @click="commits">完成</Button>
             </div>
         </Modal>
     </div>
@@ -151,17 +162,27 @@
                 editTicketsModal: false,
                 saveLoading: false,
                 commitModal: false,
+                commitModals: false,
                 logs: [],
+                teamOpt: [],
+                teamUser: [],
+                usersIds: [],
                 commitForm: {
                     id: '',
                     superior_qualityScore: 100,
                     superior_planScore: 100,
                     reason: ''
                 },
+                commitForms: {
+                    id: '',
+                    content: ''
+                },
                 editTickets: {
                     id: '',
                     weight: 0.1,
                     add_user_name: '',
+                    start_time: '',
+                    end_time: '',
                     team_id: '',
                     type: 0,
                     team_name: '',
@@ -170,7 +191,6 @@
                     demand: '',
                     priority: 1
                 },
-                teamOpt: [],
                 filterOpt: {
                     weight: {
                         value: '',
@@ -199,6 +219,14 @@
                     add_user_name: {
                         type: 'input',
                         value: ''
+                    },
+                    id: {
+                        type: 'input',
+                        value: ''
+                    },
+                    detail: {
+                        type: 'input',
+                        value: ''
                     }
                 },
                 typeMapping: ['待处理', '处理中', '已完成', '已暂停', '不处理'],
@@ -220,9 +248,35 @@
                         }
                     },
                     {
+                        title: '工单id',
+                        key: 'id',
+                        minWidth: 80
+                    },
+                    {
                         title: '工单名',
                         key: 'demand',
-                        minWidth: 100
+                        minWidth: 80
+                    },
+                    {
+                        title: '提单人',
+                        key: 'add_user_name',
+                        width: 90
+                    },
+                    {
+                        title: '接单人',
+                        align: 'center',
+                        width: 120,
+                        render: (h, params) => {
+                            let users = '';
+                            params.row.childids.forEach((item) => {
+                                users += item.user_name + ' ';
+                            });
+                            if (users) {
+                                return h('span', users);
+                            } else {
+                                return h('span', '未指派');
+                            }
+                        }
                     },
                     {
                         title: '项目组',
@@ -369,53 +423,80 @@
                             let disableTitle = row.type > 0 ? '不可操作' : '点我编辑';
                             return h('ButtonGroup', [
                                 h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    attrs: {
-                                        title: disableTitle
-                                    },
-                                    style: {
-                                        display: deleted ? 'none' : 'block'
-                                    },
-                                    on: {
-                                        click: function (e) {
-                                            e.stopPropagation();
-                                            vm.editTicketsModal = true;
-                                            vm.logs = row.logs;
-                                            vm.editTickets.id = row.id;
-                                            vm.editTickets.type = row.type;
-                                            vm.editTickets.weight = row.weight;
-                                            vm.editTickets.team_id = row.team_id;
-                                            vm.editTickets.team_name = row.team_name;
-                                            vm.editTickets.demand = row.demand;
-                                            vm.editTickets.add_user_name = row.add_user_name;
-                                            vm.editTickets.superior_qualityScore = row.superior_qualityScore;
-                                            vm.editTickets.superior_planScore = row.superior_planScore;
-                                            vm.editTickets.priority = row.priority;
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: disableTitle
+                                        },
+                                        style: {
+                                            display: deleted ? 'none' : 'block'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.editTicketsModal = true;
+                                                vm.logs = row.logs;
+                                                vm.editTickets.id = row.id;
+                                                vm.usersIds = [];
+                                                vm.editTickets.type = row.type;
+                                                vm.editTickets.weight = row.weight;
+                                                vm.editTickets.team_id = row.team_id;
+                                                vm.editTickets.team_name = row.team_name;
+                                                vm.editTickets.start_time = row.start_time;
+                                                vm.editTickets.end_time = row.end_time;
+                                                vm.editTickets.demand = row.demand;
+                                                vm.editTickets.add_user_name = row.add_user_name;
+                                                vm.editTickets.superior_qualityScore = row.superior_qualityScore;
+                                                vm.editTickets.superior_planScore = row.superior_planScore;
+                                                vm.editTickets.priority = row.priority;
+                                                row.childids.forEach((item) => {
+                                                    vm.usersIds.push(item.userid);
+                                                });
+                                            }
                                         }
-                                    }
-                                }, '编辑'),
+                                    }, '编辑'),
                                 h('Button', {
-                                    props: {
-                                        type: 'success',
-                                        size: 'small'
-                                    },
-                                    attrs: {
-                                        title: '点我打分'
-                                    },
-                                    style: {
-                                        display: showCommit ? 'blobk' : 'none'
-                                    },
-                                    on: {
-                                        click: function (e) {
-                                            e.stopPropagation();
-                                            vm.commitForm.id = row.id;
-                                            vm.commitModal = true;
+                                        props: {
+                                            type: 'success',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: '点我打分'
+                                        },
+                                        style: {
+                                            display: showCommit ? 'blobk' : 'none'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.commitForm.id = row.id;
+                                                vm.commitForm.superior_planScore = 100;
+                                                vm.commitForm.superior_qualityScore = 100;
+                                                vm.commitForm.reason = '';
+                                                vm.commitModal = true;
+                                            }
                                         }
-                                    }
-                                }, '打分')
+                                    }, '打分'),
+                                h('Button', {
+                                        props: {
+                                            type: 'success',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: '点我备注'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.commitForms.id = row.id;
+                                                vm.commitForms.content = '';
+                                                vm.commitModals = true;
+                                            }
+                                        }
+                                    }, '备注'
+                                )
                             ]);
                         }
                     }
@@ -428,16 +509,27 @@
         methods: {
             save(type) {
                 let vm = this;
-                if (this.editTickets.weight < 0.05) {
-                    this.$Message.info('权重未设置');
-                    return;
-                }
+                let d = this.editTickets;
                 if (!this.editTickets.priority) {
                     this.$Message.info('优先级未设置');
                     return;
                 }
+                // 三个都存在
+                if ((vm.usersIds || vm.usersIds.length > 0) && d.start_time && d.end_time) {
+                    if (moment(d.start_time).isAfter(d.end_time)) {
+                        this.$Message.info('开始时间晚于结束时间，请检查');
+                        return false;
+                    }
+                    // 都不存在
+                } else if ((!vm.usersIds || vm.usersIds.length === 0) && !d.start_time && !d.end_time) {
+                    d.type = 0;
+                } else {
+                    this.$Message.info('时间和人员都不设置或者都要设置');
+                    return;
+                }
                 this.saveLoading = true;
-                this.$http.post('/workOrder/addOrder', this.editTickets).then((res) => {
+                d.ids = vm.usersIds.join(',');
+                this.$http.post('/workOrder/addOrder', d).then((res) => {
                     if (res.success) {
                         this.$Message.success('修改需求成功');
                         this.$refs.paperList.getListData();
@@ -464,6 +556,26 @@
                 } else if (type === 2) {
                     this.editTickets[name] = time;
                 }
+            },
+            commits() {
+                let f = this.commitForms;
+                let length = f.content.trim();
+                if (length < 8) {
+                    this.$Message.info('不是有效的备注,至少大于八个字符');
+                    return;
+                }
+                this.saveLoading = true;
+                this.$http.post('workOrder/addLogByCharger', this.commitForms).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('指导备注添加成功');
+                        this.$refs.paperList.getListData();
+                    }
+                    this.saveLoading = false;
+                    this.commitModals = false;
+                }, () => {
+                    this.saveLoading = false;
+                    this.commitModals = false;
+                })
             },
             commit() {
                 let f = this.commitForm;
@@ -493,9 +605,16 @@
                 })
             },
             _filterPeopleRemote(val) {
+                this.teamUser = [];
+                this.usersIds = [];
+                let vm = this;
                 this.$http.get('/workOrder/teamAll').then((res) => {
                     if (res.success) {
-                        this.teamOpt = res.data;
+                        vm.teamOpt = res.data;
+                        for (let i = 0; i < vm.teamOpt.length; i++) {
+                            let arr = vm.teamOpt[i].childids;
+                            vm.teamUser = vm.teamUser.concat(arr);
+                        }
                     }
                 });
             }
@@ -507,17 +626,16 @@
 </script>
 
 <style lang="less">
-    #myCreateTickets {
-        .noPadding div {
+    #myCreateTickets{
+        .noPadding div{
             padding: 0;
         }
     }
-
-    .vertical-center-modal {
+    .vertical-center-modal{
         display: flex;
         align-items: center;
         justify-content: center;
-        .ivu-modal {
+        .ivu-modal{
             top: 0;
         }
     }

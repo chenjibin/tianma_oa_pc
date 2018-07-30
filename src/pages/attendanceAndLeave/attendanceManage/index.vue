@@ -75,6 +75,7 @@
                         :on-progress="_uploadProgress"
                         :on-format-error="_uploadFormatErr"
                         :on-success="_uploadSuccess"
+                        :on-error="_uploadFail"
                         :format="uploadOpt.format"
                         action="/oa/kq/add">
                     <div style="padding: 20px 0">
@@ -140,7 +141,7 @@
                 </div>
             </Modal>
             <Modal v-model="settingModalFlag"
-                   width="1200"
+                   width="1400"
                    :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                     <span>{{attendanceOpt.userName + ' ' + attendanceOpt.monthDate}} 考勤总汇</span>
@@ -152,6 +153,7 @@
                            :data="attendanceOpt.data"></Table>
                 </div>
                 <div slot="footer">
+                    <Button type="primary" style="margin-left: 8px" @click="_removeThisMonth">清空漏打卡</Button>
                     <Button type="primary" @click="_completeThisMonth">完成 {{attendanceOpt.userName}} 该月审核</Button>
                     <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
                 </div>
@@ -166,6 +168,10 @@
                 <Form :model="strangeSettingForm" :label-width="80">
                     <FormItem label="异常类型">
                         <Select v-model="strangeSettingForm.type" clearable>
+                            <Option value="正常">正常</Option>
+                            <Option value="休息">休息</Option>
+                            <Option value="调休">调休</Option>
+                            <Option value="与排班不一致">与排班不一致</Option>
                             <Option value="事假">事假</Option>
                             <Option value="病假">病假</Option>
                             <Option value="婚假">婚假</Option>
@@ -173,14 +179,10 @@
                             <Option value="年假" >年假</Option>
                             <Option value="法假">法假</Option>
                             <Option value="出差">出差</Option>
-                            <Option value="调休">调休</Option>
-                            <Option value="休息">休息</Option>
                             <Option value="旷工">旷工</Option>
-                            <Option value="正常">正常</Option>
                             <Option value="生日假">生日假</Option>
                             <Option value="未入职">未入职</Option>
                             <Option value="丧假">丧假</Option>
-                            <Option value="与排班不一致">与排班不一致</Option>
                             <Option value="无薪假">无薪假</Option>
                             <Option value="带薪假">带薪假</Option>
                             <Option value="陪护假" >陪护假</Option>
@@ -400,7 +402,7 @@
                     {
                         title: '打卡记录',
                         key: 'kq_re',
-                        width: 216,
+                        width: 210,
                         render: (h, params) => {
                             if (params.row.kq_re) {
                                 let flag = params.row.exception === null || +params.row.exception === 0;
@@ -419,6 +421,11 @@
                     {
                         title: '日期',
                         key: 'k_date',
+                        align: 'center',
+                        width: 110
+                    },{
+                        title: '星期',
+                        key: 'xing',
                         align: 'center',
                         width: 110
                     },
@@ -656,6 +663,18 @@
                     }
                 });
             },
+            _removeThisMonth() {
+                let data = {};
+                data.user_name = this.attendanceOpt.userName;
+                data.record_month = this.attendanceOpt.monthDate;
+                this.$http.post('/kq/removeClock', data).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('操作成功!');
+                        this._getUserStatistic();
+                        this._getPostData();
+                    }
+                });
+            },
             _initAttendanceOpt() {
                 this.attendanceOpt.userName = '';
                 this.attendanceOpt.monthDate = '';
@@ -717,10 +736,10 @@
                     }
                 });
             },
-            _uploadProgress() {
+            _uploadProgress(event) {
                 this.spinShow = true;
             },
-            _uploadSuccess(response) {
+            _uploadSuccess(response, file, fileList) {
                 if (response.success) {
                     this.$Message.success('数据导入成功!');
                     this.importModalFlag = false;
@@ -729,6 +748,8 @@
                     this.$Message.error(response.message);
                 }
                 this.spinShow = false;
+            },
+            _uploadFail(error, file, fileList) {
             },
             _uploadFormatErr() {
                 this.$Message.error('上传文件的后缀必须为.xls');

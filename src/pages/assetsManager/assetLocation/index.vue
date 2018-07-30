@@ -9,7 +9,11 @@
                             :clearable="true"
                             v-model="filterOpt.name"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name">
+                            <span>{{item.name}}</span>
+                            <span :title="item.remarks"
+                                  style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                        </Option>
                     </Select>
                 </FormItem>
                 <Button type="ghost" @click="addInfo">
@@ -63,6 +67,7 @@
     import pageMixin from '@/mixins/pageMixin';
     // lodash输入延时
     import debounce from 'lodash/debounce';
+
     export default {
         name: 'assetslocation',
         data() {
@@ -97,9 +102,8 @@
                         title: '操作',
                         align: 'center',
                         render: (h, params) => {
-                            let vm = this;
-                            return h('div', {
-                            }, [
+                            var vm = this;
+                            return h('div', {}, [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -135,7 +139,7 @@
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
             this.getPositionList();
@@ -174,7 +178,7 @@
                     okText: '删除',
                     cancelText: '取消',
                     loading: true,
-                    onOk () {
+                    onOk() {
                         this.$http.post('/assets/delete', {id: vm.baseInfo.id}).then((res) => {
                             if (res.success) {
                                 vm._filterResultHandler();
@@ -188,23 +192,23 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 200),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 34 - 57 - 49;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _getPostData () {
+            _getPostData() {
                 this.getList('/assets/datalist', this.filterOpt);
             }
         }

@@ -11,7 +11,12 @@
             <Col span="16" style="padding-left:6px;">
             <Row class-name="made-child-con-middle" type="flex" align="middle">
                 <div>
-                    <b class="card-user-infor-name">{{userName}}</b>
+                    <strong class="card-user-infor-name">
+                        <span>{{userName}}</span>
+                        <span class="level-block">
+                            <fs-show-level></fs-show-level>
+                        </span>
+                    </strong>
                     <p style="font-size: 1.3em;color: #666">{{organizeName + '（' + postName + '）'}}</p>
                     <p style="font-size: 1.1em;line-height: 1;color: #999;letter-spacing: 2px;">{{companyName}}</p>
                 </div>
@@ -35,8 +40,8 @@
                     <img src="../../../images/coin_rule_08.jpg" style="max-width: 100%;"/>
                 </div>
                 <span style="cursor: pointer;" @click="coinDescFlag = true">
-                        <Icon type="help-circled"></Icon>
-                    </span>
+                    <Icon type="help-circled"></Icon>
+                </span>
             </Poptip>
             </Col>
             <Col span="16" class="padding-left-8">
@@ -76,6 +81,21 @@
                     <Button type="ghost" shape="circle" icon="lock-combination"></Button>
                 </Tooltip>
             </Poptip>
+            <Tooltip placement="top" content="查看规章" :transfer="true">
+                <Button type="ghost" @click="showRule" shape="circle" icon="ios-star"></Button>
+            </Tooltip>
+            <Poptip placement="right-start"
+                    width="500"
+                    v-model="lotteryFlag">
+                <div slot="content">
+                    <fs-lottery v-if="lotteryFlag" :lotteryflag.sync="lotteryFlag"></fs-lottery>
+                </div>
+                <Tooltip placement="top" content="抽奖" :transfer="true">
+                    <Button type="ghost"
+                            shape="circle"
+                            icon="happy-outline"></Button>
+                </Tooltip>
+            </Poptip>
             </Col>
         </Row>
         <Modal title="修改头像" v-model="changeAvatorFlag" width="800">
@@ -92,11 +112,17 @@
                 <Button type="ghost" @click="changeAvatorFlag = false">取消</Button>
             </div>
         </Modal>
+        <ruleModal :dataArr="rulesArr" :showModal.sync="detailModal"></ruleModal>
     </Card>
 </template>
-<style lang="less">
+<style lang="less" scoped>
     @import "../home.less";
     @import "../../../styles/common.less";
+
+    .level-block {
+        width: 50px;
+        margin-left: 6px;
+    }
 
     #change-avator-block {
         display: flex;
@@ -109,8 +135,10 @@
     }
 </style>
 <script>
-    import Cookies from 'js-cookie';
-    import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img';
+    import FsShowLevel from '@/baseComponents/fs-level-show'
+    import fsCropperImg from '@/baseComponents/fs-cropper-img/fs-cropper-img'
+    import ruleModal from '@/pages/rulesManager/newRule/ruleModal';
+    import FsLottery from '@/baseComponents/lottery'
 
     export default {
         data() {
@@ -136,7 +164,10 @@
             };
             return {
                 changeAvatorFlag: false,
+                detailModal: false,
+                rulesArr: [],
                 pwsFlag: false,
+                lotteryFlag: false,
                 coinDescFlag: false,
                 passWordForm: {
                     oldPwd: '',
@@ -159,6 +190,16 @@
         created() {
         },
         methods: {
+            showRule() {
+                this.$http.get('rugulations/MyList').then((res) => {
+                    if (res.success) {
+                        this.rulesArr = res.data;
+                    }
+                    this.detailModal = true;
+                }, () => {
+                    this.detailModal = true;
+                })
+            },
             _cancelResetPwd() {
                 this.$refs.psdForm.resetFields();
                 this.pwsFlag = false;
@@ -207,7 +248,10 @@
             }
         },
         components: {
-            fsCropperImg
+            fsCropperImg,
+            ruleModal,
+            FsShowLevel,
+            FsLottery
         }
     };
 </script>

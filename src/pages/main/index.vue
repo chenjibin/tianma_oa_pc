@@ -15,13 +15,13 @@
                 :theme="menuTheme"
                 :before-push="beforePush"
                 :open-names="openedSubmenuArr"
-                :menu-list="menuList">
+                :menu-list="premissionMenu">
                 <div slot="top" class="logo-con">
-                    <img v-show="!shrink"  src="../images/tianma_logo_big.jpg" key="max-logo" style="border-radius: 6px;"/>
+                    <img v-show="!shrink"  src="../../images/tianma_logo_big.jpg" key="max-logo" style="border-radius: 6px;"/>
                     <img v-show="shrink"
                          class="small"
                          style="padding: 2px;background-color: #fff;"
-                         src="../images/tianma_logo_small.jpg"
+                         src="../../images/tianma_logo_small.jpg"
                          key="min-logo" />
                 </div>
             </shrinkable-menu>
@@ -37,7 +37,7 @@
                     </Button>
                 </div>
                 <div v-else style="display: inline-block;font-size: 0;padding: 6px;">
-                    <img  src="../images/tianma_logo_small.jpg" key="max-logo" style="border-radius: 6px;width: 50px;"/>
+                    <img  src="../../images/tianma_logo_small.jpg" key="max-logo" style="border-radius: 6px;width: 50px;"/>
                 </div>
                 <div class="header-middle-con">
                     <div class="main-breadcrumb">
@@ -100,13 +100,13 @@
     </div>
 </template>
 <script>
-    import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue';
-    import tagsPageOpened from './main-components/tags-page-opened.vue';
-    import breadcrumbNav from './main-components/breadcrumb-nav.vue';
-    import fullScreen from './main-components/fullscreen.vue';
-    import lockScreen from './main-components/lockscreen/lockscreen.vue';
-    import messageTip from './main-components/message-tip.vue';
-    import themeSwitch from './main-components/theme-switch/theme-switch.vue';
+    import shrinkableMenu from '@/baseComponents/main-components/shrinkable-menu/shrinkable-menu.vue';
+    import tagsPageOpened from '@/baseComponents/main-components/tags-page-opened.vue';
+    import breadcrumbNav from '@/baseComponents/main-components/breadcrumb-nav.vue';
+    import fullScreen from '@/baseComponents/main-components/fullscreen.vue';
+    import lockScreen from '@/baseComponents/main-components/lockscreen/lockscreen.vue';
+    import messageTip from '@/baseComponents/main-components/message-tip.vue';
+    import themeSwitch from '@/baseComponents/main-components/theme-switch/theme-switch.vue';
     import util from '@/libs/util.js';
     export default {
         components: {
@@ -140,9 +140,6 @@
             },
             tmCoin() {
                 return this.$store.state.user.userInfo.tm_coin;
-            },
-            menuList () {
-                return this.$store.state.app.premissionMenu;
             },
             pageTagsList () {
                 return this.$store.state.app.pageOpenedList; // 打开的页面的页面对象

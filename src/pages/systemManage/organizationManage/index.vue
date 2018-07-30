@@ -325,7 +325,7 @@
                 for (let i = 0, length = idsArr.length; i < length; i++) {
                     storeArr[i] = {};
                 }
-                storeArr.forEach((item, index) => {
+                storeArr.forEach((item, index, arr) => {
                     item.id = +idsArr[index];
                     item.name = namesArr[index];
                 });

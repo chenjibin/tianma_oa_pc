@@ -2,8 +2,11 @@
     <div id="myTickets">
         <Card>
             <Form inline style="width: 100%" :label-width="90">
+                <FormItem label="工单id" style="width: 220px">
+                    <Input v-model="filterOpt.id.value" style="width: 150px" placeholder="筛选id" clearable></Input>
+                </FormItem>
                 <FormItem label="状态" style="width: 250px">
-                    <Select v-model="filterOpt.type.value" placeholder="筛选状态" clearable>
+                    <Select v-model="filterOpt.type.value"  placeholder="筛选状态"  clearable>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
                         <Option value="3">已暂停</Option>
@@ -13,15 +16,9 @@
                 <FormItem label="优先级" style="width: 250px">
                     <Select v-model="filterOpt.priority.value" placeholder="筛选优先级"
                             clearable>
-                        <Option :value="1">普通
-                            <Icon type="flag" color="#2d8cf0"></Icon>
-                        </Option>
-                        <Option :value="2">重要
-                            <Icon type="flag" color="#ff9900"></Icon>
-                        </Option>
-                        <Option :value="3">加急
-                            <Icon type="flag" color="#ed3f14"></Icon>
-                        </Option>
+                        <Option :value="1">普通 <Icon type="flag" color="#2d8cf0"></Icon></Option>
+                        <Option :value="2">重要 <Icon type="flag" color="#ff9900"></Icon></Option>
+                        <Option :value="3">加急 <Icon type="flag" color="#ed3f14"></Icon></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="权重" style="width: 250px">
@@ -43,12 +40,10 @@
                     <Input v-model="filterOpt.add_user_name.value" placeholder="筛选状态" clearable></Input>
                 </FormItem>
                 <FormItem label="开始日期" style="width: 250px">
-                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)"
-                                :value="filterOpt.start_time.value" placeholder="开始日期"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)" :value="filterOpt.start_time.value" placeholder="开始日期" ></DatePicker>
                 </FormItem>
                 <FormItem label="结束日期" style="width: 250px">
-                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)"
-                                :value="filterOpt.end_time.value" placeholder="结束日期"></DatePicker>
+                    <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" ></DatePicker>
                 </FormItem>
                 <Button @click="monthSalaryModal = true">查看：绩效</Button>
             </Form>
@@ -58,13 +53,11 @@
                 </p>
                 <Form :label-width="90">
                     <FormItem label="指定月份">
-                        <DatePicker type="month" @on-change="searchSalary" placeholder="开始日期"
-                                    style="width: 150px"></DatePicker>
+                        <DatePicker type="month" @on-change="searchSalary" placeholder="开始日期" style="width: 150px"></DatePicker>
                     </FormItem>
                     <FormItem label="明细">
                         <p>
-                            <span style="width: 100px;display: inline-block;">总绩效分：</span><span title="双击打开计算器"
-                                                                                                v-on:dblclick="showcalc = !showcalc">{{totalComputed}} 分</span>
+                            <span style="width: 100px;display: inline-block;">总绩效分：</span><span title="双击打开计算器" v-on:dblclick="showcalc = !showcalc">{{totalComputed}} 分</span>
                         </p>
                         <p>
                             <span style="width: 100px;display: inline-block;">团队完成需求数：</span><span>{{monthSalary.allcount}} 个</span>
@@ -80,10 +73,9 @@
                         </p>
                     </FormItem>
                     <FormItem v-show="showcalc" label="简易计算器" style="width: 240px">
-                        <InputNumber style="width: 100%" @on-change="changeMoney" :value="1000" :step="1000" :min="0"
-                                     placeholder="输入绩效基本金"></InputNumber>
+                        <InputNumber style="width: 100%" @on-change="changeMoney" :value="1000" :step="1000" :min="0" placeholder="输入绩效基本金"></InputNumber>
                     </FormItem>
-                    <FormItem v-show="showcalc" label="浮动" style="width: 240px">
+                    <FormItem v-show="showcalc"  label="浮动" style="width: 240px">
                         <span>{{money}}</span>
                     </FormItem>
                 </Form>
@@ -102,11 +94,9 @@
 </template>
 
 <script>
-    import pageMixin from '@/mixins/pageMixin';
     import fsTablePage from '@/baseComponents/fs-table-page';
     import expandRow from '../myCreateTickets/table-expand';
     import moment from 'moment';
-    import FsForm from '../../../baseComponents/fs-form/form';
 
     export default {
         name: 'myTickets',
@@ -147,6 +137,10 @@
                         value: '',
                         type: 'datepicker'
                     },
+                    id: {
+                        type: 'input',
+                        value: ''
+                    },
                     priority: {
                         value: '',
                         type: 'select'
@@ -169,9 +163,19 @@
                         }
                     },
                     {
+                        title: '工单id',
+                        key: 'id',
+                        minWidth: 80
+                    },
+                    {
                         title: '工单名',
                         key: 'demand',
                         minWidth: 150
+                    },
+                    {
+                        title: '提单人',
+                        key: 'add_user_name',
+                        width: 90
                     },
                     {
                         title: '状态',
@@ -317,8 +321,7 @@
                 tableHeight: 700
             };
         },
-        components: {FsForm, fsTablePage, expandRow},
-        mixins: [pageMixin],
+        components: {fsTablePage, expandRow},
         methods: {
             changeDate(type, name, time) {
                 if (type === 1) {
@@ -332,9 +335,9 @@
                 this.money = (t / 100 - 1) * val;
             },
             searchSalary(val) {
-                let vm = this;
                 let d = {}
-                d.time = val;
+                let vm = this
+                d.time = val
                 d.user_id = this.user_id;
                 this.$http.post('/workOrder/total', d).then((res) => {
                     vm.monthSalary.allcount = res.data.allcount;

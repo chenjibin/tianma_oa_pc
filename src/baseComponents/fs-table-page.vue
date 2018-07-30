@@ -5,7 +5,7 @@
                :columns="columns"
                :data="pageData.list"
                @on-selection-change="selectionChange"
-               @on-row-click="rowClickHandler"
+               @on-row-dblclick="rowClickHandler"
                @on-sort-change="tableSortChange"
                :loading="tableLoading"></Table>
         <Page :total="pageData.totalCount"
@@ -24,6 +24,7 @@
 </template>
 <script>
     import pageMixin from '@/mixins/pageMixin';
+    import has from 'has'
     import debounce from 'lodash/debounce';
     export default {
         name: 'fsTablePage',
@@ -114,9 +115,9 @@
             returnNeedParams() {
                 let params = {};
                 for (let key in this.params) {
-                    if (this.params.hasOwnProperty(key) && key !== 'sort') {
+                    if (has(this.params, key) && key !== 'sort') {
                         params[key] = this.params[key].value;
-                    } else if (this.params.hasOwnProperty(key) && key === 'sort') {
+                    } else if (has(this.params, key) && key === 'sort') {
                         params[key] = this.params[key];
                     }
                 }
@@ -150,7 +151,12 @@
             getListData() {
                 this.$emit('update:choosearray', []);
                 let params = this.returnNeedParams();
-                this.getList(this.url, params);
+                this.$emit('get-list', params)
+                this.getList(this.url, params).then((res) => {
+                    if (res.length === 0) {
+                        this.$emit('empty', []);
+                    }
+                });
             }
         }
     };

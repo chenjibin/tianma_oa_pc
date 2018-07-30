@@ -47,12 +47,23 @@
                              v-show="[5,6].indexOf(logDetail.type) > -1 && nowDate !== logDetail.date">
                             <div class="guider-block" v-if="upguiders && upguiders.length">
                                 <h4>上级指导:</h4>
-                                <ul class="guider-list">
-                                    <li class="guider-item" v-for="item in upguiders" :key="'guide-' + item.id">
-                                        <span class="guider-name">{{item.guider}}:</span><span
-                                        v-html="item.content"></span>
-                                    </li>
-                                </ul>
+                                <div class="each-guide" v-for="item in upguiders" :key="'guide-' + item.id">
+                                    <div class="guide-detail">
+                                        <span class="name">{{item.guider}}:</span>
+                                        <span class="content">{{item.content}}</span>
+                                        <!--<span class="reply" @click="_replyUp(item)">回复</span>-->
+                                    </div>
+                                    <ul class="child-guide" v-if="item.childguide">
+                                        <li class="child-guide-item guide-detail" v-for="child in item.childguide" :key="'guide-' + child.id">
+                                            <span class="name">{{child.guider}}</span>
+                                            <span style="margin: 0 2px">回复</span>
+                                            <span class="name">{{child.tousername}}:</span>
+                                            <span class="content">{{child.content}}</span>
+                                            <!--<span class="reply" @click="_replyUp(child, item.id)">回复</span>-->
+                                            <!--<span class="del" @click="_delReply(child)" v-if="child.states === 1">删除</span>-->
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="guider-block" v-if="upchecks && upchecks.length">
                                 <h4>备注:</h4>
@@ -85,7 +96,6 @@
                     </div>
                     <div slot="footer">
                         <div class="" v-if="[0,1,2,3].indexOf(logDetail.type) > -1 || nowDate === logDetail.date">
-
                             <Button type="primary" :loading="submitLoading" @click="_submitLog">
                                 <span v-if="!submitLoading">提交日志</span>
                                 <span v-else>提交中...</span>
@@ -105,19 +115,40 @@
             </Col>
             <Col :lg="10" :md="10">
             <Card>
+                <Spin fix v-show="loading"></Spin>
                 <p class="log-title">{{dateData}} 日志概览</p>
+                <transition name="down">
+                    <div class="log-reply-block" v-show="canReply">
+                        <Input type="textarea"
+                               ref="replyTextarea"
+                               v-model="replyData.content"></Input>
+                        <Button type="primary" style="margin-top: 16px" @click="confirmReply">回复</Button>
+                        <Button style="margin-top: 16px;margin-left: 16px" @click="canReply = false">取消</Button>
+                    </div>
+                </transition>
                 <div class="each-log-wrapper w-e-text" :style="{maxHeight: logMaxHeight}">
-                    <div class="each-log-look" v-for="item in logLookList">
+                    <div class="each-log-look" v-for="item in logLookList" :key="item.date">
                         <p class="time-title">{{item.date}}</p>
                         <div class="" v-html="item.content"></div>
                         <div class="guider-block" v-if="item.guide && item.guide.length">
                             <h4>上级指导:</h4>
-                            <ul class="guider-list">
-                                <li class="guider-item" v-for="guideItem,index in item.guide" :key="'guide' + index">
-                                    <span class="guider-name">{{guideItem.guider}}:</span><span
-                                    v-html="guideItem.content"></span>
-                                </li>
-                            </ul>
+                            <div class="each-guide" v-for="itemone in item.guide" :key="'guide-' + itemone.id">
+                                <div class="guide-detail">
+                                    <span class="name">{{itemone.guider}}:</span>
+                                    <span class="content">{{itemone.content}}</span>
+                                    <span class="reply" @click="_replyUp(itemone)">回复</span>
+                                </div>
+                                <ul class="child-guide" v-if="itemone.childguide">
+                                    <li class="child-guide-item guide-detail" v-for="child in itemone.childguide" :key="'guide-' + child.id">
+                                        <span class="name">{{child.guider}}</span>
+                                        <span style="margin: 0 2px">回复</span>
+                                        <span class="name">{{child.tousername}}:</span>
+                                        <span class="content">{{child.content}}</span>
+                                        <span class="reply" @click="_replyUp(child, itemone.id)">回复</span>
+                                        <span class="del" @click="_delReply(child)" v-if="child.states === 1">删除</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="guider-block" v-if="item.sysmsg && item.sysmsg.length">
                             <h4>备注:</h4>
@@ -137,10 +168,55 @@
 </template>
 <style lang="less">
     @import "../../styles/fsBase";
-
+    .log-reply-block {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        background-color: #eee;
+        padding: 16px;
+    }
+    .each-guide {
+        margin-top: 8px;
+        .child-guide {
+            margin-left: 32px;
+            padding-left: 12px;
+            border-left: 2px solid #999;
+            margin-top: 12px;
+        }
+        .guide-detail {
+            &:hover > .reply,
+            &:hover > .del{
+                display: inline-block;
+            }
+            & > .reply,
+            & > .del{
+                display: none;
+            }
+            .reply {
+                margin-left: 8px;
+                cursor: pointer;
+                color: #2d8cf0;
+            }
+            .del {
+                color: #dc0707;
+                margin-left: 4px;
+                cursor: pointer;
+            }
+            .name {
+                font-weight: 700;
+            }
+            .content {
+                margin-left: 4px;
+            }
+        }
+    }
     #my-log {
         .each-log-wrapper {
+            position: relative;
             overflow-y: auto;
+            min-height: 200px;
         }
         .log-title {
             color: @fs-title-color;
@@ -213,11 +289,13 @@
     import moment from 'moment';
     import WangEditor from '@/baseComponents/fs-wangeditor';
     import dateMixin from '@/mixins/dateMixin';
+    // import clickoutside from '@/directives/click-outside';
 
     const NOW_DATE = moment().format('YYYY-MM-DD');
     export default {
         name: 'myLog',
         mixins: [dateMixin],
+        // directives: {clickoutside},
         data() {
             return {
                 datePickerFlag: false,
@@ -227,6 +305,7 @@
                 open: true,
                 btnDisabled: false,
                 dateData: null,
+                canReply: false,
                 nowDate: NOW_DATE,
                 logMaxHeight: '300px',
                 editorContent: '',
@@ -301,12 +380,26 @@
                 ],
                 tableData: [],
                 upguiders: [],
-                upchecks: []
+                upchecks: [],
+                preContent: '',
+                logIdObjId: 0,
+                replyData: {
+                    id: null,
+                    toUserId: null,
+                    guildId: null,
+                    content: '',
+                    guiderName: ''
+                }
             };
         },
         watch: {
             dateData(val) {
                 this._getLogInfo(val);
+            },
+            'replyData.content'(val) {
+                if (val.length < this.preContent.length) {
+                    this.canReply = false
+                }
             }
         },
         created() {
@@ -346,6 +439,43 @@
             }
         },
         methods: {
+            _delReply(child) {
+                let id = child.id
+                this.$http.post('/journal/deleteGuide', {id}).then((res) => {
+                    if (res.success) {
+                        this._getLogInfo(this.dateData)
+                    }
+                })
+            },
+            _replyUp(item, id = 0) {
+                console.log(item, id)
+                let replyData = this.replyData
+                this.preContent = `回复 ${item.guider}:`
+                replyData.id = item.journalid
+                replyData.toUserId = item.guiderid
+                if (id !== 0) replyData.guildId = id
+                else replyData.guildId = item.id
+                replyData.guiderName = item.guider
+                replyData.content = this.preContent
+                this.canReply = true
+                setTimeout(() => {
+                    this.$refs.replyTextarea.focus()
+                }, 20)
+            },
+            confirmReply() {
+                let sendData = {}
+                let replyData = this.replyData
+                sendData.id = replyData.id
+                sendData.toUserId = replyData.toUserId
+                sendData.guildId = replyData.guildId
+                sendData.content = replyData.content.replace(this.preContent, '')
+                this.$http.post('/journal/addGuide', sendData).then((res) => {
+                    if (res.success) {
+                        this.canReply = false
+                        this._getLogInfo(this.dateData)
+                    }
+                })
+            },
             _returnRealContent(str) {
                 return str.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, '').replace(/\s+/g, '');
             },

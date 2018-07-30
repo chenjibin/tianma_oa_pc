@@ -190,7 +190,7 @@
                         align: 'center',
                         width: 98,
                         render: (h, params) => {
-                            let vm = this;
+                            var vm = this;
                             return h('InputNumber', {
                                 props: {
                                     value: !params.row.score ? 0 : params.row.score,

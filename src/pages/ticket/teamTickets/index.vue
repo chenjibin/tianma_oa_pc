@@ -3,18 +3,21 @@
     <div id="teamTickets">
         <Card>
             <Form inline style="width: 100%" :label-width="90">
+                <FormItem label="工单id" style="width: 220px">
+                    <Input v-model="filterOpt.id.value" style="width: 150px" placeholder="筛选id" clearable></Input>
+                </FormItem>
                 <FormItem label="状态">
                     <Select v-model="filterOpt.type.value" style="width: 150px" placeholder="筛选状态" clearable>
-                        <Option value="-1">不处理</Option>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
                         <Option value="3">已暂停</Option>
+                        <Option value="4">不处理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="接单人">
-                    <Input v-model="filterOpt.user_name.value" style="width: 150px" placeholder="筛选状态"
-                           clearable></Input>
+                <Input v-model="filterOpt.user_name.value" style="width: 150px" placeholder="筛选状态"
+                       clearable></Input>
                 </FormItem>
                 <FormItem label="开始日期">
                     <DatePicker type="date" @on-change="changeDate(1, 'start_time', $event)"
@@ -27,6 +30,10 @@
                 </FormItem>
                 <FormItem label="提交人">
                     <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态"
+                           clearable></Input>
+                </FormItem>
+                <FormItem label="关键词">
+                    <Input v-model="filterOpt.detail.value" style="width: 150px" placeholder="筛选标题或详情"
                            clearable></Input>
                 </FormItem>
                 <FormItem label="优先级">
@@ -43,21 +50,6 @@
                         </Option>
                     </Select>
                 </FormItem>
-                <FormItem label="权重">
-                    <Select v-model="filterOpt.weight.value" style="width: 150px" placeholder="筛选状态"
-                            clearable>
-                        <Option value="0.1">0.1</Option>
-                        <Option value="0.2">0.2</Option>
-                        <Option value="0.3">0.3</Option>
-                        <Option value="0.4">0.4</Option>
-                        <Option value="0.5">0.5</Option>
-                        <Option value="0.6">0.6</Option>
-                        <Option value="0.7">0.7</Option>
-                        <Option value="0.8">0.8</Option>
-                        <Option value="0.9">0.9</Option>
-                        <Option value="1">1</Option>
-                    </Select>
-                </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
                            :size="null" ref="paperList" :height="tableHeight" :params="filterOpt"
@@ -69,7 +61,8 @@
             <Form :label-width="60" style="padding: 5px">
                 <input style="display: none" v-model="editTicketsModal.id"/>
                 <FormItem label="需求名">
-                    <span v-text="editTickets.demand"></span>
+                    <span v-text="editTickets.demand" :title="editTickets.demand"
+                          style="width: 300px;overflow: hidden;display: inline-block;white-space: nowrap;text-overflow: ellipsis;"></span>
                 </FormItem>
                 <FormItem label="创建人" style="width: 270px">
                     <span v-text="editTickets.add_user_name"></span>
@@ -91,23 +84,36 @@
                 </FormItem>
                 <FormItem label="指派人员" style="width: 340px;display: inline-block">
                     <Select v-model="usersIds" multiple>
-                        <Option v-for="option in teamOpt" v-if="option.pid === editTickets.team_id"
-                                :value="option.uid" :key="'user2' + option.uid">{{option.uname}}
+                        <Option v-for="option in teamOpt" v-if="option.pid === editTickets.team_id" :value="option.uid"
+                                :key="'user2' + option.uid">{{option.uname}}
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="历史" style="width: 340px;">
                     <div style="width: 100%;max-height: 250px;overflow-x: hidden;overflow-y: auto">
-                        <p :key="item.id" v-for="item in logs" v-if="item.type==0">
+                        <p :key="item.id" v-for="item in logs" v-if="+item.type === 0">
                             {{item.content}}
                         </p>
                     </div>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" @click="editTicketsModal = false;">取消</Button>
-                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save">保存
+                <Button type="text" @click="editTicketsModal = false">取消</Button>
+                <Button :disabled="+editTickets.type === 2" type="primary" :loading="saveLoading" @click="save">保存
                 </Button>
+            </div>
+        </Modal>
+        <Modal v-model="commitModal" :closable="true" :width="430" :mask-closable="false">
+            <Form :label-width="90" style="padding: 5px;margin-top: 10px">
+                <input style="display: none" v-model="commitForm.id"/>
+                <FormItem label="备注" style="width: 350px;">
+                    <Input type="textarea" placeholder="写出任务解析。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
+                           v-model="commitForm.content"></Input>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="success" @click="commitModal = false">取消</Button>
+                <Button type="success" :loading="saveLoading" @click="commit">完成</Button>
             </div>
         </Modal>
     </div>
@@ -128,6 +134,7 @@
             return {
                 editTicketsModal: false,
                 saveLoading: false,
+                commitModal: false,
                 logs: [],
                 usersIds: [],
                 userslabels: [],
@@ -140,6 +147,10 @@
                     type: 0,
                     demand: '',
                     priority: 1
+                },
+                commitForm: {
+                    id: '',
+                    content: ''
                 },
                 teamOpt: [],
                 filterOpt: {
@@ -167,6 +178,14 @@
                         type: 'input',
                         value: ''
                     },
+                    id: {
+                        type: 'input',
+                        value: ''
+                    },
+                    detail: {
+                        type: 'input',
+                        value: ''
+                    },
                     user_name: {
                         type: 'input',
                         value: ''
@@ -191,9 +210,19 @@
                         }
                     },
                     {
+                        title: '工单id',
+                        key: 'id',
+                        minWidth: 80
+                    },
+                    {
                         title: '工单名',
                         key: 'demand',
                         minWidth: 100
+                    },
+                    {
+                        title: '提单人',
+                        key: 'add_user_name',
+                        width: 90
                     },
                     {
                         title: '接单人',
@@ -232,6 +261,13 @@
                                 }
                             });
                         }
+                    },
+                    {
+                        title: '添加时间',
+                        className: 'noPadding',
+                        key: 'add_time',
+                        align: 'center',
+                        width: 190
                     },
                     {
                         title: '开始日期',
@@ -357,6 +393,24 @@
                                             }
                                         }
                                     }, '调整'
+                                ),
+                                h('Button', {
+                                        props: {
+                                            type: 'success',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: '点我备注'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.commitForm.id = row.id;
+                                                vm.commitForm.content = '';
+                                                vm.commitModal = true;
+                                            }
+                                        }
+                                    }, '备注'
                                 )
                             ]);
                         }
@@ -417,6 +471,26 @@
                 }, () => {
                     this.saveLoading = false;
                     this.editTicketsModal = false;
+                })
+            },
+            commit() {
+                let f = this.commitForm;
+                let length = f.content.trim();
+                if (length < 8) {
+                    this.$Message.info('不是有效的备注,至少大于八个字符');
+                    return;
+                }
+                this.saveLoading = true;
+                this.$http.post('workOrder/addLogByCharger', this.commitForm).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('指导备注添加成功');
+                        this.$refs.paperList.getListData();
+                    }
+                    this.saveLoading = false;
+                    this.commitModal = false;
+                }, () => {
+                    this.saveLoading = false;
+                    this.commitModal = false;
                 })
             },
             changeDate(type, name, time) {

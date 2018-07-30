@@ -9,8 +9,7 @@
                             style="width: 100px">
                         <Option :value="item.id"
                                 v-for="item,index in trainTypeOpt"
-                                :key="'trainTypeOpt' + index">{{item.name}}
-                        </Option>
+                                :key="'trainTypeOpt' + index">{{item.name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="时间">
@@ -23,8 +22,7 @@
                             style="width: 160px;">
                         <Option :value="item.user_id"
                                 v-for="item,index in teacherOpt"
-                                :key="'teacherOpt' + index">{{item.user_name}}
-                        </Option>
+                                :key="'teacherOpt' + index">{{item.user_name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
@@ -54,42 +52,37 @@
                 <Row :gutter="8">
                     <Col :span="24">
                     <FormItem label="培训目标">
-                        <Input v-model="classForm.target" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                        <Input v-model="classForm.target" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                     <Col :span="24">
                     <FormItem label="完成情况">
-                        <Input v-model="classForm.complete_extent" type="textarea"
-                               :autosize="{minRows: 2,maxRows: 5}"></Input>
+                        <Input v-model="classForm.complete_extent" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                     <Col :span="24">
                     <FormItem label="学员参与度">
-                        <Input v-model="classForm.trainee_join_extent" type="textarea"
-                               :autosize="{minRows: 2,maxRows: 5}"></Input>
+                        <Input v-model="classForm.trainee_join_extent" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                     <Col :span="24">
                     <FormItem label="培训亮点">
-                        <Input v-model="classForm.advantage" type="textarea"
-                               :autosize="{minRows: 2,maxRows: 5}"></Input>
+                        <Input v-model="classForm.advantage" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                     <Col :span="24">
                     <FormItem label="培训不足">
-                        <Input v-model="classForm.shortage" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                        <Input v-model="classForm.shortage" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                     <Col :span="24">
                     <FormItem label="可能原因">
-                        <Input v-model="classForm.shortage_cause" type="textarea"
-                               :autosize="{minRows: 2,maxRows: 5}"></Input>
+                        <Input v-model="classForm.shortage_cause" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                     <Col :span="24">
                     <FormItem label="行动计划">
-                        <Input v-model="classForm.action_plan" type="textarea"
-                               :autosize="{minRows: 2,maxRows: 5}"></Input>
+                        <Input v-model="classForm.action_plan" type="textarea"  :autosize="{minRows: 2,maxRows: 5}"></Input>
                     </FormItem>
                     </Col>
                 </Row>
@@ -108,10 +101,9 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import fsDepTree from '@/baseComponents/fs-dep-tree';
     import moment from 'moment';
-
     export default {
         name: 'classRecheckManage',
-        data() {
+        data () {
             return {
                 modelFlag: false,
                 classFormType: 'add',
@@ -204,7 +196,7 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function() {
                                                 vm._checkTest(params.row);
                                             }
                                         }
@@ -238,7 +230,7 @@
             this._getTeacherOpt();
         },
         methods: {
-            formReset(name) {
+            formReset (name) {
                 this.$refs[name].resetFields();
             },
             downloadFile(url, name) {

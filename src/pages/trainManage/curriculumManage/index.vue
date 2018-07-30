@@ -91,7 +91,8 @@
                                 <Input v-model="banciForm.name"></Input>
                             </FormItem>
                             <FormItem>
-                                <Button type="primary" @click="_addPost" :loading="banciBtnLoading">{{mubanAddType === 'add' ? '添加': '修改'}}类型</Button>
+                                <Button type="primary" @click="_addPost" :loading="banciBtnLoading">{{mubanAddType === 'add' ? '添加': '修改'}}类型
+                                </Button>
                             </FormItem>
                         </Form>
                     </div>
@@ -454,7 +455,7 @@
                         width: 100
                     },
                     {
-                        title: '已参人数',
+                        title: '报名人数',
                         key: 'has_baoming',
                         align: 'center',
                         width: 100,
@@ -467,7 +468,7 @@
                         align: 'center',
                         width: 100,
                         render: (h, params) => {
-                            return h('span', params.row.has_baoming || 0);
+                            return h('span', params.row.sign_in || 0);
                         }
                     }, {
                         title: '反馈',
@@ -485,8 +486,8 @@
                                 h('Button', {
                                     props: {
                                         type: 'ghost',
-                                        icon: 'ios-eye',
-                                        shape: 'circle',
+                                        icon: 'drag',
+
                                         size: 'small'
                                     },
                                     on: {
@@ -505,7 +506,9 @@
                         align: 'center',
                         render: (h, params) => {
                             let vm = this;
-                            let lookBtn = h('Tooltip', {
+                            let lookBtn = '';
+                            // if (params.row.imageproof) {
+                            lookBtn = h('Tooltip', {
                                 props: {
                                     content: '查看二维码',
                                     placement: 'top',
@@ -527,6 +530,7 @@
                                     }
                                 })
                             ]);
+
                             return h('div', [lookBtn]);
                         }
                     },
@@ -646,10 +650,10 @@
             _uploadFormatErr() {
                 this.$Message.error('上传文件的后缀必须为.xls');
             },
-            _uploadProgress() {
+            _uploadProgress(event) {
                 this.spinShow = true;
             },
-            _uploadSuccess(response) {
+            _uploadSuccess(response, file, fileList) {
                 if (response.success) {
                     this.$Message.success('成绩上传成功!');
                     this.importModalFlag = false;

@@ -4,7 +4,11 @@
          @mouseenter="testEnter"
          @mouseleave="testLeave">
         <div class="marquee-infinite-inner" v-if="itemData.length" ref="innerDom">
-            <div class="marquee-infinite-inner-item" v-for="item in itemData">{{item}}</div>
+            <div class="marquee-infinite-inner-item"
+                 v-for="(item, index) in itemData"
+                 :key="'marquee-' + index">
+                {{item}}
+            </div>
         </div>
         <div class="" v-else>暂无数据</div>
     </div>
@@ -49,9 +53,11 @@
         watch: {
             itemData() {
                 this.$nextTick(() => {
-                    this.innerHeight = this.$refs.innerDom.clientHeight;
-                    this.animationY = +this.height;
-                    this._run();
+                    setTimeout(() => {
+                        this.innerHeight = this.$refs.innerDom.clientHeight;
+                        this.animationY = +this.height;
+                        this._run();
+                    }, 60)
                 });
             }
         },

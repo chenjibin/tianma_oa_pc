@@ -205,7 +205,7 @@
                     <Form ref="talentBean" :model="talentBean" :label-width="130" :rules="talentBeanRule" style="overflow-y: auto;height: 600px;" inline>
                         <Input type="text" style="display: none" v-model="talentBean.id"></Input>
                         <FormItem label="姓名" style="width:460px" prop="name">
-                            <Input type="text" :maxlength="20" v-model="talentBean.name"></Input>
+                            <Input type="text" :maxlength="20" v-model.trim="talentBean.name"></Input>
                         </FormItem>
                         <FormItem label="人才等级" style="width:460px" v-if="talentBean.important === 1" prop="level">
                             <Select type="text" v-model="talentBean.level" required>
@@ -660,7 +660,7 @@
                 if (value) {
                     this.$http.post('/user/getUserInfo', {username: value}).then((res) => {
                         if (res.success && res.data) {
-                            let d = res.data;
+                            var d = res.data;
                             callback(new Error(`用户名被 ${d.organizename}部，${d.realname}占用`));
                         } else {
                             callback();
@@ -730,7 +730,7 @@
                     appointment: '',
                     name: '',
                     family_in: 0,
-                    age: 18,
+                    age: '',
                     yearswork: 0,
                     sex: '',
                     marriage: '',
@@ -991,7 +991,7 @@
                         className: 'tableDataCustom',
                         width: 120,
                         render: (h, params) => {
-                            let vm = this;
+                            var vm = this;
                             return h('div', {
                                 style: {
                                     display: 'flex',
@@ -1081,7 +1081,7 @@
                 }
             },
             getPositionData() {
-                let vm = this;
+                var vm = this;
                 this.$http.post('/talentPosition/findTalentPositionList').then((res) => {
                     vm.positionData = res.data;
                 });
@@ -1111,7 +1111,7 @@
             },
             // 删除附件
             handleRemove(item) {
-                let vm = this;
+                var vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
@@ -1131,7 +1131,7 @@
             },
             // 下载图片
             download(path) {
-                let p = 'http://' + window.location.host + path;
+                var p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
                 downloadDom.href = p;
@@ -1146,10 +1146,10 @@
                 this.showAttachModel = true;
             },
             getTicketList(id) {
-                let that = this;
+                var that = this;
                 this.$http.post('/ticket/ticketFileslist', { 'ticketno': id }).then((res) => {
                     if (res.success) {
-                        let d = res.data;
+                        var d = res.data;
                         for (let i = 0; i < d.length; i++) {
                             d[i].file_path = d[i].file_path.replace('\\..', '\\oa');
                             if (d[i].file_path.indexOf('/oa') < 0) {
@@ -1196,10 +1196,10 @@
                 } else {
                     this.saveBtn2Loading = true;
                 }
-                let vm = this;
+                var vm = this;
                 this.$refs.talentBean.validate(function (isPass) {
                     if (isPass) {
-                        let d = {};
+                        var d = {};
                         d.bean = JSON.stringify(vm.talentBean);
                         let workingForm = vm.workingForm.filter(function(item) {
                             return (item.companyname || item.post || item.monthlysalary || item.starttime || item.endtime);
@@ -1216,7 +1216,9 @@
                             if (res.success) {
                                 vm.$Message.success('保存成功');
                                 vm._filterResultHandler();
-                                vm._findUser(res.message);
+                                if(type === 1){
+                                    vm._findUser(res.message);
+                                }
                                 if (type === 2) {
                                     vm.settingModalFlag = false;
                                 }
@@ -1236,8 +1238,8 @@
                 this.statusForm.remarks = this.showUser.remarks;
             },
             forward () {
-                let statusPrev = [-1, 0, 0, 1, 1, 1, 3, 3, 6, 6];
-                let vm = this;
+                var statusPrev = [-1, 0, 0, 1, 1, 1, 3, 3, 6, 6];
+                var vm = this;
                 this.statusTemp = statusPrev[this.showUser.status];
                 this.statusForm = {};
                 this.statusForm.id = this.showUser.id;
@@ -1315,8 +1317,8 @@
                 }
             },
             deleteMe() {
-                let id = this.talentBean.id;
-                let that = this;
+                var id = this.talentBean.id;
+                var that = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
@@ -1336,16 +1338,16 @@
                 });
             },
             getStatusText (num) {
-                let text = ['未预约', '已预约', '已到达', '未到达', '面试合格', '待定', '面试不合格', '合格到达', '合格未到达', '试岗通过', '试岗未通过'];
+                var text = ['未预约', '已预约', '已到达', '未到达', '面试合格', '待定', '面试不合格', '合格到达', '合格未到达', '试岗通过', '试岗未通过'];
                 return text[num + 1];
             },
             saveStatus() {
-                let vm = this;
+                var vm = this;
                 this.$refs['statusForm'].validate((valid) => {
                     if (!valid) {
                         return false;
                     }
-                    let d = vm.statusForm;
+                    var d = vm.statusForm;
                     if (vm.showUser.status === -1) {
                         d.status = 0;
                     }
@@ -1389,7 +1391,6 @@
                 this.talentBean.appointment = '';
                 this.talentBean.name = '';
                 this.talentBean.family_in = 0;
-                this.talentBean.age = 18;
                 this.talentBean.yearswork = 0;
                 this.talentBean.sex = '';
                 this.talentBean.marriage = '';
@@ -1409,6 +1410,9 @@
                 this.talentBean.headimg = '';
                 this.talentBean.nation = '';
                 this.talentBean.idnum = '';
+                this.talentBean.graduatedschool = '';
+                this.talentBean.education = '';
+                this.talentBean.profession = '';
                 this.talentBean.politicalstatus = '';
                 this.talentBean.emperson = '';
                 this.talentBean.emrelate = '';
@@ -1425,7 +1429,7 @@
                 this.filterPeopleLoading = true;
                 this.$http.get('/user/getCheckUser', {params: data}).then((res) => {
                     if (res.success) {
-                        let d = res.data;
+                        var d = res.data;
                         this.optionlist = d.map(item => {
                             return {
                                 'label': item.realname,
@@ -1487,7 +1491,7 @@
                 this.pageData.page = 1;
             },
             _findUser(id) {
-                let vm = this;
+                var vm = this;
                 vm.educationForm = [];
                 vm.workingForm = [];
                 vm.talentBean = {};
@@ -1506,7 +1510,7 @@
                 });
             },
             getPositionCombo() {
-                let vm = this;
+                var vm = this;
                 vm.$http.post('/talentPosition/dataComboList').then((res) => {
                     if (res.success) {
                         vm.dataComboList = res.data;
@@ -1530,7 +1534,7 @@
         #btn-fix-container {
             position: absolute;
             right: 20px;
-            top: 0;
+            top: 0px;
         }
         #btn-fix-container {
             .btn-group-fix {

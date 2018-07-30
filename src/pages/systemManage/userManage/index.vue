@@ -32,7 +32,11 @@
                                 clearable
                                 :transfer="true"
                                 placeholder="输入查询角色" style="width: 200px">
-                            <Option :value="item.id" :label="isManger > 1 ?item.name:item.name+' '+item.companyname" v-for="(item, index) in roleCombo" :key="'role' + index">{{item.name}} <span v-if="isManger == 0 || isManger == 1" :title="item.companyname" style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.companyname}}</span></Option>
+                            <Option :value="item.id" :label="isManger > 1 ?item.name:item.name+' '+item.companyname"
+                                    v-for="(item, index) in roleCombo" :key="'role' + index">{{item.name}} <span
+                                v-if="isManger == 0 || isManger == 1" :title="item.companyname"
+                                style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.companyname}}</span>
+                            </Option>
                         </Select>
                     </FormItem>
                     <FormItem label="状态">
@@ -124,7 +128,7 @@
                     </Col>
                     <Col :span="8">
                     <FormItem label="初始密码" v-if="userFormType === 'add'">
-                        <Input v-model="defaultPsd" disabled ></Input>
+                        <Input v-model="defaultPsd" disabled></Input>
                     </FormItem>
                     </Col>
                 </Row>
@@ -152,20 +156,22 @@
                     <Col :span="8">
                     <FormItem label="角色" prop="role">
                         <Select v-model="userSettingForm.role" ref="roleSelect">
-                            <Option :value="item.id" v-for="(item, index) in roleData" :key="'nrole' + item.id">{{item.name}}</Option>
+                            <Option :value="item.id" v-for="(item, index) in roleData" :key="'nrole' + item.id">
+                                {{item.name}}
+                            </Option>
                         </Select>
                     </FormItem>
                     </Col>
                     <Col :span="16">
                     <FormItem label="部门" prop="dep">
                         <el-cascader
-                                :options="orgComboList"
-                                :props="depProps"
-                                v-model="userSettingForm.dep"
-                                change-on-select
-                                size="small"
-                                style="width: 100%"
-                                @change="_depChange"
+                            :options="orgComboList"
+                            :props="depProps"
+                            v-model="userSettingForm.dep"
+                            change-on-select
+                            size="small"
+                            style="width: 100%"
+                            @change="_depChange"
                         ></el-cascader>
                     </FormItem>
                     </Col>
@@ -181,23 +187,26 @@
                     <Col :span="8">
                     <FormItem label="职级" prop="level">
                         <Select v-model="userSettingForm.level" :disabled="!userSettingForm.post">
-                            <Option :value="levelCodeOpt.code" :key="'level-' + levelCodeOpt.code">{{levelCodeOpt.code}}</Option>
+                            <Option :value="levelCodeOpt.code" :key="'level-' + levelCodeOpt.code">
+                                {{levelCodeOpt.code}}
+                            </Option>
                         </Select>
                     </FormItem>
                     </Col>
                 </Row>
                 <FormItem label="班次设置" :label-width="100" prop="banci">
                     <Select v-model="userSettingForm.banci" multiple>
-                        <Option v-for="item in banCiList" :value="item.id" :key="item.id">{{item.name + '(' + item.time + ')'}}</Option>
+                        <Option v-for="item in banCiList" :value="item.id" :key="item.id">{{item.name + '(' + item.time + ')'}}
+                        </Option>
                     </Select>
                 </FormItem>
             </Form>
             <div slot="footer">
                 <Poptip
-                        confirm
-                        :transfer="true"
-                        @on-ok="_resetPassWord"
-                        title="是否确认重置此用户密码？">
+                    confirm
+                    :transfer="true"
+                    @on-ok="_resetPassWord"
+                    title="是否确认重置此用户密码？">
                     <Button type="warning" v-show="userFormType === 'update'">重置密码</Button>
                 </Poptip>
                 <Button type="primary" v-show="userFormType === 'add'" @click="_addUser">添加</Button>
@@ -222,14 +231,17 @@
                 </FormItem>
                 <FormItem label="属性" prop="coinProperty">
                     <Select v-model="coinSettingForm.coinProperty">
-                        <Option :value="item.value" v-for="(item, index) in coinOptSelect" :key="'coin-property' + index">{{item.label}}</Option>
+                        <Option :value="item.value" v-for="(item, index) in coinOptSelect"
+                                :key="'coin-property' + index">{{item.label}}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="金币数量" prop="coinNumber">
                     <Input type="text" v-model="coinSettingForm.coinNumber"></Input>
                 </FormItem>
                 <FormItem label="说明" prop="content">
-                    <Input v-model="coinSettingForm.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                    <Input v-model="coinSettingForm.content" type="textarea"
+                           :autosize="{minRows: 2,maxRows: 5}"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -278,7 +290,8 @@
             <div id="fs-access-control-block">
                 <CheckboxGroup v-model="social">
                     <Row :gutter="10" type="flex">
-                        <Col :span="12" style="margin-bottom: 10px;" v-for="(cate, ci) in accseeList" :key="'cate-' + ci">
+                        <Col :span="12" style="margin-bottom: 10px;" v-for="(cate, ci) in accseeList"
+                             :key="'cate-' + ci">
                         <Card style="height: 100%;">
                             <h3 class="cate-title">{{cate.title}}</h3>
                             <div class="each-page-wrapper" v-for="(page, pi) in cate.page" :key="'page-' + pi">
@@ -304,7 +317,7 @@
             </div>
         </Modal>
         <Modal v-model="specAccessFlag"
-               width="800"
+               width="1200"
                :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>特殊权限设置</span>
@@ -318,20 +331,21 @@
                              v-for="(dep, index) in specAccessData.deps"
                              :key="'dep-' + index">
                             <el-cascader
-                                    :options="orgTreeData"
-                                    :props="depProps"
-                                    v-model="dep.dep"
-                                    change-on-select
-                                    size="small"
-                                    class="dep-choose"
+                                :options="orgTreeData"
+                                :props="depProps"
+                                v-model="dep.dep"
+                                change-on-select
+                                size="small"
+                                class="dep-choose"
                             ></el-cascader>
-                            <Button type="ghost" shape="circle" icon="ios-trash-outline" @click="_removeDep(index)"></Button>
+                            <Button type="ghost" shape="circle" icon="ios-trash-outline"
+                                    @click="_removeDep(index)"></Button>
                         </div>
                         <Button
-                                type="ghost"
-                                shape="circle"
-                                @click="_addNewDep"
-                                icon="plus-round"></Button>
+                            type="ghost"
+                            shape="circle"
+                            @click="_addNewDep"
+                            icon="plus-round"></Button>
                     </div>
                     </Col>
                     <Col :span="10">
@@ -341,10 +355,13 @@
                                 multiple
                                 filterable
                                 remote
+                                transfer
                                 :label="remoteLabel"
                                 :remote-method="_filterPeopleRemote"
                                 :loading="specAccessData.filterPeopleLoading">
-                            <Option v-for="(option, index) in specAccessData.filterPeopleOpt" :value="option.id" :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}</Option>
+                            <Option v-for="option in specAccessData.filterPeopleOpt" :value="option.id"
+                                    :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}
+                            </Option>
                         </Select>
                     </div>
                     </Col>
@@ -355,20 +372,21 @@
                              v-for="(dep, index) in specAccessData.arrangeDeps"
                              :key="'arrangedep-' + index">
                             <el-cascader
-                                    :options="orgTreeData"
-                                    :props="depProps"
-                                    v-model="dep.dep"
-                                    change-on-select
-                                    size="small"
-                                    class="dep-choose"
+                                :options="orgTreeData"
+                                :props="depProps"
+                                v-model="dep.dep"
+                                change-on-select
+                                size="small"
+                                class="dep-choose"
                             ></el-cascader>
-                            <Button type="ghost" shape="circle" icon="ios-trash-outline" @click="_removeArrangeDep(index)"></Button>
+                            <Button type="ghost" shape="circle" icon="ios-trash-outline"
+                                    @click="_removeArrangeDep(index)"></Button>
                         </div>
                         <Button
-                                type="ghost"
-                                shape="circle"
-                                @click="_addNewArrangeDep"
-                                icon="plus-round"></Button>
+                            type="ghost"
+                            shape="circle"
+                            @click="_addNewArrangeDep"
+                            icon="plus-round"></Button>
                     </div>
                     </Col>
                 </Row>
@@ -406,7 +424,8 @@
                     </Select>
                 </FormItem>
                 <FormItem label="备注" prop="content">
-                    <Input v-model="leaveSettingForm.leaveRemarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                    <Input v-model="leaveSettingForm.leaveRemarks" type="textarea"
+                           :autosize="{minRows: 2,maxRows: 5}"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -418,7 +437,7 @@
 </template>
 <style lang="less" scoped>
     #fs-spec-access-block {
-        max-height: 400px;
+        max-height: 500px;
         overflow-x: hidden;
         overflow-y: auto;
         .title {
@@ -443,6 +462,7 @@
             cursor: pointer;
         }
     }
+
     #fs-access-control-block {
         padding: 10px;
         height: 400px;
@@ -463,6 +483,7 @@
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import moment from 'moment';
+
     const NOW_DATE = moment().format('YYYY-MM-DD');
     export default {
         name: 'userManage',
@@ -480,7 +501,7 @@
                 }
             }
         },
-        data () {
+        data() {
             // const validatePassUserName = (rule, value, callback) => {
             //     if (value === '') {
             //         callback(new Error('账号不能为空'));
@@ -516,10 +537,10 @@
                 editUserId: '',
                 coinRules: {
                     coinNumber: [
-                        { required: true, message: '金币不能为空', trigger: 'blur' }
+                        {required: true, message: '金币不能为空', trigger: 'blur'}
                     ],
                     content: [
-                        { required: true, message: '说明不能为空', trigger: 'blur' }
+                        {required: true, message: '说明不能为空', trigger: 'blur'}
                     ]
                 },
                 coinSettingForm: {
@@ -610,22 +631,22 @@
                 },
                 userSettingValidate: {
                     inJobTime: [
-                        { required: true, message: '入职时间不能为空！', trigger: 'change' }
+                        {required: true, message: '入职时间不能为空！', trigger: 'change'}
                     ],
                     account: [
-                        { required: true, message: '账号不能为空！', trigger: 'blur' }
+                        {required: true, message: '账号不能为空！', trigger: 'blur'}
                     ],
                     role: [
-                        { type: 'number', required: true, message: '角色不能为空', trigger: 'blur' }
+                        {type: 'number', required: true, message: '角色不能为空', trigger: 'blur'}
                     ],
                     dep: [
-                        { type: 'array', required: true, message: '部门不能为空', trigger: 'blur' }
+                        {type: 'array', required: true, message: '部门不能为空', trigger: 'blur'}
                     ],
                     name: [
-                        { required: true, message: '姓名不能为空', trigger: 'blur' }
+                        {required: true, message: '姓名不能为空', trigger: 'blur'}
                     ],
                     sex: [
-                        { required: true, message: '请选择性别', trigger: 'change' }
+                        {required: true, message: '请选择性别', trigger: 'change'}
                     ]
                 },
                 totalCount: 1,
@@ -756,7 +777,7 @@
                                         title: '特殊权限设置'
                                     },
                                     on: {
-                                        click: function(e) {
+                                        click: function (e) {
                                             e.stopPropagation();
                                             vm._specAccessOpen(params.row);
                                         }
@@ -775,7 +796,7 @@
                                         title: '用户授权'
                                     },
                                     on: {
-                                        click: function(e) {
+                                        click: function (e) {
                                             e.stopPropagation();
                                             vm._userAccessOpen(params.row);
                                         }
@@ -807,9 +828,7 @@
                 accessMenu: [
                     {
                         title: '系统管理',
-                        pages: [
-
-                        ]
+                        pages: []
                     }
 
                 ],
@@ -858,10 +877,10 @@
                 },
                 banciRules: {
                     name: [
-                        { required: true, message: '班次名称不能为空', trigger: 'blur' }
+                        {required: true, message: '班次名称不能为空', trigger: 'blur'}
                     ],
                     time: [
-                        { required: true, message: '班次时间不能为空', trigger: 'blur' }
+                        {required: true, message: '班次时间不能为空', trigger: 'blur'}
                     ]
                 },
                 accessCheckArr: [1, 2],
@@ -1174,7 +1193,7 @@
                 for (let i = 0, length = idsArr.length; i < length; i++) {
                     storeArr[i] = {};
                 }
-                storeArr.forEach((item, index) => {
+                storeArr.forEach((item, index, arr) => {
                     item.id = +idsArr[index];
                     item.name = namesArr[index];
                 });

@@ -1,5 +1,5 @@
 <style lang="less">
-    @import '../styles/unlock.less';
+    @import './unlock.less';
 </style>
 
 <template>
@@ -28,7 +28,6 @@
 
 <script>
 import Cookies from 'js-cookie';
-import MD5 from 'crypto-js/md5';
 export default {
     name: 'Unlock',
     data () {

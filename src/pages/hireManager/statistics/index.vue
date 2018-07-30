@@ -304,8 +304,8 @@
         },
         mounted () {
             this.$nextTick(() => {
-                let dataSourcePie = echarts.init(document.getElementById('data_source1'));
-                let dataSourcePie2 = echarts.init(document.getElementById('data_source2'));
+                var dataSourcePie = echarts.init(document.getElementById('data_source1'));
+                var dataSourcePie2 = echarts.init(document.getElementById('data_source2'));
                 this.dataSourcePie = dataSourcePie;
                 this.dataSourcePie2 = dataSourcePie2;
                 dataSourcePie.setOption(this.option);

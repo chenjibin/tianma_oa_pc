@@ -1,7 +1,10 @@
-import Main from '@/views/Main.vue';
+import Main from '@/pages/main/index.vue';
 import knowledgeMain from '@/pages/knowledgeManage/knowledgePublic/route.vue';
 import knowledgeIndex from '@/pages/knowledgeManage/knowledgePublic/index.vue';
 import photoMain from '@/pages/photoManager/photoPublic/main.vue';
+function loadView(url) {
+    return () => import(/* webpackChunkName: "view-[request]" */ `@/pages/${url}`)
+}
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
     path: '/login',
@@ -10,7 +13,7 @@ export const loginRouter = {
         title: 'Login - 登录',
         white: true
     },
-    component: () => import('@/views/login.vue')
+    component: loadView('login/index.vue')
 };
 export const guestRouter = {
     path: '/guest',
@@ -19,7 +22,7 @@ export const guestRouter = {
         title: '社会招聘',
         white: true
     },
-    component: () => import('@/pages/hireManager/guest/index.vue')
+    component: loadView('hireManager/guest/index.vue')
 };
 export const inExamRouter = {
     path: '/inExam/testPaperId/:testPaperId/testId/:testId',
@@ -27,8 +30,17 @@ export const inExamRouter = {
     meta: {
         whiteIn: true
     },
-    component: () => import('@/pages/myExam/in-exam-page.vue')
+    component: loadView('myExam/in-exam-page.vue')
 };
+export const foodRouter = {
+    path: '/foodPublic',
+    title: '食堂',
+    name: 'foodPublic',
+    meta: {
+        whiteIn: true
+    },
+    component: loadView('foodClient/index.vue')
+}
 export const knowledgeRouter = {
     path: '/knowledgePublic',
     title: '知识库',
@@ -41,15 +53,12 @@ export const knowledgeRouter = {
             meta: {
                 whiteIn: true
             },
-            component: () => import('@/pages/knowledgeManage/knowledgePublic/article.vue')
+            component: loadView('knowledgeManage/knowledgePublic/article.vue')
         },
         {
             path: 'index',
             name: 'articleIndex',
             title: '知识库',
-            meta: {
-                whiteIn: true
-            },
             component: knowledgeIndex,
             children: [
                 {
@@ -58,7 +67,7 @@ export const knowledgeRouter = {
                     meta: {
                         whiteIn: true
                     },
-                    component: () => import('@/pages/knowledgeManage/knowledgePublic/home.vue')
+                    component: loadView('knowledgeManage/knowledgePublic/home.vue')
                 },
                 {
                     path: 'list',
@@ -66,7 +75,7 @@ export const knowledgeRouter = {
                     meta: {
                         whiteIn: true
                     },
-                    component: () => import('@/pages/knowledgeManage/knowledgePublic/list.vue')
+                    component: loadView('knowledgeManage/knowledgePublic/list.vue')
                 }
             ]
         }
@@ -84,7 +93,7 @@ export const photoRouter = {
             meta: {
                 whiteIn: true
             },
-            component: () => import('@/pages/photoManager/photoPublic/list.vue')
+            component: loadView('photoManager/photoPublic/list.vue')
         },
         {
             path: 'detailList/:id',
@@ -92,7 +101,7 @@ export const photoRouter = {
             meta: {
                 whiteIn: true
             },
-            component: () => import('@/pages/photoManager/photoPublic/detailList.vue')
+            component: loadView('photoManager/photoPublic/detailList.vue')
         },
         {
             path: 'myPhoto',
@@ -100,7 +109,7 @@ export const photoRouter = {
             meta: {
                 whiteIn: true
             },
-            component: () => import('@/pages/photoManager/photoPublic/myPhoto.vue')
+            component: loadView('photoManager/photoPublic/myPhoto.vue')
         }
     ]
 };
@@ -111,7 +120,7 @@ export const page404 = {
         title: '404-页面不存在',
         whiteIn: true
     },
-    component: () => import('@/views/error-page/404.vue')
+    component: loadView('error-page/404.vue')
 };
 
 export const page403 = {
@@ -121,7 +130,7 @@ export const page403 = {
         whiteIn: true
     },
     name: 'error-403',
-    component: () => import('@/views/error-page/403.vue')
+    component: loadView('error-page/403.vue')
 };
 
 export const page500 = {
@@ -131,7 +140,7 @@ export const page500 = {
         white: true
     },
     name: 'error-500',
-    component: () => import('@/views/error-page/500.vue')
+    component: loadView('error-page/500.vue')
 };
 
 export const locking = {
@@ -140,7 +149,7 @@ export const locking = {
     meta: {
         whiteIn: true
     },
-    component: () => import('@/views/main-components/lockscreen/components/locking-page.vue')
+    component: loadView('lockPage/locking-page.vue')
 };
 
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
@@ -157,7 +166,7 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'home_index',
-            component: () => import('@/pages/home/index.vue')
+            component: loadView('home/index.vue')
         },
         {
             path: 'myLog',
@@ -166,7 +175,7 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'myLog',
-            component: () => import('@/pages/myLog/index.vue')
+            component: loadView('myLog/index.vue')
         },
         {
             path: 'myAttendance',
@@ -175,7 +184,7 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'myAttendance',
-            component: () => import('@/pages/myAttendance/index.vue')
+            component: loadView('myAttendance/index.vue')
         },
         {
             path: 'myLeave',
@@ -184,7 +193,7 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'myLeave',
-            component: () => import('@/pages/myLeave/index.vue')
+            component: loadView('myLeave/index.vue')
         },
         {
             path: 'myArrange',
@@ -193,7 +202,7 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'myArrange',
-            component: () => import('@/pages/myArrange/index.vue')
+            component: loadView('myArrange/index.vue')
         },
         {
             path: 'myExam',
@@ -202,7 +211,7 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'myExam',
-            component: () => import('@/pages/myExam/index.vue')
+            component: loadView('myExam/index.vue')
         },
         {
             path: 'assetsApply',
@@ -211,7 +220,7 @@ export const otherRouter = {
             },
             name: 'assetsApply',
             title: '我的资产',
-            component: () => import('@/pages/assetsManager/assetsApply/index.vue')
+            component: loadView('assetsManager/assetsApply/index.vue')
         },
         {
             path: 'coinShop',
@@ -220,7 +229,7 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'coinShop',
-            component: () => import('@/pages/coinManage/coinShop/index.vue')
+            component: loadView('coinManage/coinShop/index.vue')
         },
         {
             path: 'myTrain',
@@ -229,7 +238,25 @@ export const otherRouter = {
                 whiteIn: true
             },
             name: 'myTrain',
-            component: () => import('@/pages/myTrain/index.vue')
+            component: loadView('myTrain/index.vue')
+        },
+        {
+            path: 'mySalary',
+            title: '我的绩效',
+            meta: {
+                whiteIn: true
+            },
+            name: 'mySalary',
+            component: loadView('salaryManaer/mySalary/index.vue')
+        },
+        {
+            path: 'myFoodCard',
+            title: '我的饭卡',
+            meta: {
+                whiteIn: true
+            },
+            name: 'myFoodCard',
+            component: loadView('myFoodCard/index.vue')
         }
     ]
 };
@@ -247,14 +274,14 @@ export const appRouter = [
                 icon: 'compose',
                 name: 'elogManage',
                 title: '员工日志管理',
-                component: () => import('@/pages/logManage/elogManage/index.vue')
+                component: loadView('logManage/elogManage/index.vue')
             },
             {
                 path: 'logTotal',
                 icon: 'compose',
                 name: 'logTotal',
                 title: '日志统计',
-                component: () => import('@/pages/logManage/logTotal/index.vue')
+                component: loadView('logManage/logTotal/index.vue')
             }
         ]
     },
@@ -270,35 +297,35 @@ export const appRouter = [
                 icon: 'ios-folder-outline',
                 name: 'attendanceManage',
                 title: '考勤管理',
-                component: () => import('@/pages/attendanceAndLeave/attendanceManage')
+                component: loadView('attendanceAndLeave/attendanceManage/index.vue')
             },
             {
                 path: 'leaveApproval',
                 icon: 'ios-folder-outline',
                 name: 'leaveApproval',
                 title: '请假审批',
-                component: () => import('@/pages/attendanceAndLeave/leaveApproval')
+                component: loadView('attendanceAndLeave/leaveApproval/index.vue')
             },
             {
                 path: 'leaveManage',
                 icon: 'ios-folder-outline',
                 name: 'leaveManage',
                 title: '请假管理',
-                component: () => import('@/pages/attendanceAndLeave/leaveManage')
+                component: loadView('attendanceAndLeave/leaveManage/index.vue')
             },
             {
                 path: 'depAttendance',
                 icon: 'ios-folder-outline',
                 name: 'depAttendance',
                 title: '部门考勤',
-                component: () => import('@/pages/attendanceAndLeave/depAttendance')
+                component: loadView('attendanceAndLeave/depAttendance/index.vue')
             },
             {
                 path: 'depArrange',
                 icon: 'ios-folder-outline',
                 name: 'depArrange',
                 title: '部门排班信息',
-                component: () => import('@/pages/attendanceAndLeave/depArrange')
+                component: loadView('attendanceAndLeave/depArrange/index.vue')
             }
         ]
     },
@@ -314,14 +341,14 @@ export const appRouter = [
                 icon: 'ios-bookmarks',
                 name: 'employeeAchives',
                 title: '员工档案',
-                component: () => import('@/pages/employeeFileManager/employeeAchives')
+                component: loadView('employeeFileManager/employeeAchives/index.vue')
             },
             {
                 path: 'employeeOrganize',
                 icon: 'ios-bookmarks',
                 name: 'employeeOrganize',
                 title: '部门员工档案',
-                component: () => import('@/pages/employeeFileManager/employeeOrganize')
+                component: loadView('employeeFileManager/employeeOrganize/index.vue')
             }
         ]
     },
@@ -337,21 +364,21 @@ export const appRouter = [
                 icon: 'ios-people',
                 name: 'hire',
                 title: '员工招聘',
-                component: () => import('@/pages/hireManager/hire')
+                component: loadView('hireManager/hire/index.vue')
             },
             {
                 path: 'position',
                 icon: 'ios-people',
                 name: 'position',
                 title: '岗位设置',
-                component: () => import('@/pages/hireManager/position')
+                component: loadView('hireManager/position/index.vue')
             },
             {
                 path: 'statistics',
                 icon: 'ios-people',
                 name: 'statistics',
                 title: '数据统计',
-                component: () => import('@/pages/hireManager/statistics')
+                component: loadView('hireManager/statistics/index.vue')
             }
         ]
     },
@@ -367,7 +394,7 @@ export const appRouter = [
                 icon: 'printer',
                 name: 'assetsRegister',
                 title: '资产查询/管理',
-                component: () => import('@/pages/assetsManager/assetsRegister')
+                component: loadView('assetsManager/assetsRegister/index.vue')
             },
 
             {
@@ -375,35 +402,35 @@ export const appRouter = [
                 icon: 'printer',
                 name: 'assetsBuyApprove',
                 title: '资产采购/报废审批',
-                component: () => import('@/pages/assetsManager/assetsBuyApprove')
+                component: loadView('assetsManager/assetsBuyApprove/index.vue')
             },
             {
                 path: 'assetsAllocation',
                 icon: 'printer',
                 name: 'assetsAllocation',
                 title: '资产调拨',
-                component: () => import('@/pages/assetsManager/assetsAllocation')
+                component: loadView('assetsManager/assetsAllocation/index.vue')
             },
             {
                 path: 'assetsBuyManager',
                 icon: 'printer',
                 name: 'assetsBuyManager',
                 title: '资产采购清单',
-                component: () => import('@/pages/assetsManager/assetsBuyManager')
+                component: loadView('assetsManager/assetsBuyManager/index.vue')
             },
             {
                 path: 'assetslocation',
                 icon: 'printer',
                 name: 'assetslocation',
                 title: '资产位置',
-                component: () => import('@/pages/assetsManager/assetLocation')
+                component: loadView('assetsManager/assetLocation/index.vue')
             },
             {
                 path: 'assetsCategory',
                 icon: 'printer',
                 name: 'assetsCategory',
                 title: '资产分类',
-                component: () => import('@/pages/assetsManager/assetsCategory')
+                component: loadView('assetsManager/assetsCategory/index.vue')
             }
         ]
     },
@@ -419,49 +446,49 @@ export const appRouter = [
                 icon: 'university',
                 name: 'examinationManage',
                 title: '考试管理',
-                component: () => import('@/pages/examination/examinationManage')
+                component: loadView('examination/examinationManage/index.vue')
             },
             {
                 path: 'questionManage',
                 icon: 'university',
                 name: 'questionManage',
                 title: '试题管理',
-                component: () => import('@/pages/examination/questionManage')
+                component: loadView('examination/questionManage/index.vue')
             },
             {
                 path: 'paperManage',
                 icon: 'university',
                 name: 'paperManage',
                 title: '试卷管理',
-                component: () => import('@/pages/examination/paperManage')
+                component: loadView('examination/paperManage/index.vue')
             },
             {
                 path: 'gradeManage',
                 icon: 'university',
                 name: 'gradeManage',
                 title: '成绩管理',
-                component: () => import('@/pages/examination/gradeManage')
+                component: loadView('examination/gradeManage/index.vue')
             },
             {
                 path: 'depGrade',
                 icon: 'university',
                 name: 'depGrade',
                 title: '部门成绩',
-                component: () => import('@/pages/examination/depGrade')
+                component: loadView('examination/depGrade/index.vue')
             },
             {
                 path: 'peopleCheck',
                 icon: 'university',
                 name: 'peopleCheck',
                 title: '人工阅卷',
-                component: () => import('@/pages/examination/peopleCheck')
+                component: loadView('examination/peopleCheck/index.vue')
             },
             {
                 path: 'examinationCategory',
                 icon: 'university',
                 name: 'examinationCategory',
                 title: '分类管理',
-                component: () => import('@/pages/examination/examinationCategory')
+                component: loadView('examination/examinationCategory/index.vue')
             }
         ]
     },
@@ -477,35 +504,81 @@ export const appRouter = [
                 icon: 'person-stalker',
                 name: 'managerTeams',
                 title: '团队管理',
-                component: () => import('@/pages/ticket/managerTeams')
+                component: loadView('ticket/managerTeams/index.vue')
             },
             {
                 path: 'myTickets',
                 icon: 'android-checkbox-outline',
                 name: 'myTickets',
                 title: '我的工单(开发)',
-                component: () => import('@/pages/ticket/myTickets')
+                component: loadView('ticket/myTickets/index.vue')
             },
             {
                 path: 'myCreateTickets',
                 icon: 'android-checkbox-outline',
                 name: 'myCreateTickets',
                 title: '我的工单(业务)',
-                component: () => import('@/pages/ticket/myCreateTickets')
+                component: loadView('ticket/myCreateTickets/index.vue')
             },
             {
                 path: 'superiorManager',
                 icon: 'android-time',
                 name: 'superiorManager',
                 title: '管理工单(上级)',
-                component: () => import('@/pages/ticket/superiorManager')
+                component: loadView('ticket/superiorManager/index.vue')
             },
             {
                 path: 'teamTickets',
                 icon: 'android-time',
                 name: 'teamTickets',
                 title: '管理工单(项目组)',
-                component: () => import('@/pages/ticket/teamTickets')
+                component: loadView('ticket/teamTickets/index.vue')
+            }
+        ]
+    },
+    {
+        path: '/rulesManager',
+        icon: 'ios-star',
+        name: 'rulesManager',
+        title: '规章管理',
+        component: Main,
+        children: [
+            {
+                path: 'newRule',
+                icon: 'ios-star',
+                name: 'newRule',
+                title: '新增规章',
+                component: loadView('rulesManager/newRule/index.vue')
+            },
+            {
+                path: 'approveRule',
+                icon: 'ios-star',
+                name: 'approveRule',
+                title: '规章审批',
+                component: loadView('rulesManager/approveRule/index.vue')
+            }
+        ]
+    },
+    {
+        path: '/salaryManaer',
+        icon: 'android-contacts',
+        name: 'salaryManaer',
+        title: '绩效管理',
+        component: Main,
+        children: [
+            {
+                path: 'newSalary',
+                icon: 'ios-folder-outline',
+                name: 'newSalary',
+                title: '绩效方案管理',
+                component: loadView('salaryManaer/newSalary/index.vue')
+            },
+            {
+                path: 'approveSalary',
+                icon: 'ios-folder-outline',
+                name: 'approveSalary',
+                title: '绩效打分',
+                component: loadView('salaryManaer/approveSalary/index.vue')
             }
         ]
     },
@@ -521,42 +594,56 @@ export const appRouter = [
                 icon: 'ribbon-a',
                 name: 'trainPlanManage',
                 title: '培训计划管理',
-                component: () => import('@/pages/trainManage/trainPlanManage')
+                component: loadView('trainManage/trainPlanManage/index.vue')
             },
             {
                 path: 'internalTrainerManage',
                 icon: 'ribbon-a',
                 name: 'internalTrainerManage',
                 title: '内训师管理',
-                component: () => import('@/pages/trainManage/internalTrainerManage')
+                component: loadView('trainManage/internalTrainerManage/index.vue')
             },
             {
                 path: 'curriculumManage',
                 icon: 'ribbon-a',
                 name: 'curriculumManage',
                 title: '课程管理',
-                component: () => import('@/pages/trainManage/curriculumManage')
+                component: loadView('trainManage/curriculumManage/index.vue')
             },
             {
                 path: 'classRecheckManage',
                 icon: 'ribbon-a',
                 name: 'classRecheckManage',
                 title: '课程复盘管理',
-                component: () => import('@/pages/trainManage/classRecheckManage')
+                component: loadView('trainManage/classRecheckManage/index.vue')
             },
             {
                 path: 'tickRecheckManage',
                 icon: 'ribbon-a',
                 name: 'tickRecheckManage',
                 title: '周期复盘管理',
-                component: () => import('@/pages/trainManage/tickRecheckManage')
+                component: loadView('trainManage/tickRecheckManage/index.vue')
             },
             {
                 path: 'creditManage',
                 icon: 'ribbon-a',
                 name: 'creditManage',
                 title: '学分管理',
-                component: () => import('@/pages/trainManage/creditManage')
+                component: loadView('trainManage/creditManage/index.vue')
+            },
+            {
+                path: 'questionnaireManage',
+                icon: 'ribbon-a',
+                name: 'questionnaireManage',
+                title: '问卷管理',
+                component: loadView('trainManage/questionnaireManage/index.vue')
+            },
+            {
+                path: 'questionnaireQuestionsManage',
+                icon: 'ribbon-a',
+                name: 'questionnaireQuestionsManage',
+                title: '问卷题管理',
+                component: loadView('trainManage/questionnaireQuestionsManage/index.vue')
             }
         ]
     },
@@ -564,7 +651,7 @@ export const appRouter = [
         path: '/coinManage',
         icon: 'ios-pricetags',
         name: 'coinManage',
-        title: '金币管理',
+        title: '员工财富管理',
         component: Main,
         children: [
             {
@@ -572,35 +659,49 @@ export const appRouter = [
                 icon: 'ios-pricetags',
                 name: 'coinRecord',
                 title: '金币记录',
-                component: () => import('@/pages/coinManage/coinRecord')
+                component: loadView('coinManage/coinRecord/index.vue')
             },
             {
                 path: 'coinStatistics',
                 icon: 'ios-pricetags',
                 name: 'coinStatistics',
                 title: '金币分类统计',
-                component: () => import('@/pages/coinManage/coinStatistics')
+                component: loadView('coinManage/coinStatistics/index.vue')
             },
             {
                 path: 'goodsManage',
                 icon: 'ios-pricetags',
                 name: 'goodsManage',
                 title: '商品管理',
-                component: () => import('@/pages/coinManage/goodsManage')
+                component: loadView('coinManage/goodsManage/index.vue')
             },
             {
                 path: 'prizeManage',
                 icon: 'ios-pricetags',
                 name: 'prizeManage',
                 title: '奖品管理',
-                component: () => import('@/pages/coinManage/prizeManage')
+                component: loadView('coinManage/prizeManage/index.vue')
             },
             {
                 path: 'goodsExchangeManage',
                 icon: 'ios-pricetags',
                 name: 'goodsExchangeManage',
                 title: '兑换管理',
-                component: () => import('@/pages/coinManage/goodsExchangeManage')
+                component: loadView('coinManage/goodsExchangeManage/index.vue')
+            },
+            {
+                path: 'foodCardManage',
+                icon: 'card',
+                name: 'foodCardManage',
+                title: '饭卡管理',
+                component: loadView('coinManage/foodCardManage/index.vue')
+            },
+            {
+                path: 'foodCardLog',
+                icon: 'card',
+                name: 'foodCardLog',
+                title: '饭卡记录',
+                component: loadView('coinManage/foodCardLog/index.vue')
             }
         ]
     },
@@ -616,14 +717,14 @@ export const appRouter = [
                 icon: 'ios-book',
                 name: 'knowledgeSetting',
                 title: '知识库设置',
-                component: () => import('@/pages/knowledgeManage/knowledgeSetting')
+                component: loadView('knowledgeManage/knowledgeSetting/index.vue')
             },
             {
                 path: 'myKnowledge',
                 icon: 'ios-book',
                 name: 'myKnowledge',
                 title: '我的知识',
-                component: () => import('@/pages/knowledgeManage/myKnowledge')
+                component: loadView('knowledgeManage/myKnowledge/index.vue')
             }
         ]
     },
@@ -639,7 +740,7 @@ export const appRouter = [
                 icon: 'images',
                 name: 'photoSetting',
                 title: '活动设置',
-                component: () => import('@/pages/photoManager/photoSetting')
+                component: loadView('photoManager/photoSetting/index.vue')
             }
         ]
     },
@@ -655,42 +756,42 @@ export const appRouter = [
                 icon: 'ios-gear',
                 name: 'organizationManage',
                 title: '组织管理',
-                component: () => import('@/pages/systemManage/organizationManage')
+                component: loadView('systemManage/organizationManage/index.vue')
             },
             {
                 path: 'roleManage',
                 icon: 'ios-gear',
                 name: 'roleManage',
                 title: '角色管理',
-                component: () => import('@/pages/systemManage/roleManage')
+                component: loadView('systemManage/roleManage/index.vue')
             },
             {
                 path: 'levelManage',
                 icon: 'ios-gear',
                 name: 'levelManage',
                 title: '职级管理',
-                component: () => import('@/pages/systemManage/levelManage')
+                component: loadView('systemManage/levelManage/index.vue')
             },
             {
                 path: 'userManage',
                 icon: 'ios-gear',
                 name: 'userManage',
                 title: '用户管理',
-                component: () => import('@/pages/systemManage/userManage')
+                component: loadView('systemManage/userManage/index.vue')
             },
             {
                 path: 'postManage',
                 icon: 'ios-gear',
                 name: 'postManage',
                 title: '岗位管理',
-                component: () => import('@/pages/systemManage/postManage')
+                component: loadView('systemManage/postManage/index.vue')
             },
             {
                 path: 'noticeManage',
                 icon: 'ios-gear',
                 name: 'noticeManage',
                 title: '公告管理',
-                component: () => import('@/pages/systemManage/noticeManage')
+                component: loadView('systemManage/noticeManage/index.vue')
             }
         ]
     }
@@ -701,6 +802,7 @@ export const routers = [
     loginRouter,
     otherRouter,
     guestRouter,
+    foodRouter,
     knowledgeRouter,
     photoRouter,
     inExamRouter,

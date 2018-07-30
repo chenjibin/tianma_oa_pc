@@ -1,14 +1,17 @@
 <template>
     <div id="myCreateTickets">
         <Card>
-            <Form inline style="width: 100%" :label-width="90">
+            <Form inline style="width: 100%" :label-width="70">
+                <FormItem label="工单id" style="width: 220px">
+                    <Input v-model="filterOpt.id.value" style="width: 150px" placeholder="筛选id" clearable></Input>
+                </FormItem>
                 <FormItem label="状态" style="width: 200px">
                     <Select v-model="filterOpt.type.value" style="width: 100%" placeholder="筛选状态" clearable>
-                        <Option value="-1">不处理</Option>
                         <Option value="0">待处理</Option>
                         <Option value="1">处理中</Option>
                         <Option value="2">已完成</Option>
                         <Option value="3">已暂停</Option>
+                        <Option value="4">不处理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="只看自己" style="width: 200px" v-if="accessBtn.indexOf(37) > -1">
@@ -57,6 +60,11 @@
                     <DatePicker style="width: 100%" type="date" @on-change="changeDate(1, 'end_time', $event)"
                                 :value="filterOpt.end_time.value" placeholder="结束日期"></DatePicker>
                 </FormItem>
+                <FormItem label="项目组" style="width: 220px">
+                    <Select v-model="filterOpt.team_id.value" filterable clearable>
+                        <Option style="width: 100%" v-for="option in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
+                    </Select>
+                </FormItem>
                 <FormItem>
                     <Button style="width: 100%" type="primary" @click="newTicketsModal = true">新增需求</Button>
                 </FormItem>
@@ -70,7 +78,7 @@
                 <input style="display: none" v-model="newTickets.id"/>
                 <FormItem label="需求名">
                     <input v-model="newTickets.demand"
-                           style="border: none;border-bottom: solid 1px #c3c3c3;width: 520px;outline: none"></input>
+                           style="border: none;border-bottom: solid 1px #c3c3c3;width: 520px;outline: none" />
                 </FormItem>
                 <FormItem label="创建人">
                     <span v-text="newTickets.add_user_name"></span>
@@ -86,13 +94,16 @@
                 <FormItem label="优先级" style="width: 290px;display: inline-block">
                     <Select v-model="newTickets.priority" placement="bottom">
                         <Option :value="1">
-                            <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
+                            <span
+                                style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
                         </Option>
                         <Option :value="2">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
                         </Option>
                         <Option :value="3">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
                         </Option>
                     </Select>
                 </FormItem>
@@ -130,7 +141,7 @@
                 <input style="display: none" v-model="editTicketsModal.id"/>
                 <FormItem label="需求名">
                     <input v-model="editTickets.demand"
-                           style="border: none;border-bottom: solid 1px #c3c3c3;width: 500px;outline: none"></input>
+                           style="border: none;border-bottom: solid 1px #c3c3c3;width: 500px;outline: none" />
                 </FormItem>
                 <FormItem label="创建人" style="width: 270px;display: inline-block">
                     <span v-text="editTickets.add_user_name"></span>
@@ -144,19 +155,19 @@
                 <FormItem label="优先级" style="width: 270px;display: inline-block">
                     <Select v-model="editTickets.priority" placement="bottom">
                         <Option :value="1">
-                            <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
+                            <span
+                                style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
                         </Option>
                         <Option :value="2">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
                         </Option>
                         <Option :value="3">
-                            <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
+                            <span
+                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
                         </Option>
                     </Select>
                 </FormItem>
-                <!--<FormItem label="权重" style="width: 270px;display: inline-block">-->
-                <!--<InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="editTickets.weight"></InputNumber>-->
-                <!--</FormItem>-->
                 <FormItem label="项目组" style="width: 270px;display: inline-block">
                     <Select v-model="editTickets.team_id" placement="bottom" filterable>
                         <Option v-for="option in teamOpt" :value="option.id" :key="'user2' + option.id">
@@ -177,18 +188,18 @@
                     </Upload>
                 </FormItem>
                 <span style="display: inline-block" v-if="editTickets.accessory">{{editTickets.accessory}} <Button
-                        type="text" @click.prevent="removeFile({name:accessory})">删除</Button></span>
+                    type="text" @click.prevent="removeFile({name:accessory})">删除</Button></span>
                 <FormItem label="历史" style="width: 565px;">
                     <div style="width: 100%;max-height: 250px;overflow-x: hidden;overflow-y: auto">
-                        <p :key="item.id" v-for="item in logs" v-if="item.type==0">
+                        <p :key="item.id" v-for="item in logs" v-if="+item.type === 0">
                             {{item.content}}
                         </p>
                     </div>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" @click="editTicketsModal = false;">取消</Button>
-                <Button :disabled="editTickets.type == 2" type="primary" :loading="saveLoading" @click="save(2)">保存
+                <Button type="text" @click="editTicketsModal = false">取消</Button>
+                <Button :disabled="+editTickets.type === 2" type="primary" :loading="saveLoading" @click="save(2)">保存
                 </Button>
             </div>
         </Modal>
@@ -279,9 +290,17 @@
                         value: '',
                         type: 'select'
                     },
+                    team_id: {
+                        value: '',
+                        type: 'select'
+                    },
                     me: {
                         value: '',
                         type: 'select'
+                    },
+                    id: {
+                        type: 'input',
+                        value: ''
                     },
                     type: {
                         value: '',
@@ -321,6 +340,11 @@
                                 }
                             });
                         }
+                    },
+                    {
+                        title: '工单id',
+                        key: 'id',
+                        minWidth: 80
                     },
                     {
                         title: '工单名',
@@ -487,6 +511,7 @@
                                             click: function (e) {
                                                 e.stopPropagation();
                                                 vm.editTicketsModal = true;
+                                                console.log(row);
                                                 vm.editTickets.id = row.id;
                                                 vm.logs = row.logs;
                                                 vm.editTickets.detail = row.detail;
@@ -563,6 +588,9 @@
                                             click: function (e) {
                                                 e.stopPropagation();
                                                 vm.commitForm.id = row.id;
+                                                vm.commitForm.business_planScore = 100;
+                                                vm.commitForm.business_qualityScore = 100;
+                                                vm.commitForm.reason = '';
                                                 vm.commitModal = true;
                                             }
                                         }
@@ -675,12 +703,11 @@
                     }
                 });
             },
-            handleSuccess(response, file, fileList) {
-                console.log(file);
+            handleSuccess(response, file) {
                 this.newTickets.accessory = file.name;
                 this.editTickets.accessory = file.name;
             },
-            removeFile(file, fileList) {
+            removeFile(file) {
                 this.$http.get('/workOrder/delfile?name=' + file.name).then((res) => {
                     this.newTickets.accessory = '';
                     this.editTickets.accessory = '';

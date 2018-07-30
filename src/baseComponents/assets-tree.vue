@@ -15,7 +15,7 @@
     </div>
 </template>
 
-<script type="text/jsx">
+<script>
     export default {
         name: 'assetsTree',
         props: {
@@ -46,10 +46,11 @@
                 }
             }
         },
-        created() {
+        created () {
             this._getPostData();
+            // this._setTableHeight();
         },
-        data() {
+        data () {
             return {
                 customerForm: {
                     addForm: {
@@ -67,19 +68,20 @@
             };
         },
         methods: {
-            renderContent(h, {node, data, store}) {
+            renderContent(h, { node, data, store }) {
                 return (
                     <span class="custom-tree-node">
                         <span class="title">{data.name}</span>
                         <span class="buttons"></span>
                     </span>);
             },
-            _getPostData() {
+            _getPostData () {
                 this.$http.post('/assetsCategory/categoryList', {pid: -1}).then((res) => {
                     this.dataList = res.data;
                 });
             },
             checkmea(data, node) {
+                console.log(data);
                 this.customerForm.addForm.fname = data.name;
                 this.customerForm.addForm.pid = data.id;
                 this.customerForm.addForm.leaf = data.leaf;
@@ -96,22 +98,22 @@
 <style lang="less">
     .custom-tree-node {
         position: relative;
-        span.title {
-            font-size: 14px;
-            word-spacing: 8px;
-            letter-spacing: 6px;
-        }
-        .buttons {
-            position: absolute;
-            left: 160px;
-            top: 1px;
-            .oneBtn {
-                margin-left: 10px;
-                font-size: 12px;
-            }
-        }
-        .Lv1 {
-            color: #f7b84f;
-        }
+    span.title {
+        font-size: 14px;
+        word-spacing: 8px;
+        letter-spacing: 6px;
+    }
+    .buttons{
+        position: absolute;
+        left: 160px;
+        top: 1px;
+    .oneBtn{
+        margin-left: 10px;
+        font-size: 12px;
+    }
+    }
+    .Lv1{
+        color: #f7b84f;
+    }
     }
 </style>

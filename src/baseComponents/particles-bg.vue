@@ -69,6 +69,7 @@
                 }
                 function loop() {
                     camera.position.x += (mouseX - camera.position.x) * 0.05;
+//                    camera.position.y += ( - mouseY - camera.position.y ) * .05;
                     camera.position.y = 364;
                     let i = 0;
                     for (let ix = 0; ix < AMOUNTX; ix++) {

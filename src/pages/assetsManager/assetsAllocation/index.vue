@@ -3,18 +3,14 @@
         <Card v-if="!isCommon">
             <Form inline :label-width="90">
                 <FormItem label="资产名称">
-                    <Cascader style="width: 180px" :data="cat1" @on-change="changeCataName(1, arguments)"
-                              :load-data="loadData"></Cascader>
+                    <Cascader style="width: 180px" :data="cat1" @on-change="changeCataName(1, arguments)" :load-data="loadData"></Cascader>
                 </FormItem>
                 <FormItem label="移入位置名称">
                     <Select type="text" style="width: 180px"
                             :clearable="true"
                             v-model="filterOpt.inPositionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"
-                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
-                        </Option>
+                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <Input style="display: none" v-model="filterOpt.type.value"></Input>
@@ -23,14 +19,11 @@
                             :clearable="true"
                             v-model="filterOpt.outPositionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"
-                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
-                        </Option>
+                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="审批状态">
-                    <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true" style="width: 160px">
+                    <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true"  style="width: 160px">
                         <Option :value="0">待审批</Option>
                         <Option :value="1">审批通过</Option>
                         <Option :value="2">审批拒绝</Option>
@@ -41,24 +34,19 @@
                     <span>调拨申请</span>
                 </Button>
             </Form>
-            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt"
-                           :url="getListUrl"></fs-table-page>
+            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt" :url="getListUrl"></fs-table-page>
         </Card>
         <div class="" v-else>
             <Form inline :label-width="90">
                 <FormItem label="资产名称">
-                    <Cascader style="width: 180px" :data="cat1" @on-change="changeCataName(1, arguments)"
-                              :load-data="loadData"></Cascader>
+                    <Cascader style="width: 180px" :data="cat1" @on-change="changeCataName(1, arguments)" :load-data="loadData"></Cascader>
                 </FormItem>
                 <FormItem label="移入位置名称">
                     <Select type="text" style="width: 180px"
                             :clearable="true"
                             v-model="filterOpt.inPositionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"
-                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
-                        </Option>
+                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <Input style="display: none" v-model="filterOpt.type.value"></Input>
@@ -67,14 +55,11 @@
                             :clearable="true"
                             v-model="filterOpt.outPositionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"
-                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
-                        </Option>
+                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="审批状态">
-                    <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true" style="width: 160px">
+                    <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true"  style="width: 160px">
                         <Option :value="0">待审批</Option>
                         <Option :value="1">审批通过</Option>
                         <Option :value="2">审批拒绝</Option>
@@ -89,16 +74,13 @@
                     <Icon type="arrow-right-c"></Icon>
                 </Button>
             </Form>
-            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt"
-                           :url="getListUrl"></fs-table-page>
+            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt" :url="getListUrl"></fs-table-page>
         </div>
         <Modal v-model="addInfoModal" width="400">
-            <Form style="margin-top: 20px" :label-width="120" ref="newApplyForm" :model="newApply"
-                  :rules="newApplyRules">
+            <Form style="margin-top: 20px" :label-width="120" ref="newApplyForm" :model="newApply" :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="newApply.id"></Input>
-                <FormItem label="资产名称" v-show="!newApply.id" prop="categoryName">
-                    <Cascader style="width: 180px" v-model="selectArr" :data="cat1" :clearable="true"
-                              @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
+                <FormItem label="资产名称" v-show="!newApply.id" prop="categoryName" >
+                    <Cascader style="width: 180px" v-model="selectArr" :data="cat1" :clearable="true" @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
                 </FormItem>
                 <FormItem label="资产名称" v-if="newApply.id">
                     <Input style="width: 180px" v-model="newApply.categoryName" readonly></Input>
@@ -107,26 +89,17 @@
                     <InputNumber :min="1" :max="999" style="width: 180px" v-model="newApply.num"></InputNumber>
                 </FormItem>
                 <FormItem label="移入资产位置" prop="inPositionName">
-                    <Select type="text" prop="positionName" style="width: 180px" v-model="newApply.inPositionName"
-                            placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"
-                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
-                        </Option>
+                    <Select type="text" prop="positionName" style="width: 180px" v-model="newApply.inPositionName" placeholder="位置名称">
+                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="移出资产位置" prop="outPositionName">
-                    <Select type="text" prop="positionName" style="width: 180px" v-model="newApply.outPositionName"
-                            placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"
-                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
-                        </Option>
+                    <Select type="text" prop="positionName" style="width: 180px" v-model="newApply.outPositionName" placeholder="位置名称">
+                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
-                <FormItem label="申请备注" prop="remarks">
-                    <Input type="text" style="width: 180px" v-model="newApply.remarks" prop="remarks"
-                           placeholder="规格"></Input>
+                <FormItem label="申请原因" prop="remarks">
+                    <Input type="text" style="width: 180px" v-model="newApply.remarks" prop="remarks" placeholder="规格和原因"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -136,16 +109,14 @@
             </div>
         </Modal>
         <Modal v-model="approvalInfoModal">
-            <Form style="margin-top: 20px" :label-width="120" ref="approveForm" :model="approvalInfo"
-                  :rules="newApplyRules">
+            <Form style="margin-top: 20px" :label-width="120" ref="approveForm" :model="approvalInfo" :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="approvalInfo.id"></Input>
                 <Input type="text" style="display: none" v-model="approvalInfo.approvalStatus"></Input>
                 <FormItem label="资产名称">
                     <Input style="width: 180px" v-model="approvalInfo.cname" readonly></Input>
                 </FormItem>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="999" style="width: 180px"
-                                 v-model="approvalInfo.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
                 </FormItem>
                 <FormItem label="移入资产位置">
                     <Input style="width: 180px" v-model="approvalInfo.inname" readonly></Input>
@@ -154,8 +125,7 @@
                     <Input style="width: 180px" v-model="approvalInfo.outname" readonly></Input>
                 </FormItem>
                 <FormItem label="审批内容" prop="content">
-                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content" prop="remarks"
-                           placeholder="规格"></Input>
+                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content" prop="remarks" placeholder="规格"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -172,7 +142,6 @@
 
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
-
     export default {
         name: 'assetsAllocation',
         props: {
@@ -201,6 +170,10 @@
                         value: '',
                         type: 'select'
                     },
+                    remarks: {
+                        value: '',
+                        type: 'select'
+                    },
                     approvalStatus: {
                         value: 0,
                         type: 'select'
@@ -226,18 +199,18 @@
                     {
                         title: '移入资产位置',
                         key: 'inpositionname',
-                        width: 120,
+                        width: 100,
                         align: 'center'
                     },
                     {
                         title: '移出资产位置',
                         key: 'outpositionname',
-                        width: 120,
+                        width: 100,
                         align: 'center'
                     },
                     {
-                        title: '申请部门',
-                        key: 'organizename',
+                        title: '备注',
+                        key: 'remarks',
                         align: 'center'
                     },
                     {
@@ -254,9 +227,9 @@
                         title: '操作',
                         align: 'center',
                         render: (h, params) => {
-                            let vm = this;
-                            let row = params.row;
-                            let disable = row.approvalstatus > 0;
+                            var vm = this;
+                            var row = params.row;
+                            var disable = row.approvalstatus > 0;
                             return h('div', [
                                 h('Button', {
                                     props: {
@@ -266,7 +239,7 @@
                                         disabled: disable
                                     },
                                     on: {
-                                        click: function () {
+                                        click: function() {
                                             vm.newApply.id = row.id;
                                             vm.newApply.categoryName = row.categoryname;
                                             vm.newApply.num = row.num;
@@ -288,7 +261,7 @@
                                         marginLeft: '10px'
                                     },
                                     on: {
-                                        click: function () {
+                                        click: function() {
                                             vm.delInfo(row);
                                         }
                                     }
@@ -305,7 +278,7 @@
                             let text = '';
                             let vm = this;
                             let row = params.row;
-                            let appBtnStatus = (vm.accessBtn.indexOf(33) > -1) && (row.approvalstatus === 0);
+                            var appBtnStatus = (vm.accessBtn.indexOf(33) > -1) && (row.approvalstatus === 0);
                             switch (row.approvalstatus) {
                                 case 0:
                                     color = 'blue';
@@ -330,7 +303,7 @@
                                         title: '点击查看审批流程'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.$http.get('assetsAllocation/reviewProcess?id=' + row.id).then((res) => {
                                                 if (res.success) {
                                                     let data = res.data;
@@ -367,7 +340,7 @@
                                         title: '点击开始审批'
                                     },
                                     nativeOn: {
-                                        click: function () {
+                                        click: function() {
                                             vm.$refs.approveForm.resetFields();
                                             if (appBtnStatus) {
                                                 vm.$http.get('assetsAllocation/find?id=' + params.row.id).then((res) => {
@@ -429,7 +402,7 @@
                         {required: true, message: '资产位置不能为空!', trigger: 'change'}
                     ],
                     remarks: [
-                        {required: true, message: '请填写规格或备注', trigger: 'blur'}
+                        {required: true, message: '请填写规格和原因', trigger: 'blur'}
                     ],
                     content: [
                         {required: true, message: '请填写审批内容', trigger: 'blur'}
@@ -456,7 +429,7 @@
                 });
             },
             changeCataName(type, arg) {
-                let [value, selectedData] = arg;
+                var [value, selectedData] = arg;
                 if (selectedData.length === 0) {
                     this.filterOpt.categoryName.value = undefined;
                     this.newApply.categoryName = undefined;
@@ -564,7 +537,7 @@
                     okText: '删除',
                     cancelText: '取消',
                     loading: true,
-                    onOk() {
+                    onOk () {
                         this.$http.post('/assetsAllocation/delete', d).then((res) => {
                             if (res.success) {
                                 refT._filterResultHandler();
@@ -575,7 +548,7 @@
                     }
                 });
             },
-            _setTableHeight() {
+            _setTableHeight () {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 260;
             }
