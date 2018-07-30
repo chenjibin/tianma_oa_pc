@@ -9,7 +9,7 @@
                                     shape="circle"
                                     @click.stop="_preMonth"
                                     :disabled="btnDisabled"
-                                    icon="chevron-left"></Button>
+                                    icon="ios-arrow-back"></Button>
                         </span>
                     <DatePicker
                         :open="datePickerFlag"
@@ -25,7 +25,7 @@
                                      @click.stop="_nextMonth"
                                      shape="circle"
                                      :disabled="btnDisabled"
-                                     icon="chevron-right"></Button>
+                                     icon="ios-arrow-forward"></Button>
                         </span>
                 </Row>
                 <Table :columns="columnsData"

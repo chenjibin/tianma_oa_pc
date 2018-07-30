@@ -33,7 +33,7 @@
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}"
                             type="text"
                             @click="toggleClick">
-                        <Icon type="navicon" size="32"></Icon>
+                        <Icon type="ios-menu" size="32"></Icon>
                     </Button>
                 </div>
                 <div v-else style="display: inline-block;font-size: 0;padding: 6px;">
@@ -47,7 +47,7 @@
                 <div class="header-avator-con">
                     <Dropdown v-if="isManger === 0 || isManger === 1" transfer @on-click="changeCompany" style="margin-right: 10px">
                         <a href="javascript:void(0)" style="font-size: 14px;color: #333;">
-                            {{currentCompanyName}}<Icon type="arrow-down-b" style="margin-left: 5px"></Icon>
+                            {{currentCompanyName}}<Icon type="md-arrow-dropdown" style="margin-left: 5px"></Icon>
                         </a>
                         <DropdownMenu slot="list">
                             <DropdownItem :name="item.name"
@@ -57,7 +57,7 @@
                     </Dropdown>
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
-                    <theme-switch v-if="premissionMenu.length"></theme-switch>
+                    <!--<theme-switch v-if="premissionMenu.length"></theme-switch>-->
                     <div class="coin-left">
                         <fs-icon type="moneynew" :size="26" color="#FF5722"></fs-icon>
                         <span class="coin">{{tmCoin}}</span>

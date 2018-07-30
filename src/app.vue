@@ -9,7 +9,9 @@
 <script>
     export default {
         data() {
-            return {};
+            return {
+                theme: this.$store.state.app.themeColor
+            };
         },
         mounted() {
 
@@ -45,6 +47,13 @@
 
     .fade-page-enter, .fade-page-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
+    }
+    .down-enter-active, .down-leave-active {
+        transition: transform .5s;
+    }
+
+    .down-enter, .down-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        transform: translate3d(0, -100%, 0);
     }
 
     .ivu-scroll-container {

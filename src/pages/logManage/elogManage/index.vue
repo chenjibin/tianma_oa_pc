@@ -137,7 +137,7 @@
                     </FormItem>
                     <FormItem>
                         <Button type="primary" @click="_submitComment">提交评价</Button>
-                        <Button type="ghost" @click="checkLogFlag = false">关闭</Button>
+                        <Button type="default" @click="checkLogFlag = false">关闭</Button>
                     </FormItem>
                 </Form>
             </div>
@@ -313,8 +313,7 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
-                                    color: +params.row.states === 1 ? 'green' : 'red'
+                                    color: +params.row.states === 1 ? 'green' : 'volcano'
                                 }
                             }, +params.row.states === 1 ? '已指导' : '未指导');
                         }
@@ -341,12 +340,11 @@
                                     content = '合格';
                                     break;
                                 case 3:
-                                    bgColor = 'red';
+                                    bgColor = 'volcano';
                                     content = '不合格';
                             }
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: bgColor
                                 }
                             }, content);
@@ -361,7 +359,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'eye',
+                                        icon: 'md-eye',
                                         shape: 'circle'
                                     },
                                     attrs: {

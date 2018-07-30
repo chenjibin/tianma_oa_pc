@@ -1,7 +1,7 @@
 <template>
     <div id="lottery-square">
         <div class="close-btn" @click.stop="hideLottery">
-            <Icon type="android-close" :size="18"></Icon>
+            <Icon type="md-close" :size="18"></Icon>
         </div>
         <div class="title-wrapper">
             <img src="./oa_lottery_title.png"/>
@@ -31,7 +31,7 @@
                 <div class="fs-dialog-block">
                     <div class="top-wrapper">
                         <div class="close-btn" @click.stop="close">
-                            <Icon type="android-close" :size="18"></Icon>
+                            <Icon type="md-close" :size="18"></Icon>
                         </div>
                         <div class="price-name" v-show="isPrice === 1">
                             <p>{{confirmContent}}</p>

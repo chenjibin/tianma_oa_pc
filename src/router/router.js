@@ -264,21 +264,21 @@ export const otherRouter = {
 export const appRouter = [
     {
         path: '/logManage',
-        icon: 'compose',
+        icon: 'md-create',
         name: 'logManage',
         title: '工作日志管理',
         component: Main,
         children: [
             {
                 path: 'elogManage',
-                icon: 'compose',
+                icon: 'md-create',
                 name: 'elogManage',
                 title: '员工日志管理',
                 component: loadView('logManage/elogManage/index.vue')
             },
             {
                 path: 'logTotal',
-                icon: 'compose',
+                icon: 'md-create',
                 name: 'logTotal',
                 title: '日志统计',
                 component: loadView('logManage/logTotal/index.vue')
@@ -287,42 +287,42 @@ export const appRouter = [
     },
     {
         path: '/attendanceAndLeave',
-        icon: 'ios-folder-outline',
+        icon: 'md-briefcase',
         name: 'attendanceAndLeave',
         title: '考勤请假管理',
         component: Main,
         children: [
             {
                 path: 'attendanceManage',
-                icon: 'ios-folder-outline',
+                icon: 'md-briefcase',
                 name: 'attendanceManage',
                 title: '考勤管理',
                 component: loadView('attendanceAndLeave/attendanceManage/index.vue')
             },
             {
                 path: 'leaveApproval',
-                icon: 'ios-folder-outline',
+                icon: 'md-briefcase',
                 name: 'leaveApproval',
                 title: '请假审批',
                 component: loadView('attendanceAndLeave/leaveApproval/index.vue')
             },
             {
                 path: 'leaveManage',
-                icon: 'ios-folder-outline',
+                icon: 'md-briefcase',
                 name: 'leaveManage',
                 title: '请假管理',
                 component: loadView('attendanceAndLeave/leaveManage/index.vue')
             },
             {
                 path: 'depAttendance',
-                icon: 'ios-folder-outline',
+                icon: 'md-briefcase',
                 name: 'depAttendance',
                 title: '部门考勤',
                 component: loadView('attendanceAndLeave/depAttendance/index.vue')
             },
             {
                 path: 'depArrange',
-                icon: 'ios-folder-outline',
+                icon: 'md-briefcase',
                 name: 'depArrange',
                 title: '部门排班信息',
                 component: loadView('attendanceAndLeave/depArrange/index.vue')
@@ -384,14 +384,14 @@ export const appRouter = [
     },
     {
         path: '/assetsManager',
-        icon: 'printer',
+        icon: 'md-print',
         name: 'assetsManager',
         title: '资产管理',
         component: Main,
         children: [
             {
                 path: 'assetsRegister',
-                icon: 'printer',
+                icon: 'md-print',
                 name: 'assetsRegister',
                 title: '资产查询/管理',
                 component: loadView('assetsManager/assetsRegister/index.vue')
@@ -399,35 +399,35 @@ export const appRouter = [
 
             {
                 path: 'assetsBuyApprove',
-                icon: 'printer',
+                icon: 'md-print',
                 name: 'assetsBuyApprove',
                 title: '资产采购/报废审批',
                 component: loadView('assetsManager/assetsBuyApprove/index.vue')
             },
             {
                 path: 'assetsAllocation',
-                icon: 'printer',
+                icon: 'md-print',
                 name: 'assetsAllocation',
                 title: '资产调拨',
                 component: loadView('assetsManager/assetsAllocation/index.vue')
             },
             {
                 path: 'assetsBuyManager',
-                icon: 'printer',
+                icon: 'md-print',
                 name: 'assetsBuyManager',
                 title: '资产采购清单',
                 component: loadView('assetsManager/assetsBuyManager/index.vue')
             },
             {
                 path: 'assetslocation',
-                icon: 'printer',
+                icon: 'md-print',
                 name: 'assetslocation',
                 title: '资产位置',
                 component: loadView('assetsManager/assetLocation/index.vue')
             },
             {
                 path: 'assetsCategory',
-                icon: 'printer',
+                icon: 'md-print',
                 name: 'assetsCategory',
                 title: '资产分类',
                 component: loadView('assetsManager/assetsCategory/index.vue')
@@ -436,56 +436,56 @@ export const appRouter = [
     },
     {
         path: '/examination',
-        icon: 'university',
+        icon: 'md-school',
         name: 'examination',
         title: '考试管理',
         component: Main,
         children: [
             {
                 path: 'examinationManage',
-                icon: 'university',
+                icon: 'md-school',
                 name: 'examinationManage',
                 title: '考试管理',
                 component: loadView('examination/examinationManage/index.vue')
             },
             {
                 path: 'questionManage',
-                icon: 'university',
+                icon: 'md-school',
                 name: 'questionManage',
                 title: '试题管理',
                 component: loadView('examination/questionManage/index.vue')
             },
             {
                 path: 'paperManage',
-                icon: 'university',
+                icon: 'md-school',
                 name: 'paperManage',
                 title: '试卷管理',
                 component: loadView('examination/paperManage/index.vue')
             },
             {
                 path: 'gradeManage',
-                icon: 'university',
+                icon: 'md-school',
                 name: 'gradeManage',
                 title: '成绩管理',
                 component: loadView('examination/gradeManage/index.vue')
             },
             {
                 path: 'depGrade',
-                icon: 'university',
+                icon: 'md-school',
                 name: 'depGrade',
                 title: '部门成绩',
                 component: loadView('examination/depGrade/index.vue')
             },
             {
                 path: 'peopleCheck',
-                icon: 'university',
+                icon: 'md-school',
                 name: 'peopleCheck',
                 title: '人工阅卷',
                 component: loadView('examination/peopleCheck/index.vue')
             },
             {
                 path: 'examinationCategory',
-                icon: 'university',
+                icon: 'md-school',
                 name: 'examinationCategory',
                 title: '分类管理',
                 component: loadView('examination/examinationCategory/index.vue')
@@ -494,42 +494,42 @@ export const appRouter = [
     },
     {
         path: '/ticket',
-        icon: 'briefcase',
+        icon: 'md-albums',
         name: 'ticket',
         title: '工单管理',
         component: Main,
         children: [
             {
                 path: 'managerTeams',
-                icon: 'person-stalker',
+                icon: 'ios-people',
                 name: 'managerTeams',
                 title: '团队管理',
                 component: loadView('ticket/managerTeams/index.vue')
             },
             {
                 path: 'myTickets',
-                icon: 'android-checkbox-outline',
+                icon: 'md-checkbox-outline',
                 name: 'myTickets',
                 title: '我的工单(开发)',
                 component: loadView('ticket/myTickets/index.vue')
             },
             {
                 path: 'myCreateTickets',
-                icon: 'android-checkbox-outline',
+                icon: 'md-checkbox-outline',
                 name: 'myCreateTickets',
                 title: '我的工单(业务)',
                 component: loadView('ticket/myCreateTickets/index.vue')
             },
             {
                 path: 'superiorManager',
-                icon: 'android-time',
+                icon: 'md-time',
                 name: 'superiorManager',
                 title: '管理工单(上级)',
                 component: loadView('ticket/superiorManager/index.vue')
             },
             {
                 path: 'teamTickets',
-                icon: 'android-time',
+                icon: 'md-time',
                 name: 'teamTickets',
                 title: '管理工单(项目组)',
                 component: loadView('ticket/teamTickets/index.vue')
@@ -538,21 +538,21 @@ export const appRouter = [
     },
     {
         path: '/rulesManager',
-        icon: 'ios-star',
+        icon: 'md-star',
         name: 'rulesManager',
         title: '规章管理',
         component: Main,
         children: [
             {
                 path: 'newRule',
-                icon: 'ios-star',
+                icon: 'md-star',
                 name: 'newRule',
                 title: '新增规章',
                 component: loadView('rulesManager/newRule/index.vue')
             },
             {
                 path: 'approveRule',
-                icon: 'ios-star',
+                icon: 'md-star',
                 name: 'approveRule',
                 title: '规章审批',
                 component: loadView('rulesManager/approveRule/index.vue')
@@ -561,21 +561,21 @@ export const appRouter = [
     },
     {
         path: '/salaryManaer',
-        icon: 'android-contacts',
+        icon: 'md-contacts',
         name: 'salaryManaer',
         title: '绩效管理',
         component: Main,
         children: [
             {
                 path: 'newSalary',
-                icon: 'ios-folder-outline',
+                icon: 'md-contacts',
                 name: 'newSalary',
                 title: '绩效方案管理',
                 component: loadView('salaryManaer/newSalary/index.vue')
             },
             {
                 path: 'approveSalary',
-                icon: 'ios-folder-outline',
+                icon: 'md-contacts',
                 name: 'approveSalary',
                 title: '绩效打分',
                 component: loadView('salaryManaer/approveSalary/index.vue')
@@ -584,63 +584,63 @@ export const appRouter = [
     },
     {
         path: '/trainManage',
-        icon: 'ribbon-a',
+        icon: 'md-ribbon',
         name: 'trainManage',
         title: '培训管理',
         component: Main,
         children: [
             {
                 path: 'trainPlanManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'trainPlanManage',
                 title: '培训计划管理',
                 component: loadView('trainManage/trainPlanManage/index.vue')
             },
             {
                 path: 'internalTrainerManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'internalTrainerManage',
                 title: '内训师管理',
                 component: loadView('trainManage/internalTrainerManage/index.vue')
             },
             {
                 path: 'curriculumManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'curriculumManage',
                 title: '课程管理',
                 component: loadView('trainManage/curriculumManage/index.vue')
             },
             {
                 path: 'classRecheckManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'classRecheckManage',
                 title: '课程复盘管理',
                 component: loadView('trainManage/classRecheckManage/index.vue')
             },
             {
                 path: 'tickRecheckManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'tickRecheckManage',
                 title: '周期复盘管理',
                 component: loadView('trainManage/tickRecheckManage/index.vue')
             },
             {
                 path: 'creditManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'creditManage',
                 title: '学分管理',
                 component: loadView('trainManage/creditManage/index.vue')
             },
             {
                 path: 'questionnaireManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'questionnaireManage',
                 title: '问卷管理',
                 component: loadView('trainManage/questionnaireManage/index.vue')
             },
             {
                 path: 'questionnaireQuestionsManage',
-                icon: 'ribbon-a',
+                icon: 'md-ribbon',
                 name: 'questionnaireQuestionsManage',
                 title: '问卷题管理',
                 component: loadView('trainManage/questionnaireQuestionsManage/index.vue')
@@ -730,14 +730,14 @@ export const appRouter = [
     },
     {
         path: '/photoManage',
-        icon: 'images',
+        icon: 'md-images',
         name: 'photoManage',
         title: '员工风采管理',
         component: Main,
         children: [
             {
                 path: 'photoSetting',
-                icon: 'images',
+                icon: 'md-images',
                 name: 'photoSetting',
                 title: '活动设置',
                 component: loadView('photoManager/photoSetting/index.vue')
@@ -746,49 +746,49 @@ export const appRouter = [
     },
     {
         path: '/systemManage',
-        icon: 'ios-gear',
+        icon: 'md-settings',
         name: 'systemManage',
         title: '系统管理',
         component: Main,
         children: [
             {
                 path: 'organizationManage',
-                icon: 'ios-gear',
+                icon: 'md-settings',
                 name: 'organizationManage',
                 title: '组织管理',
                 component: loadView('systemManage/organizationManage/index.vue')
             },
             {
                 path: 'roleManage',
-                icon: 'ios-gear',
+                icon: 'md-settings',
                 name: 'roleManage',
                 title: '角色管理',
                 component: loadView('systemManage/roleManage/index.vue')
             },
             {
                 path: 'levelManage',
-                icon: 'ios-gear',
+                icon: 'md-settings',
                 name: 'levelManage',
                 title: '职级管理',
                 component: loadView('systemManage/levelManage/index.vue')
             },
             {
                 path: 'userManage',
-                icon: 'ios-gear',
+                icon: 'md-settings',
                 name: 'userManage',
                 title: '用户管理',
                 component: loadView('systemManage/userManage/index.vue')
             },
             {
                 path: 'postManage',
-                icon: 'ios-gear',
+                icon: 'md-settings',
                 name: 'postManage',
                 title: '岗位管理',
                 component: loadView('systemManage/postManage/index.vue')
             },
             {
                 path: 'noticeManage',
-                icon: 'ios-gear',
+                icon: 'md-settings',
                 name: 'noticeManage',
                 title: '公告管理',
                 component: loadView('systemManage/noticeManage/index.vue')

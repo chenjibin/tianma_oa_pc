@@ -1,6 +1,6 @@
 <template>
     <div class="food-client">
-        <Row :gutter="16">
+        <Row :gutter="8">
             <Col :span="12">
             <Card>
                 <div class="info-inner" :style="{height: innerHeight + 'px'}">
@@ -57,12 +57,46 @@
                         <span>{{totalTitle}}</span>
                         <span style="font-weight: 700">{{totalMoney}}元</span>
                     </div>
+                    <div class="cash yuding">
+                        <p class="title">今日预定数据</p>
+                        <div class="yuding-content-block">
+                            <div class="yuding-content-item">
+                                <span>早餐:</span>
+                                <span>{{morningToday}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>中餐:</span>
+                                <span>{{afternoonToday}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>晚餐:</span>
+                                <span>{{dinnerToday}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cash yuding">
+                        <p class="title">明日预定数据</p>
+                        <div class="yuding-content-block">
+                            <div class="yuding-content-item">
+                                <span>早餐:</span>
+                                <span>{{morningTomorrow}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>中餐:</span>
+                                <span>{{afternoonTomorrow}}</span>
+                            </div>
+                            <div class="yuding-content-item">
+                                <span>晚餐:</span>
+                                <span>{{dinnerTomorrow}}</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="cash">
                         <span class="label">消费</span>
                         <fs-input-number :inputClasses="'food-input'"
                                          :inputWrapClasses="'food-input-wrapper'"
                                          ref="consumeInput"
-                                         @key-enter="enterHandler"
+                                         @key-enter="moveToCardNumber"
                                          v-model="cash">
                             <span class="unit">元</span>
                         </fs-input-number>
@@ -71,6 +105,7 @@
                         <span class="label">卡号</span>
                         <fs-input-number :inputClasses="'food-input'"
                                          :inputWrapClasses="'food-input-wrapper'"
+                                         ref="cardNumberInput"
                                          @key-enter="enterHandler"
                                          v-model="cardNumber"></fs-input-number>
                     </div>
@@ -82,7 +117,7 @@
 </template>
 <style lang="less">
     .food-client {
-        padding: 16px;
+        padding: 8px;
         .tool-btn {
             position: absolute;
             right: 12px;
@@ -109,8 +144,22 @@
             text-align: center;
             .cash {
                 &.desc {
-                    margin-bottom: 100px;
+                    margin-bottom: 32px;
                     font-size: 32px;
+                }
+                &.yuding {
+                    .title {
+                        font-size: 24px;
+                    }
+                    .yuding-content-block {
+                        margin-top: 24px;
+                        display: flex;
+                        justify-content: center;
+                    }
+                    .yuding-content-item {
+                        margin: 0 12px;
+                        font-size: 18px;
+                    }
                 }
                 margin-bottom: 64px;
                 .food-input-wrapper {
@@ -158,6 +207,12 @@
                 innerHeight: 400,
                 tableHeight: 400,
                 totalTitle: '今日消费总额',
+                afternoonToday: 0,
+                afternoonTomorrow: 0,
+                dinnerToday: 0,
+                dinnerTomorrow: 0,
+                morningToday: 0,
+                morningTomorrow: 0,
                 canKou: true,
                 typeStore: [
                     {
@@ -249,9 +304,13 @@
         created() {
             this._setHeight()
             this._getTotalMoney()
+            this._getAppointmentTotal()
         },
         computed: {},
         methods: {
+            moveToCardNumber() {
+                this.$refs.cardNumberInput.focus()
+            },
             logoutHandler() {
                 this.$Modal.confirm({
                     title: '退出登录提醒',
@@ -305,43 +364,45 @@
                 this.cardNumber = null
             },
             enterHandler(e) {
-                const {cash, cardNumber} = this
-                if (!cash) {
-                    this.$Modal.error({
-                        title: '提醒',
-                        content: '请先输入金额，再刷卡!',
-                        onOk: () => {
-                            this._initInput()
-                        }
-                    })
-                    return
-                }
-                if (!cardNumber) {
-                    this.$Message.error('请输入卡号!')
-                    return
-                }
-                if (!this.canKou) return
-                this.canKou = false
-                this.$http.post('/card/consumeByUser', {cardNumber, money: cash}).then((res) => {
-                    if (res.success) {
-                        this.$Message.success('扣费成功!')
-                        this._getTotalMoney()
-                        this.$refs.userTable.getListData()
-                        this._initInput()
-                    } else {
+                setTimeout(() => {
+                    const {cash, cardNumber} = this
+                    if (!cash) {
                         this.$Modal.error({
                             title: '提醒',
-                            content: res.message,
+                            content: '请先输入金额，再刷卡!',
                             onOk: () => {
                                 this._initInput()
                             }
                         })
+                        return
                     }
-                    this.$refs.consumeInput.focus()
-                    this.canKou = true
-                }, () => {
-                    this.canKou = true
-                })
+                    if (!cardNumber) {
+                        this.$Message.error('请输入卡号!')
+                        return
+                    }
+                    if (!this.canKou) return
+                    this.canKou = false
+                    this.$http.post('/card/consumeByUser', {cardNumber, money: cash}).then((res) => {
+                        if (res.success) {
+                            this.$Message.success('扣费成功!')
+                            this._getTotalMoney()
+                            this.$refs.userTable.getListData()
+                            this._initInput()
+                        } else {
+                            this.$Modal.error({
+                                title: '提醒',
+                                content: res.message,
+                                onOk: () => {
+                                    this._initInput()
+                                }
+                            })
+                        }
+                        this.$refs.consumeInput.focus()
+                        this.canKou = true
+                    }, () => {
+                        this.canKou = true
+                    })
+                }, 60)
             },
             _computedTotalTitle() {
                 const start = this.searchData.start.value
@@ -368,8 +429,21 @@
             },
             _setHeight() {
                 let dm = document.body.clientHeight;
-                this.innerHeight = dm - 64;
+                this.innerHeight = dm - 48;
                 this.tableHeight = dm - 240;
+            },
+            _getAppointmentTotal() {
+                this.$http.get('card/getAppointmentTotal').then((res) => {
+                    if (res.success) {
+                        const data = res.data
+                        this.morningToday = data.morning_today
+                        this.morningTomorrow = data.morning_tomorrow
+                        this.afternoonToday = data.afternoon_today
+                        this.afternoonTomorrow = data.afternoon_tomorrow
+                        this.dinnerToday = data.dinner_today
+                        this.dinnerTomorrow = data.dinner_tomorrow
+                    }
+                })
             },
             _getTotalMoney() {
                 let sendData = {}

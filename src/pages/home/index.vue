@@ -10,56 +10,56 @@
                 <Row :gutter="3">
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="edit"
+                        iconType="md-create"
                         color="#2d8cf0"
                         btn-text="日志"
                         @card-click="$router.push('myLog')"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="clipboard"
+                        iconType="md-clipboard"
                         color="#19be6b"
                         btn-text="考勤"
                         @card-click="$router.push('myAttendance')"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="compose"
+                        iconType="ios-create"
                         color="#2d8cf0"
                         btn-text="请假"
                         @card-click="$router.push('myLeave')"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="navicon"
+                        iconType="md-menu"
                         color="#19be6b"
                         btn-text="排班"
                         @card-click="$router.push('myArrange')"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="university"
+                        iconType="md-school"
                         color="#2d8cf0"
                         btn-text="考试"
                         @card-click="$router.push('myExam')"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="ribbon-a"
+                        iconType="md-ribbon"
                         color="#19be6b"
                         btn-text="培训"
                         @card-click="$router.push('myTrain')"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="printer"
+                        iconType="md-print"
                         color="rgb(242, 94, 67)"
                         btn-text="资产"
                         @card-click="$router.push('assetsApply')"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn
-                        iconType="cash"
+                        iconType="md-cash"
                         color="rgb(255, 153, 0)"
                         btn-text="商城"
                         @card-click="$router.push('coinShop')"></info-btn>
@@ -72,12 +72,12 @@
                         @card-click="$router.replace({name: 'articleHome'})"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
-                    <info-btn iconType="android-contacts"
+                    <info-btn iconType="md-contacts"
                               color="rgb(255, 153, 0)" btn-text="绩效"
                               @card-click="$router.replace({name: 'mySalary'})"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
-                    <info-btn iconType="card"
+                    <info-btn iconType="md-card"
                               color="rgb(242, 94, 67)" btn-text="饭卡"
                               @card-click="$router.replace({name: 'myFoodCard'})"></info-btn>
                     </Col>
