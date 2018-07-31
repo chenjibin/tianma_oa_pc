@@ -234,7 +234,7 @@
                             </FormItem>
                             <FormItem style="width:50.5%">
                                 <Button type="primary" :loading="btnLoading" @click="saveBase()">提交</Button>
-                                <Button type="ghost" @click="cancel()" style="margin-left: 8px">取消</Button>
+                                <Button @click="cancel()" style="margin-left: 8px">取消</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
@@ -274,7 +274,7 @@
                             <FormItem>
                                 <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(2,educationForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="educationForm.push({})">增加经历</Button>
-                                <Button type="ghost" @click="cancel()">取消修改</Button>
+                                <Button @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
@@ -315,7 +315,7 @@
                             <FormItem>
                                 <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(3,workingForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="workingForm.push({})">增加经历</Button>
-                                <Button type="ghost" @click="cancel()">取消修改</Button>
+                                <Button @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
@@ -347,7 +347,7 @@
                             <FormItem>
                                 <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(4,rewardForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="rewardForm.push({})">增加奖惩</Button>
-                                <Button type="ghost" @click="cancel()">取消修改</Button>
+                                <Button @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
@@ -394,7 +394,7 @@
                             <FormItem style="width:100%">
                                 <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(1,socailShipForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="_addNewSocail()">增加关系</Button>
-                                <Button type="ghost" @click="cancel()">取消修改</Button>
+                                <Button @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
                     </TabPane>
@@ -422,7 +422,7 @@
                             </Card>
                         </div>
                         <Upload name="ifile" :on-success="handleSuccess" :show-upload-list="false" multiple :data="{'ticketno':baseForm.userid}" action="/oa/ticket/uploadticketfiles">
-                            <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
+                            <Button icon="ios-cloud-upload-outline">上传</Button>
                         </Upload>
                     </TabPane>
                 </Tabs>
@@ -534,6 +534,7 @@
                     {
                         title: '操作',
                         key: 'action',
+                        align: 'center',
                         width: 120,
                         render: (h, params) => {
                             let vm = this;
@@ -548,7 +549,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'edit',
+                                            icon: 'md-create',
                                             shape: 'circle'
                                         },
                                         on: {

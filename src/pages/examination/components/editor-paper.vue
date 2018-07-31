@@ -22,7 +22,7 @@
                             <Badge  :count="qindex + 1 + ''" class-name="test-badge"></Badge>
                             <span>{{question.name}}</span>
                             <span>({{question.questionmark}}分)</span>
-                            <Button type="ghost"
+                            <Button
                                     icon="ios-trash-outline"
                                     @click="_delQuestion(question)"
                                     v-if="editorabled" size="small"></Button>

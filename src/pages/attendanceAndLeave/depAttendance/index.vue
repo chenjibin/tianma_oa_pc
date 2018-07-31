@@ -163,11 +163,12 @@
                     {
                         title: '审核状态',
                         key: 'status',
+                        align: 'center',
                         width: 120,
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    color: params.row.status === '审核完毕' ? 'green' : 'volcano'
+                                    color: params.row.status === '审核完毕' ? 'green' : 'red'
                                 }
                             }, params.row.status);
                         }

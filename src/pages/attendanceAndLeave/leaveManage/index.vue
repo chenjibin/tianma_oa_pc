@@ -20,7 +20,6 @@
                 <FormItem label="审核状态">
                     <Select v-model="filterOpt.odstates.value"
                             placeholder="筛选审核状态"
-                            style="width: 150px"
                             clearable>
                         <Option value="1">未批准</Option>
                         <Option value="2">已批准</Option>
@@ -30,8 +29,7 @@
                 <FormItem label="请假类型">
                     <Select v-model="filterOpt.qjtype.value"
                             clearable
-                            placeholder="筛选请假类型"
-                            style="width: 150px">
+                            placeholder="筛选请假类型">
                         <Option value="事假">事假</Option>
                         <Option value="病假">病假</Option>
                         <Option value="婚假">婚假</Option>
@@ -48,19 +46,14 @@
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
-                        <Poptip
-                                confirm
+                        <Poptip confirm
                                 placement="bottom-start"
                                 title="您确认删除已选请假记录？"
                                 @on-ok="_delLeaveInfo">
-                            <Button type="ghost"
-                                    :disabled="!chooseDataArr.length"
-                                    @click="">
-                                <Icon type="ios-trash-outline"></Icon>
+                            <Button :disabled="!chooseDataArr.length" icon="md-trash">
                                 删除请假信息
                             </Button>
                         </Poptip>
-
                     </ButtonGroup>
                 </FormItem>
             </Form>
@@ -81,7 +74,7 @@
                          style="width: 100%; cursor: pointer;">
                 </div>
                 <div slot="footer">
-                    <Button type="ghost" @click="visible = false">关闭</Button>
+                    <Button @click="visible = false">关闭</Button>
                 </div>
             </Modal>
         </Card>
@@ -177,8 +170,7 @@
                                 }, [
                                     h('Button', {
                                         props: {
-                                            type: 'ghost',
-                                            icon: 'ios-eye',
+                                            icon: 'md-eye',
                                             shape: 'circle',
                                             size: 'small'
                                         },
@@ -200,7 +192,7 @@
                         title: '审核状态',
                         width: 120,
                         render: (h, params) => {
-                            let color = '';
+                            let color = 'default';
                             switch (params.row.status) {
                                 case '未批准':
                                     color = 'red';
@@ -214,7 +206,6 @@
                             }
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: color
                                 }
                             }, params.row.status);

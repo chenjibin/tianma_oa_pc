@@ -131,7 +131,7 @@
             </Form>
             <div slot="footer">
                 <Button type="primary" style="margin-left: 8px" @click="_addClassHandler">{{classFormType === 'add'? '新建' : '修改'}}复盘</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
     </div>

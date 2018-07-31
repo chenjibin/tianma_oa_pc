@@ -39,7 +39,7 @@
                     <span v-if="!exportLoading">导出试卷</span>
                     <span v-else>导出中...</span>
                 </Button>
-                <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
     </div>

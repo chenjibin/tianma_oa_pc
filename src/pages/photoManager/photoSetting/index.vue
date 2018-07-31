@@ -13,7 +13,7 @@
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
-                        <Button type="ghost" @click="_addSettingOpen">
+                        <Button  @click="_addSettingOpen">
                             <Icon type="plus-round"></Icon>
                             新建主题
                         </Button>
@@ -95,7 +95,7 @@
                     <Button type="primary"
                             @click="_updateTheme"
                             v-show="formType === 'update'">修改主题</Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
+                    <Button  style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>

@@ -85,7 +85,7 @@
                             @click="_confirmAddGoods">
                         {{editorType === 'create' ? '添加奖品' : '修改奖品'}}
                     </Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
+                    <Button  style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>

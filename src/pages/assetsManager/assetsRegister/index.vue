@@ -27,7 +27,7 @@
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
-                    <Button type="ghost" v-if="accessBtn.indexOf(29) > -1" @click="addInfo" >新增</Button>
+                    <Button  v-if="accessBtn.indexOf(29) > -1" @click="addInfo" >新增</Button>
                     <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(31) > -1" @click="exportExcel" icon="code-download">
                         导出
                     </Button>

@@ -38,11 +38,11 @@
                             <Option :value="3">已领取</Option>
                         </Select>
                     </FormItem>
-                    <Button type="ghost" @click="addInfo(1)">
+                    <Button  @click="addInfo(1)">
                         <Icon type="plus-circled"></Icon>
                         <span>新增采购</span>
                     </Button>
-                    <Button type="ghost" @click="addInfo(3)">
+                    <Button  @click="addInfo(3)">
                         <Icon type="plus-circled"></Icon>
                         <span>报废申请</span>
                     </Button>
@@ -95,7 +95,7 @@
                 <assetsTree width="250px" :expanded="false" v-on:customerForm="getCustomerForm" ref="assetsTree"></assetsTree>
             </div>
             <div slot="footer">
-                <Button type="ghost" @click="itemsModel = false;">取消</Button>
+                <Button  @click="itemsModel = false;">取消</Button>
                 <Button type="primary" @click="ItemChecked">确认</Button>
             </div>
         </Modal>

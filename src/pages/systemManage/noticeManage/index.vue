@@ -34,7 +34,7 @@
                 </FormItem>
                 <FormItem>
                     <ButtonGroup>
-                        <Button type="ghost" @click="_openNewNotice">
+                        <Button  @click="_openNewNotice">
                             <Icon type="paper-airplane"></Icon>
                             发布公告
                         </Button>
@@ -151,7 +151,7 @@
                         <span v-if="!btnLoading">修改公告</span>
                         <span v-else>修改中...</span>
                     </Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
+                    <Button  style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="lookModelFlag" width="740" :mask-closable="false">

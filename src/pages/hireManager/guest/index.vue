@@ -258,18 +258,18 @@
                 </TabPane>
                 <ButtonGroup v-show="!device.mobile&&device.width>490&&talentBean.id" slot="extra">
                     <Button type="primary" icon="document" @click="saveForm" size="small" >保存</Button>
-                    <Button type="ghost" icon="edit" @click="searchUserModel = true" size="small">完善简历</Button>
+                    <Button icon="edit" @click="searchUserModel = true" size="small">完善简历</Button>
                 </ButtonGroup>
                 </Tabs>
         </Card>
         <Row v-show="device.mobile&&device.width<=490&&talentBean.id" class="bottomTab">
             <Col span="12" style="height: 100%;border-top:1px #f0f0f0;">
-                <Button type="ghost" class="mobileTabButton" icon="ios-camera-outline" long @click="uploadModal = true" size="large">
+                <Button class="mobileTabButton" icon="ios-camera-outline" long @click="uploadModal = true" size="large">
                     上传照片
                 </Button>
             </Col>
             <Col span="12" style="height: 100%;">
-                <Button type="ghost" class="mobileTabButton" icon="ios-star-outline" long @click="saveForm" size="large" >
+                <Button class="mobileTabButton" icon="ios-star-outline" long @click="saveForm" size="large" >
                     保存简历
                 </Button>
             </Col>
@@ -300,7 +300,7 @@
                 <span>上传照片</span>
             </p>
             <Upload :max-size="6144" name="ifile" :on-exceeded-size="imageTooBig" :on-success="handleSuccess" accept="image/jpg, image/jpeg, image/png" :show-upload-list="false" :data="{'ticketno':ticketNo}" action="/oa/ticket/uploadSelfie">
-                <Button :disabled="file.file_name ? true : false" type="ghost" icon="ios-cloud-upload-outline">上传自拍</Button>
+                <Button :disabled="file.file_name ? true : false" icon="ios-cloud-upload-outline">上传自拍</Button>
             </Upload>
             <div v-show="file.file_name" style="padding: 5px 1px 5px 0;"><span>文件名：{{file.file_name}}</span><Icon @click.native="deleteFile(file)" style="color: red;float: right;" size="14" shape="circle" type="close">删除</Icon></div>
             <div style="text-align:center;color: #666;margin-top: 10px">

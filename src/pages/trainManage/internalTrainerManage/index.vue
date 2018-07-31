@@ -75,7 +75,7 @@
                         </Form>
                     </div>
                 </Poptip>
-                <Button type="ghost" style="margin-left: 8px" @click="mubanFlag = false">关闭</Button>
+                <Button  style="margin-left: 8px" @click="mubanFlag = false">关闭</Button>
             </div>
         </Modal>
         <Modal v-model="modelFlag" width="900" :mask-closable="false">
@@ -153,7 +153,7 @@
             </Form>
             <div slot="footer">
                 <Button type="primary" style="margin-left: 8px" @click="_addClassHandler">{{classFormType === 'add'? '新建' : '修改'}}讲师</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="checkOrgFlag" width="1200" :mask-closable="false">
@@ -177,7 +177,7 @@
             </div>
 
             <div slot="footer">
-                <Button type="ghost" style="margin-left: 8px" @click="checkOrgFlag = false">关闭</Button>
+                <Button  style="margin-left: 8px" @click="checkOrgFlag = false">关闭</Button>
             </div>
         </Modal>
     </div>

@@ -132,7 +132,7 @@
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
-                                colBtn(vm, h, params, {content: '加入考试', icon: 'arrow-right-c', foo: vm._addToPaper})
+                                colBtn(vm, h, params, {content: '加入考试', icon: 'md-arrow-round-forward', foo: vm._addToPaper})
                             ]);
                         }
                     }

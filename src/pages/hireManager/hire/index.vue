@@ -162,23 +162,23 @@
                     <ButtonGroup class="btn-group-fix" vertical>
                         <Poptip trigger="hover" title="详细过滤" placement="left">
                             <all-status v-on:status="changeStatus" :type1="1" slot="content"></all-status>
-                            <Button type="ghost" @click="changeType(1)" title="只看预约">预</Button>
+                            <Button @click="changeType(1)" title="只看预约">预</Button>
                         </Poptip>
                         <Poptip trigger="hover" title="详细过滤" placement="left">
                             <allStatus v-on:status="changeStatus" :type1="2" slot="content"></allStatus>
-                            <Button type="ghost" @click="changeType(2)" title="只看面试">面</Button>
+                            <Button @click="changeType(2)" title="只看面试">面</Button>
                         </Poptip>
                         <Poptip trigger="hover" title="详细过滤" placement="left">
                             <allStatus v-on:status="changeStatus" :type1="3" slot="content"></allStatus>
-                            <Button type="ghost" @click="changeType(3)" title="只看试岗">岗</Button>
+                            <Button @click="changeType(3)" title="只看试岗">岗</Button>
                         </Poptip>
                         <Poptip trigger="hover" title="详细过滤" placement="left">
                             <allStatus v-on:status="changeStatus" :type1="4" slot="content"></allStatus>
-                            <Button type="ghost" @click="changeType(4)" title="只看备选人才">备</Button>
+                            <Button @click="changeType(4)" title="只看备选人才">备</Button>
                         </Poptip>
                         <Poptip trigger="hover" title="详细过滤" placement="left">
                             <allStatus v-on:status="changeStatus" :type1="0" slot="content"></allStatus>
-                            <Button type="ghost" @click="changeType(0)" title="全部">全</Button>
+                            <Button @click="changeType(0)" title="全部">全</Button>
                         </Poptip>
                     </ButtonGroup>
                 </div>
@@ -463,12 +463,12 @@
                 </TabPane>
                 <ButtonGroup slot="extra">
                     <Button type="primary" @click="changeImportant" size="small" >{{talentBean.important !== 1 ? '放入人才库': '踢出人才库'}}</Button>
-                    <Button type="ghost" @click="downloadFile" size="small">导出为word</Button>
+                    <Button @click="downloadFile" size="small">导出为word</Button>
                 </ButtonGroup>
                 <Button type="warning" @click="deleteMe" size="small" slot="extra">删除简历</Button>
             </Tabs>
             <div slot="footer">
-                <Button type="ghost" @click="settingModalFlag = false">
+                <Button @click="settingModalFlag = false">
                     取消
                 </Button>
                 <Button type="primary" :loading="saveBtn1Loading"  @click="saveForm(1)">
@@ -598,7 +598,7 @@
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="ghost" @click="changUserStatusModel = false;">
+                <Button @click="changUserStatusModel = false;">
                     取消
                 </Button>
                 <Button type="primary" @click="saveStatus()">
@@ -630,7 +630,7 @@
                 </Card>
             </div>
             <Upload name="ifile" :on-success="handleSuccess" :show-upload-list="false" multiple :data="{'ticketno':ticketNo}" action="/oa/ticket/uploadticketfiles">
-                <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
+                <Button icon="ios-cloud-upload-outline">上传</Button>
             </Upload>
         </Modal>
         <Modal title="查看图片" v-model="visible" width="1000">

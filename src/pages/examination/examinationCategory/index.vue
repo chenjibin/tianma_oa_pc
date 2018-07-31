@@ -42,7 +42,7 @@
                             @click="_confirmAdd">
                         {{postFormType === 'add' ? '新增' : '修改'}}
                     </Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>

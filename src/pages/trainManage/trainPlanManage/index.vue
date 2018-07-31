@@ -175,7 +175,7 @@
                         confirm
                         title="您确清空当前选中的负责人么？"
                         @on-ok="planForm.people = []">
-                        <Button icon="trash-a"
+                        <Button icon="md-trash"
                                 style="margin-top: 8px;">一键清空负责人</Button>
                     </Poptip>
 

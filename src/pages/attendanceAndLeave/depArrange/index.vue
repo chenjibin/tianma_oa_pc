@@ -93,7 +93,7 @@
                         :disabled="loading2"
                         v-if="opSataus === '未设置'"
                         @click="_completeThisMonth">完成 【{{organizeName}}】 该月排班</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="strangeModalFlag"
@@ -124,7 +124,7 @@
                 <Button type="primary"
                         :disabled="btnConfirmDis"
                         @click="_confirmStrangeSetting">确认设置</Button>
-                <Button type="ghost" style="margin-left: 8px"
+                <Button style="margin-left: 8px"
                         @click="strangeModalFlag = false">取消</Button>
             </div>
         </Modal>
@@ -157,7 +157,7 @@
                     <span v-if="!deleteLoading">确认新建</span>
                     <span v-else>正在新建...</span>
                 </Button>
-                <Button type="ghost" style="margin-left: 8px" @click="deleteModalFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="deleteModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="addDepModalFlag"
@@ -185,7 +185,7 @@
                     <span v-if="!deleteLoading">确认添加</span>
                     <span v-else>正在添加...</span>
                 </Button>
-                <Button type="ghost" style="margin-left: 8px" @click="addDepModalFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="addDepModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="addPersonModalFlag"
@@ -213,7 +213,7 @@
                     <span v-if="!deleteLoading">确认添加</span>
                     <span v-else>正在添加...</span>
                 </Button>
-                <Button type="ghost" style="margin-left: 8px" @click="addPersonModalFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="addPersonModalFlag = false">取消</Button>
             </div>
         </Modal>
     </div>

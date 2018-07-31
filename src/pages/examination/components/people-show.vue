@@ -18,7 +18,7 @@
                             <Button type="error"
                                     shape="circle"
                                     @click="_delPeople(people)"
-                                    icon="trash-a"></Button>
+                                    icon="md-trash"></Button>
                         </div>
                     </Col>
                 </Row>

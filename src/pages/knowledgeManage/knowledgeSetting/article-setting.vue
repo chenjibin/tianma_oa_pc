@@ -26,7 +26,7 @@
             </FormItem>
             <FormItem :label-width="0.1">
                 <ButtonGroup>
-                    <Button type="ghost" @click="_addArticleOpen">
+                    <Button  @click="_addArticleOpen">
                         <Icon type="plus-round"></Icon>
                         新建文章
                     </Button>
@@ -88,7 +88,7 @@
                                     :default-file-list="fileDefault"
                                     :on-remove="_fileRemoveSuccessHandler"
                                     action="/oa/share/uploadFile">
-                                <Button type="ghost" icon="ios-cloud-upload-outline" size="small">点击上传</Button>
+                                <Button  icon="ios-cloud-upload-outline" size="small">点击上传</Button>
                             </Upload>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                         @click="_updateArticle"
                         v-show="formType === 'update'">修改文章
                 </Button>
-                <Button type="ghost" style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="commentFlag" width="800" :mask-closable="false">
@@ -141,7 +141,7 @@
                       style="margin-top: 16px;"></Page>
             </div>
             <div slot="footer">
-                <Button type="ghost" style="margin-left: 8px" @click="commentFlag = false">关闭</Button>
+                <Button  style="margin-left: 8px" @click="commentFlag = false">关闭</Button>
             </div>
         </Modal>
     </Card>

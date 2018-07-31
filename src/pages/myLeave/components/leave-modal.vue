@@ -183,7 +183,7 @@
                     :loading="loadingBtn"
                     @click="submitOd">提交申请
             </Button>
-            <Button type="ghost" style="margin-left: 8px" @click="hideModel">取消</Button>
+            <Button  style="margin-left: 8px" @click="hideModel">取消</Button>
         </div>
     </Modal>
 </template>

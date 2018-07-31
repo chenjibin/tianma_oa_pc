@@ -90,7 +90,7 @@
                 <Button type="primary"
                         :loading="subLoading"
                         @click="_submitBuy">立即兑换</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="buyFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="buyFlag = false">取消</Button>
             </div>
         </Modal>
     </div>

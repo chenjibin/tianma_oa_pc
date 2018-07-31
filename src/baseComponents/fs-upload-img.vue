@@ -39,7 +39,7 @@
                 <img :src="'/oa/upload/' + imgName" v-if="visible" style="max-width: 100%">
             </div>
             <div slot="footer">
-                <Button type="ghost" @click="visible = false">关闭</Button>
+                <Button  @click="visible = false">关闭</Button>
             </div>
         </Modal>
     </div>

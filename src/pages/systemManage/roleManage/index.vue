@@ -53,7 +53,7 @@
                 </Form>
                 <div slot="footer">
                     <Button type="primary" @click="_addRole">添加</Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
+                    <Button  style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="roleAccessModalFlag"
@@ -87,7 +87,7 @@
                 </div>
                 <div slot="footer">
                     <Button type="primary" @click="_confirmAccess">确认授权</Button>
-                    <Button type="ghost" @click="roleAccessModalFlag = false">取消</Button>
+                    <Button  @click="roleAccessModalFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>

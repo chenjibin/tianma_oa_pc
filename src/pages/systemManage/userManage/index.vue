@@ -211,7 +211,7 @@
                 </Poptip>
                 <Button type="primary" v-show="userFormType === 'add'" @click="_addUser">添加</Button>
                 <Button type="primary" v-show="userFormType === 'update'" @click="_updateUserInfo">更新</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="coinSettingFlag"
@@ -246,7 +246,7 @@
             </Form>
             <div slot="footer">
                 <Button type="primary" @click="_coinConfirmHandler" :loading="coinAddLoading">确认</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="coinSettingFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="coinSettingFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="banciModalFlag"
@@ -261,7 +261,7 @@
                    :data="banCiList"></Table>
             <div slot="footer">
                 <Poptip placement="left" width="400">
-                    <Button type="ghost">添加班次</Button>
+                    <Button >添加班次</Button>
                     <div class="banci-add-form" slot="content">
                         <Form :rules="banciRules"
                               :model="banciForm"
@@ -313,7 +313,7 @@
             </div>
             <div slot="footer">
                 <Button type="primary" @click="_confirmAccess">确认授权</Button>
-                <Button type="ghost" @click="userAccessModalFlag = false">取消</Button>
+                <Button  @click="userAccessModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="specAccessFlag"
@@ -338,11 +338,10 @@
                                 size="small"
                                 class="dep-choose"
                             ></el-cascader>
-                            <Button type="ghost" shape="circle" icon="ios-trash-outline"
+                            <Button  shape="circle" icon="ios-trash-outline"
                                     @click="_removeDep(index)"></Button>
                         </div>
                         <Button
-                            type="ghost"
                             shape="circle"
                             @click="_addNewDep"
                             icon="plus-round"></Button>
@@ -379,11 +378,11 @@
                                 size="small"
                                 class="dep-choose"
                             ></el-cascader>
-                            <Button type="ghost" shape="circle" icon="ios-trash-outline"
+                            <Button  shape="circle" icon="ios-trash-outline"
                                     @click="_removeArrangeDep(index)"></Button>
                         </div>
                         <Button
-                            type="ghost"
+
                             shape="circle"
                             @click="_addNewArrangeDep"
                             icon="plus-round"></Button>
@@ -393,7 +392,7 @@
             </div>
             <div slot="footer">
                 <Button type="primary" @click="_specAccessConfirm">确认授权</Button>
-                <Button type="ghost" @click="specAccessFlag = false">取消</Button>
+                <Button  @click="specAccessFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="leaveSettingFlag"
@@ -430,7 +429,7 @@
             </Form>
             <div slot="footer">
                 <Button type="primary" @click="_coinLeaveHandler">确认</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="leaveSettingFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="leaveSettingFlag = false">取消</Button>
             </div>
         </Modal>
     </div>

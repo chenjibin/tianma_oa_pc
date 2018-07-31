@@ -85,7 +85,7 @@
                 <Button type="primary"
                         @click="_updateCare"
                         v-show="formType === 'update'">确认修改</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="importantSettingFlag"
@@ -200,7 +200,7 @@
                 </Col>
             </Row>
             <div slot="footer">
-                <Button type="ghost" style="margin-left: 8px" @click="importantSettingFlag = false">关闭</Button>
+                <Button  style="margin-left: 8px" @click="importantSettingFlag = false">关闭</Button>
             </div>
         </Modal>
     </Card>

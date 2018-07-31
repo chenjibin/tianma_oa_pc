@@ -100,7 +100,7 @@
                 <Button type="primary"
                         @click="_updateDep"
                         v-show="formType === 'update'">确认修改</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="depSettingFlag = false">取消</Button>
             </div>
         </Modal>
     </div>

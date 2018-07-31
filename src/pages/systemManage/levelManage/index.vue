@@ -102,7 +102,7 @@
                 <div slot="footer">
                     <Button type="primary" v-show="postFormType === 'add'">添加</Button>
                     <Button type="primary" v-show="postFormType === 'update'">更新</Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
+                    <Button  style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>

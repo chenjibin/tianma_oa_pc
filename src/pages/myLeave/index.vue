@@ -23,7 +23,7 @@
                          style="width: 100%; cursor: pointer;">
                 </div>
                 <div slot="footer">
-                    <Button type="ghost" @click="visible = false">关闭</Button>
+                    <Button  @click="visible = false">关闭</Button>
                 </div>
             </Modal>
             <leave-modal :visible.sync="leaveModalFlag" @submit-success="_getPostData"></leave-modal>

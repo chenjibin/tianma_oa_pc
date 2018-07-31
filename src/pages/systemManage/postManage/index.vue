@@ -115,7 +115,7 @@
                             @click="_updatePost"
                             :disabled="btnDisabled"
                             v-show="postFormType === 'update'">更新</Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
+                    <Button  style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>

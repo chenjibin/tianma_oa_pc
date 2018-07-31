@@ -223,7 +223,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'error',
-                                            icon: 'trash-a',
+                                            icon: 'md-trash',
                                             shape: 'circle'
                                         },
                                         on: {

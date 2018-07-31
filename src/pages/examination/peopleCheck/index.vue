@@ -36,7 +36,7 @@
             </p>
             <exam-check :id="testId"></exam-check>
             <div slot="footer">
-                <Button type="ghost" style="margin-left: 8px" @click="_completeCheck">完成阅卷</Button>
+                <Button  style="margin-left: 8px" @click="_completeCheck">完成阅卷</Button>
             </div>
         </Modal>
     </div>

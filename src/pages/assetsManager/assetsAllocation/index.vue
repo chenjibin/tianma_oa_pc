@@ -29,7 +29,7 @@
                         <Option :value="2">审批拒绝</Option>
                     </Select>
                 </FormItem>
-                <Button type="ghost" @click="addInfo">
+                <Button  @click="addInfo">
                     <Icon type="plus-circled"></Icon>
                     <span>调拨申请</span>
                 </Button>
@@ -65,7 +65,7 @@
                         <Option :value="2">审批拒绝</Option>
                     </Select>
                 </FormItem>
-                <Button type="ghost" @click="addInfo">
+                <Button  @click="addInfo">
                     <Icon type="plus-circled"></Icon>
                     <span>调拨申请</span>
                 </Button>
