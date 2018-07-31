@@ -16,7 +16,7 @@
                            ref="attendanceTable"
                            url="/workOrder/teamList"></fs-table-page>
         </Card>
-        <Modal v-model="addModal" :width="360">
+        <Modal v-model="addModal" :width="500">
             <Form inline :label-width="80" style="margin-top: 30px">
                 <FormItem label="项目组名称" style="width: 310px">
                     <Input v-model="team.name"></Input>
@@ -27,7 +27,10 @@
                             remote
                             :label="remoteLabel"
                             :remote-method="_filterPeopleRemote">
-                        <Option v-for="option in filterPeopleOpt" :value="option.id" :key="'user' + option.id">
+                        <Option v-for="option in filterPeopleOpt"
+                                :value="option.id"
+                                :key="'user' + option.id"
+                                :label="option.realname">
                             {{option.realname + '(' + option.organizename + ')'}}
                         </Option>
                     </Select>
@@ -39,7 +42,10 @@
                             remote
                             :label="remoteLabel2"
                             :remote-method="_filterPeopleRemote2">
-                        <Option v-for="option in filterPeopleOpt2" :value="option.id" :key="'user' + option.id">
+                        <Option v-for="option in filterPeopleOpt2"
+                                :value="option.id"
+                                :key="'user' + option.id"
+                                :label="option.realname">
                             {{option.realname + '(' + option.organizename + ')'}}
                         </Option>
                     </Select>
@@ -48,7 +54,7 @@
                 <input v-model="team.type" style="display: none"/>
             </Form>
             <div slot="footer">
-                <Button type="success" size="large" @click="saveTeam" long>确定</Button>
+                <Button type="primary" size="large" @click="saveTeam" long>确定</Button>
             </div>
         </Modal>
     </div>
@@ -109,31 +115,32 @@
                         key: 'action',
                         width: 120,
                         render: (h, params) => {
-                            let vm = this;
-                            let row = params.row;
+                            const vm = this;
+                            const row = params.row;
                             return h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle'
                                     },
                                     on: {
-                                        click: function () {
-                                            vm.remoteLabel = [];
-                                            vm.remoteLabel2 = [];
-                                            vm.team.childids = [];
-                                            vm.team.id = row.id;
-                                            vm.team.name = row.name;
-                                            vm.team.uname = row.uname;
-                                            // 项目负责人
-                                            vm.remoteLabel.push(row.uname);
-                                            row.childids.forEach((item) => {
-                                                vm.remoteLabel2.push(item.uname);
-                                                vm.team.childids.push(item.uid);
-                                            });
-                                            vm.team.filterPeopleOpt = row.childids;
-                                            vm.team.uid = row.uid;
-                                            vm.addModal = true;
+                                        click: function (event) {
+                                            event.stopPropagation()
+                                            vm._editorOpen(row)
+                                            // vm.remoteLabel = [];
+                                            // vm.remoteLabel2 = [];
+                                            // vm.team.childids = [];
+                                            // vm.team.id = row.id;
+                                            // vm.team.name = row.name;
+                                            // vm.team.uname = row.uname;
+                                            // // 项目负责人
+                                            // vm.remoteLabel.push(row.uname);
+                                            // row.childids.forEach((item) => {
+                                            //     vm.remoteLabel2.push(item.uname);
+                                            //     vm.team.childids.push(item.uid);
+                                            // });
+                                            // vm.team.filterPeopleOpt = row.childids;
+                                            // vm.team.uid = row.uid;
                                         }
                                     }
                                 }
@@ -145,6 +152,23 @@
             };
         },
         methods: {
+            _editorOpen(row) {
+                this.team.name = row.name;
+                this.team.id = row.id;
+                this.team.uid = row.uid
+                this.remoteLabel = row.uname
+                this.filterPeopleOpt = [{id: row.uid, realname: row.uname, organizename: ''}]
+                this.remoteLabel2 = row.childids.map(x => x.uname)
+                this.team.childids = row.childids.map(x => x.uid)
+                this.filterPeopleOpt2 = row.childids.map(x => {
+                    let obj = {}
+                    obj.id = x.uid
+                    obj.realname = x.uname
+                    obj.organizename = ''
+                    return obj
+                });
+                this.addModal = true;
+            },
             saveTeam() {
                 if (!this.team.name || !this.team.uid) {
                     this.$Message.error('未填写组名或负责人哦');

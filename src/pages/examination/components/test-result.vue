@@ -18,8 +18,8 @@
                     </h3>
                     <div class="fs-list-item" v-for="(question,qindex) in item.questionList" :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">
-                            <Badge  :count="qindex + 1 + ''" class-name="test-badge"></Badge>
-                            <span>{{question.name}}</span>
+                            <Badge  :count="qindex + 1" class-name="test-badge"></Badge>
+                            <span style="margin-left: 4px">{{question.name}}</span>
                             <span>({{question.questionmark}}分)</span>
                         </p>
                         <img :src="question.questionpic | _returnPicUrl"

@@ -24,23 +24,19 @@
                     </FormItem>
                     <FormItem :label-width="0.1">
                         <ButtonGroup>
-                            <Button type="primary" @click="mubanFlag = true">
-                                <Icon type="gear-b"></Icon>
+                            <Button type="primary" @click="mubanFlag = true" icon="md-settings">
                                 模板设置
                             </Button>
-                            <Button type="primary" @click="_openTrainPlan">
-                                <Icon type="plus-round"></Icon>
+                            <Button type="primary" @click="_openTrainPlan" icon="md-add">
                                 创建培训计划
                             </Button>
                             <Button type="error"
                                     :disabled="!planChooseDataArray.length"
-                                    @click="_delPlan">
-                                <Icon type="ios-trash-outline"></Icon>
+                                    @click="_delPlan" icon="md-trash">
                                 删除计划
                             </Button>
                             <Button type="primary"
-                            @click="addDepModalFlag = true">
-                            <Icon type="ios-trash-outline"></Icon>
+                            @click="addDepModalFlag = true" icon="md-download">
                             导出
                             </Button>
                         </ButtonGroup>
@@ -335,7 +331,6 @@
                             }
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: +params.row.status === 1 ? 'green' : 'red'
                                 }
                             }, status);
@@ -375,7 +370,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'eye',
+                                            icon: 'md-eye',
                                             shape: 'circle'
                                         },
                                         on: {

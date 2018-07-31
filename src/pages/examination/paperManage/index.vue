@@ -97,7 +97,7 @@
                             @click="_submitPaper">
                         添加试卷
                     </Button>
-                    <Button  style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="paperSettingFlag"
@@ -122,7 +122,7 @@
                     </Row>
                 </div>
                 <div slot="footer">
-                    <Button  style="margin-left: 8px" @click="paperSettingFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="paperSettingFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="paperCheckFlag"
@@ -135,7 +135,7 @@
                     <editor-paper :id="paperIdCheck"></editor-paper>
                 </div>
                 <div slot="footer">
-                    <Button  style="margin-left: 8px" @click="paperCheckFlag = false">关闭</Button>
+                    <Button style="margin-left: 8px" @click="paperCheckFlag = false">关闭</Button>
                 </div>
             </Modal>
             <Modal v-model="paperNameflag"
@@ -163,7 +163,7 @@
                 </div>
                 <div slot="footer">
                     <Button type="primary" style="margin-left: 8px" @click="_confirmSubmitPaperName">提交修改</Button>
-                    <Button  style="margin-left: 8px" @click="paperNameflag = false">关闭</Button>
+                    <Button style="margin-left: 8px" @click="paperNameflag = false">关闭</Button>
                 </div>
             </Modal>
         </Card>
@@ -272,11 +272,10 @@
                     },
                     {
                         title: '试卷类型',
-                        key: 'subject',
                         align: 'center',
                         width: 160,
                         render: (h, params) => {
-                            let resultList = this.subjectList.filter(x => x.id === params.row.subject);
+                            const resultList = this.subjectList.filter(x => x.id === params.row.subject);
                             if (resultList.length) {
                                 return h('span', resultList[0].name || '');
                             } else {
@@ -341,7 +340,11 @@
                             if (status === 1) {
                                 return h('div', [
                                     colBtn(vm, h, params, {content: '添加试题', icon: 'md-add', foo: vm._addQuestion}),
-                                    colBtn(vm, h, params, {content: '修改试卷', icon: 'md-create', foo: vm._changePaperName}),
+                                    colBtn(vm, h, params, {
+                                        content: '修改试卷',
+                                        icon: 'md-create',
+                                        foo: vm._changePaperName
+                                    }),
                                     colBtn(vm, h, params, {content: '发布试卷', icon: 'md-play', foo: vm._publishPaper})
                                 ]);
                             } else if (status === 2) {
@@ -415,6 +418,7 @@
             },
             _publishPaper(data) {
                 this.$Modal.confirm({
+                    title: '提醒',
                     content: `确认发布【${data.name}】试卷么？`,
                     okText: '确认发布',
                     cancelText: '取消',
@@ -437,6 +441,7 @@
             },
             _closePaper(data) {
                 this.$Modal.confirm({
+                    title: '提醒',
                     content: `确认关闭【${data.name}】试卷么？`,
                     okText: '确认关闭',
                     cancelText: '取消',
@@ -455,6 +460,7 @@
             },
             _copyPaper(data) {
                 this.$Modal.confirm({
+                    title: '提醒',
                     content: `确认复制【${data.name}】试卷么？复制试卷进入待发布状态！！！`,
                     okText: '确认复制',
                     cancelText: '取消',
@@ -473,6 +479,7 @@
             },
             _republishPaper(data) {
                 this.$Modal.confirm({
+                    title: '提醒',
                     content: `确认重新发布【${data.name}】试卷么？`,
                     okText: '确认发布',
                     cancelText: '取消',

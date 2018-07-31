@@ -142,8 +142,8 @@
                             let status = params.row.manualpaper;
                             if (status === 1) {
                                 return h('div', [
-                                    colBtn(vm, h, params, {content: '批改试卷', icon: 'compose', foo: vm._checkPaper}),
-                                    colBtn(vm, h, params, {content: '完成批改', icon: 'checkmark-round', foo: vm._completePaper})
+                                    colBtn(vm, h, params, {content: '批改试卷', icon: 'md-create', foo: vm._checkPaper}),
+                                    colBtn(vm, h, params, {content: '完成批改', icon: 'md-checkmark', foo: vm._completePaper})
                                 ]);
                             }
                         }
@@ -190,7 +190,7 @@
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
-                                colBtn(vm, h, params, {content: '手工阅卷', icon: 'compose', foo: vm._checkPeoplePaper})
+                                colBtn(vm, h, params, {content: '手工阅卷', icon: 'md-create', foo: vm._checkPeoplePaper})
                             ]);
                         }
                     }

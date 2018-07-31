@@ -34,8 +34,8 @@
                                 placeholder="输入查询角色" style="width: 200px">
                             <Option :value="item.id" :label="isManger > 1 ?item.name:item.name+' '+item.companyname"
                                     v-for="(item, index) in roleCombo" :key="'role' + index">{{item.name}} <span
-                                v-if="isManger == 0 || isManger == 1" :title="item.companyname"
-                                style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.companyname}}</span>
+                                    v-if="isManger == 0 || isManger == 1" :title="item.companyname"
+                                    style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.companyname}}</span>
                             </Option>
                         </Select>
                     </FormItem>
@@ -51,11 +51,11 @@
                     <FormItem :label-width="0.1">
                         <ButtonGroup>
                             <Button type="primary" @click="_addUserOpen">
-                                <Icon type="plus-round"></Icon>
+                                <Icon type="md-add"></Icon>
                                 新增人员
                             </Button>
                             <Button type="primary" @click="_openCoinSettingHandler">
-                                <Icon type="cash"></Icon>
+                                <Icon type="md-cash"></Icon>
                                 金币操作
                             </Button>
                             <Button type="primary" @click="banciModalFlag = true">
@@ -63,7 +63,7 @@
                                 班次管理
                             </Button>
                             <Button type="error" @click="_openLeaveSettingModal" :disabled="chooseDataArr.length !== 1">
-                                <Icon type="minus"></Icon>
+                                <Icon type="md-remove"></Icon>
                                 账号离职
                             </Button>
                         </ButtonGroup>
@@ -142,7 +142,7 @@
                     </FormItem>
                     </Col>
                     <Col :span="8">
-                    <FormItem label="用户类型" v-show="(isManger == 0 || isManger == 1)">
+                    <FormItem label="用户类型" v-show="(isManger === 0 || isManger === 1)">
                         <Select v-model="userSettingForm.isManger">
                             <Option :value="3">普通用户</Option>
                             <Option :value="2">分公司管理员</Option>
@@ -156,7 +156,7 @@
                     <Col :span="8">
                     <FormItem label="角色" prop="role">
                         <Select v-model="userSettingForm.role" ref="roleSelect">
-                            <Option :value="item.id" v-for="(item, index) in roleData" :key="'nrole' + item.id">
+                            <Option :value="item.id" v-for="item in roleData" :key="'nrole' + item.id">
                                 {{item.name}}
                             </Option>
                         </Select>
@@ -165,13 +165,13 @@
                     <Col :span="16">
                     <FormItem label="部门" prop="dep">
                         <el-cascader
-                            :options="orgComboList"
-                            :props="depProps"
-                            v-model="userSettingForm.dep"
-                            change-on-select
-                            size="small"
-                            style="width: 100%"
-                            @change="_depChange"
+                                :options="orgComboList"
+                                :props="depProps"
+                                v-model="userSettingForm.dep"
+                                change-on-select
+                                size="small"
+                                style="width: 100%"
+                                @change="_depChange"
                         ></el-cascader>
                     </FormItem>
                     </Col>
@@ -203,15 +203,15 @@
             </Form>
             <div slot="footer">
                 <Poptip
-                    confirm
-                    :transfer="true"
-                    @on-ok="_resetPassWord"
-                    title="是否确认重置此用户密码？">
+                        confirm
+                        :transfer="true"
+                        @on-ok="_resetPassWord"
+                        title="是否确认重置此用户密码？">
                     <Button type="warning" v-show="userFormType === 'update'">重置密码</Button>
                 </Poptip>
                 <Button type="primary" v-show="userFormType === 'add'" @click="_addUser">添加</Button>
                 <Button type="primary" v-show="userFormType === 'update'" @click="_updateUserInfo">更新</Button>
-                <Button  style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="coinSettingFlag"
@@ -246,7 +246,7 @@
             </Form>
             <div slot="footer">
                 <Button type="primary" @click="_coinConfirmHandler" :loading="coinAddLoading">确认</Button>
-                <Button  style="margin-left: 8px" @click="coinSettingFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="coinSettingFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="banciModalFlag"
@@ -261,7 +261,7 @@
                    :data="banCiList"></Table>
             <div slot="footer">
                 <Poptip placement="left" width="400">
-                    <Button >添加班次</Button>
+                    <Button>添加班次</Button>
                     <div class="banci-add-form" slot="content">
                         <Form :rules="banciRules"
                               :model="banciForm"
@@ -313,7 +313,7 @@
             </div>
             <div slot="footer">
                 <Button type="primary" @click="_confirmAccess">确认授权</Button>
-                <Button  @click="userAccessModalFlag = false">取消</Button>
+                <Button @click="userAccessModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="specAccessFlag"
@@ -331,20 +331,19 @@
                              v-for="(dep, index) in specAccessData.deps"
                              :key="'dep-' + index">
                             <el-cascader
-                                :options="orgTreeData"
-                                :props="depProps"
-                                v-model="dep.dep"
-                                change-on-select
-                                size="small"
-                                class="dep-choose"
-                            ></el-cascader>
-                            <Button  shape="circle" icon="ios-trash-outline"
+                                    :options="orgTreeData"
+                                    :props="depProps"
+                                    v-model="dep.dep"
+                                    change-on-select
+                                    size="small"
+                                    class="dep-choose"></el-cascader>
+                            <Button shape="circle" icon="ios-trash-outline"
                                     @click="_removeDep(index)"></Button>
                         </div>
                         <Button
-                            shape="circle"
-                            @click="_addNewDep"
-                            icon="plus-round"></Button>
+                                shape="circle"
+                                @click="_addNewDep"
+                                icon="plus-round"></Button>
                     </div>
                     </Col>
                     <Col :span="10">
@@ -358,7 +357,9 @@
                                 :label="remoteLabel"
                                 :remote-method="_filterPeopleRemote"
                                 :loading="specAccessData.filterPeopleLoading">
-                            <Option v-for="option in specAccessData.filterPeopleOpt" :value="option.id"
+                            <Option v-for="option in specAccessData.filterPeopleOpt"
+                                    :value="option.id"
+                                    :label="option.realname"
                                     :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}
                             </Option>
                         </Select>
@@ -371,28 +372,25 @@
                              v-for="(dep, index) in specAccessData.arrangeDeps"
                              :key="'arrangedep-' + index">
                             <el-cascader
-                                :options="orgTreeData"
-                                :props="depProps"
-                                v-model="dep.dep"
-                                change-on-select
-                                size="small"
-                                class="dep-choose"
-                            ></el-cascader>
-                            <Button  shape="circle" icon="ios-trash-outline"
+                                    :options="orgTreeData"
+                                    :props="depProps"
+                                    v-model="dep.dep"
+                                    change-on-select
+                                    size="small"
+                                    class="dep-choose"></el-cascader>
+                            <Button shape="circle" icon="ios-trash-outline"
                                     @click="_removeArrangeDep(index)"></Button>
                         </div>
-                        <Button
-
-                            shape="circle"
-                            @click="_addNewArrangeDep"
-                            icon="plus-round"></Button>
+                        <Button shape="circle"
+                                @click="_addNewArrangeDep"
+                                icon="plus-round"></Button>
                     </div>
                     </Col>
                 </Row>
             </div>
             <div slot="footer">
                 <Button type="primary" @click="_specAccessConfirm">确认授权</Button>
-                <Button  @click="specAccessFlag = false">取消</Button>
+                <Button @click="specAccessFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="leaveSettingFlag"
@@ -429,7 +427,7 @@
             </Form>
             <div slot="footer">
                 <Button type="primary" @click="_coinLeaveHandler">确认</Button>
-                <Button  style="margin-left: 8px" @click="leaveSettingFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="leaveSettingFlag = false">取消</Button>
             </div>
         </Modal>
     </div>
@@ -733,7 +731,6 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: +params.row.states === 1 ? 'green' : 'red'
                                 }
                             }, +params.row.states === 1 ? '启用' : '禁用');
@@ -753,7 +750,6 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: +params.row['no_write'] === 1 ? 'red' : 'green'
                                 }
                             }, +params.row['no_write'] === 1 ? '不写' : '写');
@@ -769,15 +765,15 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'arrow-shrink',
+                                        icon: 'md-flash',
                                         shape: 'circle'
                                     },
                                     attrs: {
                                         title: '特殊权限设置'
                                     },
                                     on: {
-                                        click: function (e) {
-                                            e.stopPropagation();
+                                        click: function (event) {
+                                            event.stopPropagation();
                                             vm._specAccessOpen(params.row);
                                         }
                                     },
@@ -788,7 +784,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'key',
+                                        icon: 'md-key',
                                         shape: 'circle'
                                     },
                                     attrs: {

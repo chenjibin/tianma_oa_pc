@@ -7,7 +7,7 @@
         <Tooltip content="取消预约" v-if="states === 1">
             <Button type="error"
                     shape="circle"
-                    icon="close"
+                    icon="md-close"
                     style="margin-top: 12px"
                     @click="_cancelAppointment"></Button>
         </Tooltip>

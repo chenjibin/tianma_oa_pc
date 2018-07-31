@@ -105,7 +105,12 @@
                         align: 'center',
                         width: 120,
                         render: (h, params) => {
-                            return h('span', (this.subjectList.filter(x => x.id === params.row.subject))[0].name);
+                            const subjectList = this.subjectList
+                            if (subjectList.length !== 0) {
+                                return h('span', (this.subjectList.filter(x => x.id === params.row.subject))[0].name || '');
+                            } else {
+                                return h('span', '');
+                            }
                         }
                     },
                     {
@@ -131,7 +136,7 @@
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
-                                colBtn(vm, h, params, {content: '加入试卷', icon: 'arrow-right-c', foo: vm._addToPaper})
+                                colBtn(vm, h, params, {content: '加入试卷', icon: 'md-arrow-forward', foo: vm._addToPaper})
                             ]);
                         }
                     }

@@ -19,7 +19,7 @@
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
-                        <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
+                        <Button type="primary" :loading="exportLoading" icon="md-download" @click="_exportGrade">
                             <span v-if="!exportLoading">导出</span>
                             <span v-else>导出中...</span>
                         </Button>
@@ -42,7 +42,7 @@
                     <!--<span v-if="!exportLoading">导出试卷</span>-->
                     <!--<span v-else>导出中...</span>-->
                 <!--</Button>-->
-                <Button  style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+                <Button  style="margin-left: 8px" @click="modelFlag = false">关闭</Button>
             </div>
         </Modal>
     </div>
@@ -60,6 +60,7 @@
                 postFormType: 'update',
                 exportLoading: false,
                 testCheckId: 0,
+                testPeople: '',
                 filterOpt: {
                     paperName: {
                         value: '',
@@ -131,7 +132,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'eye',
+                                            icon: 'md-eye',
                                             shape: 'circle'
                                         },
                                         on: {
