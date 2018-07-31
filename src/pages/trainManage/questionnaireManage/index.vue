@@ -53,7 +53,7 @@
                             @click="_submitPaper">
                         添加问卷
                     </Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="paperSettingFlag"
@@ -78,7 +78,7 @@
                     </Row>
                 </div>
                 <div slot="footer">
-                    <Button type="ghost" style="margin-left: 8px" @click="paperSettingFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="paperSettingFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="paperCheckFlag"
@@ -91,7 +91,7 @@
                     <editor-paper :id="paperIdCheck"></editor-paper>
                 </div>
                 <div slot="footer">
-                    <Button type="ghost" style="margin-left: 8px" @click="paperCheckFlag = false">关闭</Button>
+                    <Button style="margin-left: 8px" @click="paperCheckFlag = false">关闭</Button>
                 </div>
             </Modal>
             <Modal v-model="paperNameflag"
@@ -113,7 +113,7 @@
                 </div>
                 <div slot="footer">
                     <Button type="primary" style="margin-left: 8px" @click="_confirmSubmitPaperName">提交修改</Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="paperNameflag = false">关闭</Button>
+                    <Button style="margin-left: 8px" @click="paperNameflag = false">关闭</Button>
                 </div>
             </Modal>
         </Card>

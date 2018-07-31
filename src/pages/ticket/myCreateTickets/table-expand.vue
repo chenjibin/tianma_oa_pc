@@ -14,7 +14,7 @@
                 <Col :span="2">
                     <div style="text-align: center">
                         <h3 style="margin-bottom: 20px">详细说明</h3>
-                        <Button :disabled="!row.accessory" type="ghost" @click="downloadfile">下载附件</Button>
+                        <Button :disabled="!row.accessory" @click="downloadfile">下载附件</Button>
                     </div>
                 </Col>
                 <Col :span="22" v-html="row.detail"></Col>

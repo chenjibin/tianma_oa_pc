@@ -167,7 +167,7 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    color: params.row.status === '审核完毕' ? 'green' : 'red'
+                                    color: params.row.status === '审核完毕' ? 'green' : 'volcano'
                                 }
                             }, params.row.status);
                         }
@@ -183,7 +183,7 @@
                                 let flag = +params.row.c_count || +params.row.z_count || +params.row.l_count;
                                 return h('Tag', {
                                     props: {
-                                        color: flag ? 'red' : 'green'
+                                        color: flag ? 'error' : 'success'
                                     },
                                     style: {
                                         fontSize: '14px',

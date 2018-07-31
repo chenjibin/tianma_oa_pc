@@ -243,7 +243,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'ios-gear',
+                                        icon: 'md-settings',
                                         shape: 'circle'
                                     },
                                     attrs: {

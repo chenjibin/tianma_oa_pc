@@ -97,7 +97,7 @@
                         </Form>
                     </div>
                 </Poptip>
-                <Button type="ghost" style="margin-left: 8px" @click="mubanFlag = false">关闭</Button>
+                <Button style="margin-left: 8px" @click="mubanFlag = false">关闭</Button>
             </div>
         </Modal>
         <Modal v-model="modelFlag" width="600" :mask-closable="false">
@@ -203,7 +203,7 @@
             <div slot="footer">
                 <Button type="primary" style="margin-left: 8px" @click="_addClassHandler">{{classFormType === 'add'? '新建' : '修改'}}课程
                 </Button>
-                <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="importModalFlag"
@@ -252,7 +252,7 @@
                 </Row>
             </div>
             <div slot="footer">
-                <Button type="ghost" @click="visible = false">关闭</Button>
+                <Button @click="visible = false">关闭</Button>
             </div>
         </Modal>
         <Modal v-model="evaScroll" title="反馈内容" width="1000" :mask-closable="false">
@@ -262,7 +262,7 @@
                            :params="evaluateFilterOpt"
                            url="/train/show_signin_evaluate"></fs-table-page>
             <div slot="footer">
-                <Button type="ghost" @click="evaScroll = false">关闭</Button>
+                <Button @click="evaScroll = false">关闭</Button>
             </div>
         </Modal>
     </div>
@@ -485,7 +485,6 @@
                             }, [
                                 h('Button', {
                                     props: {
-                                        type: 'ghost',
                                         icon: 'drag',
 
                                         size: 'small'
@@ -517,7 +516,6 @@
                             }, [
                                 h('Button', {
                                     props: {
-                                        type: 'ghost',
                                         icon: 'ios-eye',
                                         shape: 'circle',
                                         size: 'small'

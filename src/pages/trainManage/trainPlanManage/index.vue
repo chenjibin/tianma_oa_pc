@@ -112,7 +112,7 @@
                         </Form>
                     </div>
                 </Poptip>
-                <Button type="ghost" style="margin-left: 8px" @click="mubanFlag = false">关闭</Button>
+                <Button style="margin-left: 8px" @click="mubanFlag = false">关闭</Button>
             </div>
         </Modal>
         <Modal v-model="modelFlag" width="600" :mask-closable="false">
@@ -126,7 +126,7 @@
             <div slot="footer">
                 <Button type="primary" style="margin-left: 8px" v-show="examine"  @click="_approvalPlan" id="sh">审核通过</Button>
                 <Button type="primary" style="margin-left: 8px" v-show="subplan"  @click="_submitPlan" id="tijh">提交计划</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="addDepModalFlag"
@@ -150,7 +150,7 @@
                     <span v-if="!deleteLoading">确认导出</span>
                     <span v-else>正在导出...</span>
                 </Button>
-                <Button type="ghost" style="margin-left: 8px" @click="addDepModalFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="addDepModalFlag = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="createPlanFlag" width="900" :mask-closable="false">
@@ -175,8 +175,7 @@
                         confirm
                         title="您确清空当前选中的负责人么？"
                         @on-ok="planForm.people = []">
-                        <Button type="ghost"
-                                icon="trash-a"
+                        <Button icon="trash-a"
                                 style="margin-top: 8px;">一键清空负责人</Button>
                     </Poptip>
 
@@ -191,7 +190,7 @@
             </Form>
             <div slot="footer">
                 <Button type="primary" @click="_addPlan">创建计划</Button>
-                <Button type="ghost" style="margin-left: 8px" @click="createPlanFlag = false">取消</Button>
+                <Button style="margin-left: 8px" @click="createPlanFlag = false">取消</Button>
             </div>
         </Modal>
 

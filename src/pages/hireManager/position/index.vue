@@ -19,7 +19,7 @@
                         </Option>
                     </Select>
                 </FormItem>
-                <Button type="ghost" @click="addInfo">
+                <Button @click="addInfo">
                     <Icon type="plus-circled"></Icon>
                     <span>新增</span>
                 </Button>

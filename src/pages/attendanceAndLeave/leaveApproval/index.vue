@@ -38,7 +38,7 @@
                          style="width: 100%; cursor: pointer;">
                 </div>
                 <div slot="footer">
-                    <Button type="ghost" @click="visible = false">关闭</Button>
+                    <Button @click="visible = false">关闭</Button>
                 </div>
             </Modal>
         </Card>
@@ -126,7 +126,6 @@
                                 }, [
                                     h('Button', {
                                         props: {
-                                            type: 'ghost',
                                             icon: 'ios-eye',
                                             shape: 'circle',
                                             size: 'small'
@@ -149,10 +148,10 @@
                         title: '审核状态',
                         width: 180,
                         render: (h, params) => {
-                            let color = '';
+                            let color = 'default';
                             switch (params.row.status) {
                                 case '未批准':
-                                    color = 'red';
+                                    color = 'volcano';
                                     break;
                                 case '已批准':
                                     color = 'green';
@@ -172,7 +171,6 @@
                             return h('div', [
                                 h('Tag', {
                                     props: {
-                                        type: 'border',
                                         color: color
                                     }
                                 }, params.row.status), renderDom

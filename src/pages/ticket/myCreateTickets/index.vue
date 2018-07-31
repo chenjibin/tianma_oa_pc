@@ -121,7 +121,7 @@
                     <Upload :max-size="20480" ref="uploadEdit" :on-remove="removeFile" action="/oa/workOrder/uploadfile"
                             :on-success="handleSuccess" :on-error="uploaderror" style="width: 100%" name="File">
                         <div style="width: 100%">
-                            <Button :disabled="!!newTickets.accessory" type="ghost">
+                            <Button :disabled="!!newTickets.accessory">
                                 <Icon type="paper-airplane" :size="20" style="vertical-align: middle;"></Icon>
                                 <span style="margin-left: 10px;font-size: 15px;vertical-align: middle">文 件 上 传</span>
                             </Button>
@@ -180,7 +180,7 @@
                             action="/oa/workOrder/uploadfile" :on-success="handleSuccess" :on-error="uploaderror"
                             style="width: 100%" name="File">
                         <div>
-                            <Button :disabled="!!editTickets.accessory" type="ghost">
+                            <Button :disabled="!!editTickets.accessory">
                                 <Icon type="paper-airplane" :size="20" style="vertical-align: middle;"></Icon>
                                 <span style="margin-left: 10px;font-size: 15px;vertical-align: middle">文 件 上 传</span>
                             </Button>

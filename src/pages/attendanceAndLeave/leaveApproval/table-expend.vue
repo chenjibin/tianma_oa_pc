@@ -69,7 +69,7 @@
                                         </FormItem>
                                         <FormItem>
                                             <Button :loading="btnLoading" type="primary" @click="_submitOdResult">提交审核</Button>
-                                            <Button type="ghost" @click="visible = false" style="margin-left: 8px">取消</Button>
+                                            <Button @click="visible = false" style="margin-left: 8px">取消</Button>
                                         </FormItem>
                                     </Form>
                                 </div>
@@ -101,7 +101,7 @@
                                             <Button type="primary"
                                                     :loading="btnLoading"
                                                     @click="_submitOdChange">提交修改</Button>
-                                            <Button type="ghost" @click="visible2 = false" style="margin-left: 8px">取消</Button>
+                                            <Button @click="visible2 = false" style="margin-left: 8px">取消</Button>
                                         </FormItem>
                                     </Form>
                                 </div>

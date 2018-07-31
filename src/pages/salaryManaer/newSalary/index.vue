@@ -23,7 +23,7 @@
                 <Button :loading="saveLoading" :disabled="header.columns.length ===0 || !header.name" @click="saveTable"
                         style="float: right;border-radius: 0" type="success">保存
                 </Button>
-                <Button @click="showTable = false" style="float: right;border-radius: 0" type="ghost">取消</Button>
+                <Button @click="showTable = false" style="float: right;border-radius: 0">取消</Button>
             </div>
             <div style="width: 1100px;position: relative;margin-top: 20px" v-if="showTable">
                 <Form inline style="margin-bottom: 10px" :label-width="50">
@@ -37,7 +37,7 @@
                 <div
                     style="position: absolute;right: 0px;bottom: 0;transition: right 1s cubic-bezier(0.175, 0.885, 0.32, 1.575);"
                     :style="{right:header.columns.length?'-41px':'0px'}">
-                    <Button title="加一行数据" :disabled="header.columns.length === 0" type="ghost"
+                    <Button title="加一行数据" :disabled="header.columns.length === 0"
                             style="height: 41px;padding: 6px 12px"
                             @click="tableData.data.push(JSON.parse(JSON.stringify(rowColumn)))" icon="plus"></Button>
                 </div>
@@ -241,7 +241,6 @@
                                 }),
                                 h('Button', {
                                     props: {
-                                        type: 'ghost',
                                         icon: 'android-expand',
                                         shape: 'circle'
                                     },

@@ -34,11 +34,11 @@
                 </FormItem>
                 <FormItem>
                     <ButtonGroup>
-                        <Button type="ghost" @click="importModalFlag = true">
+                        <Button @click="importModalFlag = true">
                             <Icon type="ios-cloud-upload-outline"></Icon>
                             导入
                         </Button>
-                        <Button type="ghost" @click="exportModalFlag = true">
+                        <Button @click="exportModalFlag = true">
                             <a id="hrefToExportTable" style="postion: absolute;left: -10px;top: -10px;width: 0px;height: 0px;"></a>
                             <Icon type="ios-cloud-download-outline"></Icon>
                             导出
@@ -107,7 +107,7 @@
                         <span v-if="!deleteLoading">确认删除</span>
                         <span v-else>正在删除...</span>
                     </Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="deleteModalFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="deleteModalFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="exportModalFlag"
@@ -137,7 +137,7 @@
                         <span v-if="!exportLoading">确认导出</span>
                         <span v-else>正在导出...</span>
                     </Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="exportModalFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="exportModalFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="settingModalFlag"
@@ -155,7 +155,7 @@
                 <div slot="footer">
                     <Button type="primary" style="margin-left: 8px" @click="_removeThisMonth">清空漏打卡</Button>
                     <Button type="primary" @click="_completeThisMonth">完成 {{attendanceOpt.userName}} 该月审核</Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="settingModalFlag = false">取消</Button>
                 </div>
             </Modal>
             <Modal v-model="strangeModalFlag"
@@ -203,7 +203,7 @@
                 </Form>
                 <div slot="footer">
                     <Button type="primary" @click="_confirmStrangeSetting">确认设置</Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="strangeModalFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="strangeModalFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>
@@ -361,8 +361,7 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
-                                    color: params.row.status === '未审核' ? 'red' : 'green'
+                                    color: params.row.status === '未审核' ? 'volcano' : 'green'
                                 }
                             }, params.row.status);
                         }
@@ -383,7 +382,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'ios-gear',
+                                            icon: 'md-settings',
                                             shape: 'circle'
                                         },
                                         on: {
@@ -408,7 +407,7 @@
                                 let flag = params.row.exception === null || +params.row.exception === 0;
                                 return h('Tag', {
                                     props: {
-                                        color: flag ? 'green' : 'red'
+                                        color: flag ? 'success' : 'error'
                                     },
                                     style: {
                                         fontSize: '14px',
@@ -540,7 +539,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'ios-gear',
+                                            icon: 'md-settings',
                                             shape: 'circle'
                                         },
                                         style: {
@@ -564,7 +563,7 @@
                                         h('Button', {
                                             props: {
                                                 type: 'success',
-                                                icon: 'checkmark-round',
+                                                icon: 'md-checkmark',
                                                 shape: 'circle'
                                             },
                                             on: {

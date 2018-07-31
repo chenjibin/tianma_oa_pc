@@ -27,7 +27,7 @@
                     </FormItem>
                     <FormItem>
                         <ButtonGroup>
-                            <Button type="ghost" @click="_createMonthOpen" v-if="accessBtn.indexOf(24) > -1">
+                            <Button @click="_createMonthOpen" v-if="accessBtn.indexOf(24) > -1">
                                 <Icon type="plus-round"></Icon>
                                 新建
                             </Button>
@@ -35,11 +35,11 @@
                                 <Icon type="ios-trash-outline"></Icon>
                                 删除
                             </Button>
-                            <Button type="ghost" @click="addPersonModalFlag = true" v-if="accessBtn.indexOf(26) > -1">
+                            <Button @click="addPersonModalFlag = true" v-if="accessBtn.indexOf(26) > -1">
                                 <Icon type="plus-round"></Icon>
                                 添加个人
                             </Button>
-                            <Button type="ghost" @click="addDepModalFlag = true" v-if="accessBtn.indexOf(27) > -1">
+                            <Button @click="addDepModalFlag = true" v-if="accessBtn.indexOf(27) > -1">
                                 <Icon type="plus-round"></Icon>
                                 添加部门
                             </Button>
@@ -305,7 +305,7 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    color: params.row.status === '已设置' ? 'green' : 'red'
+                                    color: params.row.status === '已设置' ? 'green' : 'volcano'
                                 }
                             }, params.row.status);
                         }
@@ -326,7 +326,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'ios-gear',
+                                            icon: 'md-settings',
                                             shape: 'circle'
                                         },
                                         on: {

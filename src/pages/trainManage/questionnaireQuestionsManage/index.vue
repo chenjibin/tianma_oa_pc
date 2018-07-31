@@ -10,7 +10,7 @@
 
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
-                        <Button type="ghost" @click="_addQuestionOpen">
+                        <Button @click="_addQuestionOpen">
                             <Icon type="plus-round"></Icon>
                             添加试题
                         </Button>
@@ -61,8 +61,7 @@
                                disabled-hover
                                :data="editorSettingData.questionList"></Table>
                         <div class="" style="margin-top: 8px;text-align: right">
-                            <Button type="ghost"
-                                    shape="circle"
+                            <Button shape="circle"
                                     @click="_addNewAnswer"
                                     icon="plus-round">新增选项
                             </Button>
@@ -82,7 +81,7 @@
                             @click="_addQuestionConfirm">
                         {{postFormType === 'add' ? '添加' : '修改'}}试题
                     </Button>
-                    <Button type="ghost" style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
+                    <Button style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
                 </div>
             </Modal>
         </Card>

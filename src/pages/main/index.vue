@@ -67,7 +67,7 @@
                             <Dropdown transfer trigger="hover" @on-click="handleClickUserDropdown" class="fs-dropdown">
                                 <a href="javascript:void(0)">
                                     <span class="main-user-name">{{ userName }}</span>
-                                    <Icon type="arrow-down-b"></Icon>
+                                    <Icon type="md-arrow-dropdown" />
                                 </a>
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="myLog">我的日志</DropdownItem>
