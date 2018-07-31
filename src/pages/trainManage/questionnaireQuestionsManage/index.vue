@@ -189,7 +189,7 @@
                         align: 'center',
                         width: 98,
                         render: (h, params) => {
-                            var vm = this;
+                            const vm = this;
                             return h('InputNumber', {
                                 props: {
                                     value: !params.row.score ? 0 : params.row.score,
@@ -290,7 +290,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'edit',
+                                            icon: 'md-create',
                                             shape: 'circle'
                                         },
                                         on: {

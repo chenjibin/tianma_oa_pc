@@ -366,7 +366,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'edit',
+                                            icon: 'md-create',
                                             shape: 'circle'
                                         },
                                         on: {
@@ -538,7 +538,6 @@
                 this.editorSettingData.questionList.splice(data._index, 1);
             },
             _editorSetting(data) {
-                console.log(data);
                 this.questionId = data.id;
                 this.postFormType = 'update';
                 this._initEditorSettingData();
