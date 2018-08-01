@@ -4,7 +4,7 @@
         <Card>
             <Form inline v-if="accessBtn.indexOf(35) > -1">
                 <FormItem>
-                    <Button type="primary" @click="addModal = true">
+                    <Button type="primary" @click="_addTicketHandle">
                         <Icon type="plus-round"></Icon>
                         新增小组
                     </Button>
@@ -152,6 +152,21 @@
             };
         },
         methods: {
+            _initRemoeForm() {
+                this.team.name = '';
+                this.team.type = 0;
+                this.team.uid = 0;
+                this.team.childids = [];
+                this.filterPeopleOpt = [];
+                this.filterPeopleOpt2 = [];
+                this.remoteLabel = [];
+                this.remoteLabel2 = [];
+                this.team.id = '';
+            },
+            _addTicketHandle() {
+                this._initRemoeForm()
+                this.addModal = true
+            },
             _editorOpen(row) {
                 this.team.name = row.name;
                 this.team.id = row.id;
@@ -183,15 +198,7 @@
                 this.$http.post('/workOrder/addProjectTeam', d).then((res) => {
                     if (res.success) {
                         this.$Message.success('操作成功');
-                        this.team.name = '';
-                        this.team.type = 0;
-                        this.team.uid = 0;
-                        this.team.childids = [];
-                        this.filterPeopleOpt = [];
-                        this.filterPeopleOpt2 = [];
-                        this.remoteLabel = [];
-                        this.remoteLabel2 = [];
-                        this.team.id = '';
+                        this._initRemoeForm()
                         this.$refs.attendanceTable.getListData()
                     }
                     this.addModal = false;

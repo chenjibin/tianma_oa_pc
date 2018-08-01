@@ -348,7 +348,6 @@
                     render: (h, params) => {
                         return h('Tag', {
                             props: {
-                                type: 'border',
                                 color: +params.row.isdefault === 0 ? 'red' : 'green'
                             }
                         }, +params.row.isdefault === 0 ? '不选中' : '选中');
@@ -371,7 +370,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle'
                                     },
                                     on: {

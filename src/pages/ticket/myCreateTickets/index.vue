@@ -24,13 +24,13 @@
                     <Select v-model="filterOpt.priority.value" style="width: 100%" placeholder="筛选优先级"
                             clearable>
                         <Option :value="1">普通
-                            <Icon type="flag" color="#2d8cf0"></Icon>
+                            <Icon type="md-flag" color="#2d8cf0"></Icon>
                         </Option>
                         <Option :value="2">重要
-                            <Icon type="flag" color="#ff9900"></Icon>
+                            <Icon type="md-flag" color="#ff9900"></Icon>
                         </Option>
                         <Option :value="3">加急
-                            <Icon type="flag" color="#ed3f14"></Icon>
+                            <Icon type="md-flag" color="#ed3f14"></Icon>
                         </Option>
                     </Select>
                 </FormItem>
@@ -65,7 +65,7 @@
                         <Option style="width: 100%" v-for="option in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
                     </Select>
                 </FormItem>
-                <FormItem>
+                <FormItem :label-width="0.1">
                     <Button style="width: 100%" type="primary" @click="newTicketsModal = true">新增需求</Button>
                 </FormItem>
             </Form>
@@ -324,8 +324,7 @@
                     }
                 },
                 typeMapping: ['待处理', '处理中', '已完成', '已暂停', '不处理'],
-                typeIconMapping: ['pull-request', 'compose', 'android-checkbox-outline', 'ios-pause', 'android-close'],
-                typeColorMapping: ['#2d8cf0', '#2d8cf0', '#19be6b', '#2d8cf0', '#ccc'],
+                typeColorMapping: ['blue', 'orange', 'green', 'red', 'default'],
                 tableLoading: false,
                 remoteLabel: [],
                 remoteLabel2: [],
@@ -360,23 +359,17 @@
                     {
                         title: '状态',
                         key: 'type',
-                        width: 75,
+                        width: 100,
                         align: 'center',
                         render: (h, params) => {
-                            let type = params.row.type;
-                            let typeText = this.typeMapping[type];
-                            let typeIcon = this.typeIconMapping[type];
-                            let typeColor = this.typeColorMapping[type];
-                            return h('Icon', {
+                            const type = params.row.type;
+                            const typeText = this.typeMapping[type];
+                            const typeColor = this.typeColorMapping[type];
+                            return h('Tag', {
                                 props: {
-                                    type: typeIcon,
-                                    size: '26',
                                     color: typeColor
-                                },
-                                attrs: {
-                                    title: typeText
                                 }
-                            });
+                            }, typeText);
                         }
                     },
                     {
@@ -428,7 +421,7 @@
                             let priorityColor = priorityColorMapping[priority];
                             return h('Icon', {
                                 props: {
-                                    type: 'flag',
+                                    type: 'md-flag',
                                     size: '26',
                                     color: priorityColor
                                 },
@@ -511,7 +504,6 @@
                                             click: function (e) {
                                                 e.stopPropagation();
                                                 vm.editTicketsModal = true;
-                                                console.log(row);
                                                 vm.editTickets.id = row.id;
                                                 vm.logs = row.logs;
                                                 vm.editTickets.detail = row.detail;
@@ -600,7 +592,7 @@
                         }
                     }
                 ],
-                tableHeight: 700
+                tableHeight: 680
             };
         },
         components: {fsTablePage, expandRow, WangEditor},
