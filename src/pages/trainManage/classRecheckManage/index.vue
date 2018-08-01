@@ -192,7 +192,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'edit',
+                                            icon: 'md-create',
                                             shape: 'circle'
                                         },
                                         on: {
@@ -313,7 +313,7 @@
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;
-                this.tableHeight = dm - 280;
+                this.tableHeight = dm - 260;
             },
             _updateClassTable() {
                 this.$refs.classTable.getListData();

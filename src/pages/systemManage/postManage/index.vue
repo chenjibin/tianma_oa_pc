@@ -33,8 +33,7 @@
                 </FormItem>
                 <FormItem>
                     <ButtonGroup>
-                        <Button type="primary" @click="_addPostOpen">
-                            <Icon type="plus-round"></Icon>
+                        <Button type="primary" @click="_addPostOpen" icon="md-add">
                             新增岗位
                         </Button>
                     </ButtonGroup>
@@ -100,13 +99,6 @@
                     </Row>
                 </Form>
                 <div slot="footer">
-                    <!--<Poptip-->
-                            <!--confirm-->
-                            <!--:transfer="true"-->
-                            <!--@on-ok="_delPost"-->
-                            <!--title="是否确认删除此岗位？">-->
-                        <!--<Button type="error" v-show="postFormType === 'update'">删除岗位</Button>-->
-                    <!--</Poptip>-->
                     <Button type="primary"
                             @click="_addPost"
                             :disabled="btnDisabled"
@@ -192,7 +184,6 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: +params.row.states === 1 ? 'green' : 'red'
                                 }
                             }, +params.row.states === 1 ? '启用' : '禁用');
@@ -218,7 +209,8 @@
                                             shape: 'circle'
                                         },
                                         on: {
-                                            click: function () {
+                                            click: function (event) {
+                                                event.stopPropagation()
                                                 vm._editorSetting(params.row);
                                             }
                                         }

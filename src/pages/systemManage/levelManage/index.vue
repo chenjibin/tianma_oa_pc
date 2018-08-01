@@ -170,7 +170,6 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: +params.row.states === 1 ? 'green' : 'red'
                                 }
                             }, +params.row.states === 1 ? '启用' : '禁用');

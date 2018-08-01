@@ -34,8 +34,7 @@
                 </FormItem>
                 <FormItem>
                     <ButtonGroup>
-                        <Button  @click="_openNewNotice">
-                            <Icon type="paper-airplane"></Icon>
+                        <Button  @click="_openNewNotice" type="primary" icon="md-paper-plane">
                             发布公告
                         </Button>
                     </ButtonGroup>
@@ -301,7 +300,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'compose',
+                                            icon: 'md-create',
                                             shape: 'circle'
                                         },
                                         style: {
@@ -324,7 +323,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'ios-eye',
+                                            icon: 'md-eye',
                                             shape: 'circle'
                                         },
                                         on: {

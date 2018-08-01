@@ -227,7 +227,6 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: +params.row.card_states === 0 ? 'red' : 'green'
                                 }
                             }, +params.row.card_states === 0 ? '注销' : '使用中');

@@ -13,8 +13,7 @@
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
-                        <Button  @click="_addSettingOpen">
-                            <Icon type="plus-round"></Icon>
+                        <Button  @click="_addSettingOpen" icon="md-add" type="primary">
                             新建主题
                         </Button>
                     </ButtonGroup>
@@ -242,7 +241,7 @@
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
-                                colBtn(vm, h, params, {content: '修改主题', icon: 'compose', foo: vm._settingEditor})
+                                colBtn(vm, h, params, {content: '修改主题', icon: 'md-create', foo: vm._settingEditor})
                             ]);
                         }
                     }

@@ -35,7 +35,7 @@
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
-                    <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
+                    <Button type="primary" :loading="exportLoading" icon="md-download" @click="_exportGrade">
                         <span v-if="!exportLoading">导出</span>
                         <span v-else>导出中...</span>
                     </Button>

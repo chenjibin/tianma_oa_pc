@@ -10,8 +10,7 @@
 
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
-                        <Button @click="_addQuestionOpen">
-                            <Icon type="plus-round"></Icon>
+                        <Button @click="_addQuestionOpen" type="primary" icon="md-add">
                             添加试题
                         </Button>
                     </ButtonGroup>
@@ -54,8 +53,6 @@
                         </FormItem>
                         </Col>
                     </Row>
-
-
                     <FormItem label="答案选项" v-show="['1', '2'].indexOf(editorSettingData.type) > -1">
                         <Table :columns="answerColumns"
                                disabled-hover
@@ -67,13 +64,6 @@
                             </Button>
                         </div>
                     </FormItem>
-                    <!--<FormItem label="试题答案">-->
-                    <!--<Input type="textarea"-->
-                    <!--v-show="editorSettingData.type === '5'"-->
-                    <!--v-model="editorSettingData.questionType"-->
-                    <!--:autosize="{minRows: 2,maxRows: 4}"-->
-                    <!--placeholder="得分关键字"></Input>-->
-                    <!--</FormItem>-->
                 </Form>
                 <div slot="footer">
                     <Button type="primary"
@@ -92,7 +82,7 @@
     import fsImgUpload from '@/baseComponents/fs-img-upload-new';
 
     export default {
-        name: 'questionnaireManage',
+        name: 'questionnaireQuestionsManage',
         data() {
             return {
                 editorSettingFlag: false,
@@ -228,7 +218,6 @@
                                         },
                                         on: {
                                             click: function () {
-                                                console.log(vm.xx);
                                                 vm._removeAnswerList(params.row);
                                             }
                                         }
@@ -421,7 +410,6 @@
                 this.editorSettingData.questionList.splice(data._index, 1);
             },
             _editorSetting(data) {
-                console.log(data);
                 this.questionId = data.id;
                 this.postFormType = 'update';
                 this._initEditorSettingData();

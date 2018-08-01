@@ -92,7 +92,6 @@
                         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                             // xhr.responseText就是返回的数据
                             let respondData = JSON.parse(xhr.responseText);
-                            console.log(respondData);
                             if (respondData.success) {
                                 vm.$emit('update:defaultimg', respondData.data[0].filename);
                             }

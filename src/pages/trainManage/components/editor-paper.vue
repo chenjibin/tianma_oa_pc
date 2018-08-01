@@ -19,8 +19,8 @@
                          style="font-weight: 700"
                          :key="'question-' + index + '-' + qindex">
                         <p class="exam-name">
-                            <Badge :count="qindex + 1 + ''" class-name="test-badge"></Badge>
-                            <span>{{question.name}}</span>
+                            <Badge :count="qindex + 1" class-name="test-badge"></Badge>
+                            <span style="margin-left: 6px">{{question.name}}</span>
                             <span>({{question.questionmark}}分)</span>
                             <Button icon="ios-trash-outline"
                                     @click="_delQuestion(question)"

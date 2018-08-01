@@ -12,7 +12,7 @@
                             clearable
                             placeholder="筛选状态"
                             style="width: 100px">
-                        <Option :value="item.status" v-for="item, index in statusList" :key="index">{{item.name}}
+                        <Option :value="item.status" v-for="(item, index) in statusList" :key="index">{{item.name}}
                         </Option>
                     </Select>
                 </FormItem>
@@ -242,7 +242,6 @@
                             }
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: color
                                 }
                             }, content);
@@ -270,14 +269,14 @@
                             let status = params.row.status;
                             if (status === 0) {
                                 return h('div', [
-                                    colBtn(vm, h, params, {content: '添加试题', icon: 'plus-round', foo: vm._addQuestion}),
-                                    colBtn(vm, h, params, {content: '修改问卷', icon: 'compose', foo: vm._changePaperName}),
-                                    colBtn(vm, h, params, {content: '开启问卷', icon: 'play', foo: vm._publishPaper})
+                                    colBtn(vm, h, params, {content: '添加试题', icon: 'md-add', foo: vm._addQuestion}),
+                                    colBtn(vm, h, params, {content: '修改问卷', icon: 'md-create', foo: vm._changePaperName}),
+                                    colBtn(vm, h, params, {content: '开启问卷', icon: 'md-play', foo: vm._publishPaper})
                                 ]);
                             } else if (status === 1) {
                                 return h('div', [
-                                    colBtn(vm, h, params, {content: '查看问卷', icon: 'eye', foo: vm._checkPaper}),
-                                    colBtn(vm, h, params, {content: '关闭问卷', icon: 'close-round', foo: vm._closePaper})
+                                    colBtn(vm, h, params, {content: '查看问卷', icon: 'md-eye', foo: vm._checkPaper}),
+                                    colBtn(vm, h, params, {content: '关闭问卷', icon: 'md-close', foo: vm._closePaper})
                                 ]);
                             }
                         }

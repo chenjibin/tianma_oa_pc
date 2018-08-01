@@ -8,7 +8,7 @@
             <Dropdown transfer @on-click="handleTagsOption">
                 <Button size="small" type="primary">
                     标签选项
-                    <Icon type="arrow-down-b"></Icon>
+                    <Icon type="md-arrow-dropdown" />
                 </Button>
                 <DropdownMenu slot="list">
                     <DropdownItem name="clearAll">关闭所有</DropdownItem>

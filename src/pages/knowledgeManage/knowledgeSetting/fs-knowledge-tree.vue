@@ -322,11 +322,9 @@
         }
     }
 </style>
-<script>
+<script type="text/jsx">
     import fsTablePage from '@/baseComponents/fs-table-page';
-    import FsTablePage from '../../../baseComponents/fs-table-page';
     export default {
-        components: {FsTablePage},
         name: 'FsKnowledgeTree',
         data () {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
@@ -626,13 +624,13 @@
                     <div class="fs-node-wrapper">
                         <div class="title">
                             <span class="head">{data.name}</span>
-                            {data.important === 1 ? <i class="ivu-icon ivu-icon-star" style="margin-left: 6px;color:#ff0036;"></i> : ''}
+                            {data.important === 1 ? <i class="ivu-icon ivu-icon-md-star" style="margin-left: 6px;color:#ff0036;"></i> : ''}
                         </div>
                         <div class="tag-group">
-                            {data.important === 1 ? <i-button  on-click={ (e) => this.appendItem(store, data, e) }  size="small" style="margin-left:6px;" type="text" icon="android-apps"></i-button> : ''}
-                            {data.important === 1 ? '' : <i-button  on-click={ (e) => this.append(store, data, e) }  size="small" style="margin-left:6px;" type="text" icon="plus-round"></i-button>}
-                            <i-button  on-click={ (e) => this.editInfo(store, data, e) } size="small" style="margin-left: 6px;" type="text" icon="edit"></i-button>
-                            <i-button  on-click={ (e) => this.removeCate(store, data, e) } size="small" style="margin-left: 6px;" type="text" icon="ios-trash"></i-button>
+                            {data.important === 1 ? <i-button  on-click={ (e) => this.appendItem(store, data, e) }  size="small" style="margin-left:6px;color: #333" type="text" ghost icon="ios-apps"></i-button> : ''}
+                            {data.important === 1 ? '' : <i-button  on-click={ (e) => this.append(store, data, e) }  size="small" style="margin-left:6px;color: #333" type="text" ghost icon="md-add"></i-button>}
+                            <i-button  on-click={ (e) => this.editInfo(store, data, e) } size="small" style="margin-left: 6px;color: #333" type="text" ghost icon="md-create"></i-button>
+                            <i-button  on-click={ (e) => this.removeCate(store, data, e) } size="small" style="margin-left: 6px;color: #333" type="text" ghost icon="md-trash"></i-button>
                         </div>
                     </div>);
             }

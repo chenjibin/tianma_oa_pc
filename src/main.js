@@ -1,5 +1,4 @@
 /* eslint-disable */
-const Promise = require('es6-promise').Promise;
 import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';

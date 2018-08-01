@@ -188,7 +188,6 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: params.row.status === '下架' ? 'red' : 'green'
                                 }
                             }, params.row.status);

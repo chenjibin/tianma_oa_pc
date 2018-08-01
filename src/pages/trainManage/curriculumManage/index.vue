@@ -15,31 +15,26 @@
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
-                        <Button type="primary" @click="mubanFlag = true">
-                            <Icon type="gear-b"></Icon>
+                        <Button type="primary" @click="mubanFlag = true" icon="md-settings">
                             课程类型
                         </Button>
-                        <Button type="primary" @click="_createClassOpen">
-                            <Icon type="plus-round"></Icon>
+                        <Button type="primary" @click="_createClassOpen" icon="md-add">
                             新建课程
                         </Button>
                         <Button type="error"
                                 :disabled="!classChooseDataArray.length"
-                                @click="_delClass">
-                            <Icon type="ios-trash-outline"></Icon>
+                                @click="_delClass" icon="md-remove">
                             删除课程
                         </Button>
                         <Button type="success"
                                 :disabled="classChooseDataArray.length !== 1"
                                 :loading="downloadLoading"
-                                @click="_downloadGrade">
-                            <Icon type="ios-cloud-download-outline"></Icon>
+                                @click="_downloadGrade" icon="md-download">
                             下载成绩
                         </Button>
                         <Button type="success"
                                 :disabled="classChooseDataArray.length !== 1"
-                                @click="_openUploadModel">
-                            <Icon type="ios-cloud-upload-outline"></Icon>
+                                @click="_openUploadModel" icon="md-cloud-upload">
                             上传成绩
                         </Button>
                     </ButtonGroup>
@@ -115,7 +110,6 @@
                     </FormItem>
                     </Col>
                     <Col :span="12">
-
                     <FormItem label="外部讲师" prop="out_teacher" required>
                         <i-switch v-model="classForm.out_teacher" size="large" :true-value="1" :false-value="0"
                                   @on-change="change">
@@ -485,7 +479,7 @@
                             }, [
                                 h('Button', {
                                     props: {
-                                        icon: 'drag',
+                                        icon: 'md-reorder',
 
                                         size: 'small'
                                     },
@@ -549,7 +543,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'edit',
+                                            icon: 'md-create',
                                             shape: 'circle'
                                         },
                                         on: {

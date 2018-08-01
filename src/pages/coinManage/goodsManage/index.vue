@@ -160,7 +160,6 @@
                         render: (h, params) => {
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: params.row.statistic === '下架' ? 'red' : 'green'
                                 }
                             }, params.row.statistic);

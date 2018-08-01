@@ -43,7 +43,7 @@
                             <ButtonGroup>
                                 <Button type="primary"
                                         :loading="exportLoading"
-                                        icon="ios-cloud-download-outline"
+                                        icon="md-download"
                                         @click="_exportGrade">
                                     <span v-if="!exportLoading">下载</span>
                                     <span v-else>下载中...</span>
@@ -169,7 +169,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'edit',
+                                            icon: 'md-create',
                                             shape: 'circle'
                                         },
                                         on: {

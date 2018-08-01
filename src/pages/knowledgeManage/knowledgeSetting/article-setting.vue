@@ -309,8 +309,8 @@
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
-                                colBtn(vm, h, params, {content: '修改文章', icon: 'compose', foo: vm._articleEditor}),
-                                colBtn(vm, h, params, {content: '查看评论', icon: 'eye', foo: vm._checkArticleCommon})
+                                colBtn(vm, h, params, {content: '修改文章', icon: 'md-create', foo: vm._articleEditor}),
+                                colBtn(vm, h, params, {content: '查看评论', icon: 'md-eye', foo: vm._checkArticleCommon})
                             ]);
                         }
                     }

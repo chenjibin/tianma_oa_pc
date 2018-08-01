@@ -691,14 +691,14 @@ export const appRouter = [
             },
             {
                 path: 'foodCardManage',
-                icon: 'card',
+                icon: 'md-card',
                 name: 'foodCardManage',
                 title: '饭卡管理',
                 component: loadView('coinManage/foodCardManage/index.vue')
             },
             {
                 path: 'foodCardLog',
-                icon: 'card',
+                icon: 'md-card',
                 name: 'foodCardLog',
                 title: '饭卡记录',
                 component: loadView('coinManage/foodCardLog/index.vue')

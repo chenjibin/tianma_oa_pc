@@ -4,8 +4,7 @@
             <Form inline>
                 <FormItem>
                     <ButtonGroup>
-                        <Button type="primary" @click="_addPostOpen">
-                            <Icon type="plus-round"></Icon>
+                        <Button type="primary" @click="_addPostOpen" icon="md-add">
                             新增角色
                         </Button>
                     </ButtonGroup>
@@ -16,19 +15,6 @@
                            :height="tableHeight"
                            ref="fsTable"
                            url="/role/getPageAllRole"></fs-table-page>
-            <!--<Table :columns="postColumns"-->
-                   <!--:loading="tableLoading"-->
-                   <!--:height="tableHeight"-->
-                   <!--:data="pageData.list"></Table>-->
-            <!--<Page :total="pageData.totalCount"-->
-                  <!--:current="pageData.page"-->
-                  <!--@on-change="_setPage"-->
-                  <!--@on-page-size-change="_setPageSize"-->
-                  <!--:page-size="pageData.pageSize"-->
-                  <!--show-sizer-->
-                  <!--show-total-->
-                  <!--show-elevator-->
-                  <!--style="margin-top: 16px;"></Page>-->
             <Modal v-model="settingModalFlag"
                    width="600"
                    :mask-closable="false">
@@ -172,7 +158,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'key',
+                                            icon: 'md-key',
                                             shape: 'circle'
                                         },
                                         on: {

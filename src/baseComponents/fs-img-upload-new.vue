@@ -39,6 +39,7 @@
                :styles="{zIndex: 1000}"
                :mask-closable="false"
                class-name="fs-img-pre"
+               :mask="false"
                v-model="visible">
             <div style="max-height: 500px;overflow-y: auto;">
                 <img :src="$mainHost + imgName" v-if="visible" style="max-width: 100%">
