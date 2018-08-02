@@ -1,6 +1,5 @@
 <template>
-    <Select
-            v-model="valueData"
+    <Select :value="value"
             :multiple="multiple"
             filterable
             remote
@@ -19,7 +18,7 @@
         name: 'fsSearchUser',
         model: {
             prop: 'value',
-            event: 'change'
+            event: 'on-change'
         },
         props: {
             multiple: {
@@ -37,14 +36,15 @@
                 default: ''
             }
         },
-        watch: {
-            valueData(val) {
-                this.$emit('change', val);
-            },
-            value(val) {
-                this.valueData = val;
-            }
-        },
+        // watch: {
+        //     valueData(val) {
+        //         this.$emit('change', val);
+        //     },
+        //     value(val) {
+        //         console.log(val)
+        //         this.valueData = val;
+        //     }
+        // },
         data () {
             return {
                 filterPeopleLoading: false,

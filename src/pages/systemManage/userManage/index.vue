@@ -337,13 +337,13 @@
                                     change-on-select
                                     size="small"
                                     class="dep-choose"></el-cascader>
-                            <Button shape="circle" icon="ios-trash-outline"
+                            <Button shape="circle" icon="md-trash"
                                     @click="_removeDep(index)"></Button>
                         </div>
                         <Button
                                 shape="circle"
                                 @click="_addNewDep"
-                                icon="plus-round"></Button>
+                                icon="md-add"></Button>
                     </div>
                     </Col>
                     <Col :span="10">
@@ -378,12 +378,12 @@
                                     change-on-select
                                     size="small"
                                     class="dep-choose"></el-cascader>
-                            <Button shape="circle" icon="ios-trash-outline"
+                            <Button shape="circle" icon="md-trash"
                                     @click="_removeArrangeDep(index)"></Button>
                         </div>
                         <Button shape="circle"
                                 @click="_addNewArrangeDep"
-                                icon="plus-round"></Button>
+                                icon="md-add"></Button>
                     </div>
                     </Col>
                 </Row>

@@ -1,6 +1,5 @@
 <template>
-    <Select
-            v-model="valueData"
+    <Select :value="value"
             :multiple="multiple"
             filterable
             remote
@@ -10,6 +9,7 @@
             :loading="filterPeopleLoading">
         <Option v-for="option in optionlist"
                 :value="option.id"
+                :label="option.name"
                 :key="'post' + option.id">{{option.name + '(' + option.organizename + ')'}}</Option>
     </Select>
 </template>
@@ -18,7 +18,7 @@
         name: 'fsSearchPost',
         model: {
             prop: 'value',
-            event: 'change'
+            event: 'on-change'
         },
         props: {
             multiple: {
@@ -36,14 +36,14 @@
                 default: ''
             }
         },
-        watch: {
-            valueData(val) {
-                this.$emit('change', val);
-            },
-            value(val) {
-                this.valueData = val;
-            }
-        },
+        // watch: {
+        //     valueData(val) {
+        //         this.$emit('change', val);
+        //     },
+        //     value(val) {
+        //         this.valueData = val;
+        //     }
+        // },
         data () {
             return {
                 filterPeopleLoading: false,

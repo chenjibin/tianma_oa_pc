@@ -39,6 +39,7 @@
             <Form :model="depSettingForm"
                   ref="coinForm"
                   :rules="orgaRules"
+                  v-if="depSettingFlag"
                   :label-width="80">
                 <Row type="flex">
                     <Col :span="24">
@@ -340,6 +341,7 @@
             },
             editInfo(store, data) {
                 this._initFormData();
+                console.log(store, data)
                 this.depId = data.id;
                 this.formType = 'update';
                 this.depSettingForm.name = data.name;

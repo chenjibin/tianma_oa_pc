@@ -49,7 +49,7 @@
                 <Button @click="changeAvatorFlag = true"
                         shape="circle" icon="md-person"></Button>
             </Tooltip>
-            <Poptip placement="right" width="400" v-model="pwsFlag">
+            <Poptip placement="right" width="400" v-model="pwsFlag" style="margin: 0 6px;">
                 <div slot="content">
                     <Form :label-width="80"
                           :model="passWordForm"
@@ -89,7 +89,7 @@
                 <div slot="content">
                     <fs-lottery v-if="lotteryFlag" :lotteryflag.sync="lotteryFlag"></fs-lottery>
                 </div>
-                <Tooltip placement="top" content="抽奖" :transfer="true">
+                <Tooltip placement="top" content="抽奖" :transfer="true" style="margin: 0 6px;">
                     <Button shape="circle"
                             icon="md-happy"></Button>
                 </Tooltip>
