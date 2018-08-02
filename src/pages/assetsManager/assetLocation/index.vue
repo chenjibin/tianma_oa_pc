@@ -16,8 +16,7 @@
                         </Option>
                     </Select>
                 </FormItem>
-                <Button  @click="addInfo">
-                    <Icon type="plus-circled"></Icon>
+                <Button  @click="addInfo" icon="md-add" type="primary">
                     <span>新增</span>
                 </Button>
             </Form>
@@ -102,12 +101,12 @@
                         title: '操作',
                         align: 'center',
                         render: (h, params) => {
-                            var vm = this;
+                            let vm = this;
                             return h('div', {}, [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle'
                                     },
                                     style: {
@@ -123,7 +122,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'close',
+                                        icon: 'md-close',
                                         shape: 'circle'
                                     },
                                     on: {

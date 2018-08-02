@@ -4,7 +4,8 @@
         <Card>
             <Form inline :label-width="60">
                 <FormItem label="资产名称">
-                    <Cascader style="width: 180px" :data="cat1" @on-change="changeCataName" :clearable="true" :load-data="loadData"></Cascader>
+                    <Cascader style="width: 180px" :data="cat1" @on-change="changeCataName" :clearable="true"
+                              :load-data="loadData"></Cascader>
                 </FormItem>
                 <FormItem label="位置名称">
                     <Select type="text" style="width: 180px"
@@ -12,11 +13,15 @@
                             :clearable="true"
                             v-model="filterOpt.positionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span
+                                :title="item.remarks"
+                                style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                        </Option>
                     </Select>
                 </FormItem>
             </Form>
-            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt" url="assetsApplication/purchaseList"></fs-table-page>
+            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt"
+                           url="assetsApplication/purchaseList"></fs-table-page>
         </Card>
     </div>
 </template>
@@ -28,6 +33,7 @@
     import debounce from 'lodash/debounce';
     import assetsTree from '@/baseComponents/assets-tree.vue';
     import fsTablePage from '@/baseComponents/fs-table-page';
+
     export default {
         name: 'assetsBuyManager',
         components: {assetsTree, fsTablePage},
@@ -115,7 +121,6 @@
                         render: (h, params) => {
                             let color = '';
                             let text = '';
-                            let vm = this;
                             switch (params.row.approvalstatus) {
                                 case 0:
                                     color = 'blue';
@@ -137,7 +142,6 @@
                             return h('div', [
                                 h('Tag', {
                                     props: {
-                                        type: 'border',
                                         color: color
                                     }
                                 }, text)
@@ -154,11 +158,11 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle'
                                     },
                                     on: {
-                                        click: function() {
+                                        click: function () {
                                             let d = {};
                                             d.id = row.id;
                                             d.remarks = row.remarks;
@@ -268,7 +272,7 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1600),
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 2 - 32 - 10 - 32 - 57 - 7;
             }

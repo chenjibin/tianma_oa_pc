@@ -4,8 +4,7 @@
         <Card>
             <Form inline v-if="accessBtn.indexOf(35) > -1">
                 <FormItem>
-                    <Button type="primary" @click="_addTicketHandle">
-                        <Icon type="plus-round"></Icon>
+                    <Button type="primary" @click="_addTicketHandle" icon="md-add">
                         新增小组
                     </Button>
                 </FormItem>
@@ -127,20 +126,6 @@
                                         click: function (event) {
                                             event.stopPropagation()
                                             vm._editorOpen(row)
-                                            // vm.remoteLabel = [];
-                                            // vm.remoteLabel2 = [];
-                                            // vm.team.childids = [];
-                                            // vm.team.id = row.id;
-                                            // vm.team.name = row.name;
-                                            // vm.team.uname = row.uname;
-                                            // // 项目负责人
-                                            // vm.remoteLabel.push(row.uname);
-                                            // row.childids.forEach((item) => {
-                                            //     vm.remoteLabel2.push(item.uname);
-                                            //     vm.team.childids.push(item.uid);
-                                            // });
-                                            // vm.team.filterPeopleOpt = row.childids;
-                                            // vm.team.uid = row.uid;
                                         }
                                     }
                                 }

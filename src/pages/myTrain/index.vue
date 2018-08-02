@@ -11,13 +11,11 @@
                 <Row>
                     <Col :span="24" style="margin-bottom: 8px;">
                         <Card :dis-hover="true">
-                            <!--<h3>我的课程</h3>-->
                             <my-class-list ref="myClass"></my-class-list>
                         </Card>
                     </Col>
                     <Col :span="24">
                         <Card :dis-hover="true">
-                            <!--<h3>我的计划</h3>-->
                             <my-plan></my-plan>
                         </Card>
                     </Col>

@@ -525,10 +525,10 @@
                 </FormItem>
                 <br />
                 <FormItem label="用户名" prop="username" style="width: 45%"
-                          v-if="(statusTemp === 6 || statusTemp === 3) && showUser.createaccount!=2 && (statusForm.status ==6 || statusForm.status == 8)">
+                          v-if="(statusTemp === 6 || statusTemp === 3) && showUser.createaccount!== 2 && (statusForm.status === 6 || statusForm.status === 8)">
                     <Input type="text" v-model="statusForm.username"></Input>
                 </FormItem>
-                <FormItem label="密码" style="width: 45%" v-if="(statusTemp === 6 || statusTemp === 3) && showUser.createaccount!=2 && (statusForm.status ==6 || statusForm.status == 8)">
+                <FormItem label="密码" style="width: 45%" v-if="(statusTemp === 6 || statusTemp === 3) && showUser.createaccount!== 2 && (statusForm.status === 6 || statusForm.status === 8)">
                     <Input type="password" disabled placeholder="123456"></Input>
                 </FormItem>
                 <FormItem label="面试时间" style="width: 45%" v-if="statusTemp === 1">
@@ -730,7 +730,7 @@
                     appointment: '',
                     name: '',
                     family_in: 0,
-                    age: '',
+                    age: null,
                     yearswork: 0,
                     sex: '',
                     marriage: '',
@@ -991,7 +991,7 @@
                         className: 'tableDataCustom',
                         width: 120,
                         render: (h, params) => {
-                            var vm = this;
+                            let vm = this;
                             return h('div', {
                                 style: {
                                     display: 'flex',
@@ -1002,7 +1002,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'flash',
+                                        icon: 'md-flash',
                                         shape: 'circle'
                                     },
                                     attrs: {
@@ -1017,8 +1017,7 @@
                                 }),
                                 h('Button', {
                                     props: {
-                                        type: 'ghost',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle'
                                     },
                                     attrs: {
@@ -1032,8 +1031,7 @@
                                 }),
                                 h('Button', {
                                     props: {
-                                        type: 'ghost',
-                                        icon: 'arrow-expand',
+                                        icon: 'md-eye',
                                         shape: 'circle'
                                     },
                                     attrs: {
@@ -1081,7 +1079,7 @@
                 }
             },
             getPositionData() {
-                var vm = this;
+                let vm = this;
                 this.$http.post('/talentPosition/findTalentPositionList').then((res) => {
                     vm.positionData = res.data;
                 });
@@ -1111,7 +1109,7 @@
             },
             // 删除附件
             handleRemove(item) {
-                var vm = this;
+                let vm = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
@@ -1131,7 +1129,7 @@
             },
             // 下载图片
             download(path) {
-                var p = 'http://' + window.location.host + path;
+                const p = 'http://' + window.location.host + path;
                 let downloadDom = document.createElement('a');
                 downloadDom.id = 'ddom';
                 downloadDom.href = p;
@@ -1146,7 +1144,7 @@
                 this.showAttachModel = true;
             },
             getTicketList(id) {
-                var that = this;
+                let that = this;
                 this.$http.post('/ticket/ticketFileslist', { 'ticketno': id }).then((res) => {
                     if (res.success) {
                         var d = res.data;
@@ -1196,7 +1194,7 @@
                 } else {
                     this.saveBtn2Loading = true;
                 }
-                var vm = this;
+                let vm = this;
                 this.$refs.talentBean.validate(function (isPass) {
                     if (isPass) {
                         var d = {};
@@ -1238,8 +1236,8 @@
                 this.statusForm.remarks = this.showUser.remarks;
             },
             forward () {
-                var statusPrev = [-1, 0, 0, 1, 1, 1, 3, 3, 6, 6];
-                var vm = this;
+                const statusPrev = [-1, 0, 0, 1, 1, 1, 3, 3, 6, 6];
+                let vm = this;
                 this.statusTemp = statusPrev[this.showUser.status];
                 this.statusForm = {};
                 this.statusForm.id = this.showUser.id;
@@ -1317,8 +1315,8 @@
                 }
             },
             deleteMe() {
-                var id = this.talentBean.id;
-                var that = this;
+                const id = this.talentBean.id;
+                let that = this;
                 this.$Modal.confirm({
                     title: '删除提醒',
                     content: '是否确认删除？',
@@ -1338,16 +1336,16 @@
                 });
             },
             getStatusText (num) {
-                var text = ['未预约', '已预约', '已到达', '未到达', '面试合格', '待定', '面试不合格', '合格到达', '合格未到达', '试岗通过', '试岗未通过'];
+                const text = ['未预约', '已预约', '已到达', '未到达', '面试合格', '待定', '面试不合格', '合格到达', '合格未到达', '试岗通过', '试岗未通过'];
                 return text[num + 1];
             },
             saveStatus() {
-                var vm = this;
+                let vm = this;
                 this.$refs['statusForm'].validate((valid) => {
                     if (!valid) {
                         return false;
                     }
-                    var d = vm.statusForm;
+                    let d = vm.statusForm;
                     if (vm.showUser.status === -1) {
                         d.status = 0;
                     }
@@ -1510,7 +1508,7 @@
                 });
             },
             getPositionCombo() {
-                var vm = this;
+                let vm = this;
                 vm.$http.post('/talentPosition/dataComboList').then((res) => {
                     if (res.success) {
                         vm.dataComboList = res.data;

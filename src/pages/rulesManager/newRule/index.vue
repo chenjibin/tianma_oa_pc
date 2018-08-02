@@ -12,7 +12,7 @@
                         <Input type="text" clearable v-model="searchData.createName.value" placeholder="姓名"></Input>
                     </FormItem>
                     <FormItem :label-width="0.1">
-                        <Button type="primary" @click="newOne">新增规章</Button>
+                        <Button type="primary" @click="newOne" icon="md-add">新增规章</Button>
                     </FormItem>
                 </Form>
                 <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
@@ -131,7 +131,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'android-expand',
+                                        icon: 'md-eye',
                                         shape: 'circle'
                                     },
                                     attrs: {
@@ -151,7 +151,7 @@
                                 arr.push(h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle'
                                     },
                                     attrs: {

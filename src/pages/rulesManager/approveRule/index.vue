@@ -75,7 +75,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'android-expand',
+                                        icon: 'md-eye',
                                         shape: 'circle'
                                     },
                                     attrs: {

@@ -7,8 +7,8 @@
                     <Select type="text" style="width: 185px" filterable clearable
                             @on-change="_inputDebounce"
                             v-model="filterOpt.name"
-                            placeholder="输入筛选岗位" clearable>
-                        <Option v-for="(item,index) in dataComboList"
+                            placeholder="输入筛选岗位">
+                        <Option v-for="item in dataComboList"
                                 :label="isManger > 1 ?item.name:item.name+' '+item.companyname"
                                 :key="'post-' + item.id"
                                 :value="item.name">
@@ -52,7 +52,7 @@
                 <FormItem label="所属公司" v-if="isManger === 0 || isManger === 1">
                     <Select type="text" style="width: 173px"
                             v-model="baseInfo.companyId" >
-                        <Option v-for="(item,index) in companyList"
+                        <Option v-for="item in companyList"
                                 :label="item.name"
                                 :key="'com-' + item.id"
                                 :value="item.id">{{item.name}}</Option>
@@ -105,13 +105,13 @@
                         title: '操作',
                         align: 'center',
                         render: (h, params) => {
-                            var vm = this;
+                            let vm = this;
                             return h('div', {
                             }, [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle'
                                     },
                                     style: {
@@ -127,7 +127,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'close',
+                                        icon: 'md-close',
                                         shape: 'circle'
                                     },
                                     on: {

@@ -15,7 +15,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/jsx">
     export default {
         name: 'assetsTree',
         props: {
@@ -81,7 +81,6 @@
                 });
             },
             checkmea(data, node) {
-                console.log(data);
                 this.customerForm.addForm.fname = data.name;
                 this.customerForm.addForm.pid = data.id;
                 this.customerForm.addForm.leaf = data.leaf;

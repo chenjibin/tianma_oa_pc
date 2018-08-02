@@ -152,7 +152,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'primary',
-                                            icon: 'eye',
+                                            icon: 'md-eye',
                                             shape: 'circle'
                                         },
                                         on: {

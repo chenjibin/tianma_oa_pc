@@ -13,7 +13,7 @@
                             :clearable="true"
                             v-model="filterOpt.positionName"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
+                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name">
                             <span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
                         </Option>
                     </Select>
@@ -27,11 +27,11 @@
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
-                    <Button  v-if="accessBtn.indexOf(29) > -1" @click="addInfo" >新增</Button>
-                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(31) > -1" @click="exportExcel" icon="code-download">
+                    <Button  v-if="accessBtn.indexOf(29) > -1" @click="addInfo" type="primary" icon="md-add">新增</Button>
+                    <Button type="primary" style="margin:0 8px " v-if="accessBtn.indexOf(31) > -1" @click="exportExcel" icon="md-download">
                         导出
                     </Button>
-                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(32) > -1" icon="upload" @click="attachFilesModal = true">
+                    <Button type="primary"  v-if="accessBtn.indexOf(32) > -1" icon="md-cloud-upload" @click="attachFilesModal = true">
                         导入
                     </Button>
                 </FormItem>
@@ -75,7 +75,7 @@
                 </FormItem>
                 <FormItem label="资产位置" prop="positionName">
                     <Select type="text" style="width: 180px" v-model="addAssetsInfo.positionName" placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :label="item.name" :key="index" :value="item.name">
+                        <Option v-for="(item, index) in positionList" :label="item.name" :key="index" :value="item.name">
                             <span>{{item.name}}</span><span :title="item.remarks"  style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
                         </Option>
                     </Select>
@@ -211,7 +211,7 @@
                             return h('Button', {
                                 props: {
                                     type: 'primary',
-                                    icon: 'edit',
+                                    icon: 'md-create',
                                     shape: 'circle'
                                 },
                                 on: {
@@ -236,12 +236,11 @@
                         render: (h, params) => {
                             // 0 在途 1 在用 2备用 3报废
                             let status = params.row.appstatus;
-                            let color = ['blue', 'green', 'blue', 'red'];
-                            let text = ['在途', '在用', '备用', '报废'];
+                            const color = ['blue', 'green', 'blue', 'red'];
+                            const text = ['在途', '在用', '备用', '报废'];
                             let vm = this;
                             return h('Tag', {
                                 props: {
-                                    type: 'border',
                                     color: color[status]
                                 },
                                 nativeOn: {
@@ -459,17 +458,3 @@
     };
 </script>
 
-<style lang="less">
-    #assetsRegister  {
-        .cusBtn {
-            span {
-                vertical-align: middle;
-            }
-            i {
-                vertical-align: middle;
-                font-size: 19px;
-            }
-        }
-
-    }
-</style>

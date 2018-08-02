@@ -234,7 +234,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle',
                                         disabled: disable
                                     },
@@ -253,7 +253,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'close',
+                                        icon: 'md-close',
                                         shape: 'circle',
                                         disabled: disable
                                     },
@@ -276,27 +276,30 @@
                         render: (h, params) => {
                             let color = '';
                             let text = '';
+                            let colorText = '';
                             let vm = this;
                             let row = params.row;
-                            var appBtnStatus = (vm.accessBtn.indexOf(33) > -1) && (row.approvalstatus === 0);
+                            let appBtnStatus = (vm.accessBtn.indexOf(33) > -1) && (row.approvalstatus === 0);
                             switch (row.approvalstatus) {
                                 case 0:
                                     color = 'blue';
+                                    colorText = 'primary'
                                     text = '审核中';
                                     break;
                                 case 1:
                                     color = 'green';
+                                    colorText = 'success'
                                     text = '已批准';
                                     break;
                                 case 2:
                                     color = 'red';
+                                    colorText = 'error'
                                     text = '已拒绝';
                                     break;
                             }
                             return h('div', [
                                 h('Tag', {
                                     props: {
-                                        type: 'border',
                                         color: color
                                     },
                                     attrs: {
@@ -331,7 +334,7 @@
                                 h('Tag', {
                                     props: {
                                         type: 'dot',
-                                        color: color
+                                        color: colorText
                                     },
                                     style: {
                                         display: appBtnStatus ? 'inline-block' : 'none'

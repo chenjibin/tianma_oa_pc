@@ -3,12 +3,11 @@
     <div id="assetsCategory">
         <Card>
             <Form inline>
-                <Button  @click="addInfo">
-                    <Icon type="plus-circled"></Icon>
+                <Button  @click="addInfo" icon="md-add">
                     <span>新增</span>
                 </Button>
-                <Button  icon="edit" @click="changeInfo">修改</Button>
-                <Button  icon="trash-b" @click="delInfo">删除</Button>
+                <Button  icon="md-create" @click="changeInfo" style="margin: 0 6px">修改</Button>
+                <Button  icon="md-trash" @click="delInfo">删除</Button>
             </Form>
             <div style="overflow: auto;margin-top: 10px" :style="{height: tableHeight+'px'}">
                 <assetsTree v-on:customerForm="getCustomerForm" ref="assetsTree"></assetsTree>

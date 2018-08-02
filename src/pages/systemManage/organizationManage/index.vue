@@ -341,7 +341,6 @@
             },
             editInfo(store, data) {
                 this._initFormData();
-                console.log(store, data)
                 this.depId = data.id;
                 this.formType = 'update';
                 this.depSettingForm.name = data.name;
