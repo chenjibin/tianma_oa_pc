@@ -18,11 +18,11 @@
                         </div>
                         <div class="tool-show">
                             <div class="item">
-                                <Icon type="heart" color="rgba(255,255,255,0.8)" size="20"></Icon>
+                                <Icon type="md-heart" color="rgba(255,255,255,0.8)" size="20"></Icon>
                                 <span style="color: rgba(255,255,255,0.8)">{{photo.thumb_up_times}}</span>
                             </div>
                             <div class="item">
-                                <Icon type="chatbox" color="rgba(255,255,255,0.8)" size="20"></Icon>
+                                <Icon type="md-chatboxes" color="rgba(255,255,255,0.8)" size="20"></Icon>
                                 <span style="color: rgba(255,255,255,0.8)">{{photo.share_comment_times}}</span>
                             </div>
                         </div>
@@ -36,11 +36,11 @@
                     </div>
                     <div class="tool-show">
                         <div class="item">
-                            <Icon type="heart" color="#e0e0e0" size="20"></Icon>
+                            <Icon type="md-heart" color="#e0e0e0" size="20"></Icon>
                             <span style="color: #666">{{photo.thumb_up_times}}</span>
                         </div>
                         <div class="item">
-                            <Icon type="chatbox" color="#e0e0e0" size="20"></Icon>
+                            <Icon type="md-chatboxes" color="#e0e0e0" size="20"></Icon>
                             <span style="color: #666">{{photo.share_comment_times}}</span>
                         </div>
                     </div>

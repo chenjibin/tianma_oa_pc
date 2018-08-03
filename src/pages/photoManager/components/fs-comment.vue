@@ -22,10 +22,10 @@
                     <p>{{item.content}}</p>
                     <div class="comment-foot">
                         <time>{{item.insert_time.split(' ')[0]}}</time>
-                        <a class="hide-btn" @click.stop="_replyComment(item)">回复</a>
+                        <a class="hide-btn" @click.stop="_replyComment(item)" style="margin: 0 6px">回复</a>
                         <a class="delete hide-btn" v-if="item.status" @click.stop="_removeCommentHandler(item.id)">删除</a>
                         <a class="like" @click.stop="_thumbComment(item)">
-                            <Icon type="thumbsup" size="18" :color="item.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
+                            <Icon type="md-thumbs-up" size="18" :color="item.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
                             <span :style="{'color': item.thumbupid ? '#ff0036' : '#b0b5b8'}"
                                   v-if="item.thumb_up_times > 0">{{item.thumb_up_times}}</span>
                         </a>
@@ -39,14 +39,14 @@
                             <span class="name">{{child.username}}</span>
                             <span v-if="child.to_username">回复</span>
                             <span class="name" v-if="child.to_username">{{child.to_username}}</span>
-                            <span>{{child.content}}</span>
+                            <span style="margin-left: 6px">{{child.content}}</span>
                         </div>
                         <div class="comment-foot">
                             <time>{{child.insert_time.split(' ')[0]}}</time>
-                            <a class="hide-btn" @click.stop="_innerReply(child)">回复</a>
-                            <a class="delete hide-btn" v-if="child.status" @click.stop="_removeCommentHandler(child.id)">删除</a>
+                            <a class="hide-btn" @click.stop="_innerReply(child)" style="margin: 0 6px">回复</a>
+                            <a class="delete hide-btn"  v-if="child.status" @click.stop="_removeCommentHandler(child.id)">删除</a>
                             <a class="like" @click.stop="_thumbComment(child)">
-                                <Icon type="thumbsup" size="18" :color="child.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
+                                <Icon type="md-thumbs-up" size="18" :color="child.thumbupid ? '#ff0036' : '#b0b5b8'"></Icon>
                                 <span :style="{'color': child.thumbupid ? '#ff0036' : '#b0b5b8'}"
                                       v-if="child.thumb_up_times > 0">{{child.thumb_up_times}}</span>
                             </a>

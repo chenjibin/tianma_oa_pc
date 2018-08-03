@@ -80,7 +80,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="权重" style="width: 340px;display: inline-block">
-                    <InputNumber :min="0.01" style="width: 100%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight"></InputNumber>
+                    <InputNumber :min="0" style="width: 100%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight"></InputNumber>
                 </FormItem>
                 <FormItem label="开始时间" style="width: 340px;display: inline-block">
                     <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'start_time',$event)"

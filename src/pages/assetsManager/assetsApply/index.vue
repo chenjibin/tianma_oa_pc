@@ -27,7 +27,7 @@
                                 :clearable="true"
                                 v-model="filterOpt.positionName.value"
                                 placeholder="位置名称">
-                            <Option v-for="item, index in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                            <Option v-for="(item, index) in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                         </Select>
                     </FormItem>
                     <FormItem label="审批状态">
@@ -38,11 +38,10 @@
                             <Option :value="3">已领取</Option>
                         </Select>
                     </FormItem>
-                    <Button  @click="addInfo(1)">
-                        <Icon type="plus-circled"></Icon>
+                    <Button  @click="addInfo(1)" icon="md-add">
                         <span>新增采购</span>
                     </Button>
-                    <Button  @click="addInfo(3)">
+                    <Button  @click="addInfo(3)" icon="md-add">
                         <Icon type="plus-circled"></Icon>
                         <span>报废申请</span>
                     </Button>
@@ -75,7 +74,7 @@
                     <Select type="text" style="width: 180px"
                             v-model="newApply.positionName"
                             placeholder="资产位置">
-                        <Option v-for="item, index in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index) in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="申请规格" prop="remarks">
@@ -320,14 +319,14 @@
                         align: 'center',
                         width: 130,
                         render: (h, params) => {
-                            var vm = this;
-                            var row = params.row;
-                            var disable = row.approvalstatus > 0;
+                            let vm = this;
+                            const row = params.row;
+                            const disable = row.approvalstatus > 0;
                             return h('div', [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'edit',
+                                        icon: 'md-create',
                                         shape: 'circle',
                                         disabled: disable
                                     },
@@ -346,7 +345,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        icon: 'close',
+                                        icon: 'md-close',
                                         shape: 'circle',
                                         disabled: disable
                                     },
@@ -392,7 +391,6 @@
                             return h('div', [
                                 h('Tag', {
                                     props: {
-                                        type: 'border',
                                         color: color
                                     },
                                     attrs: {

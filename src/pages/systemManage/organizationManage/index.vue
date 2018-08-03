@@ -39,7 +39,6 @@
             <Form :model="depSettingForm"
                   ref="coinForm"
                   :rules="orgaRules"
-                  v-if="depSettingFlag"
                   :label-width="80">
                 <Row type="flex">
                     <Col :span="24">

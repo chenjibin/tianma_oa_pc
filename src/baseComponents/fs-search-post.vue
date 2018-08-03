@@ -36,14 +36,6 @@
                 default: ''
             }
         },
-        // watch: {
-        //     valueData(val) {
-        //         this.$emit('change', val);
-        //     },
-        //     value(val) {
-        //         this.valueData = val;
-        //     }
-        // },
         data () {
             return {
                 filterPeopleLoading: false,
@@ -52,6 +44,7 @@
         },
         methods: {
             _filterPeopleRemote(val) {
+                if (!isNaN(val)) return
                 let data = {};
                 data.postName = val;
                 this.filterPeopleLoading = true;

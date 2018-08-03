@@ -11,7 +11,7 @@
                 </div>
                 <div class="tool-btns">
                     <span class="btn" title="关闭" @click.stop="_closeTheater">
-                        <Icon type="close-round" size="32" color="rgba(255,255,255,0.6)"></Icon>
+                        <Icon type="md-close" size="32" color="rgba(255,255,255,0.6)"></Icon>
                     </span>
                 </div>
             </div>
@@ -26,10 +26,10 @@
                         </div>
                     </div>
                     <a class="switch prev" @click="_prevPic" title="上一张">
-                        <Icon type="ios-arrow-left" size="42" color="rgba(255,255,255,0.6)"></Icon>
+                        <Icon type="ios-arrow-back" size="42" color="rgba(255,255,255,0.6)"></Icon>
                     </a>
                     <a class="switch next" @click="_nextPic" title="下一张">
-                        <Icon type="ios-arrow-right" size="42" color="rgba(255,255,255,0.6)"></Icon>
+                        <Icon type="ios-arrow-forward" size="42" color="rgba(255,255,255,0.6)"></Icon>
                     </a>
                 </div>
                 <div class="fs-theater-swiper-thumb">
@@ -55,12 +55,12 @@
         <div class="fs-theater-aside">
             <div class="actions">
                 <a class="action" @click="_thumbHandler">
-                    <Icon type="heart" :color="productInfo.thumbupid ? '#ff0036' : '#fff'" size="24"></Icon>
+                    <Icon type="md-heart" :color="productInfo.thumbupid ? '#ff0036' : '#fff'" size="24"></Icon>
                     <span
                         :style="{'color': productInfo.thumbupid ? '#ff0036' : '#fff'}">{{productInfo.thumb_up_times}}</span>
                 </a>
                 <a class="action">
-                    <Icon type="chatbox" color="#fff" size="24"></Icon>
+                    <Icon type="md-chatboxes" color="#fff" size="24"></Icon>
                     <span>{{productInfo.share_comment_times}}</span>
                 </a>
                 <Dropdown @on-click="_dropHandler" :transfer="true" v-if="showEditor">
@@ -287,7 +287,7 @@
 </style>
 <script>
     import {on, off} from '@/libs/dom';
-    import FsComment from '../components/fs-comment';
+    import FsComment from './fs-comment';
 
     export default {
         name: 'FsPhotoTheater',

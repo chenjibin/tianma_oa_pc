@@ -76,9 +76,9 @@
                               color="rgb(255, 153, 0)" btn-text="绩效"
                               @card-click="$router.replace({name: 'mySalary'})"></info-btn>
                     </Col>
-                    <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
+                    <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}" v-if="foodCardNumber">
                     <info-btn iconType="md-card"
-                              color="rgb(242, 94, 67)" btn-text="饭卡"
+                              color="rgb(242, 94, 67)" btn-text="餐卡"
                               @card-click="$router.replace({name: 'myFoodCard'})"></info-btn>
                     </Col>
                 </Row>
@@ -101,9 +101,6 @@
             <div>
                 <people-photo></people-photo>
             </div>
-            <!--<div>-->
-            <!--<people-change></people-change>-->
-            <!--</div>-->
             <div>
                 <injob-commemorate></injob-commemorate>
             </div>
@@ -124,6 +121,11 @@
 
     export default {
         name: 'home_index',
+        computed: {
+            foodCardNumber() {
+                return this.$store.state.user.userInfo.cardnumber
+            }
+        },
         components: {
             infoBtn,
             Notice,

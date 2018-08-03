@@ -10,7 +10,7 @@
                 </div>
                 <div class="zan-btn" :class="{'is-zan': isZan}" @click.stop="_thumbArticle">
                     <div class="icon-wrapper">
-                        <Icon type="thumbsup"></Icon>
+                        <Icon type="md-thumbs-up" />
                     </div>
                     <div class="text">{{thumbUpTimes}}</div>
                 </div>
@@ -53,13 +53,6 @@
             </div>
         </div>
         <fs-preview-img :prew-open.sync="prewOpen" :img-url="prewUrl"></fs-preview-img>
-        <!--<transition name="fade-page">-->
-            <!--<div class="prew-img" v-show="prewOpen" @click.stop="prewOpen = false">-->
-                <!--<div class="pic-wrapper">-->
-                    <!--<img :src="prewUrl" />-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</transition>-->
     </div>
 </template>
 <style lang="less">
@@ -103,6 +96,9 @@
                         background-color: #0084ff
                     }
                     .icon-wrapper {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         border-radius: 50%;
                         width: 48px;
                         height: 48px;
