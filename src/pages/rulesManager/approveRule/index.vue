@@ -50,6 +50,11 @@
                         width: 120
                     },
                     {
+                        title: '标题',
+                        key: 'name',
+                        width: 250
+                    },
+                    {
                         title: '规章内容',
                         key: 'content',
                         ellipsis: true,

@@ -261,7 +261,9 @@
                            :height="500"
                            :params="evaluateFilterOpt"
                            url="/train/show_signin_evaluate"></fs-table-page>
+
             <div slot="footer">
+                <Button type="button" class="btn ivu-btn-primary" @click="_downloadGrade1(evaluateFilterOpt.id)">导出</Button>
                 <Button type="ghost" @click="evaScroll = false">关闭</Button>
             </div>
         </Modal>
@@ -274,6 +276,7 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import fsDepTree from '@/baseComponents/fs-dep-tree';
     import moment from 'moment';
+    import utils from '@/libs/util.js';
     const NOW_DAY = moment().format('YYYY-MM-DD');
     export default {
         name: 'curriculumManage',
@@ -607,6 +610,19 @@
                     this.downloadLoading = false;
                 }, () => {
                     this.downloadLoading = false;
+                })
+            },
+            _downloadGrade1(data) {
+                let sendData = {};
+                sendData.id = data.value;
+                data.loading = true;
+                this.$http.post('/train/exportDetail', sendData).then((res) => {
+                    if (res.success) {
+                        utils.downloadFile(res.path, res.path);
+                    }
+                    data.loading = false;
+                }, () => {
+                    data.loading = false;
                 })
             },
             downloadFile(url, name) {
