@@ -55,7 +55,8 @@ const user = {
             realname: '...',
             tm_coin: '...',
             organizename: '...',
-            postname: '...'
+            postname: '...',
+            cardnumber: null
         },
         currentcompanyname: '',
         companyList: [],
