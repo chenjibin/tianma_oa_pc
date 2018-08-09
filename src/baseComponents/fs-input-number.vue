@@ -17,7 +17,7 @@
         name: 'fsInputNumber',
         props: {
             value: {
-                type: Number,
+                type: [Number, String],
                 default: 1
             },
             inputClasses: {
@@ -45,12 +45,12 @@
             },
             change (event) {
                 let val = event.target.value.trim();
-                const isEmptyString = val.length === 0;
+                const isEmptyString = String(val).length === 0;
                 if (isEmptyString) {
                     this.setValue(null);
                     return;
                 }
-                val = Number(val);
+                // val = Number(val);
                 if (!isNaN(val) && !isEmptyString) {
                     this.currentValue = val
                     this.setValue(val)

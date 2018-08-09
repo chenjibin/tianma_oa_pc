@@ -9,10 +9,6 @@
                            placeholder="筛选商品名称"></Input>
                 </FormItem>
                 <FormItem label="兑换人">
-                    <!--<fs-search-user v-model="filterOpt.userId"-->
-                                    <!--:optionlist.sync="nameOpt"-->
-                                    <!--:clearable="true"-->
-                                    <!--:label="filterOpt.userName"></fs-search-user>-->
                     <Input type="text"
                            @on-change="_inputDebounce"
                            v-model="filterOpt.userName"
@@ -200,7 +196,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'success',
-                                            icon: 'checkmark-round',
+                                            icon: 'md-checkmark',
                                             shape: 'circle'
                                         },
                                         on: {
@@ -223,7 +219,7 @@
                                     h('Button', {
                                         props: {
                                             type: 'warning',
-                                            icon: 'close-round',
+                                            icon: 'md-close',
                                             shape: 'circle'
                                         },
                                         on: {
@@ -240,18 +236,6 @@
                 tableHeight: 500,
                 chooseDataArr: []
             };
-        },
-        watch: {
-            // 'filterOpt.userId'(val) {
-            //     if (!val) {
-            //         this.filterOpt.userName = '';
-            //         return;
-            //     }
-            //     this.filterOpt.userName = this.nameOpt.filter(x => x.id === val)[0].realname;
-            // },
-            // 'filterOpt.userName'() {
-            //     this._filterResultHandler();
-            // }
         },
         mixins: [pageMixin],
         created() {

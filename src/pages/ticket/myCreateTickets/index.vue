@@ -61,7 +61,7 @@
                                 :value="filterOpt.end_time.value" placeholder="结束日期"></DatePicker>
                 </FormItem>
                 <FormItem label="项目组" style="width: 220px">
-                    <Select v-model="filterOpt.team_id.value" filterable clearable>
+                    <Select v-model="filterOpt.team_id.value" clearable>
                         <Option style="width: 100%" v-for="option in teamOpt" :value="option.id" :key="'user11' + option.id">{{option.name}}</Option>
                     </Select>
                 </FormItem>
@@ -94,22 +94,16 @@
                 <FormItem label="优先级" style="width: 290px;display: inline-block">
                     <Select v-model="newTickets.priority" placement="bottom">
                         <Option :value="1">
-                            <span
-                                style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
+                            <Tag color="primary">普通</Tag>
                         </Option>
                         <Option :value="2">
-                            <span
-                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
+                            <Tag color="warning">重要</Tag>
                         </Option>
                         <Option :value="3">
-                            <span
-                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
+                            <Tag color="error">加急</Tag>
                         </Option>
                     </Select>
                 </FormItem>
-                <!--<FormItem label="权重" style="width: 290px;display: inline-block">-->
-                <!--<InputNumber :min="0.05" style="width: 100%" :max="1" :step="0.10" :precision="2"  v-model="newTickets.weight"></InputNumber>-->
-                <!--</FormItem>-->
                 <FormItem label="项目组" style="width: 290px;display: inline-block">
                     <Select v-model="newTickets.team_id" placement="bottom" filterable>
                         <Option v-for="option in teamOpt" :value="option.id" :key="'user' + option.id">
@@ -153,23 +147,20 @@
                                  :editorcontent.sync="editTickets.detail"></wang-editor>
                 </FormItem>
                 <FormItem label="优先级" style="width: 270px;display: inline-block">
-                    <Select v-model="editTickets.priority" placement="bottom">
-                        <Option :value="1">
-                            <span
-                                style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">普通</span>
+                    <Select v-model="editTickets.priority">
+                        <Option :value="priorityOpt[0]" label="普通">
+                            <Tag color="primary">普通</Tag>
                         </Option>
-                        <Option :value="2">
-                            <span
-                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">重要</span>
+                        <Option :value="priorityOpt[1]" label="重要">
+                            <Tag color="warning">重要</Tag>
                         </Option>
-                        <Option :value="3">
-                            <span
-                                style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ed3f14;height:22px;padding:0 8px">加急</span>
+                        <Option :value="priorityOpt[2]" label="加急">
+                            <Tag color="error">加急</Tag>
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="项目组" style="width: 270px;display: inline-block">
-                    <Select v-model="editTickets.team_id" placement="bottom" filterable>
+                    <Select v-model="editTickets.team_id">
                         <Option v-for="option in teamOpt" :value="option.id" :key="'user2' + option.id">
                             {{option.name}}
                         </Option>
@@ -246,6 +237,7 @@
                 commitModal: false,
                 logs: [],
                 accessBtn: [],
+                priorityOpt: [1, 2, 3],
                 commitForm: {
                     id: '',
                     business_planScore: 100,
@@ -282,7 +274,7 @@
                     demand: '',
                     accessory: '',
                     total_score: 100,
-                    priority: 1
+                    priority: 0
                 },
                 teamOpt: [],
                 filterOpt: {
@@ -521,7 +513,7 @@
                                                 vm.editTickets.superior_qualityScore = row.superior_qualityScore;
                                                 vm.editTickets.superior_planScore = row.superior_planScore;
                                                 vm.editTickets.total_score = row.total_score;
-                                                vm.editTickets.priority = row.priority;
+                                                vm.editTickets.priority = +row.priority;
                                             }
                                         }
                                     }, '编辑'

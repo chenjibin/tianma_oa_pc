@@ -201,7 +201,6 @@
             }
         },
         created() {
-            console.log(this)
             this._setTableHeight();
             this.accessBtn = this.$route.meta.btn.map(x => x.id);
         }
