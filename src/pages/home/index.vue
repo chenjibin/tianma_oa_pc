@@ -101,10 +101,7 @@
             </div>
             <div>
                 <people-photo></people-photo>
-            </div>
-            <!--<div>-->
-            <!--<people-change></people-change>-->
-            <!--</div>-->
+            </div>0
             <div>
                 <injob-commemorate></injob-commemorate>
             </div>

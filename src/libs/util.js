@@ -6,8 +6,7 @@ let util = {
 
 };
 util.title = function (title) {
-    title = title || '天马人事系统';
-    window.document.title = title;
+    window.document.title = title || '天马人事系统';
 };
 util.inOf = function (arr, targetArr) {
     let res = true;

@@ -17,7 +17,7 @@
         name: 'fsInputNumber',
         props: {
             value: {
-                type: Number,
+                type: [Number, String],
                 default: 1
             },
             inputClasses: {
@@ -50,7 +50,7 @@
                     this.setValue(null);
                     return;
                 }
-                val = Number(val);
+                // val = Number(val);
                 if (!isNaN(val) && !isEmptyString) {
                     this.currentValue = val
                     this.setValue(val)
