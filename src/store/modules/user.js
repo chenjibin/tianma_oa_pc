@@ -63,12 +63,14 @@ const user = {
         mustRead: [],
         level: 0,
         levelNumber: 0,
-        levelDesc: '...'
+        levelDesc: '...',
+        userProperty: []
     },
     getters: {
         level: state => state.level,
         levelNumber: state => state.levelNumber,
-        levelDesc: state => state.levelDesc
+        levelDesc: state => state.levelDesc,
+        userProperty: state => state.userProperty
     },
     mutations: {
         setUserInfo(state, userInfo) {
@@ -91,6 +93,7 @@ const user = {
                     res.data.headimagepath = Vue.prototype.$mainHost + '/oa/upload/head/' + res.data.headimagepath;
                     state.userInfo = res.data;
                     state.levelNumber = res.data.totalcoin;
+                    state.userProperty = res.data.property
                     if (state.userInfo.lv === 29) {
                         state.level = 8
                         state.levelDesc = '无敌战神'
