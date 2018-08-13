@@ -39,6 +39,10 @@
             typeTitle: {
                 type: String,
                 required: true
+            },
+            date: {
+                type: String,
+                required: true
             }
         },
         data() {
@@ -48,13 +52,14 @@
             _cancelAppointment() {
                 this.$Modal.confirm({
                     title: '确认取消预约提醒',
-                    content: `确定取消预约明日${this.typeTitle}？`,
+                    content: `确定取消预约${this.date}${this.typeTitle}？`,
                     okText: '确认取消',
                     cancelText: '关闭',
                     onOk: () => {
                         let sendData = {}
                         sendData.id = this.id
                         sendData[this.type] = 0
+                        sendData.date = this.date
                         this.$http.post('card/addAppointment', sendData).then((res) => {
                             if (res.success) {
                                 this.$emit('states-change')
@@ -66,13 +71,14 @@
             _appointmentHandler() {
                 this.$Modal.confirm({
                     title: '确认预约提醒',
-                    content: `确定预约明日${this.typeTitle}？`,
+                    content: `确定预约${this.date}${this.typeTitle}？`,
                     okText: '确认预约',
                     cancelText: '取消',
                     onOk: () => {
                         let sendData = {}
                         sendData.id = this.id
                         sendData[this.type] = 1
+                        sendData.date = this.date
                         this.$http.post('card/addAppointment', sendData).then((res) => {
                             if (res.success) {
                                 this.$emit('states-change')
