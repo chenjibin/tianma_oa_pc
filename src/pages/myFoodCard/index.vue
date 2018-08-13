@@ -282,8 +282,8 @@
                 morningToday: 0,
                 morningTomorrow: 0,
                 detailOptions: {
-                    disabledDate: function() {
-                        return false
+                    disabledDate: function(date) {
+                        return moment(date).isBefore(moment(), 'day') || moment(date).isAfter(moment().add(7, 'days'), 'day')
                     }
                 }
             }
