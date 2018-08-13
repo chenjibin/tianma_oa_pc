@@ -11,6 +11,7 @@
                 </FormItem>
                 <FormItem>
                     <Button @click="initNew">新增考核方案</Button>
+                    <Button @click="_downloadGrade1">导出月度方案</Button>
                     <Button v-if="showCopyNew" @click="copyNew">复制上月考核方案</Button>
                 </FormItem>
             </Form>
@@ -133,6 +134,7 @@
     import _isEqual from 'lodash/isEqual';
     import {VTable, VPagination} from 'vue-easytable';
     import moment from 'moment';
+    import utils from '@/libs/util.js';
     import fsTablePage from '@/baseComponents/fs-table-page';
 
     const NOW_MONTH = moment().format('YYYY-MM')
@@ -382,12 +384,24 @@
             copyNew() {
                 let d = {};
                 d.time = this.now_month;
-                this.$http.post('/perform/quickAddNextMonthKeyAndValue', d).then((res) => {
+                this.$http.post('/perform/copyAllSalary', d).then((res) => {
                     if (res.success) {
                         this.$Message.success('新建成功！');
                         this.$refs.paperList.getListData();
                     }
                 });
+            },
+            _downloadGrade1() {
+                let sendData = {};
+                sendData.time = this.now_month;
+                this.$http.post('/perform/exportDetail', sendData).then((res) => {
+                    if (res.success) {
+                        utils.downloadFile(res.path, res.path);
+                    }
+
+                }, () => {
+
+                })
             },
             // 增加动态列
             addColumn() {

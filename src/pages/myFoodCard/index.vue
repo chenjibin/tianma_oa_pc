@@ -84,24 +84,26 @@
                                 :states="morningStates"
                                 type="morning"
                                 :id="appointmentId"
-                                type-title="早餐"
+                                type-title="早餐(06:30-08:30)"
                                 @states-change="_statesChangeHandler"></fs-appointment-btn>
                             <fs-appointment-btn
                                 :states="afternoonStates"
                                 :id="appointmentId"
                                 type="afternoon"
-                                type-title="午餐"
+                                type-title="午餐(11:20-13:00)"
                                 @states-change="_statesChangeHandler"></fs-appointment-btn>
                             <fs-appointment-btn
                                 :states="dinnerStates"
                                 :id="appointmentId"
                                 type="dinner"
-                                type-title="晚餐"
+                                type-title="晚餐(17:30-19:30)"
                                 @states-change="_statesChangeHandler"></fs-appointment-btn>
                         </div>
+                        <!--<div class="beizhu2">-->
+                            <!--<span>就餐时间为 早：6：50-8:30 午：11:20-13:00 晚：17:30-19：30</span>-->
+                        <!--</div>-->
                         <div class="beizhu">
-                            <span>备注:预定没去或去了没预定，很容易造成食物浪费或紧缺，为了大家更好的就餐，请酌情而定哦（周六周日请务必认真填写，谢谢您的帮忙）。
-</span>
+                            <span>备注:预定没去或去了没预定，很容易造成食物浪费或紧缺，为了大家更好的就餐，请酌情而定哦（周六周日请务必认真填写，谢谢您的帮忙），每日下午7:00前可预约。</span>
                         </div>
                     </div>
                 </div>

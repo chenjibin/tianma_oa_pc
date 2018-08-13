@@ -37,8 +37,8 @@
                                 clearable
                                 placeholder="筛选状态"
                                 style="width: 100px">
-                            <Option value="1">注销</Option>
-                            <Option value="0">使用中</Option>
+                            <Option value="0">注销</Option>
+                            <Option value="1">使用中</Option>
                         </Select>
                     </FormItem>
                     <FormItem :label-width="0.1">

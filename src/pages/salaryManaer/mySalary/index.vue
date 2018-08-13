@@ -174,6 +174,11 @@
                     'key': 'score',
                     'align': 'center'
                 });
+                this.header.columns.push({
+                    'title': '扣分备注',
+                    'key': 'remark',
+                    'align': 'center'
+                });
             }
         }
     };

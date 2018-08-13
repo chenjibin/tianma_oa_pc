@@ -16,7 +16,7 @@
             <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
                            :height="tableHeight" url="/perform/getEmployee"></fs-table-page>
         </Card>
-        <Modal v-model="markModal" :width="1100">
+        <Modal v-model="markModal" :width="1300">
             <Table :height="600"
                    :columns="markColumns"
                    :data="tableData"></Table>
@@ -201,7 +201,7 @@
                                             }
                                         }
                                     });
-                                }
+                            }
                             });
                             vm.markColumns.push({
                                 'title': '分数',
@@ -220,6 +220,27 @@
                                         on: {
                                             input: (val) => {
                                                 vm.score[params.index].score = val;
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                            vm.markColumns.push({
+                                'title': '备注',
+                                'align': 'center',
+                                'width': 300,
+                                render: (h, params) => {
+                                    console.log( vm.score[params.index]);
+                                    return h('Input', {
+                                        props: {
+                                            value: vm.score[params.index].remark
+                                        },
+                                        style: {
+                                            width: '100%'
+                                        },
+                                        on: {
+                                            input: (val) => {
+                                                vm.score[params.index].remark = val;
                                             }
                                         }
                                     });

@@ -68,6 +68,9 @@
                 <FormItem>
                     <Button style="width: 100%" type="primary" @click="newTicketsModal = true">新增需求</Button>
                 </FormItem>
+                <FormItem>
+                    <Button style="width: 100%" type="primary" @click="_downloadGrade1">导出工单</Button>
+                </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
                            :size="null" ref="paperList" :height="tableHeight" :params="filterOpt"
@@ -233,6 +236,7 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import WangEditor from '@/baseComponents/fs-wangeditor';
     import expandRow from './table-expand';
+    import utils from '@/libs/util.js';
     import moment from 'moment';
 
     export default {
@@ -668,6 +672,24 @@
                 } else if (type === 2) {
                     this.editTickets[name] = time;
                 }
+            },
+            _downloadGrade1() {
+                let sendData = {};
+                sendData.team_id = this.filterOpt['team_id'].value;
+                sendData.me = this.filterOpt['me'].value;
+                sendData.type = this.filterOpt['type'].value;
+                sendData.start_time = this.filterOpt['start_time'].value;
+                sendData.end_time = this.filterOpt['end_time'].value;
+                sendData.priority = this.filterOpt['priority'].value;
+                sendData.add_user_name = this.filterOpt['add_user_name'].value;
+                this.$http.post('/workOrder/exportDetail', sendData).then((res) => {
+                    if (res.success) {
+                        utils.downloadFile(res.path, res.path);
+                    }
+
+                }, () => {
+
+                })
             },
             commit() {
                 let f = this.commitForm;
