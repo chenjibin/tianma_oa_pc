@@ -250,22 +250,22 @@
                     {
                         title: '工单id',
                         key: 'id',
-                        minWidth: 80
+                        minWidth: 70
                     },
                     {
                         title: '工单名',
                         key: 'demand',
-                        minWidth: 80
+                        minWidth: 200
                     },
                     {
                         title: '提单人',
                         key: 'add_user_name',
-                        width: 90
+                        width: 80
                     },
                     {
                         title: '接单人',
                         align: 'center',
-                        width: 120,
+                        width: 80,
                         render: (h, params) => {
                             let users = '';
                             params.row.childids.forEach((item) => {
@@ -311,7 +311,7 @@
                         className: 'noPadding',
                         key: 'start_time',
                         align: 'center',
-                        width: 190,
+                        width: 130,
                         render: (h, params) => {
                             let time = params.row.start_time;
                             if (!time) {
@@ -326,7 +326,7 @@
                         key: 'end_time',
                         className: 'noPadding',
                         align: 'center',
-                        width: 190,
+                        width: 130,
                         render: (h, params) => {
                             let time = params.row.end_time;
                             if (!time) {
@@ -602,6 +602,13 @@
                 }, () => {
                     this.saveLoading = false;
                     this.commitModal = false;
+                })
+            },
+            update1(){
+                this.$http.post('/workOrder/adminWorkOrderList', this.filterOpt).then((res) => {
+                    if (res.success) {
+                    }
+                }, () => {
                 })
             },
             _filterPeopleRemote(val) {
