@@ -131,7 +131,9 @@
                     </Col>
                     <Col :span="12">
                     <FormItem label="讲师" v-show="isShow" prop="teacher_id" required>
-                        <Select v-model="classForm.teacher_id">
+                        <Select filterable v-model="classForm.teacher_id" clearable
+                                :transfer="true"
+                                placeholder="输入查询" >
                             <Option :value="item.user_id"
                                     v-for="(item,index) in teacherOpt"
                                     :key="'teacherOpt' + index">{{item.user_name}}
