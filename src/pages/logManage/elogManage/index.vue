@@ -499,6 +499,7 @@
                             if (res.success) {
                                 this.$Message.success('评价成功!');
                                 this.$refs.fsTable.getListData();
+                                this._getNoWritePeoloe();
                                 this.checkLogFlag = false;
                             }
                         });
