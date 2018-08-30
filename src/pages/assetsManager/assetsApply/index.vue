@@ -257,7 +257,8 @@
                     {
                         title: '资产名称',
                         key: 'categoryname',
-                        align: 'center'
+                        align: 'center',
+                        width: 90
                     },
                     {
                         title: '申请数量',
@@ -274,7 +275,8 @@
                     {
                         title: '申请规格',
                         key: 'remarks',
-                        align: 'center'
+                        align: 'center',
+                        width: 100
                     },
                     {
                         title: '报废方式',
@@ -294,13 +296,20 @@
                     {
                         title: '申请部门',
                         key: 'organizename',
-                        align: 'center'
+                        align: 'center',
+
                     },
                     {
                         title: '申请人',
                         key: 'createbyname',
                         align: 'center',
                         width: 90
+                    },
+                    {
+                        title: '上级审批人',
+                        key: 'leader',
+                        align: 'center',
+                        width: 130
                     },
                     {
                         title: '申请日期',
@@ -435,20 +444,24 @@
                                         color: color
                                     },
                                     attrs: {
-                                        title: '点击领取'
+                                        title: '点击一键领取'
                                     },
                                     style: {
                                         display: disable2 === true ? 'inline-block' : 'none'
                                     },
                                     nativeOn: {
                                         click: function() {
-                                            vm.reciveAppid = params.row.id;
-                                            vm.getReciveList(params.row.id).then(() => {
-                                                vm.reciveModal = true;
+                                            vm.$http.post('assetsManage/setAll?id=' + params.row.id).then((res) => {
+                                                if (res.success) {
+                                                    vm.$Message.success('保存成功');
+                                                    vm.$refs.fsTable._filterResultHandler();
+                                                    // newApplyForm.resetFields();
+                                                }
                                             });
                                         }
                                     }
-                                }, '领取我')
+                                }, '一键领取')
+
                             ]);
                         }
                     }

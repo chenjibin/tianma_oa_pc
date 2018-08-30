@@ -88,6 +88,12 @@
                                 <Option :value="1">有</Option>
                             </Select>
                         </FormItem>
+                        <FormItem label="有无重大病史" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
+                            <Select type="text" v-model="talentBean.bing_shi" :editable="false">
+                                <Option :value="0">无</Option>
+                                <Option :value="1">有</Option>
+                            </Select>
+                        </FormItem>
                         <div></div>
                         <FormItem label="详细住址" style="width:48.5%;margin-right: 1%;">
                             <Input type="textarea"  :maxlength="30" :autosize="{minRows: 3,maxRows: 5}" v-model="talentBean.address"></Input>
@@ -370,6 +376,7 @@
                     monthlysalary: 1000,
                     resumesource: '',
                     family_in: 0,
+                    bing_shi: 0,
                     name: '',
                     age: 20,
                     yearswork: 0,
