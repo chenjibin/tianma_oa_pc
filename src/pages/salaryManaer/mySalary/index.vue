@@ -141,6 +141,7 @@
                     tableData.score = item.score;
                     tableData.target = item.target;
                     tableData.real = item.real;
+                    tableData.remark = item.remark;
                 } catch (e) {
                     this.$Message.error('数据格式不规范');
                 }
@@ -175,7 +176,7 @@
                     'align': 'center'
                 });
                 this.header.columns.push({
-                    'title': '扣分备注',
+                    'title': '备注',
                     'key': 'remark',
                     'align': 'center'
                 });

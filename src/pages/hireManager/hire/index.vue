@@ -303,6 +303,12 @@
                                 <Option :value="1">有</Option>
                             </Select>
                         </FormItem>
+                        <FormItem label="有无重大疾病史" style="width:460px">
+                            <Select type="text" v-model="talentBean.bing_shi" :editable="false">
+                                <Option :value="0">无</Option>
+                                <Option :value="1">有</Option>
+                            </Select>
+                        </FormItem>
                         <div></div>
                         <FormItem label="详细住址" style="width:460px">
                             <Input type="textarea" :maxlength="30" :rows="3" v-model="talentBean.address"></Input>
@@ -730,6 +736,7 @@
                     appointment: '',
                     name: '',
                     family_in: 0,
+                    bing_shi: 0,
                     age: '',
                     yearswork: 0,
                     sex: '',

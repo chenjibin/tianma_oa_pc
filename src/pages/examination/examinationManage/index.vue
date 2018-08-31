@@ -50,6 +50,16 @@
                             <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
                         </Select>
                     </FormItem>
+                    <FormItem label="人工阅卷" style="..." prop="states">
+                        <Select v-model="editorSettingData.states">
+                            <Option :value="1">
+                                <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">需要</span>
+                            </Option>
+                            <Option :value="2">
+                                <span style="display:inline-block;color:#fff;line-height:22px;border-radius:3px;background-color:#ff9900;height:22px;padding:0 8px">不需要</span>
+                            </Option>
+                        </Select>
+                    </FormItem>
                     <FormItem label="开始时间" prop="startTime">
                         <DatePicker type="datetime"
                                     :value="editorSettingData.startTime"
@@ -235,6 +245,7 @@
                     subjectExam: '',
                     startTime: NOW_TIME,
                     totalTime: 30,
+                    states: 1,
                     id: 0
                 },
                 paperList: [],
@@ -423,6 +434,7 @@
                         data.subjectExam = editorSettingData.subjectExam;
                         data.startTime = editorSettingData.startTime;
                         data.totleTime = editorSettingData.totalTime;
+                        data.states = editorSettingData.states;
                         data.name = editorSettingData.name;
                         this.$http.post('/examtestpaper/add', data).then((res) => {
                             if (res.success) {
