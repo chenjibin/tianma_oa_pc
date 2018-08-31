@@ -418,7 +418,6 @@
                 })
             },
             _replyUp(item, id = 0) {
-                console.log(item, id)
                 let replyData = this.replyData
                 this.preContent = `回复 ${item.guider}:`
                 replyData.id = item.journalid
