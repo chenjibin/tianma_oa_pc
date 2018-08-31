@@ -13,6 +13,7 @@ import App from './app.vue';
 import VueI18n from 'vue-i18n';
 import request from './libs/request';
 import VueLazyload from 'vue-lazyload';
+import FsNotice from '@/baseComponents/fs-notice';
 
 Vue.use(VueLazyload, {
     preLoad: 1.3,
@@ -26,6 +27,7 @@ Vue.use(Tree);
 Vue.use(Cascader);
 Vue.use(Checkbox);
 Vue.component('fsIcon', fsIcon);
+Vue.prototype.$FsNotice = FsNotice;
 Vue.prototype.$http = request;
 Vue.prototype.$mainHost = '';
 Vue.config.productionTip = false;

@@ -16,6 +16,11 @@
                     icon="ios-search"
                     @click.stop="_openMyCoinState">我的金币动态
             </Button>
+                <Button type="primary"
+                        shape="circle"
+                        icon="ios-search"
+                        @click.stop="testNotice">Notice test
+                </Button>
             </Col>
         </Row>
         <div class="coin-change-list">
@@ -155,6 +160,14 @@
             };
         },
         methods: {
+            testNotice() {
+                this.$FsNotice.open({
+                    title: '提醒',
+                    desc: 'wwww攒了你的日志问过问过',
+                    top: 24,
+                    duration: 0
+                })
+            },
             _openCoinRanking() {
                 this.modelCoinFlag = true;
             },
