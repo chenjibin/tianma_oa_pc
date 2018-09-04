@@ -63,6 +63,9 @@
     #log-reply-modal {
         position: relative;
         font-size: 14px;
+        .ivu-notice{
+            transform: translate(0,-100%);
+        }
         .each-guide {
             margin-top: 8px;
             .child-guide {
@@ -180,6 +183,7 @@
         },
         created() {
             this._getSysInfo();
+            this.confirm();
         },
         methods: {
             _delReply(child) {
@@ -189,6 +193,14 @@
                         this._getLogInfo()
                     }
                 })
+            },
+            open(title, context) {
+                this.$FsNotice.open({
+                    top: 23,
+                    title: title,
+                    desc: context,
+                    duration: 15
+                });
             },
             confirmReply() {
                 let sendData = {}
@@ -200,6 +212,15 @@
                 this.$http.post('/journal/addGuide', sendData).then((res) => {
                     if (res.success) {
                         this._getLogInfo()
+                    }
+                })
+            },
+            confirm() {
+                this.$http.post('/main/PersonalJournal').then((res) => {
+                    if (res.success) {
+                        res.data.forEach(child => {
+                            this.open(child.content, child.guide);
+                        });
                     }
                 })
             },

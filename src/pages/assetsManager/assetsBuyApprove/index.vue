@@ -137,6 +137,12 @@
                         width: 90
                     },
                     {
+                        title: '房间名',
+                        key: 'remark',
+                        align: 'center',
+                        width: 90
+                    },
+                    {
                         title: '申请规格',
                         key: 'remarks',
                         align: 'center'

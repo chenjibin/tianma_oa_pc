@@ -16,11 +16,6 @@
                     icon="ios-search"
                     @click.stop="_openMyCoinState">我的金币动态
             </Button>
-                <Button type="primary"
-                        shape="circle"
-                        icon="ios-search"
-                        @click.stop="testNotice">Notice test
-                </Button>
             </Col>
         </Row>
         <div class="coin-change-list">

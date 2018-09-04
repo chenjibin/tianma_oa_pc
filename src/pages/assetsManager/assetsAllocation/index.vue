@@ -199,13 +199,11 @@
                     {
                         title: '移入资产位置',
                         key: 'inpositionname',
-                        width: 100,
                         align: 'center'
                     },
                     {
                         title: '移出资产位置',
                         key: 'outpositionname',
-                        width: 100,
                         align: 'center'
                     },
                     {
