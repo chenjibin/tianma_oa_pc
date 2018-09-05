@@ -9,6 +9,10 @@
                 <span class="btn" @click="_submitComment" v-show="canComment">评论</span>
                 <span class="btn" v-show="!canComment">提交中...</span>
             </div>
+            <div>
+                <Icon type="ios-heart-outline" />
+                <span class="name"   >{{Thumbup1}}</span>
+            </div>
         </form>
         <ul class="comment-list">
             <li class="main-comment"
@@ -170,7 +174,8 @@
                     pageSize: 100
                 },
                 parentId: 0,
-                commentList: []
+                commentList: [],
+                Thumbup1: ''
             };
         },
         computed: {
@@ -215,6 +220,7 @@
                 this.$http.get('/staffPresence/getArticleCommentList', {params: sendData}).then((res) => {
                     if (res.success) {
                         this.commentList = res.data;
+                        this.Thumbup1 = res.Thumbup;
                     }
                 });
             },

@@ -675,6 +675,7 @@
                 if (response.success) {
                     this.$Message.success('成绩上传成功!');
                     this.importModalFlag = false;
+                    this.$refs.classTable.getListData();
                 } else {
                     this.$Message.error(response.message);
                 }
