@@ -27,16 +27,17 @@
                 <Button @click="showTable = false" style="float: right;border-radius: 0" type="ghost">取消</Button>
             </div>
             <div style="width: 1100px;position: relative;margin-top: 20px" v-if="showTable">
-                <Form inline style="margin-bottom: 10px" :label-width="50">
+                <Form inline style="margin-bottom: 10px" :label-width="50" @submit.native.prevent>
                     <FormItem label="方案名">
                         <Input v-model="header.name" placeholder="eg.商品小组绩效方案"></Input>
                     </FormItem>
-                    <Button type="success" @click="addNewColumns = true;">增加列</Button>
+                    <!--<Button type="success" @click="addNewColumns = true">增加列</Button>-->
+                    <Button type="success" @click="editorColumns = true">编辑列</Button>
                     <Button :disabled="header.columns.length === 0" @click="delTarget">删除选中</Button>
                     <Button :disabled="header.columns.length === 0" @click="delColumn">删除列</Button>
                 </Form>
                 <div
-                    style="position: absolute;right: 0px;bottom: 0;transition: right 1s cubic-bezier(0.175, 0.885, 0.32, 1.575);"
+                    style="position: absolute;right: 0;bottom: 0;transition: right 1s cubic-bezier(0.175, 0.885, 0.32, 1.575);"
                     :style="{right:header.columns.length?'-41px':'0px'}">
                     <Button title="加一行数据" :disabled="header.columns.length === 0" type="ghost"
                             style="height: 41px;padding: 6px 12px"
@@ -61,7 +62,7 @@
         </Modal>
         <Modal v-model="addNewColumns" :mask-closable="false" width="500" style="font-size: 0px">
             <Form inline :label-with="60" style="margin-top:18px;width:100%;max-height: 556px;overflow-y: auto">
-                <Button v-show="newColumns.length == 0" icon="plus"
+                <Button v-show="newColumns.length === 0" icon="plus"
                         @click="newColumns.push({'title':'','field':'', 'titleAlign': 'center', 'width': 100, 'columnAlign': 'center','isResize':true, 'isEdit': true})">
                     新增一条
                 </Button>
@@ -77,7 +78,7 @@
                         <Button style="display: inline-block;float: right;padding: 6px 11px;margin-left: 3px" title="删除"
                                 type="primary" icon="close" @click="newColumns.splice(index,1)"></Button>
                         <Button style="display: inline-block;float: right;padding: 6px 11px;"
-                                v-show="index == (newColumns.length - 1)" title="新增" type="success" icon="plus"
+                                v-show="index === (newColumns.length - 1)" title="新增" type="success" icon="plus"
                                 @click="newColumns.push({'title':'','field':'', 'titleAlign': 'center', 'width': 100, 'columnAlign': 'center','isResize':true, 'isEdit': true})"></Button>
                     </FormItem>
                 </div>
@@ -85,6 +86,34 @@
             <div slot="footer">
                 <Button type="text" @click="addNewColumns = false">取消</Button>
                 <Button type="primary" @click="addColumn">确定</Button>
+            </div>
+        </Modal>
+        <Modal v-model="editorColumns" :mask-closable="false" width="500" style="font-size: 0">
+            <Form inline :label-with="60" style="margin-top:18px;width:100%;max-height: 556px;overflow-y: auto">
+                <Button v-show="newColumns.length === 0" icon="plus"
+                        @click="openColumns.push({'title':'','field':'', 'titleAlign': 'center', 'width': 100, 'columnAlign': 'center','isResize':true, 'isEdit': true})">
+                    新增一条
+                </Button>
+                <div v-for="(item, index) in openColumns" :key="index" style="font-size: 0px">
+                    <FormItem label="列名" style="width: 174px">
+                        <Input placeholder="中文列名 eg.分类1" v-model="item.title"></Input>
+                    </FormItem>
+                    <FormItem label="拼音/英文" style="width: 174px;">
+                        <Input placeholder="本方案内唯一标识" v-model="item.field"></Input>
+                    </FormItem>
+                    <FormItem label="" style="width: 70px;font-size: 0;">
+                        <div style="display: block;height: 31px"></div>
+                        <Button style="display: inline-block;float: right;padding: 6px 11px;margin-left: 3px" title="删除"
+                                type="primary" icon="close" @click="openColumns.splice(index,1)"></Button>
+                        <Button style="display: inline-block;float: right;padding: 6px 11px;"
+                                v-show="index === (openColumns.length - 1)" title="新增" type="success" icon="plus"
+                                @click="openColumns.push({'title':'','field':'', 'titleAlign': 'center', 'width': 100, 'columnAlign': 'center','isResize':true, 'isEdit': true})"></Button>
+                    </FormItem>
+                </div>
+            </Form>
+            <div slot="footer">
+                <Button type="text" @click="editorColumns = false">取消</Button>
+                <Button type="primary" @click="updateColumn">确定</Button>
             </div>
         </Modal>
         <Modal v-model="editUserModel" :width="1000">
@@ -120,7 +149,7 @@
                 </Col>
             </Row>
             <div slot="footer">
-                <Button type="text" @click="editUserModel = false;">取消</Button>
+                <Button type="text" @click="editUserModel = false">取消</Button>
                 <Button type="primary" @click="bind">确定</Button>
             </div>
         </Modal>
@@ -147,6 +176,7 @@
         data() {
             return {
                 now_month: NOW_MONTH,
+                editorColumns: false,
                 showTable: false,
                 saveLoading: false,
                 addNewColumns: false,
@@ -155,6 +185,7 @@
                 filterText: '',
                 bindType: '',
                 delselect: '',
+                openColumns: [],
                 searchData: {
                     month: {
                         value: NOW_MONTH,
@@ -398,10 +429,41 @@
                     if (res.success) {
                         utils.downloadFile(res.path, res.path);
                     }
-
                 }, () => {
-
                 })
+            },
+            // 更新动态列
+            updateColumn() {
+                let that = this;
+                let newArray = [{
+                    'width': 60,
+                    'titleAlign': 'center',
+                    'columnAlign': 'center',
+                    'type': 'selection'
+                }];
+                this.header.columns = newArray.concat(this.openColumns)
+                this.header.columns.forEach((res) => {
+                    if (res.type !== 'selection') {
+                        this.rowColumn[res.field] = '';
+                    }
+                });
+                // 新建的列在表单已有的数据中不能直接使用，双向绑定无效。这里做一个初始化
+                let d = JSON.parse(JSON.stringify(that.tableData.data));
+                if (d.length >= 1) {
+                    for (let i = 0, dl = d.length; i < dl; i++) {
+                        let temp = d[i];
+                        for (let key in this.rowColumn) {
+                            if (!temp.hasOwnProperty(key)) {
+                                temp[key] = '';
+                            }
+                        }
+                    }
+                }
+                console.log(d)
+                this.tableData.data = d;
+                // this.openColumns = [];
+                this.editorColumns = false;
+                this.$refs.vt.resize();
             },
             // 增加动态列
             addColumn() {
@@ -422,7 +484,6 @@
                             'type': 'selection'
                         });
                     }
-
                     // 给已有的列附上新的值
                     this.header.columns = this.header.columns.concat(this.newColumns);
                     this.header.columns.forEach((res) => {
@@ -450,6 +511,7 @@
             },
             //
             detail(params) {
+                this.openColumns = [];
                 this.header.columns = [{
                     'width': 60,
                     'titleAlign': 'center',
@@ -468,6 +530,7 @@
                 this.header.id = params.id;
                 this.header.name = params.name;
                 this.tableData.key_id = params.id;
+                console.log(columnObj)
                 for (let key in columnObj) {
                     this.header.columns.push({
                         'title': columnObj[key],
@@ -478,12 +541,21 @@
                         'isResize': true,
                         'isEdit': true
                     });
+                    this.openColumns.push({
+                        'title': columnObj[key],
+                        'field': key,
+                        'titleAlign': 'center',
+                        'width': 100,
+                        'columnAlign': 'center',
+                        'isResize': true,
+                        'isEdit': true
+                    })
                     this.rowColumn[key] = '';
                 }
                 if (tableData === null) {
                     tableData = [];
                 }
-                for (let i = 0; i < tableData.length; i++) {
+                for (let i = 0, tl = tableData.length; i < tl; i++) {
                     let d = tableData[i].values;
                     d.id = tableData[i].id;
                     this.tableData.data.push(d);
@@ -499,11 +571,9 @@
                     d.id = this.header.id;
                     d.name = this.header.name;
                     let kv = {};
-                    for (let i = 0; i < this.header.columns.length; i++) {
+                    for (let i = 0, hcl = this.header.columns.length; i < hcl; i++) {
                         let re = this.header.columns[i];
-                        if (re.type === 'selection') {
-                            continue;
-                        }
+                        if (re.type === 'selection') continue
                         kv[re.field] = re.title;
                     }
                     d.kv = JSON.stringify(kv);
@@ -523,6 +593,7 @@
                                     arr.push({'id': res.id, values: res});
                                 });
                                 d2.arr = JSON.stringify(arr);
+                                console.log(d2)
                                 that.$http.post('/perform/addValueArrays', d2).then(res => {
                                     if (res.success) {
                                         that.$Message.success('成功');
@@ -681,6 +752,9 @@
         watch: {
             filterText(val) {
                 this.$refs.treeDom.filter(val);
+            },
+            'header.columns'(value) {
+                console.log(value)
             }
         }
     }
