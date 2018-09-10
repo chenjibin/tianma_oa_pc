@@ -34,7 +34,7 @@
                     <!--<Button type="success" @click="addNewColumns = true">增加列</Button>-->
                     <Button type="success" @click="editorColumns = true">编辑列</Button>
                     <Button :disabled="header.columns.length === 0" @click="delTarget">删除选中</Button>
-                    <Button :disabled="header.columns.length === 0" @click="delColumn">删除列</Button>
+                    <!--<Button :disabled="header.columns.length === 0" @click="delColumn">删除列</Button>-->
                 </Form>
                 <div
                     style="position: absolute;right: 0;bottom: 0;transition: right 1s cubic-bezier(0.175, 0.885, 0.32, 1.575);"
@@ -432,8 +432,19 @@
                 }, () => {
                 })
             },
+            adjReArray(array) {
+                let nowArrayLength = array.length;
+                let afterArrayLength = [...new Set(array)].length;
+                return nowArrayLength === afterArrayLength;
+            },
             // 更新动态列
             updateColumn() {
+                const keyArray = this.openColumns.map(x => x.field)
+                const flag = this.adjReArray(keyArray)
+                if (!flag) {
+                    this.$Message.error('想要新建的字段已经存在。请检查或修改拼音，避免完全重复。');
+                    return;
+                }
                 let that = this;
                 let newArray = [{
                     'width': 60,
@@ -459,9 +470,7 @@
                         }
                     }
                 }
-                console.log(d)
                 this.tableData.data = d;
-                // this.openColumns = [];
                 this.editorColumns = false;
                 this.$refs.vt.resize();
             },
