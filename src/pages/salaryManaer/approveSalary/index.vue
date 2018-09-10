@@ -21,6 +21,11 @@
                    :columns="markColumns"
                    :data="tableData"></Table>
             <div slot="footer">
+                <template>
+                    <Select v-model="model1" style="width:200px">
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </template>
                 <Button type="text" @click="markModal = false">取消</Button>
                 <Button type="primary" @click="saveScore">保存</Button>
             </div>
@@ -52,6 +57,21 @@
                         type: 'select'
                     }
                 },
+                cityList: [
+                    {
+                        value: 1,
+                        label: '指标已设置'
+                    },
+                    {
+                        value: 2,
+                        label: '待打分'
+                    },
+                    {
+                        value: 3,
+                        label: '已打分'
+                    }
+                ],
+                model1: [],
                 markColumns: [],
                 tableData: [],
                 score: [],
@@ -69,6 +89,11 @@
                         align: 'center'
                     },
                     {
+                        title: '分数',
+                        key: 'score',
+                        align: 'center'
+                    },
+                    {
                         title: '月度',
                         align: 'center',
                         minWidth: 100,
@@ -81,12 +106,32 @@
                         width: 180,
                         render: (h, params) => {
                             let vm = this;
-                            let cnt = params.row.cnt;
+                            let type = params.row.type;
                             let text = '打分';
                             let color = 'green';
-                            if (cnt > 0) {
-                                text = '查看';
+                            if (type == 0) {
+                                text = '指标待设置';
                                 color = 'blue';
+                            }
+                            if (type == 1) {
+                                text = '指标已设置';
+                                color = 'orange';
+                            }
+                            if (type == 2) {
+                                text = '待打分';
+                                color = 'purple';
+                            }
+                            if (type == 3) {
+                                text = '已打分';
+                                color = 'yellow';
+                            }
+                            if (type == 4) {
+                                text = '有异议';
+                                color = 'red';
+                            }
+                            if (type == 5) {
+                                text = '无异议';
+                                color = 'suntan';
                             }
                             let arr = [
                                 h('Tag', {
@@ -249,13 +294,17 @@
                             for (let i = 0; i < val.length; i++) {
                                 vm.tableData.push(val[i].values);
                             }
+                            this.model1 = [];
                             vm.markModal = true;
                         }
                     });
                 });
             },
             saveScore() {
-                this.$http.post('/perform/addUsersScoreArray', {scoreArr: JSON.stringify(this.score)}).then((res) => {
+                let pr = {};
+                pr.scoreArr = JSON.stringify(this.score);
+                pr.type = this.model1;
+                this.$http.post('/perform/addUsersScoreArray', pr).then((res) => {
                     if (res.success) {
                         this.$Message.success('保存成功');
                         this.markModal = false;

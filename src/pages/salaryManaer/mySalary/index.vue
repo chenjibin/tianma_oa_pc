@@ -8,6 +8,9 @@
                             @on-change="_addDepMonthChange"
                             :value="addDepForm.month"></DatePicker>
             </FormItem>
+            <Button  v-if="showWarning" type="warning"  @click="_updateType(4)">打分有异议</Button>
+            <Button  v-if="showSuccess" type="success"  @click="_updateType(5)">确认无异议</Button>
+            <span v-if="showSuccess">总绩效：{{allScore}}</span>
         </Form>
         <Table :loading="tableLoading"
                :height="tableHeight"
@@ -37,6 +40,9 @@
                 filterOpt: {
                     name: ''
                 },
+                showWarning: false,
+                showSuccess: false,
+                allScore: [],
                 addDepForm: {
                     month: NOW_MONTH,
                     organizeName: ''
@@ -113,12 +119,27 @@
                 this.$http.post('/perform/getMyAllList', data).then((res) => {
                     if (res.success) {
                         this.detail(res.data);
+                        if(res.type >= 3 ) {
+                            this.showWarning = true;
+                            this.showSuccess = true;
+                            this.allScore = res.score;
+                        }
                     }
                 });
             },
             _addDepMonthChange(date) {
                 this.addDepForm.month = date;
                 this._getAttendanceData();
+            },
+            _updateType(date) {
+                let h = {};
+                h.time = this.addDepForm.month;
+                h.type = date;
+                this.$http.post('/perform/comment', h).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('反馈成功!');
+                    }
+                });
             },
             _getAttendanceData() {
                 let data = {};
