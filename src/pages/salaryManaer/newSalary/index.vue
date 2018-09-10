@@ -21,7 +21,7 @@
         </Card>
         <Modal v-model="showTable" id="newSalary-showTable" :mask-closable="false" :closable="false" width="1200">
             <div slot="header">
-                <Button :loading="saveLoading" :disabled="header.columns.length ===0 || !header.name" @click="saveTable"
+                <Button :loading="saveLoading" :disabled="header.columns.length === 0 || !header.name" @click="saveTable"
                         style="float: right;border-radius: 0" type="success">保存
                 </Button>
                 <Button @click="showTable = false" style="float: right;border-radius: 0" type="ghost">取消</Button>
@@ -383,9 +383,7 @@
                             },
                             on: {
                                 'on-change': (val) => {
-                                    console.log(val);
                                     that.delselect = val;
-                                    console.log(that.delselect);
                                 }
                             }
                         }, arr);
@@ -539,7 +537,6 @@
                 this.header.id = params.id;
                 this.header.name = params.name;
                 this.tableData.key_id = params.id;
-                console.log(columnObj)
                 for (let key in columnObj) {
                     this.header.columns.push({
                         'title': columnObj[key],
@@ -602,7 +599,6 @@
                                     arr.push({'id': res.id, values: res});
                                 });
                                 d2.arr = JSON.stringify(arr);
-                                console.log(d2)
                                 that.$http.post('/perform/addValueArrays', d2).then(res => {
                                     if (res.success) {
                                         that.$Message.success('成功');
@@ -761,9 +757,6 @@
         watch: {
             filterText(val) {
                 this.$refs.treeDom.filter(val);
-            },
-            'header.columns'(value) {
-                console.log(value)
             }
         }
     }
