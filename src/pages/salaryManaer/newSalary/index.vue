@@ -116,14 +116,14 @@
                 <Button type="primary" @click="updateColumn">确定</Button>
             </div>
         </Modal>
-        <Modal v-model="editUserModel" :width="1000">
+        <Modal v-model="editUserModel" :width="1500">
             <div slot="header">
                 <p style="color:#495060;text-align:center;font-size: 18px">绩效绑定</p>
             </div>
             <Row :gutter="16">
                 <Col :span="14">
                     <div style="max-height: 606px;overflow:auto;">
-                        <Input v-model="filterText" size="large" placeholder="快速查找部门"></Input>
+                        <Input v-model="filterText"  placeholder="快速查找部门"></Input>
                         <el-tree :data="orgTreeData"
                                  ref="treeDom"
                                  show-checkbox
@@ -131,7 +131,7 @@
                                  :expand-on-click-node="false"
                                  :highlight-current="true"
                                  node-key="id"
-                                 style="margin-top: 10px;"
+                                 style="margin-top: 10px;width : 300px"
                                  :props="defaultProps"></el-tree>
                     </div>
                 </Col>
@@ -141,7 +141,7 @@
                             <Select v-model="bindUser.usersIds" multiple filterable remote
                                     :label="bindUser.remoteLabel2" :remote-method="_filterPeopleRemote">
                                 <Option v-for="(option) in bindUser.filterPeopleOpt" :value="option.id"
-                                        :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}
+                                        :key="'user' + option.id">{{option.realname + '(' +option.postname+')'}}
                                 </Option>
                             </Select>
                         </FormItem>
@@ -742,7 +742,7 @@
                 let data = {};
                 data.name = val;
                 this.bindUser.filterPeopleOpt = [];
-                this.$http.post('/user/getCheckUser', data).then((res) => {
+                this.$http.post('/user/getCheckUserAndPost', data).then((res) => {
                     if (res.success) {
                         this.bindUser.filterPeopleOpt = res.data;
                     }
