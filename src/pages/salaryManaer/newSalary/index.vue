@@ -430,6 +430,7 @@
                 }, () => {
                 })
             },
+            // 判断数组中是否有重复元素
             adjReArray(array) {
                 let nowArrayLength = array.length;
                 let afterArrayLength = [...new Set(array)].length;
