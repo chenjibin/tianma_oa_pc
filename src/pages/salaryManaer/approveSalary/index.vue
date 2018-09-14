@@ -1,5 +1,19 @@
 <template>
     <div id="approveSalary">
+        <Col :span="4">
+            <Card style="height: 819px;overflow: auto;" :style="{'height':(tableHeight + 138)+'px'}">
+                <Input v-model="filterText" size="large" placeholder="快速查找部门"></Input>
+                <el-tree :data="orgTreeData"
+                         ref="treeDom"
+                         :filter-node-method="filterNode"
+                         :expand-on-click-node="false"
+                         :highlight-current="true"
+                         @node-click="_treeNodeClickHandler"
+                         style="margin-top: 10px;"
+                         :props="defaultProps"></el-tree>
+            </Card>
+        </Col>
+        <Col :span="20">
         <Card>
             <Form inline :label-width="90">
                 <FormItem label="月份">
@@ -9,13 +23,11 @@
                 <FormItem label="姓名">
                     <Input type="text" placeholder="姓名" v-model="searchData.name.value"></Input>
                 </FormItem>
-                <FormItem label="部门">
-                    <Input type="text" placeholder="部门" v-model="searchData.organizeName.value"></Input>
-                </FormItem>
             </Form>
             <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
                            :height="tableHeight" url="/perform/getEmployee"></fs-table-page>
         </Card>
+        </Col>
         <Modal v-model="markModal" :width="1300">
             <Table :height="600"
                    :columns="markColumns"
@@ -55,6 +67,10 @@
                     month: {
                         value: NOW_MONTH,
                         type: 'select'
+                    },
+                    nodeId: {
+                        value: 1,
+                            type: 'tree'
                     }
                 },
                 cityList: [
@@ -74,9 +90,15 @@
                 model1: [],
                 markColumns: [],
                 tableData: [],
+                orgTreeData: [],
+                filterText: '',
                 score: [],
                 markModal: false,
                 tableHeight: 720,
+                defaultProps: {
+                    children: 'children',
+                    label: 'name'
+                },
                 postColumns: [
                     {
                         title: '姓名',
@@ -156,6 +178,9 @@
                         }
                     }]
             };
+        },
+        created() {
+            this._getOrgTree();
         },
         methods: {
             markUser(params) {
@@ -255,7 +280,7 @@
                                 render: (h, params) => {
                                     return h('InputNumber', {
                                         props: {
-                                            min: 0,
+                                            min: -100,
                                             max: 100,
                                             value: vm.score[params.index].score
                                         },
@@ -310,6 +335,22 @@
                         this.markModal = false;
                         this.$refs.paperList.getListData();
                     }
+                });
+            },
+            _treeNodeClickHandler(data) {
+                this.searchData.nodeId.value = data.id;
+            },
+            _getOrgTree() {
+                // 同一个接口调用两次是因为左侧的树和下拉输入框是同一个接口，存在不合理的地方
+                // 为未来分割独立保留一个方法
+                return new Promise((resolve) => {
+                    this.$http.get('/organize/userSalaryOrganizeTree?fatherId=-1').then((res) => {
+                        if (res.success) {
+                            this.orgTreeData = res.data;
+                            this.searchData.nodeId.value = res.data[0].id;
+                            resolve(res.data[0].id);
+                        }
+                    });
                 });
             },
             _addDepMonthChange(date) {
