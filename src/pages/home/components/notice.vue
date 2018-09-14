@@ -15,6 +15,7 @@
                 size="small"
                 :page-size="pageData.pageSize"
                 @on-change="pageChangeHandler"></Page>
+                <Button type="primary" shape="circle" style="position: absolute;bottom: -4px;right: 8px;">查看更多</Button>
             </Col>
             <Col :span="12">
             <system-info></system-info>
