@@ -33,8 +33,11 @@
                         </div>
                         <div class="list-item-top-content">
                             <p>{{item.goods_name}}</p>
-                            <div class="">
+                            <div class="" v-if="item.classify != '小超市商品'">
                                 <span>订单总价:</span><span>{{item.price}}金币</span>
+                            </div>
+                            <div class="" v-if="item.classify == '小超市商品'">
+                                <span>订单总价:</span><span>{{item.price}}元</span>
                             </div>
                             <div class="">
                                 <span>数量:</span><span>{{item.quality}}</span>
@@ -48,6 +51,7 @@
                             <span>{{item.created}}</span>
                             <span style="margin-left: 16px;">订单状态:</span>
                             <Tag :color="item.status | _returnColor">{{item.status | _returnStatus}}</Tag>
+                            <Button type="primary" v-if="item.status == 0 && item.classify != '抽奖奖品'" shape="circle" @click="_removeThisItem(item.id)" size="small">取消</Button>
                         </div>
                     </div>
                 </div>
@@ -123,6 +127,17 @@
                 this.pageData.status = name;
                 this.loadingText = '加载中';
                 this._getMyOrderList();
+            },
+            _removeThisItem(id) {
+                let data = {};
+                console.log(id);
+                data.id = id;
+                this.$http.get('/order/removeById',{params: data}).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('操作成功,已取消订单!');
+                        this._getMyOrderList();
+                    }
+                });
             },
             handleReachTop() {
                 return new Promise((resolve) => {

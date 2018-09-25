@@ -535,21 +535,21 @@ export const appRouter = [
         path: '/rulesManager',
         icon: 'ios-star',
         name: 'rulesManager',
-        title: '规章管理',
+        title: '制度管理',
         component: Main,
         children: [
             {
                 path: 'newRule',
                 icon: 'ios-star',
                 name: 'newRule',
-                title: '新增规章',
+                title: '新增制度',
                 component: _import('rulesManager/newRule')
             },
             {
                 path: 'approveRule',
                 icon: 'ios-star',
                 name: 'approveRule',
-                title: '规章审批',
+                title: '制度审批',
                 component: _import('rulesManager/approveRule')
             }
         ]

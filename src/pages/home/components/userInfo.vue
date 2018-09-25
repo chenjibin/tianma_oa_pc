@@ -81,7 +81,7 @@
                     <Button type="ghost" shape="circle" icon="lock-combination"></Button>
                 </Tooltip>
             </Poptip>
-            <Tooltip placement="top" content="查看规章" :transfer="true">
+            <Tooltip placement="top" content="查看制度" :transfer="true">
                 <Button type="ghost" @click="showRuleModal = true" shape="circle" icon="ios-star"></Button>
             </Tooltip>
             <Poptip placement="right-start"
@@ -114,7 +114,7 @@
         </Modal>
         <Modal id="rule-modal-new" v-model="showRuleModal" width="1200">
             <div slot="header" style="color:#495060;text-align:center;font-size: 18px;font-weight:bold;">
-                <span>规章制度</span>
+                <span>制度</span>
             </div>
             <show-rule v-if="showRuleModal"></show-rule>
             <div slot="footer" class="footer">

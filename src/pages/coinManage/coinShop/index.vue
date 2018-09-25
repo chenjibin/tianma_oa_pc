@@ -3,7 +3,16 @@
         <Row :gutter="16">
             <Col :xs="24" :sm="24" :md="14" :lg="16">
                 <Card :dis-hover="true">
-                    <h3 class="margin-bottom-10">商品列表</h3>
+                    <Menu mode="horizontal" active-name="3" @on-select="_orderStatusChange">
+                        <MenuItem name="3">
+                            <Icon type="crop"></Icon>
+                            金币商城
+                        </MenuItem>
+                        <MenuItem name="0">
+                            <Icon type="coffee"></Icon>
+                            生活小超市
+                        </MenuItem>
+                    </Menu>
                     <div :style="{height: listHeight}" style="overflow: auto;padding: 16px;">
                         <Row :gutter="8">
                             <Col :xs="12"
@@ -26,13 +35,20 @@
                                 <Row style="text-align: center;">
                                     <Col>
                                     <span class="coin">{{item.price}}</span>
-                                    <span>金币</span>
+                                    <span v-if="!isFeel">金币</span>
+                                        <span v-if="isFeel">元</span>
                                     </Col>
                                     <Col>
                                     <Button type="primary"
                                             shape="circle"
+                                            v-if="!isFeel"
                                             @click="_openBuy(item)"
                                             icon="bag">立即兑换</Button>
+                                        <Button type="primary"
+                                                shape="circle"
+                                                v-if="isFeel"
+                                                @click="_openBuy(item)"
+                                                icon="bag">立即购买</Button>
                                     </Col>
                                 </Row>
                             </Card>
@@ -71,6 +87,9 @@
                         <FormItem label="商品单价:">
                             <span>{{goodDesc.coin}}</span>
                         </FormItem>
+                        <FormItem label="商品剩余:" v-if="isFeel">
+                            <span>{{goodDesc.num}}</span>
+                        </FormItem>
                         <FormItem label="购买数量:">
                             <InputNumber :min="1" v-model="buyForm.quality"></InputNumber>
                         </FormItem>
@@ -80,7 +99,8 @@
                     <div class="result-block">
                         <p class="title">总消费</p>
                         <count-to :endVal="totalCost" :count-style="contStyle">
-                            <span slot="rightText" style="font-weight: 700;">金币</span>
+                            <span slot="rightText" v-if="!isFeel" style="font-weight: 700;">金币</span>
+                            <span slot="rightText" v-if="isFeel" style="font-weight: 700;">元</span>
                         </count-to>
                     </div>
                 </Col>
@@ -89,7 +109,12 @@
             <div slot="footer">
                 <Button type="primary"
                         :loading="subLoading"
+                        v-if="!isFeel"
                         @click="_submitBuy">立即兑换</Button>
+                <Button type="primary"
+                        :loading="subLoading"
+                        v-if="isFeel"
+                        @click="_submitBuyFeel">立即购买</Button>
                 <Button type="ghost" style="margin-left: 8px" @click="buyFlag = false">取消</Button>
             </div>
         </Modal>
@@ -143,12 +168,14 @@
             return {
                 subLoading: false,
                 buyFlag: false,
+                isFeel: false,
                 listHeight: '300px',
                 goodList: [],
                 goodDesc: {
                     name: '',
                     pic: '',
-                    coin: 0
+                    coin: 0,
+                    num: 0
                 },
                 contStyle: {
                     fontSize: '60px'
@@ -182,6 +209,7 @@
                 this.goodDesc.name = data.name;
                 this.goodDesc.pic = '/oa/upload/' + data.image_path;
                 this.goodDesc.coin = data.price;
+                this.goodDesc.num = data.quality;
                 this.buyFlag = true;
             },
             _submitBuy() {
@@ -201,8 +229,42 @@
                     this.subLoading = false;
                 })
             },
+            _submitBuyFeel() {
+                this.subLoading = true;
+                let data = {};
+                data.id = this.buyForm.id;
+                data.quality = this.buyForm.quality;
+                this.$http.post('/order/addMallOrder', data).then((res) => {
+                    if (res.success) {
+                        this.$store.commit('updateUserInfo');
+                        this.$Message.success('商品购买成功!');
+                        this.$refs.orderList.upDateOrderList();
+                        this.buyFlag = false;
+                        this._getFeelList();
+                    }
+                    this.subLoading = false;
+                }, () => {
+                    this.subLoading = false;
+                })
+            },
+            _orderStatusChange(name) {
+                if (name == 3) {
+                    this._getGoodList();
+                    this.isFeel = false;
+                } else {
+                    this._getFeelList();
+                    this.isFeel = true;
+                }
+            },
             _getGoodList() {
                 this.$http.get('/order/goldMall').then((res) => {
+                    if (res.success) {
+                        this.goodList = res.data;
+                    }
+                });
+            },
+            _getFeelList() {
+                this.$http.get('/order/feelMall').then((res) => {
                     if (res.success) {
                         this.goodList = res.data;
                     }

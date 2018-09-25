@@ -1,7 +1,7 @@
 <template>
     <Modal id="ruleModal" :value="showModal" :closable="canClose" @on-visible-change="changeMe" width="800">
         <div slot="header" style="color:#495060;text-align:center;font-size: 18px;font-weight:bold;">
-            <span>规章制度</span>
+            <span>制度</span>
             <span v-if="!canClose" style="position: absolute;top: 6px;right: 6px">
                 <ButtonGroup>
                     <Button @click="changeType(2)" type="error">驳回</Button>

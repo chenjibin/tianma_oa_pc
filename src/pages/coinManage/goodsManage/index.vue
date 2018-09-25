@@ -8,6 +8,18 @@
                            v-model="filterOpt.goodsName"
                            placeholder="筛选商品名称"></Input>
                 </FormItem>
+                <FormItem label="筛选分类">
+                    <Select v-model="filterOpt.classify"
+                            @on-change="_inputDebounce"
+                            style="width: 100px">
+                        <Option value="纸品类">纸品类</Option>
+                        <Option value="饮品类">饮品类</Option>
+                        <Option value="食品类">食品类</Option>
+                        <Option value="卡券类">卡券类</Option>
+                        <Option value="服饰类">服饰类</Option>
+                        <Option value="小超市商品">小超市商品</Option>
+                    </Select>
+                </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
                         <Button type="primary" @click="_createGoods">
@@ -59,10 +71,14 @@
                             <Option value="食品类">食品类</Option>
                             <Option value="卡券类">卡券类</Option>
                             <Option value="服饰类">服饰类</Option>
+                            <Option value="小超市商品">小超市商品</Option>
                         </Select>
                     </FormItem>
                     <FormItem label="价格">
                         <InputNumber :precision="0" v-model="editorSettingData.price"></InputNumber>
+                    </FormItem>
+                    <FormItem label="数量">
+                        <InputNumber :precision="0" v-model="editorSettingData.quality"></InputNumber>
                     </FormItem>
                     <FormItem label="商品图片" required>
                             <fs-img-upload action="/oa/order/uploadfile"
@@ -102,13 +118,15 @@
                 },
                 filterOpt: {
                     goodsName: '',
-                    status: ''
+                    status: '',
+                    classify: ''
                 },
                 editorSettingData: {
                     goodsName: '',
                     type: '卡券类',
                     price: 0,
                     isDown: true,
+                    quality: 0,
                     goodPic: '',
                     id: 0
                 },
@@ -151,6 +169,11 @@
                     {
                         title: '商品分类',
                         key: 'classify',
+                        align: 'center'
+                    },
+                    {
+                        title: '库存',
+                        key: 'quality',
                         align: 'center'
                     },
                     {
@@ -229,6 +252,7 @@
                         data.price = settingData.price;
                         data.uploadName = settingData.goodPic;
                         data.id = settingData.id;
+                        data.quality = settingData.quality;
                         vm.$http.post('/order/addGoods', data).then((res) => {
                             if (res.success) {
                                 vm.editorSettingFlag = false;
@@ -290,6 +314,7 @@
             _getPostData() {
                 let data = {};
                 data.name = this.filterOpt.goodsName;
+                data.classify = this.filterOpt.classify;
                 this.getList('/order/goodslist', data);
             }
         },

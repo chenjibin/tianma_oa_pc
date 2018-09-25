@@ -12,7 +12,7 @@
                         <Input type="text" clearable v-model="searchData.createName.value" placeholder="姓名"></Input>
                     </FormItem>
                     <FormItem :label-width="0.1">
-                        <Button type="primary" @click="newOne">新增规章</Button>
+                        <Button type="primary" @click="newOne">新增制度</Button>
                     </FormItem>
                 </Form>
                 <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
@@ -22,8 +22,8 @@
         </Row>
         <Modal v-model="newFlag" :mask-closable="false" width="1100">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                <span v-show="!ruleId">新增规章</span>
-                <span v-show="ruleId">编辑规章</span>
+                <span v-show="!ruleId">新增制度</span>
+                <span v-show="ruleId">编辑制度</span>
             </p>
             <Row :gutter="16">
                 <Col :span="17">
@@ -31,18 +31,18 @@
                     <FormItem label="操作人">
                         {{realName}}
                     </FormItem>
-                    <FormItem label="规章标题">
+                    <FormItem label="制度标题">
                         <Input type="text"
                                v-model="ruleTitle"></Input>
                     </FormItem>
-                    <FormItem label="规章内容">
+                    <FormItem label="制度内容">
                         <wang-editor
                             v-if="newFlag"
                             :width="660"
                             :max-height="550"
                             :menus="editorMeun"
                             :editorcontent.sync="editorContent"
-                            defaul-text="请填写规章制度"
+                            defaul-text="请填写制度制度"
                             img-url="/oa/share/uploadFile"></wang-editor>
                     </FormItem>
                 </Form>
@@ -100,12 +100,12 @@
                         width: 120
                     },
                     {
-                        title: '规章标题',
+                        title: '制度标题',
                         key: 'name',
                         ellipsis: true
                     },
                     {
-                        title: '规章内容',
+                        title: '制度内容',
                         key: 'content',
                         ellipsis: true,
                         render: (h, params) => {
@@ -246,13 +246,13 @@
                     d.id = this.ruleId;
                 }
                 if (!d.content || !d.organizeId) {
-                    this.$Message.info('未填写内容或未选择规章范围哦');
+                    this.$Message.info('未填写内容或未选择制度范围哦');
                     return;
                 }
                 this.saveLoading = true;
                 this.$http.post('rugulations/addRugulations', d).then((res) => {
                     if (res.success) {
-                        this.$Message.success('新增规章成功！');
+                        this.$Message.success('新增制度成功！');
                         this.$refs.paperList.getListData();
                     }
                     this.newFlag = false;

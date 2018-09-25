@@ -15,7 +15,7 @@
                 size="small"
                 :page-size="pageData.pageSize"
                 @on-change="pageChangeHandler"></Page>
-                <Button type="primary" shape="circle" style="position: absolute;bottom: -4px;right: 8px;">查看更多</Button>
+                <Button type="primary" shape="circle" style="position: absolute;bottom: -4px;right: 8px;" @click="xxx">查看更多</Button>
             </Col>
             <Col :span="12">
             <system-info></system-info>
@@ -28,6 +28,14 @@
             </p>
             <div class="" v-html="noticeData.content" style="margin: 0 auto;width: 690px;font-size: 16px"></div>
             <div slot="footer">
+            </div>
+        </Modal>
+        <Modal id="rule-modal-new" v-model="showRuleModal" width="1200">
+            <div slot="header" style="color:#495060;text-align:center;font-size: 18px;font-weight:bold;">
+                <span>公告</span>
+            </div>
+            <show-rule v-if="showRuleModal"></show-rule>
+            <div slot="footer" class="footer">
             </div>
         </Modal>
         <Modal :value="!!mustRead.length" width="740" :mask-closable="false">
@@ -69,12 +77,15 @@
     import moment from 'moment';
     import pageMixin from '@/mixins/pageMixin';
     import systemInfo from './systemInfo';
+    import showRule from '../../rulesManager/componentss/show-rules';
 
     export default {
         mixins: [pageMixin],
         data() {
             return {
                 modelFlag: false,
+                showRuleModal: false,
+                ischao: [],
                 noticeData: {
                     title: '',
                     content: ''
@@ -102,6 +113,7 @@
                 return this.$store.state.user.mustRead;
             }
         },
+
         created() {
             this.getNoticeInfo();
             this.$store.commit('getNoticeMustRead');
@@ -110,6 +122,10 @@
             pageChangeHandler(page) {
                 this.pageData.page = page;
                 this.getNoticeInfo();
+            },
+            xxx() {
+                this.ischao = 1;
+                this.showRuleModal = true;
             },
             getNoticeInfo() {
                 this.loading = true;
@@ -127,7 +143,8 @@
             }
         },
         components: {
-            systemInfo
+            systemInfo,
+            showRule
         }
     };
 </script>

@@ -24,6 +24,16 @@
                            v-model="filterOpt.department"
                            placeholder="筛选部门"></Input>
                 </FormItem>
+                <FormItem label="所属分类">
+                    <Select v-model="filterOpt.classify"
+                            clearable
+                            @on-change="_filterResultHandler"
+                            style="width: 100px">
+                        <Option value="小超市商品">餐卡超市</Option>
+                        <Option value="金币超市">金币超市</Option>
+                        <Option value="抽奖奖品">抽奖奖品</Option>
+                    </Select>
+                </FormItem>
                 <FormItem label="状态">
                     <Select v-model="filterOpt.status"
                             clearable
@@ -85,7 +95,8 @@
                     userName: '',
                     department: '',
                     status: '',
-                    userId: ''
+                    userId: '',
+                    classify: ''
                 },
                 postColumns: [
                     {
@@ -361,6 +372,7 @@
                 data.status = this.filterOpt.status;
                 data.department = this.filterOpt.department;
                 data.userName = this.filterOpt.userName;
+                data.classify = this.filterOpt.classify;
                 this.getList('/order/orderlist', data);
             }
         },
