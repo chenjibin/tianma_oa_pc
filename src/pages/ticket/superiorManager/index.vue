@@ -33,25 +33,17 @@
                 <FormItem label="结束日期" style="width: 220px">
                     <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
                 </FormItem>
-                <FormItem label="权重" style="width: 220px">
-                    <Select v-model="filterOpt.weight.value" style="width: 150px" placeholder="筛选状态" clearable>
-                        <Option value="0.1">0.1</Option>
-                        <Option value="0.2">0.2</Option>
-                        <Option value="0.3">0.3</Option>
-                        <Option value="0.4">0.4</Option>
-                        <Option value="0.5">0.5</Option>
-                        <Option value="0.6">0.6</Option>
-                        <Option value="0.7">0.7</Option>
-                        <Option value="0.8">0.8</Option>
-                        <Option value="0.9">0.9</Option>
-                        <Option value="1">1</Option>
-                    </Select>
+                <FormItem label="权重日期" style="width: 220px">
+                    <DatePicker type="month" @on-change="changeDate(1, 'weight_time', $event)" :value="filterOpt.weight_time.value" placeholder="权重日期" style="width: 150px"></DatePicker>
                 </FormItem>
                 <FormItem label="提交人" style="width: 220px">
                     <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态" clearable></Input>
                 </FormItem>
                 <FormItem label="关键词" style="width: 220px">
                     <Input v-model="filterOpt.detail.value" style="width: 150px" placeholder="筛选标题或详情" clearable></Input>
+                </FormItem>
+                <FormItem label="接单人" style="width: 220px">
+                    <Input v-model="filterOpt.manage.value" style="width: 150px" placeholder="筛选处理人" clearable></Input>
                 </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
@@ -79,8 +71,20 @@
                         </Option>
                     </Select>
                 </FormItem>
-                <FormItem label="权重" style="width: 340px;display: inline-block">
-                    <InputNumber :min="0.00" style="width: 100%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight"></InputNumber>
+                <FormItem label="权重" v-if="editTickets.time1==null" style="width: 340px;display: inline-block">
+                    <InputNumber :min="0.00" style="width: 60%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight"></InputNumber>
+                </FormItem>
+                <FormItem label="权重1" v-if="editTickets.time1!=null" style="width: 340px;display: inline-block">
+                    <InputNumber :min="0.00" style="width: 60%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight1"></InputNumber>
+                    <span>{{editTickets.time1}}</span>
+                </FormItem>
+                <FormItem label="权重2" v-if="editTickets.time2!=null" style="width: 340px;display: inline-block">
+                    <InputNumber :min="0.00" style="width: 60%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight2"></InputNumber>
+                    <span>{{editTickets.time2}}</span>
+                </FormItem>
+                <FormItem label="权重3" v-if="editTickets.time3!=null" style="width: 340px;display: inline-block">
+                    <InputNumber :min="0.00" style="width: 60%" :max="1" :step="0.01" :precision="2"  v-model="editTickets.weight3"></InputNumber>
+                    <span>{{editTickets.time3}}</span>
                 </FormItem>
                 <FormItem label="开始时间" style="width: 340px;display: inline-block">
                     <DatePicker type="date" style="width: 100%" @on-change="changeDate(2, 'start_time',$event)"
@@ -163,6 +167,7 @@
                 saveLoading: false,
                 commitModal: false,
                 commitModals: false,
+                isManager: true,
                 logs: [],
                 teamOpt: [],
                 teamUser: [],
@@ -180,6 +185,12 @@
                 editTickets: {
                     id: '',
                     weight: 0.1,
+                    weight1: 0,
+                    weight2: 0,
+                    weight3: 0,
+                    time1: '',
+                    time2: '',
+                    time3: '',
                     add_user_name: '',
                     start_time: '',
                     end_time: '',
@@ -212,6 +223,10 @@
                         value: '',
                         type: 'datepicker'
                     },
+                    weight_time: {
+                        value: '',
+                        type: 'datepicker'
+                    },
                     priority: {
                         value: '',
                         type: 'select'
@@ -225,6 +240,10 @@
                         value: ''
                     },
                     detail: {
+                        type: 'input',
+                        value: ''
+                    },
+                    manage: {
                         type: 'input',
                         value: ''
                     }
@@ -245,6 +264,103 @@
                                     row: params.row
                                 }
                             });
+                        }
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 160,
+                        align: 'center',
+                        className: 'noPadding',
+                        render: (h, params) => {
+                            let vm = this;
+                            let row = params.row;
+                            let deleted = row.type === 4;
+                            let showCommit = (row.type === 2) && !(row.superior_qualityscore && row.superior_qualityscore); // 状态已完成且未打分
+                            let disableTitle = row.type > 0 ? '不可操作' : '点我编辑';
+                            return h('ButtonGroup', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    attrs: {
+                                        title: disableTitle
+                                    },
+                                    style: {
+                                        display: deleted ? 'none' : 'block'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm.editTicketsModal = true;
+                                            vm.logs = row.logs;
+                                            vm.editTickets.id = row.id;
+                                            vm.usersIds = [];
+                                            vm.editTickets.type = row.type;
+                                            vm.editTickets.weight = row.weight;
+                                            vm.editTickets.weight1 = row.weight1;
+                                            vm.editTickets.weight2 = row.weight2;
+                                            vm.editTickets.weight3 = row.weight3;
+                                            vm.editTickets.team_id = row.team_id;
+                                            vm.editTickets.time1 = row.time1;
+                                            vm.editTickets.time2 = row.time2;
+                                            vm.editTickets.time3 = row.time3;
+                                            vm.editTickets.team_name = row.team_name;
+                                            vm.editTickets.start_time = row.start_time;
+                                            vm.editTickets.end_time = row.end_time;
+                                            vm.editTickets.demand = row.demand;
+                                            vm.editTickets.add_user_name = row.add_user_name;
+                                            vm.editTickets.superior_qualityScore = row.superior_qualityScore;
+                                            vm.editTickets.superior_planScore = row.superior_planScore;
+                                            vm.editTickets.priority = row.priority;
+                                            row.childids.forEach((item) => {
+                                                vm.usersIds.push(item.userid);
+                                            });
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        size: 'small'
+                                    },
+                                    attrs: {
+                                        title: '点我打分'
+                                    },
+                                    style: {
+                                        display: showCommit ? 'blobk' : 'none'
+                                    },
+                                    on: {
+                                        click: function (e) {
+                                            e.stopPropagation();
+                                            vm.commitForm.id = row.id;
+                                            vm.commitForm.superior_planScore = 100;
+                                            vm.commitForm.superior_qualityScore = 100;
+                                            vm.commitForm.reason = '';
+                                            vm.commitModal = true;
+                                        }
+                                    }
+                                }, '打分'),
+                                h('Button', {
+                                        props: {
+                                            type: 'success',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: '点我备注'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.commitForms.id = row.id;
+                                                vm.commitForms.content = '';
+                                                vm.commitModals = true;
+                                            }
+                                        }
+                                    }, '备注'
+                                )
+                            ]);
                         }
                     },
                     {
@@ -408,98 +524,8 @@
                         align: 'center',
                         width: 97,
                         key: 'superior_planscore'
-                    },
-                    {
-                        title: '操作',
-                        key: 'action',
-                        width: 160,
-                        align: 'center',
-                        className: 'noPadding',
-                        render: (h, params) => {
-                            let vm = this;
-                            let row = params.row;
-                            let deleted = row.type === 4;
-                            let showCommit = (row.type === 2) && !(row.superior_qualityscore && row.superior_qualityscore); // 状态已完成且未打分
-                            let disableTitle = row.type > 0 ? '不可操作' : '点我编辑';
-                            return h('ButtonGroup', [
-                                h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        attrs: {
-                                            title: disableTitle
-                                        },
-                                        style: {
-                                            display: deleted ? 'none' : 'block'
-                                        },
-                                        on: {
-                                            click: function (e) {
-                                                e.stopPropagation();
-                                                vm.editTicketsModal = true;
-                                                vm.logs = row.logs;
-                                                vm.editTickets.id = row.id;
-                                                vm.usersIds = [];
-                                                vm.editTickets.type = row.type;
-                                                vm.editTickets.weight = row.weight;
-                                                vm.editTickets.team_id = row.team_id;
-                                                vm.editTickets.team_name = row.team_name;
-                                                vm.editTickets.start_time = row.start_time;
-                                                vm.editTickets.end_time = row.end_time;
-                                                vm.editTickets.demand = row.demand;
-                                                vm.editTickets.add_user_name = row.add_user_name;
-                                                vm.editTickets.superior_qualityScore = row.superior_qualityScore;
-                                                vm.editTickets.superior_planScore = row.superior_planScore;
-                                                vm.editTickets.priority = row.priority;
-                                                row.childids.forEach((item) => {
-                                                    vm.usersIds.push(item.userid);
-                                                });
-                                            }
-                                        }
-                                    }, '编辑'),
-                                h('Button', {
-                                        props: {
-                                            type: 'success',
-                                            size: 'small'
-                                        },
-                                        attrs: {
-                                            title: '点我打分'
-                                        },
-                                        style: {
-                                            display: showCommit ? 'blobk' : 'none'
-                                        },
-                                        on: {
-                                            click: function (e) {
-                                                e.stopPropagation();
-                                                vm.commitForm.id = row.id;
-                                                vm.commitForm.superior_planScore = 100;
-                                                vm.commitForm.superior_qualityScore = 100;
-                                                vm.commitForm.reason = '';
-                                                vm.commitModal = true;
-                                            }
-                                        }
-                                    }, '打分'),
-                                h('Button', {
-                                        props: {
-                                            type: 'success',
-                                            size: 'small'
-                                        },
-                                        attrs: {
-                                            title: '点我备注'
-                                        },
-                                        on: {
-                                            click: function (e) {
-                                                e.stopPropagation();
-                                                vm.commitForms.id = row.id;
-                                                vm.commitForms.content = '';
-                                                vm.commitModals = true;
-                                            }
-                                        }
-                                    }, '备注'
-                                )
-                            ]);
-                        }
                     }
+
                 ],
                 tableHeight: 700
             };

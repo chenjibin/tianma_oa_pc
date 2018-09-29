@@ -21,21 +21,6 @@
                         <Option :value="3">加急 <Icon type="flag" color="#ed3f14"></Icon></Option>
                     </Select>
                 </FormItem>
-                <FormItem label="权重" style="width: 250px">
-                    <Select v-model="filterOpt.weight.value" placeholder="筛选状态"
-                            clearable>
-                        <Option value="0.1">0.1</Option>
-                        <Option value="0.2">0.2</Option>
-                        <Option value="0.3">0.3</Option>
-                        <Option value="0.4">0.4</Option>
-                        <Option value="0.5">0.5</Option>
-                        <Option value="0.6">0.6</Option>
-                        <Option value="0.7">0.7</Option>
-                        <Option value="0.8">0.8</Option>
-                        <Option value="0.9">0.9</Option>
-                        <Option value="1">1</Option>
-                    </Select>
-                </FormItem>
                 <FormItem label="提交人" style="width: 250px">
                     <Input v-model="filterOpt.add_user_name.value" placeholder="筛选状态" clearable></Input>
                 </FormItem>
@@ -44,6 +29,9 @@
                 </FormItem>
                 <FormItem label="结束日期" style="width: 250px">
                     <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)" :value="filterOpt.end_time.value" placeholder="结束日期" ></DatePicker>
+                </FormItem>
+                <FormItem label="权重日期" style="width: 250px">
+                    <DatePicker type="month" @on-change="changeDate(1, 'weight_time', $event)" :value="filterOpt.weight_time.value" placeholder="结束日期" ></DatePicker>
                 </FormItem>
                 <Button @click="monthSalaryModal = true">查看：绩效</Button>
             </Form>
@@ -83,6 +71,19 @@
                     <Button @click="monthSalaryModal = false">关闭</Button>
                 </div>
             </Modal>
+            <Modal v-model="commitModal" :closable="true" :width="430" :mask-closable="false">
+                <Form :label-width="90" style="padding: 5px;margin-top: 10px">
+                    <input style="display: none" v-model="commitForm.id"/>
+                    <FormItem label="备注" style="width: 350px;">
+                        <Input type="textarea" placeholder="写出任务解析。尽量简洁明了" :autosize="{minRows: 4,maxRows: 8}"
+                               v-model="commitForm.content"></Input>
+                    </FormItem>
+                </Form>
+                <div slot="footer">
+                    <Button type="success" @click="commitModal = false">取消</Button>
+                    <Button type="success" :loading="saveLoading" @click="commit">完成</Button>
+                </div>
+            </Modal>
             <fs-table-page :columns="postColumns"
                            :size="null"
                            ref="paperList"
@@ -104,6 +105,8 @@
             return {
                 monthSalaryModal: false,
                 filterPeopleOpt: [],
+                saveLoading: false,
+                commitModal: false,
                 typeMapping: ['待处理', '处理中', '已完成', '已暂停', '不处理'],
                 typeIconMapping: ['pull-request', 'compose', 'android-checkbox-outline', 'ios-pause', 'android-close'],
                 typeColorMapping: ['#2d8cf0', '#2d8cf0', '#19be6b', '#2d8cf0', '#ccc'],
@@ -120,6 +123,10 @@
                     myaccount: 0,
                     mylessaccount: 0
                 },
+                commitForm: {
+                    id: '',
+                    content: ''
+                },
                 filterOpt: {
                     weight: {
                         value: '',
@@ -134,6 +141,10 @@
                         type: 'datepicker'
                     },
                     end_time: {
+                        value: '',
+                        type: 'datepicker'
+                    },
+                    weight_time: {
                         value: '',
                         type: 'datepicker'
                     },
@@ -316,6 +327,38 @@
                                 return h('span', '未评分');
                             }
                         }
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 160,
+                        align: 'left',
+                        className: 'noPadding',
+                        render: (h, params) => {
+                            let vm = this;
+                            let row = params.row;
+                            let disable = row.type === 2;
+                            return h('ButtonGroup', [
+                                h('Button', {
+                                        props: {
+                                            type: 'success',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            title: '点我备注'
+                                        },
+                                        on: {
+                                            click: function (e) {
+                                                e.stopPropagation();
+                                                vm.commitForm.id = row.id;
+                                                vm.commitForm.content = '';
+                                                vm.commitModal = true;
+                                            }
+                                        }
+                                    }, '备注'
+                                )
+                            ]);
+                        }
                     }
                 ],
                 tableHeight: 700
@@ -347,6 +390,26 @@
                     vm.monthSalary.myaccount = res.data.myaccount;
                     vm.monthSalary.mylessaccount = res.data.mylessaccount;
                 });
+            },
+            commit() {
+                let f = this.commitForm;
+                let length = f.content.trim();
+                if (length < 8) {
+                    this.$Message.info('不是有效的备注,至少大于八个字符');
+                    return;
+                }
+                this.saveLoading = true;
+                this.$http.post('workOrder/addLogByCharger', this.commitForm).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('指导备注添加成功');
+                        this.$refs.paperList.getListData();
+                    }
+                    this.saveLoading = false;
+                    this.commitModal = false;
+                }, () => {
+                    this.saveLoading = false;
+                    this.commitModal = false;
+                })
             }
         },
         created() {

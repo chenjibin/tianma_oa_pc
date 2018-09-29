@@ -28,6 +28,10 @@
                     <DatePicker type="date" @on-change="changeDate(1, 'end_time', $event)"
                                 :value="filterOpt.end_time.value" placeholder="结束日期" style="width: 150px"></DatePicker>
                 </FormItem>
+                <FormItem label="权重月份">
+                    <DatePicker type="month" @on-change="changeDate(1, 'weight_time', $event)"
+                                :value="filterOpt.weight_time.value" placeholder="权重月份" style="width: 150px"></DatePicker>
+                </FormItem>
                 <FormItem label="提交人">
                     <Input v-model="filterOpt.add_user_name.value" style="width: 150px" placeholder="筛选状态"
                            clearable></Input>
@@ -146,6 +150,7 @@
                     add_user_name: '',
                     type: 0,
                     demand: '',
+                    weight_time: '',
                     priority: 1
                 },
                 commitForm: {
@@ -167,6 +172,10 @@
                         type: 'datepicker'
                     },
                     end_time: {
+                        value: '',
+                        type: 'datepicker'
+                    },
+                    weight_time: {
                         value: '',
                         type: 'datepicker'
                     },
@@ -434,7 +443,7 @@
             save() {
                 let vm = this;
                 let d = this.editTickets;
-                if (d.type === 0 || d.type === 1 || d.type === 2 || d.type === 3) {
+                if (d.type === 0 || d.type === 1 || d.type === 2 ) {
                     if (!d.start_time || !d.end_time) {
                         this.$Message.info('未选择时间');
                         return false;

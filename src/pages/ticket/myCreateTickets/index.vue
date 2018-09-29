@@ -34,20 +34,6 @@
                         </Option>
                     </Select>
                 </FormItem>
-                <FormItem label="权重" style="width: 200px">
-                    <Select v-model="filterOpt.weight.value" style="width: 100%" placeholder="筛选状态" clearable>
-                        <Option value="0.1">0.1</Option>
-                        <Option value="0.2">0.2</Option>
-                        <Option value="0.3">0.3</Option>
-                        <Option value="0.4">0.4</Option>
-                        <Option value="0.5">0.5</Option>
-                        <Option value="0.6">0.6</Option>
-                        <Option value="0.7">0.7</Option>
-                        <Option value="0.8">0.8</Option>
-                        <Option value="0.9">0.9</Option>
-                        <Option value="1">1</Option>
-                    </Select>
-                </FormItem>
                 <FormItem label="提交人" style="width: 200px">
                     <Input style="width: 100%" v-model="filterOpt.add_user_name.value" placeholder="筛选状态"
                            clearable></Input>
@@ -59,6 +45,10 @@
                 <FormItem label="结束日期" style="width: 200px">
                     <DatePicker style="width: 100%" type="date" @on-change="changeDate(1, 'end_time', $event)"
                                 :value="filterOpt.end_time.value" placeholder="结束日期"></DatePicker>
+                </FormItem>
+                <FormItem label="权重日期" style="width: 200px">
+                    <DatePicker style="width: 100%" type="month" @on-change="changeDate(1, 'weight_time', $event)"
+                                :value="filterOpt.weight_time.value" placeholder="权重日期"></DatePicker>
                 </FormItem>
                 <FormItem label="项目组" style="width: 220px">
                     <Select v-model="filterOpt.team_id.value" filterable clearable>
@@ -315,6 +305,10 @@
                         type: 'datepicker'
                     },
                     end_time: {
+                        value: '',
+                        type: 'datepicker'
+                    },
+                    weight_time: {
                         value: '',
                         type: 'datepicker'
                     },
@@ -680,6 +674,7 @@
                 sendData.type = this.filterOpt['type'].value;
                 sendData.start_time = this.filterOpt['start_time'].value;
                 sendData.end_time = this.filterOpt['end_time'].value;
+                sendData.weight_time = this.filterOpt['weight_time'].value;
                 sendData.priority = this.filterOpt['priority'].value;
                 sendData.add_user_name = this.filterOpt['add_user_name'].value;
                 this.$http.post('/workOrder/exportDetail', sendData).then((res) => {

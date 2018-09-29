@@ -320,7 +320,8 @@
                                 ]);
                             } else if (status === 3) {
                                 return h('div', [
-                                    colBtn(vm, h, params, {content: '查看考生', icon: 'eye', foo: vm._checkTestPeople})
+                                    colBtn(vm, h, params, {content: '查看考生', icon: 'eye', foo: vm._checkTestPeople}),
+                                    colBtn(vm, h, params, {content: '重开考试', icon: 'arrow-return-left', foo: vm._backPaper})
                                 ]);
                             }
                         }
@@ -410,6 +411,24 @@
                         this.$http.post('/examtestpaper/editTestPaperStatus', sendData).then((res) => {
                             if (res.success) {
                                 this.$Message.success('结束考试成功!');
+                                this._updateExamList();
+                            }
+                        });
+                    }
+                });
+            },
+            _backPaper(data) {
+                this.$Modal.confirm({
+                    content: `确认重开【${data.name}】考试么？`,
+                    okText: '确认重开',
+                    cancelText: '取消',
+                    onOk: () => {
+                        let sendData = {};
+                        sendData.id = data.id;
+                        sendData.status = 2;
+                        this.$http.post('/examtestpaper/editTestPaperStatus', sendData).then((res) => {
+                            if (res.success) {
+                                this.$Message.success('重开考试成功!');
                                 this._updateExamList();
                             }
                         });
