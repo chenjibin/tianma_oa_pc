@@ -7,11 +7,11 @@
                 <el-tree class="fs-tree"
                          :data="treeData"
                          :props="defaultProps"
+                         :default-expanded-keys="idArr"
+                         :default-expand-all="false"
                          node-key="id"
-                         default-expand-all
                          highlight-current
                          @node-click="nodeClickHandler"
-                         :expand-on-click-node="false"
                          ref="tree1">
                 </el-tree>
             </div>
@@ -76,6 +76,7 @@
         data() {
             return {
                 treeShow: false,
+                idArr:[],
                 defaultProps: {
                     children: 'children',
                     label: 'name'
@@ -87,6 +88,18 @@
         },
         computed: {
             treeData() {
+                console.log(this.$store.state.knowledge.noImportantTreeData);
+                this.$store.state.knowledge.noImportantTreeData.forEach(m =>{
+                    this.idArr.push(1);
+                    console.log(m.children.length);
+                    // for (let i = 0; i < m.children.length; i++){
+                    //     console.log(m.children[i]);
+                    //     if(m.children[i].parentId == 1) {
+                    //         this.idArr.push(m.children[i].id)
+                    //     }
+                    // }
+                    console.log(this.idArr);
+                });
                 return this.$store.state.knowledge.noImportantTreeData;
             }
         },

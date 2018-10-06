@@ -38,10 +38,10 @@
             </p>
             <test-result :id="testCheckId"></test-result>
             <div slot="footer">
-                <!--<Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">-->
-                    <!--<span v-if="!exportLoading">导出试卷</span>-->
-                    <!--<span v-else>导出中...</span>-->
-                <!--</Button>-->
+                <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
+                    <span v-if="!exportLoading">导出试卷</span>
+                    <span v-else>导出中...</span>
+                </Button>
                 <Button type="ghost" style="margin-left: 8px" @click="modelFlag = false">取消</Button>
             </div>
         </Modal>
@@ -50,6 +50,7 @@
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import testResult from '../components/test-result';
+    import utils from '@/libs/util.js';
     export default {
         name: 'gradeManage',
         data () {
@@ -60,6 +61,8 @@
                 postFormType: 'update',
                 exportLoading: false,
                 testCheckId: 0,
+                testCheckUserId: 0,
+                testCheckPaperId: 0,
                 filterOpt: {
                     paperName: {
                         value: '',
@@ -161,13 +164,14 @@
             _exportGrade() {
                 this.exportLoading = true;
                 let data = {};
-                let filterOpt = this.filterOpt;
-                data.paperName = filterOpt.paperName.value;
-                data.orgName = filterOpt.orgName.value;
-                data.name = filterOpt.name.value;
-                this.$http.post('/examtest/export', data).then((res) => {
+                console.log(this.testPaperId);
+                console.log(this.testCheckUserId);
+                data.id = this.testPaperId;
+                data.pid = this.testCheckUserId;
+                console.log(data);
+                this.$http.post('/examtest/exportPaperPdf', data).then((res) => {
                     if (res.success) {
-                        this.downloadFile('/oa/upload/' + res.data, res.data);
+                        utils.downloadFile('/oa/download/' + res.data, res.data);
                     }
                     this.exportLoading = false;
                 }, () => {
@@ -176,6 +180,10 @@
             },
             _checkTest(data) {
                 this.testCheckId = data.id;
+                console.log(data.stuid);
+                console.log(data.paperid);
+                this.testCheckUserId = data.stuid;
+                this.testPaperId = data.paperid;
                 this.modelFlag = true;
             },
             _setTableHeight() {

@@ -34,6 +34,7 @@
                         ref="wangEditor"
                         :editorcontent.sync="editorContent"></wang-editor>
                     <div class="btn-group" style="text-align: right">
+                        <Button type="primary"  @click.stop="uploadFile">下载附件</Button>
                         <Button type="primary" @click.stop="replyHandler">评论</Button>
                     </div>
                 </div>
@@ -176,6 +177,7 @@
     import WangEditor from '@/baseComponents/fs-wangeditor';
     import pageMixin from '@/mixins/pageMixin';
     import fsPreviewImg from '@/baseComponents/fs-preview-img';
+    import utils from '@/libs/util.js';
 
     export default {
         name: 'articleDetail',
@@ -186,6 +188,7 @@
                 articleAuthor: '',
                 articleHeadpic: '',
                 thumbUpTimes: 0,
+                sharefiles: {},
                 editorContent: '',
                 editorMeun: [
                     'emoticon'
@@ -208,6 +211,7 @@
                     this.articleHeadpic = res.data.headimagepath;
                     this.html = res.data.share_detail;
                     this.thumbUpTimes = res.data.thumb_up_times;
+                    this.sharefiles = res.data.sharefiles;
                     this.isZan = !!res.data.thumbupid;
                     this.thumbUpId = res.data.thumbupid || null;
                 }
@@ -244,6 +248,16 @@
                             this.thumbUpTimes = res.data.thumb_up_times;
                         }
                     });
+                }
+            },
+            uploadFile() {
+                if(this.sharefiles.length == 0){
+                    this.$Message.error('暂无附件！');
+                }
+                if (this.sharefiles != null && this.sharefiles.length > 0) {
+                    for (let i = 0; i < this.sharefiles.length; i++){
+                        utils.downloadFile(this.sharefiles[i].file_path, this.sharefiles[i].file_path);
+                    }
                 }
             },
             replyHandler() {
