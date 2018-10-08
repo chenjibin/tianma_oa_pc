@@ -107,7 +107,7 @@
                         <FormItem label="选择本公司/职业原因" style="width:99%;margin-right: 0px;">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 5}" v-model="talentBean.languageskills"></Input>
                         </FormItem>
-                        <FormItem label="自我和他人的评价" style="width:99%;margin-right: 0px;">
+                        <FormItem label="同事/同学认为我的不足" style="width:99%;margin-right: 0px;">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="talentBean.selfevaluation"></Input>
                         </FormItem>
                         <FormItem label="两年内的职业规划" style="width:99%;margin-right: 0px;">
