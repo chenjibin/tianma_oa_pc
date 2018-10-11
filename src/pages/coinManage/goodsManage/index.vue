@@ -197,7 +197,7 @@
                             return h('div', [
                                 h('Tooltip', {
                                     props: {
-                                        content: '考勤设置',
+                                        content: '设置',
                                         placement: 'top',
                                         transfer: true
                                     }
@@ -271,6 +271,7 @@
                 settingData.price = data.price;
                 settingData.goodsName = data.name;
                 settingData.goodPic = data.image_path;
+                settingData.quality = data.quality;
                 settingData.type = data.classify;
                 settingData.isDown = data.statistic === '上架';
                 this.imgFile = [{url: '/oa/upload/' + data.image_path, name: data.image_path, status: 'finished'}];

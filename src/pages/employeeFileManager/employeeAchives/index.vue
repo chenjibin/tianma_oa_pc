@@ -199,7 +199,7 @@
                             <FormItem label="籍贯" style="width:49%;margin-right:1%;">
                                 <Input type="text" :maxlength="50" v-model="baseForm.origin"></Input>
                             </FormItem>
-                            <FormItem label="民族" style="width:49%;margin-right:1%;">
+                            <FormItem label="身高m/体重kg" style="width:49%;margin-right:1%;">
                                 <Input type="text" :maxlength="50" v-model="baseForm.account"></Input>
                             </FormItem>
                             <FormItem label="年龄" style="width:49%;margin-right:1%;">

@@ -273,7 +273,7 @@
                         <FormItem label="籍贯" style="width:460px">
                             <Input type="text" :maxlength="20" v-model="talentBean.account"></Input>
                         </FormItem>
-                        <FormItem label="民族" style="width:460px">
+                        <FormItem label="身高m/体重kg" style="width:460px">
                             <Input type="text" :maxlength="20" v-model="talentBean.nation"></Input>
                         </FormItem>
                         <FormItem label="政治面貌" style="width:460px">
@@ -322,7 +322,7 @@
                         <FormItem label="选择本公司/职业理由" style="width:460px">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.languageskills"></Input>
                         </FormItem>
-                        <FormItem label="自我及他人的评价" style="width:460px">
+                        <FormItem label="同事/同学们认为我的不足之处" style="width:460px">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 16}" v-model="talentBean.selfevaluation"></Input>
                         </FormItem>
                         <FormItem label="未来两年的职业规划" style="width:460px">
@@ -908,17 +908,10 @@
                         }
                     },
                     {
-                        title: '毕业院校',
-                        key: 'graduatedschool',
+                        title: '师傅',
+                        key: 'mastername',
                         align: 'center',
                         width: 110,
-                        className: 'tableDataCustom'
-                    },
-                    {
-                        title: '专业',
-                        key: 'profession',
-                        width: 100,
-                        align: 'center',
                         className: 'tableDataCustom'
                     },
                     {

@@ -55,7 +55,7 @@
                         <FormItem label="籍贯" :class="device.mobile?'mobileFormRight':'pcFormItem'">
                             <Input type="text"  :maxlength="20" v-model="talentBean.account" placeholder="省市"></Input>
                         </FormItem>
-                        <FormItem label="民族" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
+                        <FormItem label="身高m/体重kg" prop="nation" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
                             <Input type="text"  :maxlength="20" v-model="talentBean.nation"></Input>
                         </FormItem>
                         <FormItem label="政治面貌" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
@@ -107,7 +107,7 @@
                         <FormItem label="选择本公司/职业原因" style="width:99%;margin-right: 0px;">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 5}" v-model="talentBean.languageskills"></Input>
                         </FormItem>
-                        <FormItem label="同事/同学认为我的不足" style="width:99%;margin-right: 0px;">
+                        <FormItem label="同事/同学们认为我的不足之处" style="width:99%;margin-right: 0px;">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="talentBean.selfevaluation"></Input>
                         </FormItem>
                         <FormItem label="两年内的职业规划" style="width:99%;margin-right: 0px;">
@@ -406,6 +406,9 @@
                 rules: {
                     name: [
                         {required: true, message: '姓名必填', trigger: 'blur'}
+                    ],
+                    nation: [
+                        {required: true, message: '身高体重必填', trigger: 'blur'}
                     ],
                     sex: [
                         {type: 'number', required: true, message: '性别必填', trigger: 'change'}

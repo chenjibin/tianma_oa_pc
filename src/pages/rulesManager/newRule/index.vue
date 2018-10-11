@@ -11,6 +11,17 @@
                     <FormItem prop="name" label="创建人">
                         <Input type="text" clearable v-model="searchData.createName.value" placeholder="姓名"></Input>
                     </FormItem>
+                    <FormItem prop="title" label="标题名称">
+                        <Input type="text" clearable v-model="searchData.title.value" placeholder="名称"></Input>
+                    </FormItem>
+                    <FormItem  prop="states" label="状态" style="width: 200px">
+                        <Select v-model="searchData.states.value" placeholder="筛选优先级"
+                                clearable>
+                            <Option :value="0">未审批<Icon type="flag" color="#2d8cf0"></Icon></Option>
+                            <Option :value="1">通过<Icon type="flag" color="#ff9900"></Icon></Option>
+                            <Option :value="2">未通过<Icon type="flag" color="#ed3f14"></Icon></Option>
+                        </Select>
+                    </FormItem>
                     <FormItem :label-width="0.1">
                         <Button type="primary" @click="newOne">新增制度</Button>
                     </FormItem>
@@ -177,8 +188,16 @@
                         value: '',
                         type: 'input'
                     },
+                    title: {
+                        value: '',
+                        type: 'input'
+                    },
+                    states: {
+                        value: '',
+                        type: 'input'
+                    },
                     organizeId: {
-                        value: '1',
+                        value: '0',
                         type: 'select'
                     }
                 },

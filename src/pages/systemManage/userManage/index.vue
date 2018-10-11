@@ -836,15 +836,15 @@
                 levelData: [],
                 orgTreeData: [],
                 orgComboList: [],
+                depProps: {
+                    value: 'id',
+                    label: 'name'
+                },
                 levelCodeOpt: {
                     code: ''
                 },
                 defaultProps: {
                     children: 'children',
-                    label: 'name'
-                },
-                depProps: {
-                    value: 'id',
                     label: 'name'
                 },
                 postList: [],

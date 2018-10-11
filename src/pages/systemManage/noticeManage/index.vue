@@ -32,6 +32,17 @@
                         <Option value="5">其他</Option>
                     </Select>
                 </FormItem>
+                <FormItem label="部门" prop="dep" style="width: 300px">
+                    <el-cascader
+                        :options="orgComboList"
+                        :props="depProps"
+                        v-model="filterOpt.dep"
+                        change-on-select
+                        size="small"
+                        style="width: 100%"
+                        @change="_inputDebounce"
+                    ></el-cascader>
+                </FormItem>
                 <FormItem>
                     <ButtonGroup>
                         <Button type="ghost" @click="_openNewNotice">
@@ -180,6 +191,11 @@
                 lookModelFlag: false,
                 isNoticeType: 'create',
                 editorContent: '',
+                orgComboList: [],
+                depProps: {
+                    value: 'id',
+                    label: 'name'
+                },
                 editorMeun: [
                     'bold',
                     'italic',
@@ -229,7 +245,8 @@
                     title: '',
                     type: '',
                     startDate: '',
-                    endDate: ''
+                    endDate: '',
+                    dep: []
                 },
                 postColumns: [
                     // {
@@ -359,6 +376,7 @@
             this._getOrgTree().then((res) => {
                 this._getAllDepIds(res);
             });
+            this._getOrgComboList();
         },
         methods: {
             _noticeHandler(id, desc) {
@@ -391,6 +409,13 @@
             },
             _operateNotice() {
                 this._noticeHandler(0, '发布公告成功!');
+            },
+            _getOrgComboList() {
+                this.$http.get('/organize/organizeTreeCertainVmC?fatherId=-1').then((res) => {
+                    if (res.success) {
+                        this.orgComboList = res.data;
+                    }
+                });
             },
             _getAllDepIds(data) {
                 data.forEach((item) => {
@@ -479,6 +504,7 @@
                 data.noticeType = this.filterOpt.type;
                 data.startDate = this.filterOpt.startDate;
                 data.endDate = this.filterOpt.endDate;
+                data.organizeId = this.filterOpt.dep;
                 this.getList('/notice/datalist', data);
             }
         },
