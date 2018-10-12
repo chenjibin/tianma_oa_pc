@@ -4,6 +4,7 @@ import Vue from 'vue';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import 'wangeditor/release/wangEditor.css';
+import 'animate.css';
 import { Tree, Cascader, Checkbox} from 'element-ui';
 import fsIcon from './baseComponents/fs-icon';
 import { router } from './router/index';
