@@ -6,7 +6,7 @@
                 <img :src="oneImg" class="animated bounceInDown delay-my fast"/>
                 <img :src="twoImg" class="animated bounceInDown delay-2s fast"/>
             </div>
-            <div class="close-btn" @click="show = false">
+            <div class="close-btn" @click="closeHandler">
                 <Icon type="close-round"></Icon>
             </div>
         </div>
@@ -62,28 +62,35 @@
         name: 'fsShowCountdown',
         data() {
             return {
-                show: true,
+                show: false,
                 endData: '2018/11/11 00:00:00',
                 now: Math.trunc(new Date().getTime() / 1000),
                 oneImg: '/oa/static/image/count_down/0.png',
-                twoImg: '/oa/static/image/count_down/0.png'
+                twoImg: '/oa/static/image/count_down/0.png',
+                diffDay: null
             }
         },
         mounted() {
             const endDate = Math.trunc(Date.parse(this.endData) / 1000);
             const diff = endDate - this.now;
             const day = Math.trunc(diff / 60 / 60 / 24);
-            if (day === 0) {
-                this.show = false
-                return
-            }
+            const readDay = localStorage.getItem('readDay');
+            if (readDay === day + '' || day === 0) return
+            this.diffDay = day;
             let numberString = String(day);
             if (numberString.length === 1) {
                 numberString = '0' + numberString
             }
             const numberArray = [...numberString]
             this.oneImg = `/oa/static/image/count_down/${numberArray[0]}.png`;
-            this.twoImg = `/oa/static/image/count_down/${numberArray[1]}.png`
+            this.twoImg = `/oa/static/image/count_down/${numberArray[1]}.png`;
+            this.show = true
+        },
+        methods: {
+            closeHandler() {
+                localStorage.setItem('readDay', this.diffDay);
+                this.show = false
+            }
         }
     }
 </script>
