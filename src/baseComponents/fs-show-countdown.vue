@@ -50,8 +50,9 @@
             z-index: 1000;
             img {
                 margin: 0 12px;
-                width: 100px;
+                height: 155px;
                 opacity: 0.9;
+                width: auto;
             }
         }
     }
@@ -63,7 +64,7 @@
         data() {
             return {
                 show: false,
-                endData: '2018/11/11 00:00:00',
+                endData: '2018/10/14 00:00:00',
                 now: Math.trunc(new Date().getTime() / 1000),
                 oneImg: '/oa/static/image/count_down/0.png',
                 twoImg: '/oa/static/image/count_down/0.png',
