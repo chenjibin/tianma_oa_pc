@@ -38,7 +38,7 @@
             </p>
             <test-result :id="testCheckId"></test-result>
             <div slot="footer">
-                <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
+                <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade1">
                     <span v-if="!exportLoading">导出试卷</span>
                     <span v-else>导出中...</span>
                 </Button>
@@ -162,6 +162,22 @@
                 downloadDom.click();
             },
             _exportGrade() {
+                this.exportLoading = true;
+                let data = {};
+                let filterOpt = this.filterOpt;
+                data.paperName = filterOpt.paperName.value;
+                data.orgName = filterOpt.orgName.value;
+                data.name = filterOpt.name.value;
+                this.$http.post('/examtest/export', data).then((res) => {
+                    if (res.success) {
+                        this.downloadFile('/oa/upload/' + res.data, res.data);
+                    }
+                    this.exportLoading = false;
+                }, () => {
+                    this.exportLoading = false;
+                })
+            },
+            _exportGrade1() {
                 this.exportLoading = true;
                 let data = {};
                 console.log(this.testPaperId);

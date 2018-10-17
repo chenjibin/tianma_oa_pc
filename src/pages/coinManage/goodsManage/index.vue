@@ -177,6 +177,11 @@
                         align: 'center'
                     },
                     {
+                        title: '实际剩余',
+                        key: 'shengyu',
+                        align: 'center'
+                    },
+                    {
                         title: '状态',
                         key: 'states',
                         align: 'center',

@@ -39,6 +39,7 @@
                     </FormItem>
                     <FormItem label="学历">
                         <Select type="text" style="width: 120px"
+                                clearable = true
                                 @on-change="_inputDebounce"
                                 v-model="filterOpt.xueli"
                                 placeholder="筛选学历">

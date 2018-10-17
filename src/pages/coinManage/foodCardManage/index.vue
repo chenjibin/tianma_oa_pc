@@ -110,6 +110,7 @@
         </Modal>
         <Modal v-model="importModalFlag"
                width="400"
+               top="250"
                :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span>批量充值</span>

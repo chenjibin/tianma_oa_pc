@@ -5,7 +5,7 @@
             <span v-if="!canClose" style="position: absolute;top: 6px;right: 6px">
                 <ButtonGroup>
                     <Button @click="changeType(2)" type="error">驳回</Button>
-                    <Button @click="changeType(1)" type="success">通过</Button>
+                    <Button @click="changeType(1)"  :loading="examBtnLoading" type="success">通过</Button>
                 </ButtonGroup>
             </span>
         </div>
@@ -43,6 +43,10 @@
                 type: Boolean,
                 default: false
             },
+            examBtnLoading: {
+                type: Boolean,
+                default: false
+            },
             canClose: {
                 type: Boolean,
                 default: true
@@ -60,13 +64,16 @@
                 if (this.dataArr.length <= 0) {
                     return;
                 }
+                this.examBtnLoading = true;
                 let d = {};
                 d.id = this.dataArr[0].id;
                 d.states = type;
                 this.$http.post('rugulations/updateStates', d).then((res) => {
                     this.$Message.success('审核成功！');
+                    this.examBtnLoading = false;
                     this.$emit('change', false);
                 }, () => {
+                    this.examBtnLoading = false;
                     this.$emit('change', false);
                 })
             }
