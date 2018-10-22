@@ -11,6 +11,7 @@
         "build": "node build/build.js"
     },
     "dependencies": {
+        "@lkmadushan/vue-tuicalendar": "^0.1.6",
         "animate.css": "^3.7.0",
         "area-data": "^1.0.0",
         "axios": "^0.17.1",
@@ -35,6 +36,7 @@
         "simplemde": "^1.11.2",
         "sortablejs": "^1.7.0",
         "three": "^0.92.0",
+        "tui-calendar": "^1.7.0",
         "vue": "^2.5.16",
         "vue-easytable": "^1.7.1",
         "vue-lazyload": "^1.2.1",
