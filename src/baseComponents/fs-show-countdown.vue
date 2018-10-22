@@ -1,10 +1,10 @@
 <template>
-    <div class="fs-show-countdown" v-if="show">
+    <div class="fs-show-countdown" v-if="show" >
         <div class="show-bg animated fadeIn delay-1s">
             <img src="../images/double11-countdown-bg.jpg" />
-            <div class="number ">
-                <img :src="oneImg" class="animated bounceInDown delay-my fast"/>
-                <img :src="twoImg" class="animated bounceInDown delay-2s fast"/>
+            <div class="number " style="top: 19% ;left:19%">
+                <img :src="oneImg" class="animated bounceInDown delay-my fast" style="position: relative;top: 1px; height: 250px"/>
+                <img :src="twoImg" class="animated bounceInDown delay-2s fast" style="position: relative;top: -10px; height: 250px"/>
             </div>
             <div class="close-btn" @click="closeHandler">
                 <Icon type="close-round"></Icon>

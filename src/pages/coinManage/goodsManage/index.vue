@@ -11,13 +11,23 @@
                 <FormItem label="筛选分类">
                     <Select v-model="filterOpt.classify"
                             @on-change="_inputDebounce"
+                            clearable="true"
                             style="width: 100px">
+                        <Option value="小超市商品">小超市商品</Option>
                         <Option value="纸品类">纸品类</Option>
                         <Option value="饮品类">饮品类</Option>
                         <Option value="食品类">食品类</Option>
                         <Option value="卡券类">卡券类</Option>
                         <Option value="服饰类">服饰类</Option>
-                        <Option value="小超市商品">小超市商品</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="状态筛选">
+                    <Select v-model="filterOpt.statistic"
+                            @on-change="_inputDebounce"
+                            clearable="true"
+                            style="width: 100px">
+                        <Option value="上架">上架</Option>
+                        <Option value="下架">下架</Option>
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
@@ -119,7 +129,8 @@
                 filterOpt: {
                     goodsName: '',
                     status: '',
-                    classify: ''
+                    classify: '',
+                    statistic: ''
                 },
                 editorSettingData: {
                     goodsName: '',
@@ -177,6 +188,11 @@
                         align: 'center'
                     },
                     {
+                        title: '实际剩余',
+                        key: 'shengyu',
+                        align: 'center'
+                    },
+                    {
                         title: '状态',
                         key: 'states',
                         align: 'center',
@@ -211,6 +227,25 @@
                                         on: {
                                             click: function () {
                                                 vm._updateEditor(params.row);
+                                            }
+                                        }
+                                    })
+                                ]),
+                                h('Tooltip', {
+                                    props: {
+                                        content: '删除',
+                                        transfer: true
+                                    }
+                                }, [
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            icon: 'close-round',
+                                            shape: 'circle'
+                                        },
+                                        on: {
+                                            click: function () {
+                                                vm._deleteGoods(params.row);
                                             }
                                         }
                                     })
@@ -277,6 +312,15 @@
                 this.imgFile = [{url: '/oa/upload/' + data.image_path, name: data.image_path, status: 'finished'}];
                 this.editorSettingFlag = true;
             },
+            _deleteGoods(data) {
+                let goods = data;
+                this.$http.get('/order/deleteGoods', {params: goods}).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('删除成功!');
+                        this._getPostData();
+                    }
+                })
+            },
             _initEditorSettingData() {
                 let settingData = this.editorSettingData;
                 settingData.goodsName = '';
@@ -316,6 +360,7 @@
                 let data = {};
                 data.name = this.filterOpt.goodsName;
                 data.classify = this.filterOpt.classify;
+                data.statistic = this.filterOpt.statistic;
                 this.getList('/order/goodslist', data);
             }
         },

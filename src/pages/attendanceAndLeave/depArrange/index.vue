@@ -85,6 +85,14 @@
                         :disabled="loading2"
                         :loading="importLoading"
                         v-if="opSataus === '未设置'"
+                        @click="_openUploadModel">
+                    <span v-if="!importLoading">导入xls</span>
+                    <span v-else>正在导入...</span>
+                </Button>
+                <Button type="primary"
+                        :disabled="loading2"
+                        :loading="importLoading"
+                        v-if="opSataus === '未设置'"
                         @click="_importLastMonth">
                     <span v-if="!importLoading">导入上月设置</span>
                     <span v-else>正在导入...</span>
@@ -188,6 +196,34 @@
                 <Button type="ghost" style="margin-left: 8px" @click="addDepModalFlag = false">取消</Button>
             </div>
         </Modal>
+        <Modal v-model="importModalFlag"
+               width="400"
+               :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>导入排班</span>
+            </p>
+            <Button type="success"
+                    style="margin-bottom: 10px;"
+                    @click="_downloadGradeMuban">
+                <Icon type="ios-cloud-download-outline"></Icon>
+                下载模板
+            </Button>
+            <Upload type="drag"
+                    :show-upload-list="false"
+                    :on-progress="_uploadProgress"
+                    :on-format-error="_uploadFormatErr"
+                    :on-success="_uploadSuccess"
+                    :format="uploadFormat"
+                    action="/oa/kq/importDe">
+                <div style="padding: 20px 0">
+                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                    <p>点击或者拖拽文件到这里上传(后缀为.xls的文件)</p>
+                </div>
+                <Spin size="large" fix v-show="spinShow">排班上传中...</Spin>
+            </Upload>
+            <div slot="footer"></div>
+        </Modal>
+
         <Modal v-model="addPersonModalFlag"
                width="400"
                :mask-closable="false">
@@ -227,6 +263,7 @@
     import fsDepTree from '@/baseComponents/fs-dep-tree';
     import debounce from 'lodash/debounce';
     import _forEach from 'lodash/forEach';
+    import utils from '@/libs/util'
     const NOW_MONTH = moment().format('YYYY-MM');
     export default {
         name: 'depArrange',
@@ -273,6 +310,9 @@
                     // organizeName: '',
                     kqstates: ''
                 },
+                importModalFlag: false,
+                spinShow: false,
+                uploadFormat: ['xls'],
                 modelFlag: false,
                 monthData: '',
                 organizeName: '',
@@ -357,6 +397,9 @@
             _nodeChangeHandler(node) {
                 this.filterOpt.organizeId = node.id === 1 ? '' : node.id;
             },
+            _downloadGradeMuban() {
+                utils.downloadFile('/oa/down/导入排班模板.xls', '导入排班模板.xls');
+            },
             _confirmAddPerson() {
                 this.deleteLoading = true;
                 this.$http.post('/kq/addSingleArrangeByMonth', this.addPersonForm).then((res) => {
@@ -400,6 +443,21 @@
                         this.chooseDataArr = [];
                     }
                 });
+            },
+            _uploadProgress(event) {
+                this.spinShow = true;
+            },
+            _uploadFormatErr() {
+                this.$Message.error('上传文件的后缀必须为.xls');
+            },
+            _uploadSuccess(response, file, fileList) {
+                if (response.success) {
+                    this.$Message.success('批量充值成功!');
+                    this.importModalFlag = false;
+                } else {
+                    this.$Message.error(response.message);
+                }
+                this.spinShow = false;
             },
             _createMonthOpen() {
                 this.allType = 'create';
@@ -594,6 +652,9 @@
                 }, () => {
                     this.loading2 = false;
                 })
+            },
+            _openUploadModel() {
+                this.importModalFlag = true;
             },
             _checkDetail(obj) {
                 let month = obj.monthdate;

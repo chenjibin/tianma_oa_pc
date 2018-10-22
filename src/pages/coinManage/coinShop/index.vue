@@ -87,7 +87,7 @@
                         <FormItem label="商品单价:">
                             <span>{{goodDesc.coin}}</span>
                         </FormItem>
-                        <FormItem label="商品剩余:" v-if="isFeel">
+                        <FormItem label="商品剩余:" >
                             <span>{{goodDesc.num}}</span>
                         </FormItem>
                         <FormItem label="购买数量:">

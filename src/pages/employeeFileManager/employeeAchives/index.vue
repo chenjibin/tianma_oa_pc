@@ -16,6 +16,12 @@
                            v-model="filterOpt.name"
                            placeholder="筛选姓名"></Input>
                 </FormItem>
+                <FormItem label="手机号">
+                    <Input type="text" style="width: 160px" clearable
+                           @on-change="_inputDebounce"
+                           v-model="filterOpt.phone"
+                           placeholder="筛选手机号"></Input>
+                </FormItem>
                 <FormItem label="状态">
                     <Select v-model="filterOpt.kqstates"  style="width: 160px" placeholder="筛选状态" @on-change="_inputDebounce" clearable>
                         <Option value="-1">全部</Option>
@@ -44,7 +50,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="学历">
-                    <Select type="text" style="width: 160px" clearable
+                    <Select type="text" style="width: 160px" clearable = true
                             @on-change="_inputDebounce"
                             v-model="filterOpt.xueli"
                             placeholder="筛选学历">
@@ -432,7 +438,11 @@
             </div>
         </Modal>
         <Modal title="查看图片" v-model="visible" width="800px" >
-            <img :src="imgsrc" v-if="visible" style="width: 100%;height: 100%">
+            <img :src="imgsrc"
+                 v-if="visible"
+                 style="width: 100%;height: 100%"
+                 :style="{transform: `rotateZ(${deg}deg)`}"
+                 @click="_rotateImg">
         </Modal>
     </div>
 </template>
@@ -452,6 +462,7 @@
                 orgSearching: false,
                 orgList: [],
                 postSearching: false,
+                deg: 0,
                 postList: [],
                 companyList: [],
                 postColumns: [
@@ -620,7 +631,8 @@
                     profession: '', // 专业
                     address: '', // 住址
                     reasonLeaving: '', // 离职原因
-                    gradeLeaving: '' // 离职级别
+                    gradeLeaving: '', // 离职级别
+                    phone: ''//手机号
                 },
                 tableHeight: 500
             };
@@ -637,6 +649,9 @@
             }
         },
         methods: {
+            _rotateImg() {
+                this.deg += 90;
+            },
             _addNewSocail() {
                 let obj = {}
                 obj.storeId = +(new Date())
