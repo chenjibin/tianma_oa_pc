@@ -685,6 +685,13 @@ export const appRouter = [
                 component: _import('coinManage/goodsExchangeManage')
             },
             {
+                path: 'mallLog',
+                icon: 'icecream',
+                name: 'mallLog',
+                title: '商品记录',
+                component: _import('coinManage/mallLog')
+            },
+            {
                 path: 'foodCardManage',
                 icon: 'card',
                 name: 'foodCardManage',
