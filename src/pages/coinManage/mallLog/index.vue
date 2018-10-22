@@ -2,12 +2,6 @@
     <div>
         <Card>
             <Form ref="searchData" :model="searchData" inline :label-width="80">
-                <FormItem prop="cardNumber" label="卡号">
-                    <Input type="text"
-                           clearable
-                           v-model="searchData.cardNumber.value"
-                           placeholder="筛选卡号"></Input>
-                </FormItem>
                 <FormItem prop="realName" label="姓名">
                     <Input type="text"
                            clearable
@@ -31,24 +25,10 @@
                             clearable
                             placeholder="筛选类型"
                             style="width: 160px">
-                        <Option v-for="(item,index) in typeStore" :value="index" :key="'type-log-' + index">{{item}}</Option>
+                        <Option value="10">小超市消费</Option>
+                        <Option value="11">小超市退款</Option>
+                        <Option value="12">商品变更信息</Option>
                     </Select>
-                </FormItem>
-                <FormItem :label-width="0.1">
-                    <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
-                        <span v-if="!exportLoading">导出</span>
-                        <span v-else>导出中...</span>
-                    </Button>
-                    <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportMoney">
-                        <span v-if="!exportLoading">补贴导出</span>
-                        <span v-else>导出中...</span>
-                    </Button>
-                </FormItem>
-                <FormItem :label-width="0.1">
-                    <div class="" style="font-size: 16px;font-weight: 700;">
-                        <span>金额:</span>
-                        <span>{{totalMoney}}元</span>
-                    </div>
                 </FormItem>
             </Form>
             <fs-table-page :columns="columns1"
@@ -57,7 +37,7 @@
                            :params="searchData"
                            @get-list="_getTotalMoney"
                            ref="userTable"
-                           url="/card/logList"></fs-table-page>
+                           url="/card/mallLogList"></fs-table-page>
         </Card>
     </div>
 </template>
@@ -84,7 +64,10 @@
                     '已退款的充值记录',
                     '异常记录',
                     '补贴',
-                    '初始值'
+                    '初始值',
+                    '小超市消费',
+                    '小超市退款',
+                    '商品变更信息'
                 ],
                 columns1: [
                     {
@@ -118,34 +101,8 @@
                         key: 'createname',
                         align: 'center',
                         minWidth: 160
-                    },
-
-                    {
-                        title: '操作',
-                        width: 80,
-                        render: (h, params) => {
-                            let vm = this;
-                            let returnBtn = params.row.type === 0 ? h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    icon: 'reply',
-                                    shape: 'circle'
-                                },
-                                attrs: {
-                                    title: '退款'
-                                },
-                                on: {
-                                    click: function () {
-                                        vm._returnMoney(params.row);
-                                    }
-                                },
-                                style: {
-                                    marginRight: '4px'
-                                }
-                            }) : ''
-                            return h('div', [returnBtn]);
-                        }
                     }
+
                 ],
                 searchData: {
                     cardNumber: {
