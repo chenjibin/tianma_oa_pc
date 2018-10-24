@@ -223,6 +223,7 @@
                         this.$Message.success('商品兑换成功!');
                         this.$refs.orderList.upDateOrderList();
                         this.buyFlag = false;
+                        this._getGoodList();
                     }
                     this.subLoading = false;
                 }, () => {
