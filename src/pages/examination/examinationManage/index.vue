@@ -15,6 +15,14 @@
                         <Option :value="item.status" v-for="item, index in statusList" :key="index">{{item.name}}</Option>
                     </Select>
                 </FormItem>
+                <FormItem label="考试分类">
+                    <Select v-model="filterOpt.subject.value"
+                            style="width: 200px"
+                            clearable>
+                        <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}
+                        </Option>
+                    </Select>
+                </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
                         <Button type="ghost" @click="_addExamOpen">
@@ -236,6 +244,10 @@
                         type: 'input'
                     },
                     status: {
+                        value: '',
+                        type: 'select'
+                    },
+                    subject: {
                         value: '',
                         type: 'select'
                     }
