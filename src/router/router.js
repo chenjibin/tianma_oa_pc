@@ -580,17 +580,10 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'newSalary',
-                icon: 'ios-folder-outline',
-                name: 'newSalary',
-                title: '绩效方案管理',
-                component: _import('salaryManaer/newSalary')
-            },
-            {
                 path: 'approveSalary',
                 icon: 'ios-folder-outline',
                 name: 'approveSalary',
-                title: '绩效打分',
+                title: '部门绩效',
                 component: _import('salaryManaer/approveSalary')
             }
         ]
@@ -701,6 +694,13 @@ export const appRouter = [
                 name: 'goodsExchangeManage',
                 title: '兑换管理',
                 component: _import('coinManage/goodsExchangeManage')
+            },
+            {
+                path: 'mallLog',
+                icon: 'icecream',
+                name: 'mallLog',
+                title: '商品记录',
+                component: _import('coinManage/mallLog')
             },
             {
                 path: 'foodCardManage',

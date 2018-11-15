@@ -23,9 +23,13 @@
                 <FormItem label="姓名">
                     <Input type="text" placeholder="姓名" v-model="searchData.name.value"></Input>
                 </FormItem>
+                <Button type="ghost" @click="importModalFlag = true">
+                    <Icon type="ios-cloud-upload-outline"></Icon>
+                    导入
+                </Button>
             </Form>
             <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
-                           :height="tableHeight" url="/perform/getEmployee"></fs-table-page>
+                           :height="tableHeight" url="/perform/getEmployee1"></fs-table-page>
         </Card>
         </Col>
         <Modal v-model="markModal" :width="1300">
@@ -33,14 +37,32 @@
                    :columns="markColumns"
                    :data="tableData"></Table>
             <div slot="footer">
-                <template>
-                    <Select v-model="model1" style="width:200px">
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                </template>
                 <Button type="text" @click="markModal = false">取消</Button>
                 <Button type="primary" @click="saveScore">保存</Button>
             </div>
+        </Modal>
+        <Modal v-model="importModalFlag"
+               width="400"
+               :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>导入绩效表</span>
+            </p>
+            <Upload
+                type="drag"
+                :show-upload-list="false"
+                :on-progress="_uploadProgress"
+                :on-format-error="_uploadFormatErr"
+                :on-success="_uploadSuccess"
+                :on-error="_uploadFail"
+                :format="uploadOpt.format"
+                action="/oa/perform/importDe">
+                <div style="padding: 20px 0">
+                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                    <p>点击或者拖拽文件到这里上传(后缀为.xls的文件)</p>
+                </div>
+                <Spin size="large" fix v-if="spinShow">数据导入中...</Spin>
+            </Upload>
+            <div slot="footer"></div>
         </Modal>
     </div>
 </template>
@@ -90,6 +112,8 @@
                 model1: [],
                 markColumns: [],
                 tableData: [],
+                spinShow: false,
+                importModalFlag: false,
                 orgTreeData: [],
                 filterText: '',
                 score: [],
@@ -98,6 +122,9 @@
                 defaultProps: {
                     children: 'children',
                     label: 'name'
+                },
+                uploadOpt: {
+                    format: ['xls']
                 },
                 postColumns: [
                     {
@@ -108,11 +135,6 @@
                     {
                         title: '部门',
                         key: 'organizename',
-                        align: 'center'
-                    },
-                    {
-                        title: '分数',
-                        key: 'score',
                         align: 'center'
                     },
                     {
@@ -132,28 +154,12 @@
                             let text = '打分';
                             let color = 'green';
                             if (type == 0) {
-                                text = '指标待设置';
+                                text = '未导入';
                                 color = 'blue';
                             }
                             if (type == 1) {
-                                text = '指标已设置';
+                                text = '已导入';
                                 color = 'orange';
-                            }
-                            if (type == 2) {
-                                text = '待打分';
-                                color = 'purple';
-                            }
-                            if (type == 3) {
-                                text = '已打分';
-                                color = 'yellow';
-                            }
-                            if (type == 4) {
-                                text = '有异议';
-                                color = 'red';
-                            }
-                            if (type == 5) {
-                                text = '无异议';
-                                color = 'suntan';
                             }
                             let arr = [
                                 h('Tag', {
@@ -232,69 +238,6 @@
                                     'align': 'center'
                                 });
                             }
-
-                            vm.markColumns.push({
-                                'title': '目标值',
-                                'align': 'center',
-                                'width': 110,
-                                render: (h, params) => {
-                                    return h('Input', {
-                                        props: {
-                                            value: vm.score[params.index].target
-                                        },
-                                        style: {
-                                            width: '100%'
-                                        },
-                                        on: {
-                                            input: (val) => {
-                                                vm.score[params.index].target = val;
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                            vm.markColumns.push({
-                                'title': '实际值',
-                                'align': 'center',
-                                'width': 110,
-                                render: (h, params) => {
-                                    return h('Input', {
-                                        props: {
-                                            value: vm.score[params.index].real
-                                        },
-                                        style: {
-                                            width: '100%'
-                                        },
-                                        on: {
-                                            input: (val) => {
-                                                vm.score[params.index].real = val;
-                                            }
-                                        }
-                                    });
-                            }
-                            });
-                            vm.markColumns.push({
-                                'title': '分数',
-                                'align': 'center',
-                                'width': 110,
-                                render: (h, params) => {
-                                    return h('InputNumber', {
-                                        props: {
-                                            min: -100,
-                                            max: 100,
-                                            value: vm.score[params.index].score
-                                        },
-                                        style: {
-                                            width: '100%'
-                                        },
-                                        on: {
-                                            input: (val) => {
-                                                vm.score[params.index].score = val;
-                                            }
-                                        }
-                                    });
-                                }
-                            });
                             vm.markColumns.push({
                                 'title': '备注',
                                 'align': 'center',
@@ -325,6 +268,10 @@
                     });
                 });
             },
+            filterNode(value, data) {
+                if (!value) return true;
+                return data.name.indexOf(value) !== -1;
+            },
             saveScore() {
                 let pr = {};
                 pr.scoreArr = JSON.stringify(this.score);
@@ -336,6 +283,24 @@
                         this.$refs.paperList.getListData();
                     }
                 });
+            },
+            _uploadProgress(event) {
+                this.spinShow = true;
+            },
+            _uploadSuccess(response, file, fileList) {
+                if (response.success) {
+                    this.$Message.success('数据导入成功!');
+                    this.importModalFlag = false;
+                    this._getOrgTree();
+                } else {
+                    this.$Message.error(response.message);
+                }
+                this.spinShow = false;
+            },
+            _uploadFail(error, file, fileList) {
+            },
+            _uploadFormatErr() {
+                this.$Message.error('上传文件的后缀必须为.xls');
             },
             _treeNodeClickHandler(data) {
                 this.searchData.nodeId.value = data.id;
