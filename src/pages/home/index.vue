@@ -76,11 +76,15 @@
                               color="rgb(255, 153, 0)" btn-text="绩效"
                               @card-click="$router.replace({name: 'mySalary'})"></info-btn>
                     </Col>
-                    <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
+                    <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}" v-if="foodCardNumber">
                     <info-btn iconType="card"
-                              v-if="foodCardNumber"
                               color="rgb(242, 94, 67)" btn-text="餐卡"
                               @card-click="$router.replace({name: 'myFoodCard'})"></info-btn>
+                    </Col>
+                    <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
+                        <info-btn iconType="card"
+                                  color="rgb(242, 94, 67)" btn-text="会议排期"
+                                  @card-click="$router.replace({name: 'meetingRecord'})"></info-btn>
                     </Col>
                 </Row>
                 </Col>

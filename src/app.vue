@@ -109,4 +109,14 @@
             font-weight: 700;
         }
     }
+    .sec-dl {
+        padding: 4px 0;
+    }
+    .sec-dt {
+        margin-right: 6px;
+        display: inline-block;
+    }
+    .sec-dd {
+        display: inline-block;
+    }
 </style>

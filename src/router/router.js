@@ -10,6 +10,15 @@ export const loginRouter = {
     },
     component: resolve => { require(['@/views/login.vue'], resolve); }
 };
+// export const test = {
+//     path: '/meetingRecord',
+//     title: '会议室排期',
+//     meta: {
+//         white: true
+//     },
+//     name: 'meetingRecordTest',
+//     component: _import('coinManage/meetingRecord')
+// }
 export const guestRouter = {
     path: '/guest',
     name: 'guest',
@@ -252,6 +261,15 @@ export const otherRouter = {
             },
             name: 'myFoodCard',
             component: _import('myFoodCard')
+        },
+        {
+            path: 'meetingRecord',
+            title: '会议室排期',
+            meta: {
+                whiteIn: true
+            },
+            name: 'meetingRecord',
+            component: _import('coinManage/meetingRecord')
         }
     ]
 };
@@ -794,6 +812,7 @@ export const appRouter = [
 
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [
+    // test,
     loginRouter,
     otherRouter,
     guestRouter,

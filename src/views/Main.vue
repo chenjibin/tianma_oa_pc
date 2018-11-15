@@ -97,11 +97,11 @@
                 </keep-alive>
             </div>
         </div>
-        <div class="" style="position: fixed;width: 400px;right: 0;bottom: 0;z-index: 1000000">
-            <div class="" style="text-align: center;font-size: 1.5rem;font-weight: 700;color: #333;">距双十一开始还有</div>
-            <flip-countdown deadline="2018-11-11 00:00:00"></flip-countdown>
-        </div>
-        <fs-show-countdown></fs-show-countdown>
+        <!--<div class="" style="position: fixed;width: 400px;right: 0;bottom: 0;z-index: 1000000">-->
+            <!--<div class="" style="text-align: center;font-size: 1.5rem;font-weight: 700;color: #333;">距双十一开始还有</div>-->
+            <!--<flip-countdown deadline="2018-11-11 00:00:00"></flip-countdown>-->
+        <!--</div>-->
+        <!--<fs-show-countdown></fs-show-countdown>-->
     </div>
 </template>
 <script>
@@ -112,8 +112,8 @@
     import lockScreen from './main-components/lockscreen/lockscreen.vue';
     import messageTip from './main-components/message-tip.vue';
     import themeSwitch from './main-components/theme-switch/theme-switch.vue';
-    import FlipCountdown from '@/baseComponents/fs-flip-countdown';
-    import FsShowCountdown from '@/baseComponents/fs-show-countdown';
+    // import FlipCountdown from '@/baseComponents/fs-flip-countdown';
+    // import FsShowCountdown from '@/baseComponents/fs-show-countdown';
     import util from '@/libs/util.js';
     export default {
         components: {
@@ -123,9 +123,9 @@
             fullScreen,
             lockScreen,
             messageTip,
-            themeSwitch,
-            FlipCountdown,
-            FsShowCountdown
+            themeSwitch
+            // FlipCountdown,
+            // FsShowCountdown
         },
         data () {
             return {
