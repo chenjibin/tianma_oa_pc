@@ -8,7 +8,7 @@
             <div class="flex-one text">{{rangeText}}</div>
         </header>
         <aside>
-            <div class="fs-checkbox" style="margin-bottom: 16px">
+            <div class="fs-checkbox" style="margin-bottom: 16px;padding-bottom: 8px;border-bottom: 1px solid #ddd;">
                 <label>
                     <input type="checkbox" class="check-all" @change="checkallChange" v-model="isAll"/>
                     <span></span>
@@ -223,7 +223,6 @@
                 this.createNewSchedule(scheduleData)
             },
             updateScheduleHandler(schedule) {
-                console.log(schedule)
                 const scheduleData = schedule.schedule
                 let obj = {}
                 obj.id = scheduleData.id
