@@ -48,7 +48,7 @@
                     </span>
                 </Poptip>
                 </Col>
-                <Col span="16" class="padding-left-8">
+                <Col span="8" class="padding-left-8">
                 <Tooltip placement="top" content="我的档案" :transfer="true">
                     <Button type="ghost"
                             @click="openById"
@@ -100,6 +100,11 @@
                                 icon="happy-outline"></Button>
                     </Tooltip>
                 </Poptip>
+                </Col>
+                <Col span="5" style="right: -13%">
+                    <span style="font-weight: 700;">我在天马的第</span>
+                    <span style="font-size: 24px;">{{this.$store.state.user.userInfo.days}}</span>
+                    <span style="font-weight: 700;">天</span>
                 </Col>
             </Row>
             <Modal title="修改头像" v-model="changeAvatorFlag" width="800">

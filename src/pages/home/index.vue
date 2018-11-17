@@ -83,7 +83,7 @@
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}" v-if="userInfo.companyid && userInfo.companyid === 1">
                         <info-btn iconType="card"
-                                  color="rgb(242, 94, 67)" btn-text="会议排期"
+                                  color="rgb(242, 94, 67)" btn-text="会议"
                                   @card-click="$router.replace({name: 'meetingRecord'})"></info-btn>
                     </Col>
                 </Row>

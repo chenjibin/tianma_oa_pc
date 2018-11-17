@@ -247,7 +247,7 @@
                     },
                     {
                         value: '9',
-                        label: '出差'
+                        label: '外勤'
                     },
                     {
                         value: '10',

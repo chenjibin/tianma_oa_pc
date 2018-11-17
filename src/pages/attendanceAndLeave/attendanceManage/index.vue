@@ -178,7 +178,7 @@
                             <Option value="产假" >产假</Option>
                             <Option value="年假" >年假</Option>
                             <Option value="法假">法假</Option>
-                            <Option value="出差">出差</Option>
+                            <Option value="外勤">外勤</Option>
                             <Option value="旷工">旷工</Option>
                             <Option value="生日假">生日假</Option>
                             <Option value="未入职">未入职</Option>

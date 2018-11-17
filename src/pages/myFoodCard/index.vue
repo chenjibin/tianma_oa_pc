@@ -17,6 +17,9 @@
                                             placeholder="结束日期"
                                             :value="searchData.end.value"></DatePicker>
                             </FormItem>
+                            <span style="font-weight: 700;">总消费：</span>
+                            <span style="font-size: 24px;">{{this.totalMoney}}</span>
+                            <span style="font-weight: 700;">元</span>
                         </Form>
                         <fs-table-page :columns="columns1"
                                        :size="null"
@@ -293,6 +296,7 @@
             this._setHeight()
             this._getAppointmentTotal()
             this._getMyAppintment()
+            this._getTotalMoney()
         },
         computed: {
             cardNumber() {
@@ -329,12 +333,10 @@
             },
             _startDateChange(date) {
                 this.searchData.start.value = date
-                this._computedTotalTitle()
                 this._getTotalMoney()
             },
             _endDateChange(date) {
                 this.searchData.end.value = date
-                this._computedTotalTitle()
                 this._getTotalMoney()
             },
             _setHeight() {
@@ -344,6 +346,7 @@
             },
             _getMyAppintment() {
                 let params = {}
+                this._getTotalMoney()
                 params.date = this.appintmentTime
                 this.$http.get('card/getMyAppintment', {params}).then((res) => {
                     const data = res.data
@@ -374,9 +377,9 @@
                 let sendData = {}
                 sendData.start = this.searchData.start.value
                 sendData.end = this.searchData.end.value
-                this.$http.get('/card/getTotal', {params: sendData}).then((res) => {
+                this.$http.get('/card/getMyTotal', {params: sendData}).then((res) => {
                     if (res.success) {
-                        this.totalMoney = res.data.total
+                        this.totalMoney = res.data
                     }
                 })
             }

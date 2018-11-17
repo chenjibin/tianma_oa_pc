@@ -1,3 +1,29 @@
+<style>
+    .ivu-table .demo-table-info-row td{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-error-row td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-column td{
+        background-color: #D9EDF7;
+        color: #000000;
+    }
+    .ivu-table .demo-table-info-cell-name td {
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-age td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-address  td{
+        background-color: #187;
+        color: #fff;
+    }
+</style>
 <template>
     <div id="assetslocation">
         <Card>
@@ -8,13 +34,14 @@
                             @on-change="_addDepMonthChange"
                             :value="addDepForm.month"></DatePicker>
             </FormItem>
-            <Button  v-if="showWarning" type="warning"  @click="_updateType(4)">打分有异议</Button>
-            <Button  v-if="showSuccess" type="success"  @click="_updateType(5)">确认无异议</Button>
-            <span v-if="showSuccess">总绩效：{{allScore}}</span>
+            <!--<Button  v-if="showWarning" type="warning"  @click="_updateType(4)">打分有异议</Button>-->
+            <!--<Button  v-if="showSuccess" type="success"  @click="_updateType(5)">确认无异议</Button>-->
+            <!--<span v-if="showSuccess">总绩效：{{allScore}}</span>-->
         </Form>
-        <Table :loading="tableLoading"
+        <Table border :columns="header.columns"
+               :row-class-name="rowClassName"
+               :loading="tableLoading"
                :height="tableHeight"
-               :columns="header.columns"
                :data="tableData.data"></Table>
         </Card>
     </div>
@@ -81,6 +108,12 @@
         methods: {
             initPage() {
                 this.pageData.page = 1;
+            },
+            rowClassName (row, index) {
+                if (this.tableData.data[index].color === 1) {
+                    return 'demo-table-info-column';
+                }
+                return '';
             },
             setPage(page) {
                 this.pageData.page = page;
@@ -160,6 +193,7 @@
                     columnObj = eval('(' + this.params.kv + ')');
                     tableData = eval('(' + this.params.values + ')');
                     tableData.score = item.score;
+                    tableData.color = item.color;
                     tableData.target = item.target;
                     tableData.real = item.real;
                     tableData.remark = item.remark;
@@ -181,21 +215,6 @@
                         'align': 'center'
                     });
                 }
-                this.header.columns.push({
-                    'title': '目标值',
-                    'key': 'target',
-                    'align': 'center'
-                });
-                this.header.columns.push({
-                    'title': '实际值',
-                    'key': 'real',
-                    'align': 'center'
-                });
-                this.header.columns.push({
-                    'title': '得分',
-                    'key': 'score',
-                    'align': 'center'
-                });
                 this.header.columns.push({
                     'title': '备注',
                     'key': 'remark',

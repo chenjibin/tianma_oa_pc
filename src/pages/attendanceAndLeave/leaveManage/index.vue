@@ -40,7 +40,7 @@
                         <Option value="调休">调休</Option>
                         <Option value="丧假">丧假</Option>
                         <Option value="生日假">生日假</Option>
-                        <Option value="出差">出差</Option>
+                        <Option value="外勤">外勤</Option>
                         <Option value="带薪休假">带薪休假</Option>
                         <Option value="调班">调班</Option>
                         <Option value="陪护假">陪护假</Option>

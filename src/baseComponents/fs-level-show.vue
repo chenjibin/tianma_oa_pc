@@ -20,6 +20,28 @@
                            </div>
                        </div>
                    </div>
+                   <div >规则：</div>
+                   <div >
+                       <div >
+                           <span>热血青铜</span><span>0~350</span>
+                           <span style="margin-left: 13%">不屈白银</span><span>350~450  </span>
+                       </div>
+                       <div >
+                           <span>英勇黄金</span><span>1300~2700</span>
+                           <span  style="margin-left: 6%">坚韧铂金</span><span>2700~4900</span>
+                       </div>
+                       <div>
+                           <span>不朽星钻</span><span>4900~7700</span>
+                           <span  style="margin-left: 6%">荣耀皇冠</span><span>7700~11700</span>
+                       </div>
+                       <div>
+                           <span>超级王牌</span><span>11700~16500</span>
+                           <span  style="margin-left: 3%">无敌战神</span><span>16500~100000</span>
+                       </div>
+                       <div>
+                           <span>无敌</span><span>100000~</span>
+                       </div>
+                   </div>
                </div>
             </div>
             <Tooltip :content="'综合能力值:' + levelNumber + ' ( ' + levelDesc + ' ) '" placement="top">
@@ -29,6 +51,9 @@
     </div>
 </template>
 <style lang="less">
+    .duiqi {
+        left: 13%;
+    }
     .level-show {
         text-align: center;
         font-size: 0;

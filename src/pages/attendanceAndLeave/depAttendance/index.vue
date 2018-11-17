@@ -149,7 +149,7 @@
                         width: 80
                     },
                     {
-                        title: '出差(天)',
+                        title: '外勤(天)',
                         key: 'out_off_day',
                         align: 'center',
                         width: 80

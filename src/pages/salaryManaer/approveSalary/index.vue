@@ -1,3 +1,29 @@
+<style>
+    .ivu-table .demo-table-info-row td{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-error-row td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-column td{
+        background-color: #D9EDF7;
+        color: #000000;
+    }
+    .ivu-table .demo-table-info-cell-name td {
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-age td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-address  td{
+        background-color: #187;
+        color: #fff;
+    }
+</style>
 <template>
     <div id="approveSalary">
         <Col :span="4">
@@ -23,18 +49,31 @@
                 <FormItem label="姓名">
                     <Input type="text" placeholder="姓名" v-model="searchData.name.value"></Input>
                 </FormItem>
+                <FormItem label="状态"  style="width: 240px">
+                    <Select v-model="searchData.states.value"
+                            clearable>
+                        <Option :value="2">已打分</Option>
+                        <Option :value="1">未打分</Option>
+                        <Option :value="0"><span style="color: #ff8766;">未导入</span></Option>
+                    </Select>
+                </FormItem>
                 <Button type="ghost" @click="importModalFlag = true">
-                    <Icon type="ios-cloud-upload-outline"></Icon>
+                    <Icon type="ios-cloud-download-outline"></Icon>
                     导入
+                </Button>
+                <Button type="ghost" @click="uploadFeil">
+                    <Icon type="ios-cloud-upload-outline"></Icon>
+                    导出
                 </Button>
             </Form>
             <fs-table-page :params="searchData" :columns="postColumns" :size="null" ref="paperList"
-                           :height="tableHeight" url="/perform/getEmployee1"></fs-table-page>
+                           :height="tableHeight" url="/perform/getEmployee"></fs-table-page>
         </Card>
         </Col>
         <Modal v-model="markModal" :width="1300">
             <Table :height="600"
-                   :columns="markColumns"
+                   border :columns="markColumns"
+                   :row-class-name="rowClassName"
                    :data="tableData"></Table>
             <div slot="footer">
                 <Button type="text" @click="markModal = false">取消</Button>
@@ -70,6 +109,7 @@
 <script>
     import moment from 'moment';
     import fsTablePage from '@/baseComponents/fs-table-page';
+    import utils from '@/libs/util'
 
     const NOW_MONTH = moment().format('YYYY-MM');
     export default {
@@ -86,6 +126,10 @@
                         value: '',
                         type: 'input'
                     },
+                    states: {
+                        value: '',
+                        type: 'input'
+                    },
                     month: {
                         value: NOW_MONTH,
                         type: 'select'
@@ -93,6 +137,10 @@
                     nodeId: {
                         value: 1,
                             type: 'tree'
+                    },
+                    orName: {
+                        value: '',
+                        type: 'input'
                     }
                 },
                 cityList: [
@@ -158,8 +206,12 @@
                                 color = 'blue';
                             }
                             if (type == 1) {
-                                text = '已导入';
+                                text = '未打分';
                                 color = 'orange';
+                            }
+                            if (type == 2) {
+                                text = '已打分';
+                                color = 'yellow';
                             }
                             let arr = [
                                 h('Tag', {
@@ -268,9 +320,18 @@
                     });
                 });
             },
+            uploadFeil() {
+                utils.downloadFile('/oa/down/' + this.searchData.name.value + this.searchData.month.value + '.xls', this.searchData.name.value + this.searchData.month.value + '.xls')
+            },
             filterNode(value, data) {
                 if (!value) return true;
                 return data.name.indexOf(value) !== -1;
+            },
+            rowClassName (row, index) {
+                // if (this.tableData.data[index].color === 1) {
+                //     return 'demo-table-info-column';
+                // }
+                return '';
             },
             saveScore() {
                 let pr = {};
@@ -304,6 +365,7 @@
             },
             _treeNodeClickHandler(data) {
                 this.searchData.nodeId.value = data.id;
+                this.searchData.orName.value = data.name;
             },
             _getOrgTree() {
                 // 同一个接口调用两次是因为左侧的树和下拉输入框是同一个接口，存在不合理的地方
@@ -313,6 +375,7 @@
                         if (res.success) {
                             this.orgTreeData = res.data;
                             this.searchData.nodeId.value = res.data[0].id;
+                            this.searchData.orName.value = res.data[0].name;
                             resolve(res.data[0].id);
                         }
                     });
