@@ -26,7 +26,15 @@
                     <Button type="ghost" icon="arrow-right-c" @click="toPage('assetsBuyApprove')">立即处理</Button>
                 </div>
             </li>
-            <li v-if="!purchaseMsgNumber && !compactMsgNumber && !odmsgNumber">
+            <li v-if="wenNumber" class="todo-list-item">
+                <div class="todo-list-item-left">
+                    <span>【问卷】</span><span>您有{{wenNumber}}条问卷需要填写</span>
+                </div>
+                <div class="todo-list-item-right">
+                    <Button type="ghost" icon="arrow-right-c" @click="$router.push('myExam')">立即处理</Button>
+                </div>
+            </li>
+            <li v-if="!purchaseMsgNumber && !compactMsgNumber && !odmsgNumber && !wenNumber">
                 暂无待办事项
             </li>
         </ul>
@@ -63,7 +71,8 @@
             return {
                 compactMsgNumber: 0,
                 odmsgNumber: 0,
-                purchaseMsgNumber: 0
+                purchaseMsgNumber: 0,
+                wenNumber: 0
             };
         },
         created() {
@@ -82,6 +91,7 @@
                         this.compactMsgNumber = resData.compactMsgNumber;
                         this.odmsgNumber = resData.odmsgNumber;
                         this.purchaseMsgNumber = resData.purchaseMsgNumber;
+                        this.wenNumber = resData.wenNumber;
                     }
                 });
             }

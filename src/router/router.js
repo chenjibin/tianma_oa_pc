@@ -362,6 +362,13 @@ export const appRouter = [
                 name: 'employeeOrganize',
                 title: '部门员工档案',
                 component: _import('employeeFileManager/employeeOrganize')
+            },
+            {
+                path: 'wenLog',
+                icon: 'ios-bookmarks',
+                name: 'wenLog',
+                title: '部门问卷汇总',
+                component: _import('employeeFileManager/wenLog')
             }
         ]
     },

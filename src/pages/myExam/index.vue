@@ -11,17 +11,30 @@
             </Card>
             </Col>
             <Col :xs="24" :sm="24" :md="10" :lg="8">
-            <Card :dis-hover="true">
+            <Card :dis-hover="true" >
                 <h3 style="margin-bottom: 16px;">我的考试</h3>
                 <div>
                     <Card v-for="item, index in myTestList" :key="'my-test-' + index">
                         <div class="">
                             <strong style="font-size: 16px;">{{item.name}}</strong>
                             <div class="">
-                                <span>考试时间：</span><span>{{item.starttime}}</span>
-                                <span style="margin-left: 8px;">考试时长：</span><span>{{item.totletime}}分钟</span>
+                                <span>请认真填写</span>
                             </div>
                             <Button type="primary" style="margin-top: 8px;" @click="_startTest(item)">开始考试</Button>
+                        </div>
+                    </Card>
+                </div>
+            </Card>
+            <Card :dis-hover="true" style="margin-top:3%;">
+                <h3 style="margin-bottom: 16px;">我的问卷</h3>
+                <div>
+                    <Card v-for="item, index in myWenList" :key="'my-test-' + index">
+                        <div class="">
+                            <strong style="font-size: 16px;">{{item.name}}</strong>
+                            <div class="">
+                                <span style="margin-left: 8px;">{{item.key}}</span>
+                            </div>
+                            <Button type="primary" style="margin-top: 8px;" @click="_startTest(item)">开始填写问卷</Button>
                         </div>
                     </Card>
                 </div>
@@ -166,12 +179,14 @@
                         }
                     }
                 ],
-                myTestList: []
+                myTestList: [],
+                myWenList: []
             };
         },
         created() {
             this._setTableHeight();
             this._getMyTestList();
+            this._getMyWenList();
         },
         methods: {
             _submitSuccessHandler() {
@@ -224,6 +239,16 @@
                 this.$http.get('/examtest/getTestList', {params: data}).then((res) => {
                     if (res.success) {
                         this.myTestList = res.data;
+                    }
+                });
+            },
+            _getMyWenList() {
+                let data = {};
+                data.page = 1;
+                data.pageSize = 1000;
+                this.$http.get('/examtest/getQuesList', {params: data}).then((res) => {
+                    if (res.success) {
+                        this.myWenList = res.data;
                     }
                 });
             },
