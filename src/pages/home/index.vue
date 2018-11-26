@@ -69,7 +69,7 @@
                         iconType="ios-book"
                         color="rgb(242, 94, 67)"
                         btn-text="知识"
-                        @card-click="$router.replace({name: 'articleHome'})"></info-btn>
+                        @card-click="_see"></info-btn>
                     </Col>
                     <Col :xs="12" :sm="6" :md="6" :lg="4" :style="{marginBottom: '3px'}">
                     <info-btn iconType="android-contacts"
@@ -143,6 +143,20 @@
             userInfo,
             thingsToDo,
             peoplePhoto
+        },
+        methods: {
+            _see() {
+                let date = {};
+                date.admin = 'login';
+                let string;
+                var w = window.open();
+                this.$http.post('/user/getXwikiInfo').then((res) => {
+                    if (res.success) {
+                        string = 'http://192.168.15.22:8089/xwiki/bin/loginsubmit/XWiki/XWikiLogin?xredirect=%2Fxwiki%2Fbin%2Fview%2FMain%2F%3Fsrid%3DTqPFhflK&srid=TqPFhflK&form_token=g37q7L75IvfwaCfuYze1ig&j_username=' + res.username + '&j_password=' + res.password;
+                        w.location.href = string;
+                    }
+                })
+            }
         }
     };
 </script>

@@ -264,7 +264,7 @@ export const otherRouter = {
         },
         {
             path: 'meetingRecord',
-            title: '会议室排期',
+            title: '会议室预定',
             meta: {
                 whiteIn: true
             },

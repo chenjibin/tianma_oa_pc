@@ -25,8 +25,6 @@
                             clearable
                             placeholder="筛选类型"
                             style="width: 160px">
-                        <Option value="10">小超市消费</Option>
-                        <Option value="11">小超市退款</Option>
                         <Option value="12">商品变更信息</Option>
                     </Select>
                 </FormItem>

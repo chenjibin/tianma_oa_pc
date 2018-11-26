@@ -249,6 +249,7 @@
                 })
             },
             _orderStatusChange(name) {
+                this.goodList = {};
                 if (name == 3) {
                     this._getGoodList();
                     this.isFeel = false;
