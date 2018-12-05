@@ -183,7 +183,7 @@
                         time: function(schedule) {
                             let startTime = moment(schedule.start._date).format('HH:mm')
                             let endTime = moment(schedule.end._date).format('HH:mm')
-                            return `<dl class="sec-dl"><dt class="sec-dt">会议名称</dt><dd class="sec-dd">${schedule.title}</dd></dl><dl class="sec-dl"><dt class="sec-dt">会议时间</dt><dd class="sec-dd">${startTime} - ${endTime}</dd></dl><dl class="sec-dl"><dt class="sec-dt">创建人</dt><dd class="sec-dd">${schedule.raw.creator.name}</dd></dl>`
+                            return `<dl class="sec-dl"><dt class="sec-dt">创建人</dt><dd class="sec-dd">${schedule.raw.creator.name}</dd></dl><dl class="sec-dl"><dt class="sec-dt">会议名称</dt><dd class="sec-dd">${schedule.title}</dd></dl><dl class="sec-dl"><dt class="sec-dt">会议时间</dt><dd class="sec-dd">${startTime} - ${endTime}</dd></dl>`
                         }
                     },
                     timezones: [{

@@ -110,7 +110,6 @@
         }
     }
     .sec-dl {
-        padding: 4px 0;
     }
     .sec-dt {
         margin-right: 6px;
