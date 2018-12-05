@@ -81,8 +81,8 @@
             display: flex;
             align-items: center;
             position: absolute;
-            left: 252px;
-            right: 12px;
+            right: 252px;
+            left: 12px;
             top: 12px;
             height: 60px;
             z-index: 1000;
@@ -98,7 +98,7 @@
         aside {
             padding: 100px 24px 0 24px;
             position: absolute;
-            left: 12px;
+            right: 12px;
             top: 12px;
             bottom: 24px;
             width: 240px;
@@ -109,8 +109,8 @@
         }
         .schedule-wrap {
             position: absolute;
-            left: 252px;
-            right: 12px;
+            right: 252px;
+            left: 12px;
             top: 72px;
             bottom: 24px;
             z-index: 1000;
@@ -164,6 +164,7 @@
         }
     ]
     export default {
+        name: 'meetingRecord',
         components: {VueTuicalendar},
         data() {
             return {

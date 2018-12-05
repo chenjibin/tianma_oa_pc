@@ -22,12 +22,10 @@
                 type: String,
                 default: 'div'
             },
-
             schedules: {
                 type: Array,
                 required: true
             },
-
             options: {
                 type: Object,
                 default: () => ({})
@@ -51,7 +49,6 @@
                 this.calendar.createSchedules(this.schedules)
                 this.calendar.render()
             },
-
             registerEvents() {
                 events.forEach(event => {
                     this.registerEvent(event, (...args) => {
