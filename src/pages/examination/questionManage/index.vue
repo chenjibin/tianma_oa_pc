@@ -61,14 +61,14 @@
                         <Col :span="8">
                             <FormItem label="试题分类">
                                 <Select v-model="editorSettingData.subject">
-                                    <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
+                                    <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col :span="8">
                             <FormItem label="试题类型">
                                 <Select v-model="editorSettingData.type">
-                                    <Option :value="item.value" v-for="item, index in typeOptMap" :key="index">{{item.label}}</Option>
+                                    <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">{{item.label}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -93,13 +93,13 @@
                         <RadioGroup v-model="editorSettingData.singleType"
                                     v-show="editorSettingData.type === '1'">
                             <Radio :label="index | indexToBigCode"
-                                   v-for="item, index in editorSettingData.questionList"
+                                   v-for="(item, index) in editorSettingData.questionList"
                                    :key="index">{{index | indexToBigCode}}</Radio>
                         </RadioGroup>
                         <CheckboxGroup v-model="editorSettingData.multiType"
                                        v-show="editorSettingData.type === '2'">
                             <Checkbox :label="index | indexToBigCode"
-                                      v-for="item, index in editorSettingData.questionList"
+                                      v-for="(item, index) in editorSettingData.questionList"
                                       :key="index"></Checkbox>
                         </CheckboxGroup>
                         <RadioGroup v-model="editorSettingData.trueOrFalseType"
@@ -112,7 +112,7 @@
                             <Row :gutter="8" style="margin-top: 16px">
                                 <Col :span="6"
                                      style="margin-bottom: 8px;"
-                                     v-for="item, index in editorSettingData.fillType"
+                                     v-for="(item, index) in editorSettingData.fillType"
                                      :key="index">
                                     <Input type="text" v-model.trim="item.content"></Input>
                                 </Col>
@@ -404,6 +404,9 @@
                     }
                 ],
                 subjectList: [],
+                pingList: [],
+                gangList: [],
+                nanList: [],
                 tableHeight: 300,
                 timer: null
             };
@@ -421,6 +424,9 @@
         },
         created() {
             this._getSubjectList();
+            this._getPingList();
+            this._getGangList();
+            this._getNanList();
             this._setTableHeight();
         },
         filters: {
@@ -599,6 +605,27 @@
                 this.$http.get('/examquestion/getSubjectList').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;
+                    }
+                });
+            },
+            _getPingList() {
+                this.$http.get('/examquestion/getSubjectPingList').then((res) => {
+                    if (res.success) {
+                        this.pingList = res.data;
+                    }
+                });
+            },
+            _getGangList() {
+                this.$http.get('/examquestion/getSubjectPostList').then((res) => {
+                    if (res.success) {
+                        this.gangList = res.data;
+                    }
+                });
+            },
+            _getNanList() {
+                this.$http.get('/examquestion/getSubjectNanList').then((res) => {
+                    if (res.success) {
+                        this.nanList = res.data;
                     }
                 });
             }
