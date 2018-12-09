@@ -58,13 +58,13 @@
                                        :upload.sync="editorSettingData.questionPic"></fs-img-upload>
                     </FormItem>
                     <Row :gutter="16">
-                        <Col :span="8">
-                            <FormItem label="试题分类">
-                                <Select v-model="editorSettingData.subject">
-                                    <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
+                        <!--<Col :span="8">-->
+                            <!--<FormItem label="试题分类">-->
+                                <!--<Select v-model="editorSettingData.subject">-->
+                                    <!--<Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>-->
+                                <!--</Select>-->
+                            <!--</FormItem>-->
+                        <!--</Col>-->
                         <Col :span="8">
                             <FormItem label="试题类型">
                                 <Select v-model="editorSettingData.type">
@@ -75,6 +75,29 @@
                         <Col :span="8">
                             <FormItem label="试题分数">
                                 <InputNumber :min="0" v-model="editorSettingData.mark"></InputNumber>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="16">
+                        <Col :span="12">
+                            <FormItem label="试题平台">
+                                <Select v-model="editorSettingData.subject1" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in pingList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="12">
+                            <FormItem label="试题岗位">
+                                <Select v-model="editorSettingData.subject2" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in gangList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="12">
+                            <FormItem label="试题难度">
+                                <Select v-model="editorSettingData.subject3" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in nanList" :key="index">{{item.name}}</Option>
+                                </Select>
                             </FormItem>
                         </Col>
                     </Row>
@@ -304,6 +327,9 @@
                     questionPic: [],
                     type: '1',
                     subject: '',
+                    subject1: [],
+                    subject2: [],
+                    subject3: [],
                     mark: 0,
                     singleType: '',
                     multiType: [],
@@ -455,6 +481,9 @@
                     data.questionPic = this._retuenSendPicUrl(editorSettingData.questionPic[0].name);
                 }
                 data.subject = editorSettingData.subject;
+                data.subject1 = editorSettingData.subject1.join(',');
+                data.subject2 = editorSettingData.subject2.join(',');
+                data.subject3 = editorSettingData.subject3.join(',');
                 data.type = editorSettingData.type;
                 data.questionMark = editorSettingData.mark;
                 if (['1', '2'].indexOf(data.type) > -1) {
@@ -515,6 +544,9 @@
                 this.$refs.imgUploadFo.removeAllPicFlie();
                 editorSettingData.type = '1';
                 editorSettingData.subject = this.subjectList[0].id;
+                editorSettingData.subject1 = [];
+                editorSettingData.subject2 = [];
+                editorSettingData.subject3 = [];
                 editorSettingData.mark = 0;
                 editorSettingData.singleType = '';
                 editorSettingData.multiType = [];
@@ -545,13 +577,16 @@
                 this.editorSettingData.questionList.splice(data._index, 1);
             },
             _editorSetting(data) {
-                console.log(data);
                 this.questionId = data.id;
                 this.postFormType = 'update';
                 this._initEditorSettingData();
                 let editorSettingData = this.editorSettingData;
                 editorSettingData.name = data.name;
                 editorSettingData.subject = data.subject;
+                editorSettingData.subject1 = data.subject1 ? data.subject1.split(',').map(Number) : [];
+                editorSettingData.subject2 = data.subject2 ? data.subject2.split(',').map(Number) : [];
+                editorSettingData.subject3 = data.subject3 ? data.subject3.split(',').map(Number) : [];
+                console.log(editorSettingData);
                 editorSettingData.type = data.type + '';
                 editorSettingData.mark = data.questionmark;
                 editorSettingData.desc = data.analysis;

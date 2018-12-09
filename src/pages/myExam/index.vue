@@ -13,8 +13,11 @@
             <Col :xs="24" :sm="24" :md="10" :lg="8">
             <Card :dis-hover="true" >
                 <h3 style="margin-bottom: 16px;">我的考试</h3>
+                <div class="brush-btn-wrap">
+                    <brush-question></brush-question>
+                </div>
                 <div>
-                    <Card v-for="item, index in myTestList" :key="'my-test-' + index">
+                    <Card v-for="(item, index) in myTestList" :key="'my-test-' + index">
                         <div class="">
                             <strong style="font-size: 16px;">{{item.name}}</strong>
                             <div class="">
@@ -28,7 +31,7 @@
             <Card :dis-hover="true" style="margin-top:3%;">
                 <h3 style="margin-bottom: 16px;">我的问卷</h3>
                 <div>
-                    <Card v-for="item, index in myWenList" :key="'my-test-' + index">
+                    <Card v-for="(item, index) in myWenList" :key="'my-test-' + index">
                         <div class="">
                             <strong style="font-size: 16px;">{{item.name}}</strong>
                             <div class="">
@@ -57,11 +60,19 @@
         </Modal>
     </div>
 </template>
-<style></style>
+<style lang="less" scoped>
+    .brush-btn-wrap {
+        position: absolute;
+        right: 24px;
+        top: 12px;
+        z-index: 100;
+    }
+</style>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import testResult from '../examination/components/test-result';
     import inExam from './in-exam';
+    import brushQuestion from './brush-question';
     import utils from '@/libs/util.js';
 
     export default {
@@ -279,7 +290,8 @@
         components: {
             fsTablePage,
             testResult,
-            inExam
+            inExam,
+            brushQuestion
         }
     };
 </script>
