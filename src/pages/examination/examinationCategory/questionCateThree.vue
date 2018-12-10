@@ -2,10 +2,10 @@
     <div>
         <Card>
             <Form inline :label-width="60">
-                <FormItem label="试题难度">
+                <FormItem label="类型">
                     <Input type="text"
                            v-model="filterOpt.name.value"
-                           placeholder="筛选试题难度"></Input>
+                           placeholder="筛选类型"></Input>
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
@@ -20,18 +20,18 @@
                            :height="tableHeight"
                            :params="filterOpt"
                            ref="tablePage"
-                           url="/examquestion/datalistNan"></fs-table-page>
+                           url="/examquestion/datalistType"></fs-table-page>
             <Modal v-model="editorSettingFlag"
                    width="400"
                    :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                    <span>{{postFormType === 'add' ? '添加试题难度' : '修改试题难度'}}</span>
+                    <span>{{postFormType === 'add' ? '添加类型' : '修改类型'}}</span>
                 </p>
                 <Form :label-width="90"
                       :model="editorSettingData"
                       ref="editorForm"
                       :rules="addRules">
-                    <FormItem label="试题难度" prop="name">
+                    <FormItem label="类型" prop="name">
                         <Input type="text"
                                v-model="editorSettingData.name"></Input>
                     </FormItem>
@@ -78,7 +78,7 @@
                 },
                 postColumns: [
                     {
-                        title: '试题难度',
+                        title: '类型',
                         key: 'name'
                     },
                     {
@@ -94,7 +94,7 @@
                             return h('div', [
                                 h('Tooltip', {
                                     props: {
-                                        content: '修改试题难度',
+                                        content: '修改类型',
                                         placement: 'top',
                                         transfer: true
                                     }
@@ -146,7 +146,7 @@
                         let data = {};
                         data.name = this.editorSettingData.name;
                         data.id = this.editorSettingData.id;
-                        this.$http.post('/examquestion/addNan', data).then((res) => {
+                        this.$http.post('/examquestion/addType', data).then((res) => {
                             if (res.success) {
                                 this.editorSettingFlag = false;
                                 let content = this.postFormType === 'add' ? '添加成功!' : '修改成功!';

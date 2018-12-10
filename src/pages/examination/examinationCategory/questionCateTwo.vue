@@ -2,10 +2,10 @@
     <div>
         <Card>
             <Form inline :label-width="60">
-                <FormItem label="试题岗位">
+                <FormItem label="知识点">
                     <Input type="text"
                            v-model="filterOpt.name.value"
-                           placeholder="筛选试题岗位"></Input>
+                           placeholder="筛选知识点"></Input>
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
@@ -20,18 +20,18 @@
                            :height="tableHeight"
                            :params="filterOpt"
                            ref="tablePage"
-                           url="/examquestion/datalistPost"></fs-table-page>
+                           url="/examquestion/datalistKnowledge"></fs-table-page>
             <Modal v-model="editorSettingFlag"
                    width="400"
                    :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                    <span>{{postFormType === 'add' ? '添加试题岗位' : '修改试题岗位'}}</span>
+                    <span>{{postFormType === 'add' ? '添加知识点' : '修改知识点'}}</span>
                 </p>
                 <Form :label-width="90"
                       :model="editorSettingData"
                       ref="editorForm"
                       :rules="addRules">
-                    <FormItem label="试题岗位" prop="name">
+                    <FormItem label="知识点" prop="name">
                         <Input type="text"
                                v-model="editorSettingData.name"></Input>
                     </FormItem>
@@ -63,7 +63,7 @@
                 exportLoading: false,
                 addRules: {
                     name: [
-                        { required: true, message: '分类名称不能为空!', trigger: 'blur' }
+                        { required: true, message: '知识点不能为空!', trigger: 'blur' }
                     ]
                 },
                 editorSettingData: {
@@ -78,7 +78,7 @@
                 },
                 postColumns: [
                     {
-                        title: '试题岗位',
+                        title: '知识点',
                         key: 'name'
                     },
                     {
@@ -146,7 +146,7 @@
                         let data = {};
                         data.name = this.editorSettingData.name;
                         data.id = this.editorSettingData.id;
-                        this.$http.post('/examquestion/addPost', data).then((res) => {
+                        this.$http.post('/examquestion/addKnowledge', data).then((res) => {
                             if (res.success) {
                                 this.editorSettingFlag = false;
                                 let content = this.postFormType === 'add' ? '添加成功!' : '修改成功!';

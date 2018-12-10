@@ -20,7 +20,7 @@
                            :height="tableHeight"
                            :params="filterOpt"
                            ref="tablePage"
-                           url="/examquestion/datalistPing"></fs-table-page>
+                           url="/examquestion/datalistPlatform"></fs-table-page>
             <Modal v-model="editorSettingFlag"
                    width="400"
                    :mask-closable="false">
@@ -146,7 +146,7 @@
                         let data = {};
                         data.name = this.editorSettingData.name;
                         data.id = this.editorSettingData.id;
-                        this.$http.post('/examquestion/addPing', data).then((res) => {
+                        this.$http.post('/examquestion/addPlatform', data).then((res) => {
                             if (res.success) {
                                 this.editorSettingFlag = false;
                                 let content = this.postFormType === 'add' ? '添加成功!' : '修改成功!';
