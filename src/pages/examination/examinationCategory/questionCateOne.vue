@@ -63,7 +63,7 @@
                 exportLoading: false,
                 addRules: {
                     name: [
-                        { required: true, message: '分类名称不能为空!', trigger: 'blur' }
+                        { required: true, message: '试题平台不能为空!', trigger: 'blur' }
                     ]
                 },
                 editorSettingData: {

@@ -94,7 +94,7 @@
                             return h('div', [
                                 h('Tooltip', {
                                     props: {
-                                        content: '修改试题岗位',
+                                        content: '修改知识点',
                                         placement: 'top',
                                         transfer: true
                                     }

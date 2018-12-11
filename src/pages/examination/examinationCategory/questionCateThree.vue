@@ -2,10 +2,10 @@
     <div>
         <Card>
             <Form inline :label-width="60">
-                <FormItem label="类型">
+                <FormItem label="考试类型">
                     <Input type="text"
                            v-model="filterOpt.name.value"
-                           placeholder="筛选类型"></Input>
+                           placeholder="筛选考试类型"></Input>
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
@@ -25,13 +25,13 @@
                    width="400"
                    :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                    <span>{{postFormType === 'add' ? '添加类型' : '修改类型'}}</span>
+                    <span>{{postFormType === 'add' ? '添加考试类型' : '修改考试类型'}}</span>
                 </p>
                 <Form :label-width="90"
                       :model="editorSettingData"
                       ref="editorForm"
                       :rules="addRules">
-                    <FormItem label="类型" prop="name">
+                    <FormItem label="考试类型" prop="name">
                         <Input type="text"
                                v-model="editorSettingData.name"></Input>
                     </FormItem>
@@ -63,7 +63,7 @@
                 exportLoading: false,
                 addRules: {
                     name: [
-                        { required: true, message: '分类名称不能为空!', trigger: 'blur' }
+                        { required: true, message: '考试类型不能为空!', trigger: 'blur' }
                     ]
                 },
                 editorSettingData: {
@@ -94,7 +94,7 @@
                             return h('div', [
                                 h('Tooltip', {
                                     props: {
-                                        content: '修改类型',
+                                        content: '修改考试类型',
                                         placement: 'top',
                                         transfer: true
                                     }
