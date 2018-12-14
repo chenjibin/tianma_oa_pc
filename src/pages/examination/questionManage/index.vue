@@ -58,23 +58,46 @@
                                        :upload.sync="editorSettingData.questionPic"></fs-img-upload>
                     </FormItem>
                     <Row :gutter="16">
-                        <Col :span="8">
-                            <FormItem label="试题分类">
-                                <Select v-model="editorSettingData.subject">
-                                    <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
+                        <!--<Col :span="8">-->
+                            <!--<FormItem label="试题分类">-->
+                                <!--<Select v-model="editorSettingData.subject">-->
+                                    <!--<Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>-->
+                                <!--</Select>-->
+                            <!--</FormItem>-->
+                        <!--</Col>-->
                         <Col :span="8">
                             <FormItem label="试题类型">
                                 <Select v-model="editorSettingData.type">
-                                    <Option :value="item.value" v-for="item, index in typeOptMap" :key="index">{{item.label}}</Option>
+                                    <Option :value="item.value" v-for="(item, index) in typeOptMap" :key="index">{{item.label}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col :span="8">
                             <FormItem label="试题分数">
                                 <InputNumber :min="0" v-model="editorSettingData.mark"></InputNumber>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="16">
+                        <Col :span="12">
+                            <FormItem label="试题平台">
+                                <Select v-model="editorSettingData.subject1" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in pingList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="12">
+                            <FormItem label="知识点">
+                                <Select v-model="editorSettingData.subject2" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in gangList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="12">
+                            <FormItem label="考试类型">
+                                <Select v-model="editorSettingData.subject3" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in nanList" :key="index">{{item.name}}</Option>
+                                </Select>
                             </FormItem>
                         </Col>
                     </Row>
@@ -93,13 +116,13 @@
                         <RadioGroup v-model="editorSettingData.singleType"
                                     v-show="editorSettingData.type === '1'">
                             <Radio :label="index | indexToBigCode"
-                                   v-for="item, index in editorSettingData.questionList"
+                                   v-for="(item, index) in editorSettingData.questionList"
                                    :key="index">{{index | indexToBigCode}}</Radio>
                         </RadioGroup>
                         <CheckboxGroup v-model="editorSettingData.multiType"
                                        v-show="editorSettingData.type === '2'">
                             <Checkbox :label="index | indexToBigCode"
-                                      v-for="item, index in editorSettingData.questionList"
+                                      v-for="(item, index) in editorSettingData.questionList"
                                       :key="index"></Checkbox>
                         </CheckboxGroup>
                         <RadioGroup v-model="editorSettingData.trueOrFalseType"
@@ -112,7 +135,7 @@
                             <Row :gutter="8" style="margin-top: 16px">
                                 <Col :span="6"
                                      style="margin-bottom: 8px;"
-                                     v-for="item, index in editorSettingData.fillType"
+                                     v-for="(item, index) in editorSettingData.fillType"
                                      :key="index">
                                     <Input type="text" v-model.trim="item.content"></Input>
                                 </Col>
@@ -304,6 +327,9 @@
                     questionPic: [],
                     type: '1',
                     subject: '',
+                    subject1: [],
+                    subject2: [],
+                    subject3: [],
                     mark: 0,
                     singleType: '',
                     multiType: [],
@@ -404,6 +430,9 @@
                     }
                 ],
                 subjectList: [],
+                pingList: [],
+                gangList: [],
+                nanList: [],
                 tableHeight: 300,
                 timer: null
             };
@@ -421,6 +450,9 @@
         },
         created() {
             this._getSubjectList();
+            this._getPingList();
+            this._getGangList();
+            this._getNanList();
             this._setTableHeight();
         },
         filters: {
@@ -449,6 +481,9 @@
                     data.questionPic = this._retuenSendPicUrl(editorSettingData.questionPic[0].name);
                 }
                 data.subject = editorSettingData.subject;
+                data.subject1 = editorSettingData.subject1.join(',');
+                data.subject2 = editorSettingData.subject2.join(',');
+                data.subject3 = editorSettingData.subject3.join(',');
                 data.type = editorSettingData.type;
                 data.questionMark = editorSettingData.mark;
                 if (['1', '2'].indexOf(data.type) > -1) {
@@ -509,6 +544,9 @@
                 this.$refs.imgUploadFo.removeAllPicFlie();
                 editorSettingData.type = '1';
                 editorSettingData.subject = this.subjectList[0].id;
+                editorSettingData.subject1 = [];
+                editorSettingData.subject2 = [];
+                editorSettingData.subject3 = [];
                 editorSettingData.mark = 0;
                 editorSettingData.singleType = '';
                 editorSettingData.multiType = [];
@@ -539,13 +577,16 @@
                 this.editorSettingData.questionList.splice(data._index, 1);
             },
             _editorSetting(data) {
-                console.log(data);
                 this.questionId = data.id;
                 this.postFormType = 'update';
                 this._initEditorSettingData();
                 let editorSettingData = this.editorSettingData;
                 editorSettingData.name = data.name;
                 editorSettingData.subject = data.subject;
+                editorSettingData.subject1 = data.subject1 ? data.subject1.split(',').map(Number) : [];
+                editorSettingData.subject2 = data.subject2 ? data.subject2.split(',').map(Number) : [];
+                editorSettingData.subject3 = data.subject3 ? data.subject3.split(',').map(Number) : [];
+                console.log(editorSettingData);
                 editorSettingData.type = data.type + '';
                 editorSettingData.mark = data.questionmark;
                 editorSettingData.desc = data.analysis;
@@ -599,6 +640,27 @@
                 this.$http.get('/examquestion/getSubjectList').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;
+                    }
+                });
+            },
+            _getPingList() {
+                this.$http.get('/examquestion/getSubjectPlatformList').then((res) => {
+                    if (res.success) {
+                        this.pingList = res.data;
+                    }
+                });
+            },
+            _getGangList() {
+                this.$http.get('/examquestion/getSubjectKnowledgeList').then((res) => {
+                    if (res.success) {
+                        this.gangList = res.data;
+                    }
+                });
+            },
+            _getNanList() {
+                this.$http.get('/examquestion/getSubjectTypeList').then((res) => {
+                    if (res.success) {
+                        this.nanList = res.data;
                     }
                 });
             }

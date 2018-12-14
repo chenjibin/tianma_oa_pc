@@ -14,12 +14,12 @@
                            v-model="filterOpt.level"
                            placeholder="筛选岗位职级"></Input>
                 </FormItem>
-                <FormItem label="岗位部门">
-                    <Input type="text"
-                           @on-change="_inputDebounce"
-                           v-model="filterOpt.organizeName"
-                           placeholder="筛选岗位部门"></Input>
-                </FormItem>
+                <!--<FormItem label="岗位部门">-->
+                    <!--<Input type="text"-->
+                           <!--@on-change="_inputDebounce"-->
+                           <!--v-model="filterOpt.organizeName"-->
+                           <!--placeholder="筛选岗位部门"></Input>-->
+                <!--</FormItem>-->
 
                 <FormItem label="状态">
                     <Select v-model="filterOpt.states"
@@ -85,18 +85,18 @@
                             <Input v-model="postSettingForm.level"></Input>
                         </FormItem>
                         </Col>
-                        <Col :span="24">
-                            <FormItem label="岗位部门">
-                                <el-cascader
-                                        :options="orgTreeData"
-                                        :props="depProps"
-                                        v-model="postSettingForm.organizeId"
-                                        change-on-select
-                                        size="small"
-                                        style="width: 100%"
-                                ></el-cascader>
-                            </FormItem>
-                        </Col>
+                        <!--<Col :span="24">-->
+                            <!--<FormItem label="岗位部门">-->
+                                <!--<el-cascader-->
+                                        <!--:options="orgTreeData"-->
+                                        <!--:props="depProps"-->
+                                        <!--v-model="postSettingForm.organizeId"-->
+                                        <!--change-on-select-->
+                                        <!--size="small"-->
+                                        <!--style="width: 100%"-->
+                                <!--&gt;</el-cascader>-->
+                            <!--</FormItem>-->
+                        <!--</Col>-->
                     </Row>
                 </Form>
                 <div slot="footer">
@@ -169,16 +169,16 @@
                         key: 'name',
                         align: 'center'
                     },
-                    {
-                        title: '岗位部门',
-                        key: 'organizename',
-                        align: 'center'
-                    },
-                    {
-                        title: '在岗人员',
-                        key: 'username',
-                        align: 'center'
-                    },
+                    // {
+                    //     title: '岗位部门',
+                    //     key: 'organizename',
+                    //     align: 'center'
+                    // },
+                    // {
+                    //     title: '在岗人员',
+                    //     key: 'username',
+                    //     align: 'center'
+                    // },
                     {
                         title: '岗位职级',
                         key: 'level',
