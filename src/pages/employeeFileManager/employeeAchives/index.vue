@@ -50,7 +50,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="学历">
-                    <Select type="text" style="width: 160px" clearable = true
+                    <Select type="text" style="width: 160px" clearable
                             @on-change="_inputDebounce"
                             v-model="filterOpt.xueli"
                             placeholder="筛选学历">
@@ -210,6 +210,16 @@
                             </FormItem>
                             <FormItem label="年龄" style="width:49%;margin-right:1%;">
                                 <InputNumber :min="18" style="width: 100%" type="text" v-model="baseForm.nation"></InputNumber>
+                            </FormItem>
+                            <FormItem label="导师" style="width:49%;margin-right:1%;">
+                                <Select v-model="baseForm.master"
+                                        filterable
+                                        remote
+                                        :label="daoshilabel"
+                                        :remote-method="_filterPeopleRemote"
+                                        :loading="filterPeopleLoading">
+                                    <Option v-for="(option, index) in optionlist" :value="option.id" :key="option.id">{{option.realname + '(' + option.organizename + ')'}}</Option>
+                                </Select>
                             </FormItem>
                             <FormItem label="政治面貌" style="width:49%;margin-right:1%;">
                                 <Select style="width: 100%" v-model="baseForm.party" >
@@ -461,6 +471,7 @@
                 btnLoading: false,
                 orgSearching: false,
                 orgList: [],
+                daoshilabel: '',
                 postSearching: false,
                 deg: 0,
                 postList: [],
@@ -564,7 +575,8 @@
                                         },
                                         on: {
                                             click: function () {
-                                                vm.getUsersInfo(params.row.userId);
+                                                vm.getUsersInfo(params.row.userId, params.row.masterName);
+                                                // console.log(this.optionlist);
                                                 vm.settingModalFlag = true;
                                             }
                                         }
@@ -603,12 +615,14 @@
                         witness: ''
                     }
                 ],
+                optionlist: [],
                 socailShipForm: [],
                 emergency: {
                     emergencycontact: '',
                     contactrelationship: '',
                     contactnumber: ''
                 },
+                filterPeopleLoading: false,
                 tableLoading: true,
                 filterOpt: {
                     name: '', // 员工姓名
@@ -726,6 +740,28 @@
                     }
                 });
             },
+            _filterPeopleRemote(val) {
+                let data = {};
+                data.name = val;
+                this.filterPeopleLoading = true;
+                this.$http.get('/user/getCheckUser', {params: data}).then((res) => {
+                    if (res.success) {
+                        var d = res.data;
+                        this.optionlist = d.map(item => {
+                            return {
+                                'label': item.realname,
+                                'value': item.id,
+                                'id': item.id,
+                                'realname': item.realname,
+                                'organizename': item.organizename
+                            };
+                        });
+                    }
+                    this.filterPeopleLoading = false;
+                }, () => {
+                    this.filterPeopleLoading = false;
+                })
+            },
             // 删除关系
             delForm(index, formName) {
                 let row = this[formName][index];
@@ -838,16 +874,35 @@
                     }
                 }
             },
-            getUsersInfo(id) {
+            getUsersInfo(id, name) {
                 let that = this;
                 if (id === 0) {
                     return false;
                 }
                 let d = {};
                 d.userId = id;
+                d.masterName = name;
                 this.$http.post('/employees/findEmployee', d).then((res) => {
                     if (res) {
-                        this.baseForm = res;
+                        this.$http.get('/user/getCheckUser', {params: {name}}).then((resp) => {
+                            if (resp.success) {
+                                const d = resp.data;
+                                console.log(d)
+                                this.optionlist = d.map(item => {
+                                    return {
+                                        'label': item.realname,
+                                        'value': item.id,
+                                        'id': item.id,
+                                        'realname': item.realname,
+                                        'organizename': item.organizename
+                                    };
+                                });
+                                this.daoshilabel = name
+                                this.baseForm = res;
+                                console.log(this.baseForm)
+                            }
+                        }, () => {
+                        })
                     }
                 });
                 // 社会关系

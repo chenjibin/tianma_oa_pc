@@ -85,9 +85,6 @@
                         <Button type="ghost" shape="circle" icon="lock-combination"></Button>
                     </Tooltip>
                 </Poptip>
-                <Tooltip placement="top" content="查看制度" :transfer="true">
-                    <Button type="ghost" @click="showRuleModal = true" shape="circle" icon="ios-star"></Button>
-                </Tooltip>
                 <Poptip placement="right-start"
                         width="500"
                         v-model="lotteryFlag">

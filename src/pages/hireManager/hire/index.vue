@@ -1348,6 +1348,7 @@
                         return false;
                     }
                     var d = vm.statusForm;
+                    d.realName = vm.showUser.name;
                     if (vm.showUser.status === -1) {
                         d.status = 0;
                     }

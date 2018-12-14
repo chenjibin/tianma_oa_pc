@@ -41,6 +41,15 @@
                             <Option value="1">使用中</Option>
                         </Select>
                     </FormItem>
+                    <FormItem label="在职">
+                        <Select v-model="searchData.states.value"
+                                clearable
+                                placeholder="筛选状态"
+                                style="width: 100px">
+                            <Option value="1">启用</Option>
+                            <Option value="0">禁用</Option>
+                        </Select>
+                    </FormItem>
                     <FormItem :label-width="0.1">
                         <ButtonGroup>
                             <Button type="success"
@@ -232,6 +241,20 @@
                                     color: +params.row.card_states === 0 ? 'red' : 'green'
                                 }
                             }, +params.row.card_states === 0 ? '注销' : '使用中');
+                        }
+                    },
+                    {
+                        title: '在职',
+                        key: 'states',
+                        align: 'center',
+                        width: 100,
+                        render: (h, params) => {
+                            return h('Tag', {
+                                props: {
+                                    type: 'border',
+                                    color: +params.row.states === 1 ? 'green' : 'red'
+                                }
+                            }, +params.row.states === 1 ? '启用' : '禁用');
                         }
                     },
                     {

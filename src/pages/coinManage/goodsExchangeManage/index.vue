@@ -34,6 +34,12 @@
                         <Option value="抽奖奖品">抽奖奖品</Option>
                     </Select>
                 </FormItem>
+                <FormItem label="开始日期" style="width: 250px">
+                    <DatePicker type="date" @on-change="changeDate(2, 'startTime', $event)" :value="filterOpt.startTime"   placeholder="开始日期" ></DatePicker>
+                </FormItem>
+                <FormItem label="结束日期" style="width: 250px">
+                    <DatePicker type="date" @on-change="changeDate(2, 'endTime', $event)" :value="filterOpt.endTime" placeholder="结束日期" ></DatePicker>
+                </FormItem>
                 <FormItem label="状态">
                     <Select v-model="filterOpt.status"
                             clearable
@@ -96,6 +102,8 @@
                     department: '',
                     status: '',
                     userId: '',
+                    startTime: '',
+                    endTime: '',
                     classify: ''
                 },
                 postColumns: [
@@ -270,6 +278,13 @@
             this._setTableHeight();
         },
         methods: {
+            changeDate(type, name, time) {
+                if (type === 1) {
+                } else if (type === 2) {
+                    this.filterOpt[name] = time;
+                }
+                this._getPostData();
+            },
             _checkChooseStatus(arr) {
                 let flag = true;
                 arr.forEach(item => {
@@ -373,6 +388,8 @@
                 data.department = this.filterOpt.department;
                 data.userName = this.filterOpt.userName;
                 data.classify = this.filterOpt.classify;
+                data.start = this.filterOpt.startTime;
+                data.end = this.filterOpt.endTime;
                 this.getList('/order/orderlist', data);
             }
         },

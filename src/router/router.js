@@ -322,6 +322,7 @@ export const appRouter = [
             {
                 path: 'leaveManage',
                 icon: 'ios-folder-outline',
+                icon: 'ios-folder-outline',
                 name: 'leaveManage',
                 title: '请假管理',
                 component: _import('attendanceAndLeave/leaveManage')
@@ -553,29 +554,6 @@ export const appRouter = [
                 name: 'teamTickets',
                 title: '管理工单(项目组)',
                 component: _import('ticket/teamTickets')
-            }
-        ]
-    },
-    {
-        path: '/rulesManager',
-        icon: 'ios-star',
-        name: 'rulesManager',
-        title: '制度管理',
-        component: Main,
-        children: [
-            {
-                path: 'newRule',
-                icon: 'ios-star',
-                name: 'newRule',
-                title: '新增制度',
-                component: _import('rulesManager/newRule')
-            },
-            {
-                path: 'approveRule',
-                icon: 'ios-star',
-                name: 'approveRule',
-                title: '制度审批',
-                component: _import('rulesManager/approveRule')
             }
         ]
     },
