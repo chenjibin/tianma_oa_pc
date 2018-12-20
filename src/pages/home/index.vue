@@ -152,7 +152,7 @@
                 var w = window.open();
                 this.$http.post('/user/getXwikiInfo').then((res) => {
                     if (res.success) {
-                        string = 'http://192.168.15.22:8089/xwiki/bin/loginsubmit/XWiki/XWikiLogin?xredirect=%2Fxwiki%2Fbin%2Fview%2FMain%2F%3Fsrid%3DTqPFhflK&srid=TqPFhflK&form_token=g37q7L75IvfwaCfuYze1ig&j_username=' + res.username + '&j_password=' + res.password;
+                        string = 'http://192.168.18.192:8089/xwiki/bin/loginsubmit/XWiki/XWikiLogin?xredirect=%2Fxwiki%2Fbin%2Fview%2FMain%2F%3Fsrid%3DTqPFhflK&srid=TqPFhflK&form_token=g37q7L75IvfwaCfuYze1ig&j_username=' + res.username + '&j_password=' + res.password;
                         w.location.href = string;
                     }
                 })

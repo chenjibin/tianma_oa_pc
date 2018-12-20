@@ -32,6 +32,7 @@
                         <Option value="5">其他</Option>
                     </Select>
                 </FormItem>
+
                 <FormItem label="部门" prop="dep" style="width: 300px">
                     <el-cascader
                         :options="orgComboList"
@@ -104,6 +105,22 @@
                                 <Select v-model="strangeSettingForm.require">
                                     <Option value="0">不强制</Option>
                                     <Option value="1">强制阅读</Option>
+                                </Select>
+                            </FormItem>
+                            </Col>
+                            <Col :span="24">
+                            <FormItem label="人员">
+                                <Select v-model="strangeSettingForm.filterPeopleData"
+                                        multiple
+                                        filterable
+                                        remote
+                                        transfer
+                                        :label="remoteLabel"
+                                        :remote-method="_filterPeopleRemote"
+                                        :loading="strangeSettingForm.filterPeopleLoading">
+                                    <Option v-for="option in strangeSettingForm.filterPeopleOpt" :value="option.id"
+                                            :key="'user' + option.id">{{option.realname + '(' + option.organizename + ')'}}
+                                    </Option>
                                 </Select>
                             </FormItem>
                             </Col>
@@ -192,6 +209,7 @@
                 isNoticeType: 'create',
                 editorContent: '',
                 orgComboList: [],
+                remoteLabel: [],
                 depProps: {
                     value: 'id',
                     label: 'name'
@@ -235,6 +253,9 @@
                     status: '1',
                     id: '',
                     content: '',
+                    filterPeopleLoading: false,
+                    filterPeopleData: [],
+                    filterPeopleOpt: [],
                     editorContent: ''
                 },
                 depProps: {
@@ -383,6 +404,7 @@
                 this.$refs.noticeFormDom.validate((valid) => {
                     if (valid) {
                         this.btnLoading = true;
+                        let userIds = this.strangeSettingForm.filterPeopleData;
                         let data = {};
                         data.title = this.strangeSettingForm.title;
                         data.content = this.editorContent;
@@ -390,6 +412,7 @@
                         data.noticeType = this.strangeSettingForm.type;
                         data.state = this.strangeSettingForm.status;
                         data.type = this.strangeSettingForm.require;
+                        data.ids = userIds.join(',');
                         data.id = id;
                         this.$http.post('/notice/add', data).then((res) => {
                             if (res.success) {
@@ -416,6 +439,19 @@
                         this.orgComboList = res.data;
                     }
                 });
+            },
+            _filterPeopleRemote(val) {
+                let data = {};
+                data.name = val;
+                this.strangeSettingForm.filterPeopleLoading = true;
+                this.$http.get('/user/getCheckUser', {params: data}).then((res) => {
+                    if (res.success) {
+                        this.strangeSettingForm.filterPeopleOpt = res.data;
+                    }
+                    this.strangeSettingForm.filterPeopleLoading = false;
+                }, () => {
+                    this.strangeSettingForm.filterPeopleLoading = false;
+                })
             },
             _getAllDepIds(data) {
                 data.forEach((item) => {
