@@ -179,20 +179,26 @@
                 <Row>
                     <Col :span="8">
                     <FormItem label="岗位" prop="post">
-                        <Select v-model="userSettingForm.post" :disabled="!userSettingForm.dep.length">
+                        <Select v-model="userSettingForm.post"
+                                clearable
+                                filterable
+                                :label="postShowLabel"
+                                remote
+                                :remote-method="postFilterMethod"
+                                :loading="postGetLoading">
                             <Option v-for="item in postList" :value="item.id" :key="item.id">{{item.name}}</Option>
                         </Select>
                     </FormItem>
                     </Col>
-                    <Col :span="8">
-                    <FormItem label="职级" prop="level">
-                        <Select v-model="userSettingForm.level" :disabled="!userSettingForm.post">
-                            <Option :value="levelCodeOpt.code" :key="'level-' + levelCodeOpt.code">
-                                {{levelCodeOpt.code}}
-                            </Option>
-                        </Select>
-                    </FormItem>
-                    </Col>
+                    <!--<Col :span="8">-->
+                    <!--<FormItem label="职级" prop="level">-->
+                        <!--<Select v-model="userSettingForm.level">-->
+                            <!--<Option :value="levelCodeOpt.code" :key="'level-' + levelCodeOpt.code">-->
+                                <!--{{levelCodeOpt.code}}-->
+                            <!--</Option>-->
+                        <!--</Select>-->
+                    <!--</FormItem>-->
+                    <!--</Col>-->
                 </Row>
                 <FormItem label="班次设置" :label-width="100" prop="banci">
                     <Select v-model="userSettingForm.banci" multiple>
@@ -490,16 +496,16 @@
         watch: {
             filterText(val) {
                 this.$refs.treeDom.filter(val);
-            },
-            'userSettingForm.post'(val) {
-                if (val) {
-                    this.$http.get('/organize/getLevel', {params: {id: val}}).then((res) => {
-                        if (res.success) {
-                            this.levelCodeOpt.code = res.data.level.split(',')[0];
-                        }
-                    });
-                }
             }
+            // 'userSettingForm.post'(val) {
+            //     if (val) {
+            //         this.$http.get('/organize/getLevel', {params: {id: val}}).then((res) => {
+            //             if (res.success) {
+            //                 this.levelCodeOpt.code = res.data.level.split(',')[0];
+            //             }
+            //         });
+            //     }
+            // }
         },
         data() {
             // const validatePassUserName = (rule, value, callback) => {
@@ -512,10 +518,12 @@
             //     }
             // };
             return {
+                postShowLabel: '',
                 accessButtons: [],
                 social: [],
                 banciModalFlag: false,
                 coinAddLoading: false,
+                postGetLoading: false,
                 remoteLabel: [],
                 specAccessData: {
                     userId: '',
@@ -912,6 +920,17 @@
             this._getOrgComboList();
         },
         methods: {
+            postFilterMethod(val) {
+                this.postGetLoading = true
+                this.$http.get('/post/findByPostName', {params: {postName: val}}).then((res) => {
+                    if (res.success) {
+                        this.postList = res.data;
+                    }
+                    this.postGetLoading = false
+                }, () => {
+                    this.postGetLoading = false
+                })
+            },
             filterNode(value, data) {
                 if (!value) return true;
                 return data.name.indexOf(value) !== -1;
@@ -1100,9 +1119,9 @@
                 let vm = this;
                 console.log(data);
                 console.log(data.slice(-1)[0]);
-                this._getPostList(data.slice(-1)[0]).then(() => {
-                    this.userSettingForm.post = this.postList.length ? this.postList[0].id : '';
-                });
+                // this._getPostList(data.slice(-1)[0]).then(() => {
+                //     this.userSettingForm.post = this.postList.length ? this.postList[0].id : '';
+                // });
                 this._getRoleList(data.slice(-1)[0]).then((res) => {
                     if (res) {
                         vm.userSettingForm.role = vm.roleData.length ? vm.roleData[0].id : '';
@@ -1166,6 +1185,7 @@
             },
             _editorSetting(data) {
                 this._initUserInfo();
+                console.log(data)
                 this.userSettingForm.states = !!data.states;
                 this.userSettingForm.account = data.username;
                 this.userSettingForm.name = data.realname;
@@ -1180,7 +1200,15 @@
                 this.userSettingForm.isLog = !data.no_write;
                 this.userSettingForm.companyId = data.companyid;
                 this.userSettingForm.isManger = data.ismanger;
-                this._getPostList(data.lv);
+                this.postShowLabel = data.postname;
+                // this.levelCodeOpt.code = data.levelcode
+                this.postList = [
+                    {
+                        name: data.postname,
+                        id: data.postid
+                    }
+                ]
+                // this._getPostList(data.lv);
                 this.userFormType = 'update';
                 this.settingModalFlag = true;
                 this.editUserId = data.id;
@@ -1199,18 +1227,18 @@
                 });
                 return storeArr;
             },
-            _getPostList(id) {
-                let data = {};
-                data.lv = id;
-                return new Promise((resolve) => {
-                    this.$http.get('/organize/getSetInfo', {params: data}).then((res) => {
-                        if (res.success) {
-                            this.postList = this._returnNeedPostList(res.data.postids, res.data.postnames);
-                            resolve();
-                        }
-                    });
-                });
-            },
+            // _getPostList(id) {
+            //     let data = {};
+            //     data.lv = id;
+            //     return new Promise((resolve) => {
+            //         this.$http.get('/organize/getSetInfo', {params: data}).then((res) => {
+            //             if (res.success) {
+            //                 this.postList = this._returnNeedPostList(res.data.postids, res.data.postnames);
+            //                 resolve();
+            //             }
+            //         });
+            //     });
+            // },
             _getRoleList(id) {
                 let data = {};
                 data.lv = id;

@@ -77,7 +77,7 @@
                     <Row>
                         <Col :span="12">
                             <FormItem label="岗位名称" prop="name">
-                                <Input v-model="postSettingForm.name" :disabled="postFormType === 'update'"></Input>
+                                <Input v-model="postSettingForm.name"></Input>
                             </FormItem>
                         </Col>
                         <Col :span="8">
@@ -301,7 +301,7 @@
                         data.id = 0;
                         data.states = this.postSettingForm.states ? 1 : 0;
                         data.name = this.postSettingForm.name;
-                        data.organizeId = this.postSettingForm.organizeId.slice(-1)[0] || '';
+                        // data.organizeId = this.postSettingForm.organizeId.slice(-1)[0] || '';
                         data.level = this.postSettingForm.level;
                         this.$http.post('/post/add', data).then((res) => {
                             if (res.success) {
