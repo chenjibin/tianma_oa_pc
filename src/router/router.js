@@ -679,27 +679,50 @@ export const appRouter = [
                 name: 'goodsExchangeManage',
                 title: '兑换管理',
                 component: _import('coinManage/goodsExchangeManage')
+            }
+        ]
+    },
+    {
+        path: '/mallManage',
+        icon: 'card',
+        name: 'mallManage',
+        title: '餐卡小超市',
+        component: Main,
+        children: [
+            {
+                path: 'mallManage',
+                icon: 'card',
+                name: 'mallManage',
+                title: '小超市商品',
+                component: _import('mallCardManager/mallManage')
+            },
+            {
+                path: 'mallExchangeManage',
+                icon: 'card',
+                name: 'mallExchangeManage',
+                title: '小超市兑换',
+                component: _import('mallCardManager/mallExchangeManage')
             },
             {
                 path: 'mallLog',
-                icon: 'icecream',
+                icon: 'card',
                 name: 'mallLog',
                 title: '商品记录',
-                component: _import('coinManage/mallLog')
+                component: _import('mallCardManager/mallLog')
             },
             {
                 path: 'foodCardManage',
                 icon: 'card',
                 name: 'foodCardManage',
                 title: '餐卡管理',
-                component: _import('coinManage/foodCardManage')
+                component: _import('mallCardManager/foodCardManage')
             },
             {
                 path: 'foodCardLog',
                 icon: 'card',
                 name: 'foodCardLog',
                 title: '餐卡记录',
-                component: _import('coinManage/foodCardLog')
+                component: _import('mallCardManager/foodCardLog')
             }
         ]
     },

@@ -2,11 +2,26 @@
     <div>
         <Card>
             <Form ref="searchData" :model="searchData" inline :label-width="80">
-                <FormItem prop="realName" label="姓名">
+                <FormItem prop="realName" label="操作人">
                     <Input type="text"
                            clearable
                            v-model="searchData.userName.value"
-                           placeholder="筛选姓名"></Input>
+                           placeholder="筛选操作人"></Input>
+                </FormItem>
+                <FormItem prop="realName" label="内容">
+                    <Input type="text"
+                           clearable
+                           v-model="searchData.content.value"
+                           placeholder="筛选内容"></Input>
+                </FormItem>
+                <FormItem label="属性" prop="states">
+                    <Select v-model="searchData.states.value"
+                            clearable
+                            placeholder="筛选属性"
+                            style="width: 160px">
+                        <Option value="增加">增加</Option>
+                        <Option value="减少">减少</Option>
+                    </Select>
                 </FormItem>
                 <FormItem prop="start" label="开始日期">
                     <DatePicker type="date"
@@ -19,14 +34,6 @@
                                 @on-change="_endDateChange"
                                 placeholder="结束日期"
                                 :value="searchData.end.value"></DatePicker>
-                </FormItem>
-                <FormItem label="类型" prop="type">
-                    <Select v-model="searchData.type.value"
-                            clearable
-                            placeholder="筛选类型"
-                            style="width: 160px">
-                        <Option value="12">商品变更信息</Option>
-                    </Select>
                 </FormItem>
             </Form>
             <fs-table-page :columns="columns1"
@@ -83,13 +90,19 @@
                         }
                     },
                     {
-                        title: '姓名',
-                        key: 'username',
+                        title: '备注',
+                        key: 'beizhu',
                         align: 'center',
                         minWidth: 160
                     },
                     {
-                        title: '消费时间',
+                        title: '属性',
+                        key: 'states',
+                        align: 'center',
+                        minWidth: 160
+                    },
+                    {
+                        title: '变更时间',
                         key: 'add_time',
                         align: 'center',
                         minWidth: 160
@@ -111,6 +124,10 @@
                         value: '',
                         type: 'input'
                     },
+                    content: {
+                        value: '',
+                        type: 'input'
+                    },
                     start: {
                         value: '',
                         type: 'date'
@@ -122,6 +139,10 @@
                     type: {
                         value: '',
                         type: 'select'
+                    },
+                    states: {
+                        value: '',
+                            type: 'select'
                     }
                 }
             }

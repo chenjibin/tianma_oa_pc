@@ -8,19 +8,6 @@
                            v-model="filterOpt.goodsName"
                            placeholder="筛选商品名称"></Input>
                 </FormItem>
-                <FormItem label="筛选分类">
-                    <Select v-model="filterOpt.classify"
-                            @on-change="_inputDebounce"
-                            clearable="true"
-                            style="width: 100px">
-                        <Option value="小超市商品">小超市商品</Option>
-                        <Option value="纸品类">纸品类</Option>
-                        <Option value="饮品类">饮品类</Option>
-                        <Option value="食品类">食品类</Option>
-                        <Option value="卡券类">卡券类</Option>
-                        <Option value="服饰类">服饰类</Option>
-                    </Select>
-                </FormItem>
                 <FormItem label="状态筛选">
                     <Select v-model="filterOpt.statistic"
                             @on-change="_inputDebounce"
@@ -369,7 +356,7 @@
                 data.name = this.filterOpt.goodsName;
                 data.classify = this.filterOpt.classify;
                 data.statistic = this.filterOpt.statistic;
-                this.getList('/order/goodslist', data);
+                this.getList('/order/goodsMallList', data);
             }
         },
         components: {

@@ -112,6 +112,10 @@
                             :disabled="btnDisabled"
                             v-show="postFormType === 'add'">添加</Button>
                     <Button type="primary"
+                            @click="_delete"
+                            :disabled="btnDisabled"
+                            v-show="postFormType === 'update'">删除</Button>
+                    <Button type="primary"
                             @click="_updatePost"
                             :disabled="btnDisabled"
                             v-show="postFormType === 'update'">更新</Button>
@@ -315,6 +319,21 @@
                         })
                     }
                 });
+            },
+            _delete() {
+                this.btnDisabled = true;
+                let data = {};
+                data.id = this.postId;
+                this.$http.post('/post/delete', data).then((res) => {
+                    if (res.success) {
+                        this.$Message.success('删除成功!');
+                        this._getPostData();
+                        this.settingModalFlag = false;
+                    }
+                    this.btnDisabled = false;
+                }, () => {
+                    this.btnDisabled = false;
+                })
             },
             _updatePost() {
                 this.$refs.postForm.validate((valid) => {
