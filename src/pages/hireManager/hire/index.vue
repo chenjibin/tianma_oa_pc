@@ -73,6 +73,7 @@
                         <Option value="8">介绍</Option>
                         <Option value="9">校招</Option>
                         <Option value="10">人才市场</Option>
+                        <Option value="11">boss直聘</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="毕业院校">
@@ -254,6 +255,7 @@
                                 <Option :value="8">介绍</Option>
                                 <Option :value="9">校招</Option>
                                 <Option :value="10">人才市场</Option>
+                                <Option :value="11">boss直聘</Option>
                             </Select>
                         </FormItem>
                         <FormItem label="工作经验" style="width:460px">
@@ -531,10 +533,10 @@
                 </FormItem>
                 <br />
                 <FormItem label="用户名" prop="username" style="width: 45%"
-                          v-if="(statusTemp === 6 || statusTemp === 3) && showUser.createaccount!=2 && (statusForm.status ==6 || statusForm.status == 8)">
+                          v-if="(statusTemp === 6 || statusTemp === 3) && (statusForm.status ==6 || statusForm.status == 8)">
                     <Input type="text" v-model="statusForm.username"></Input>
                 </FormItem>
-                <FormItem label="密码" style="width: 45%" v-if="(statusTemp === 6 || statusTemp === 3) && showUser.createaccount!=2 && (statusForm.status ==6 || statusForm.status == 8)">
+                <FormItem label="密码" style="width: 45%" v-if="(statusTemp === 6 || statusTemp === 3) && (statusForm.status ==6 || statusForm.status == 8)">
                     <Input type="password" disabled placeholder="123456"></Input>
                 </FormItem>
                 <FormItem label="面试时间" style="width: 45%" v-if="statusTemp === 1">
@@ -822,7 +824,7 @@
                 },
                 fileList: [],
                 educationMapping: ['', '博士研究生', '硕士研究生', '本科', '专科', '中专', '高中', '初中'],
-                resumeSourceMapping: ['', '58同城', '智联', '前程无忧', '其他网络渠道', '现场招聘会', '微信公众号', '来电', '介绍', '校招', '人才市场'],
+                resumeSourceMapping: ['', '58同城', '智联', '前程无忧', '其他网络渠道', '现场招聘会', '微信公众号', '来电', '介绍', '校招', '人才市场', 'boss直聘'],
                 postColumns: [
                     {
                         title: '姓名',

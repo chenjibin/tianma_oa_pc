@@ -29,7 +29,6 @@
                             clearable
                             @on-change="_filterResultHandler"
                             style="width: 100px">
-                        <Option value="小超市商品">餐卡超市</Option>
                         <Option value="金币超市">金币超市</Option>
                         <Option value="抽奖奖品">抽奖奖品</Option>
                     </Select>

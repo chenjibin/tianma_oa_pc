@@ -81,7 +81,6 @@
                             <Option value="食品类">食品类</Option>
                             <Option value="卡券类">卡券类</Option>
                             <Option value="服饰类">服饰类</Option>
-                            <Option value="小超市商品">小超市商品</Option>
                         </Select>
                     </FormItem>
                     <FormItem label="价格">

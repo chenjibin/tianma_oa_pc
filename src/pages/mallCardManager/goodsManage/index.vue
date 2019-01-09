@@ -60,17 +60,6 @@
                         <Input type="text"
                                v-model="editorSettingData.goodsName"></Input>
                     </FormItem>
-                    <FormItem label="所属分类">
-                        <Select v-model="editorSettingData.type"
-                                style="width: 100px">
-                            <Option value="纸品类">纸品类</Option>
-                            <Option value="饮品类">饮品类</Option>
-                            <Option value="食品类">食品类</Option>
-                            <Option value="卡券类">卡券类</Option>
-                            <Option value="服饰类">服饰类</Option>
-                            <Option value="小超市商品">小超市商品</Option>
-                        </Select>
-                    </FormItem>
                     <FormItem label="价格">
                         <InputNumber :precision="0" v-model="editorSettingData.price"></InputNumber>
                     </FormItem>
@@ -90,9 +79,9 @@
                 </Form>
                 <div slot="footer">
                     <Button type="primary"
-                            :loading="btnLoading"
-                            @click="_confirmAddGoods">
-                        {{editorType === 'create' ? '添加商品' : '修改商品'}}
+                                      :loading="btnLoading"
+                                      @click="_confirmAddGoods">
+                    {{editorType === 'create' ? '添加商品' : '修改商品'}}
                     </Button>
                     <Button type="ghost" style="margin-left: 8px" @click="editorSettingFlag = false">取消</Button>
                 </div>
@@ -125,7 +114,7 @@
                 },
                 editorSettingData: {
                     goodsName: '',
-                    type: '卡券类',
+                    type: '小超市商品',
                     price: 0,
                     isDown: true,
                     quality: 0,
@@ -319,7 +308,7 @@
             _initEditorSettingData() {
                 let settingData = this.editorSettingData;
                 settingData.goodsName = '';
-                settingData.type = '卡券类';
+                settingData.type = '小超市商品';
                 settingData.price = 0;
                 settingData.isDown = true;
                 settingData.goodPic = '';

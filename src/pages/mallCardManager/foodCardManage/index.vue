@@ -112,6 +112,9 @@
                         <Button type="primary" @click.stop="confirmCashIn">确认充值</Button>
                         <Button @click.stop="cashInOpen = false">取消</Button>
                     </div>
+                    <div class="expend-block" v-show="cashInOpen" style="margin-top: 8px">
+                        <Input v-model="beizhu" size="large" placeholder="备注(非必填)" style="width: 240px" ></Input>
+                    </div>
                 </div>
             </div>
             <div slot="footer">
@@ -177,6 +180,7 @@
                 uploadFormat: ['xls'],
                 newCardNumber: null,
                 cashIn: null,
+                beizhu: '',
                 id: null,
                 realName: '',
                 cardStates: 0,
@@ -360,8 +364,8 @@
                 })
             },
             confirmCashIn() {
-                const {id, cashIn} = this
-                this.$http.post('/card/recharge', {id, money: cashIn}).then((res) => {
+                const {id, cashIn, beizhu} = this
+                this.$http.post('/card/recharge', {id, money: cashIn, beizhu}).then((res) => {
                     if (res.success) {
                         this._updateTable()
                         this._getNewUserInfo()

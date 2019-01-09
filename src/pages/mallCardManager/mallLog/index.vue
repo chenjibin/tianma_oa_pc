@@ -81,23 +81,20 @@
                         width: 400
                     },
                     {
-                        title: '类型',
-                        key: 'type',
-                        align: 'center',
-                        width: 200,
-                        render: (h, params) => {
-                            return h('span', this.typeStore[+params.row.type])
-                        }
-                    },
-                    {
-                        title: '备注',
-                        key: 'beizhu',
+                        title: '属性',
+                        key: 'states',
                         align: 'center',
                         minWidth: 160
                     },
                     {
-                        title: '属性',
-                        key: 'states',
+                        title: '变动数量',
+                        key: 'money',
+                        align: 'center',
+                        minWidth: 160
+                    },
+                    {
+                        title: '备注',
+                        key: 'beizhu',
                         align: 'center',
                         minWidth: 160
                     },

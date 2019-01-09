@@ -24,16 +24,6 @@
                            v-model="filterOpt.department"
                            placeholder="筛选部门"></Input>
                 </FormItem>
-                <FormItem label="所属分类">
-                    <Select v-model="filterOpt.classify"
-                            clearable
-                            @on-change="_filterResultHandler"
-                            style="width: 100px">
-                        <Option value="小超市商品">餐卡超市</Option>
-                        <Option value="金币超市">金币超市</Option>
-                        <Option value="抽奖奖品">抽奖奖品</Option>
-                    </Select>
-                </FormItem>
                 <FormItem label="开始日期" style="width: 250px">
                     <DatePicker type="date" @on-change="changeDate(2, 'startTime', $event)" :value="filterOpt.startTime"   placeholder="开始日期" ></DatePicker>
                 </FormItem>

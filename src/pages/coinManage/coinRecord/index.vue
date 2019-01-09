@@ -8,26 +8,41 @@
                            v-model="filterOpt.name"
                            placeholder="筛选姓名"></Input>
                 </FormItem>
-                <!--<FormItem label="加减类型">-->
-                    <!--<Select v-model="filterOpt.plusType"-->
-                            <!--clearable-->
-                            <!--@on-change="_filterResultHandler"-->
-                            <!--placeholder="筛选类型"-->
-                            <!--style="width: 100px">-->
-                        <!--<Option value="0">加金币记录</Option>-->
-                        <!--<Option value="1">扣金币记录</Option>-->
-                    <!--</Select>-->
-                <!--</FormItem>-->
-                <!--<FormItem label="开始日期">-->
-                    <!--<DatePicker @on-change="filterOpt.startDate = $event"-->
-                                <!--clearable-->
-                                <!--:value="filterOpt.startDate"></DatePicker>-->
-                <!--</FormItem>-->
-                <!--<FormItem label="结束日期">-->
-                    <!--<DatePicker @on-change="filterOpt.endDate = $event"-->
-                                <!--clearable-->
-                                <!--:value="filterOpt.endDate"></DatePicker>-->
-                <!--</FormItem>-->
+                <FormItem label="加减类型">
+                    <Select v-model="filterOpt.plusType"
+                            clearable
+                            @on-change="_filterResultHandler"
+                            placeholder="筛选类型"
+                            style="width: 100px">
+                        <Option value="0">加金币记录</Option>
+                        <Option value="1">扣金币记录</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="属性">
+                    <Select v-model="filterOpt.option"
+                            clearable
+                            @on-change="_filterResultHandler"
+                            placeholder="筛选属性"
+                            style="width: 100px">
+                        <Option value="财富点">财富点</Option>
+                        <Option value="技能点">技能点</Option>
+                        <Option value="伯乐点">伯乐点</Option>
+                        <Option value="智慧点">智慧点</Option>
+                        <Option value="无属性">无属性</Option>
+                        <Option value="抽奖">抽奖</Option>
+                        <Option value="金币奖品">金币奖品</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="开始日期">
+                    <DatePicker @on-change="filterOpt.startDate = $event"
+                                clearable
+                                :value="filterOpt.startDate"></DatePicker>
+                </FormItem>
+                <FormItem label="结束日期">
+                    <DatePicker @on-change="filterOpt.endDate = $event"
+                                clearable
+                                :value="filterOpt.endDate"></DatePicker>
+                </FormItem>
             </Form>
             <Table :columns="postColumns"
                    :loading="tableLoading"
@@ -63,19 +78,42 @@
                 },
                 postColumns: [
                     {
-                        title: '内容',
-                        key: 'content',
+                        title: '姓名',
+                        key: 'user_name',
+                        align: 'center',
+                        width: 120
+                    },
+                    {
+                        title: '金币数量',
+                        align: 'center',
+                        width: 120,
+                        render: (h, params) => {
+                            return h('span', {
+                                style: {
+                                    color: params.row.flag ? '#ed3f14' : '#19be6b'
+                                }
+                            }, params.row.opt_num);
+                        }
+                    },
+                    {
+                        title: '属性',
+                        key: 'property',
+                        align: 'center',
+                        width: 120
+                    },
+                    {
+                        title: '说明',
+                        key: 'reason'
+                    },
+                    {
+                        title: '日期',
+                        key: 'opt_time',
                         align: 'center'
                     },
                     {
-                        title: '姓名',
-                        key: 'realName',
-                        align: 'center',
-                    },
-                    {
-                        title: '添加日期',
-                        key: 'addTime',
-                        align: 'center',
+                        title: '操作人',
+                        key: 'opter',
+                        width: 120
                     }
                 ],
                 tableHeight: 500
@@ -116,12 +154,12 @@
             },
             _getPostData() {
                 let data = {};
-                data.name = this.filterOpt.name;
+                data.userName = this.filterOpt.name;
                 data.exampleFlag = this.filterOpt.plusType;
                 data.proper = this.filterOpt.option;
                 data.startDate = this.filterOpt.startDate;
                 data.endDate = this.filterOpt.endDate;
-                this.getList('/user/SysmsgWenJuan', data);
+                this.getList('/coin/coinlist', data);
             }
         },
         components: {}

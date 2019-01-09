@@ -731,8 +731,6 @@
                 this.$http.post('/kq/updateStatistic', sendData).then((res) => {
                     if (res.success) {
                         this.$Message.success('操作成功!');
-                        this._getUserStatistic();
-                        this._getPostData();
                     }
                 });
             },

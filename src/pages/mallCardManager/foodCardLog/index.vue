@@ -116,6 +116,12 @@
                         minWidth: 160
                     },
                     {
+                        title: '备注',
+                        key: 'beizhu',
+                        align: 'center',
+                        minWidth: 160
+                    },
+                    {
                         title: '操作人',
                         key: 'createname',
                         align: 'center',

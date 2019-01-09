@@ -41,6 +41,7 @@
                                 <Option :value="8">介绍</Option>
                                 <Option :value="9">校招</Option>
                                 <Option :value="10">人才市场</Option>
+                                <Option :value="11">boss直聘</Option>
                             </Select>
                         </FormItem>
                         <FormItem label="工作经验" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
@@ -540,10 +541,6 @@
                 var g = this;
                 this.$refs['talentBean'].validate((valid) => {
                     if (valid) {
-                        if (g.device.mobile && !g.file.file_name) {
-                            g.$Message.info('请点击左下角的上传照片哦');
-                            return;
-                        }
                         var d = {};
                         d.bean = JSON.stringify(this.talentBean);
                         let workingForm = this.workingForm.filter(function(item) {

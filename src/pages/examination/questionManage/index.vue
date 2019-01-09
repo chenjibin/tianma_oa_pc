@@ -58,13 +58,13 @@
                                        :upload.sync="editorSettingData.questionPic"></fs-img-upload>
                     </FormItem>
                     <Row :gutter="16">
-                        <!--<Col :span="8">-->
-                            <!--<FormItem label="试题分类">-->
-                                <!--<Select v-model="editorSettingData.subject">-->
-                                    <!--<Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>-->
-                                <!--</Select>-->
-                            <!--</FormItem>-->
-                        <!--</Col>-->
+                        <Col :span="8">
+                            <FormItem label="试题分类">
+                                <Select v-model="editorSettingData.subject">
+                                    <Option :value="item.id" v-for="(item, index) in subjectList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
                         <Col :span="8">
                             <FormItem label="试题类型">
                                 <Select v-model="editorSettingData.type">
@@ -81,21 +81,21 @@
                     <Row :gutter="16">
                         <Col :span="12">
                             <FormItem label="试题平台">
-                                <Select v-model="editorSettingData.subject1" multiple>
+                                <Select v-model="editorSettingData.subject1" >
                                     <Option :value="item.id" v-for="(item, index) in pingList" :key="index">{{item.name}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col :span="12">
                             <FormItem label="知识点">
-                                <Select v-model="editorSettingData.subject2" multiple>
+                                <Select v-model="editorSettingData.subject2" >
                                     <Option :value="item.id" v-for="(item, index) in gangList" :key="index">{{item.name}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col :span="12">
                             <FormItem label="考试类型">
-                                <Select v-model="editorSettingData.subject3" multiple>
+                                <Select v-model="editorSettingData.subject3" >
                                     <Option :value="item.id" v-for="(item, index) in nanList" :key="index">{{item.name}}</Option>
                                 </Select>
                             </FormItem>

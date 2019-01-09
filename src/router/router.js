@@ -370,6 +370,13 @@ export const appRouter = [
                 name: 'wenLog',
                 title: '部门问卷汇总',
                 component: _import('employeeFileManager/wenLog')
+            },
+            {
+                path: 'questionnaireRecords',
+                icon: 'ios-bookmarks',
+                name: 'questionnaireRecords',
+                title: '问卷消息',
+                component: _import('employeeFileManager/questionnaireRecords')
             }
         ]
     },
@@ -683,43 +690,43 @@ export const appRouter = [
         ]
     },
     {
-        path: '/mallManage',
-        icon: 'card',
-        name: 'mallManage',
+        path: '/mallAllManage',
+        icon: 'beer',
+        name: 'mallAllManage',
         title: '餐卡小超市',
         component: Main,
         children: [
             {
                 path: 'mallManage',
-                icon: 'card',
+                icon: 'beer',
                 name: 'mallManage',
                 title: '小超市商品',
-                component: _import('mallCardManager/mallManage')
+                component: _import('mallCardManager/goodsManage')
             },
             {
                 path: 'mallExchangeManage',
-                icon: 'card',
+                icon: 'beer',
                 name: 'mallExchangeManage',
                 title: '小超市兑换',
-                component: _import('mallCardManager/mallExchangeManage')
+                component: _import('mallCardManager/goodsExchangeManage')
             },
             {
                 path: 'mallLog',
-                icon: 'card',
+                icon: 'beer',
                 name: 'mallLog',
-                title: '商品记录',
+                title: '小超市变更记录',
                 component: _import('mallCardManager/mallLog')
             },
             {
                 path: 'foodCardManage',
-                icon: 'card',
+                icon: 'beer',
                 name: 'foodCardManage',
                 title: '餐卡管理',
                 component: _import('mallCardManager/foodCardManage')
             },
             {
                 path: 'foodCardLog',
-                icon: 'card',
+                icon: 'beer',
                 name: 'foodCardLog',
                 title: '餐卡记录',
                 component: _import('mallCardManager/foodCardLog')
