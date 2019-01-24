@@ -452,7 +452,7 @@
             },
             _uploadSuccess(response, file, fileList) {
                 if (response.success) {
-                    this.$Message.success('批量充值成功!');
+                    this.$Message.success('导入成功!');
                     this.importModalFlag = false;
                 } else {
                     this.$Message.error(response.message);

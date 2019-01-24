@@ -81,22 +81,29 @@
                     <Row :gutter="16">
                         <Col :span="12">
                             <FormItem label="试题平台">
-                                <Select v-model="editorSettingData.subject1" >
+                                <Select v-model="editorSettingData.subject1" multiple>
                                     <Option :value="item.id" v-for="(item, index) in pingList" :key="index">{{item.name}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col :span="12">
                             <FormItem label="知识点">
-                                <Select v-model="editorSettingData.subject2" >
+                                <Select v-model="editorSettingData.subject4" multiple>
                                     <Option :value="item.id" v-for="(item, index) in gangList" :key="index">{{item.name}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col :span="12">
                             <FormItem label="考试类型">
-                                <Select v-model="editorSettingData.subject3" >
+                                <Select v-model="editorSettingData.subject3" multiple>
                                     <Option :value="item.id" v-for="(item, index) in nanList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="12">
+                            <FormItem label="岗位">
+                                <Select v-model="editorSettingData.subject2" multiple filterable>
+                                    <Option :value="item.id" v-for="(item, index) in postList" :key="index">{{item.name}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -330,6 +337,7 @@
                     subject1: [],
                     subject2: [],
                     subject3: [],
+                    subject4: [],
                     mark: 0,
                     singleType: '',
                     multiType: [],
@@ -433,6 +441,7 @@
                 pingList: [],
                 gangList: [],
                 nanList: [],
+                postList: [],
                 tableHeight: 300,
                 timer: null
             };
@@ -453,6 +462,7 @@
             this._getPingList();
             this._getGangList();
             this._getNanList();
+            this._getPostList();
             this._setTableHeight();
         },
         filters: {
@@ -484,6 +494,7 @@
                 data.subject1 = editorSettingData.subject1.join(',');
                 data.subject2 = editorSettingData.subject2.join(',');
                 data.subject3 = editorSettingData.subject3.join(',');
+                data.subject4 = editorSettingData.subject4.join(',');
                 data.type = editorSettingData.type;
                 data.questionMark = editorSettingData.mark;
                 if (['1', '2'].indexOf(data.type) > -1) {
@@ -547,6 +558,7 @@
                 editorSettingData.subject1 = [];
                 editorSettingData.subject2 = [];
                 editorSettingData.subject3 = [];
+                editorSettingData.subject4 = [];
                 editorSettingData.mark = 0;
                 editorSettingData.singleType = '';
                 editorSettingData.multiType = [];
@@ -586,6 +598,7 @@
                 editorSettingData.subject1 = data.subject1 ? data.subject1.split(',').map(Number) : [];
                 editorSettingData.subject2 = data.subject2 ? data.subject2.split(',').map(Number) : [];
                 editorSettingData.subject3 = data.subject3 ? data.subject3.split(',').map(Number) : [];
+                editorSettingData.subject4 = data.subject4 ? data.subject4.split(',').map(Number) : [];
                 console.log(editorSettingData);
                 editorSettingData.type = data.type + '';
                 editorSettingData.mark = data.questionmark;
@@ -661,6 +674,13 @@
                 this.$http.get('/examquestion/getSubjectTypeList').then((res) => {
                     if (res.success) {
                         this.nanList = res.data;
+                    }
+                });
+            },
+            _getPostList() {
+                this.$http.get('/post/findByPostName').then((res) => {
+                    if (res.success) {
+                        this.postList = res.data;
                     }
                 });
             }

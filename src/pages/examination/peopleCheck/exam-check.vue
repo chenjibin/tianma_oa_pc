@@ -178,7 +178,7 @@
                 return storeArray;
             },
             _getPaperDetail() {
-                if (!this.id) return;
+                console.log(this.id);
                 let sendData = {};
                 sendData.id = this.id;
                 sendData.pid = 1;

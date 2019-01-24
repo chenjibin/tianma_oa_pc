@@ -151,12 +151,14 @@
                                     <Option value="群众">群众</Option>
                                 </Select>
                             </FormItem>
-
                             <FormItem label="婚姻状况" style="width:45%;margin-right:1%;">
                                 <Select type="text" style="width: 100%" v-model="baseForm.marryage">
                                     <Option value="已婚">已婚</Option>
                                     <Option value="未婚">未婚</Option>
                                 </Select>
+                            </FormItem>
+                            <FormItem label="合同起止日期" style="width:45%">
+                                <Input type="text" v-model="baseForm.contracttime"></Input>
                             </FormItem>
                             <FormItem label="档案编号" style="width:45%;">
                                 <Input type="text" v-model="baseForm.filenum" disabled></Input>

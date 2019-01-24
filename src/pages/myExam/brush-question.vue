@@ -13,17 +13,17 @@
                         </Select>
                     </FormItem>
                     <FormItem label="试题平台">
-                        <Select v-model="subjectPing" multiple>
+                        <Select v-model="subject1" multiple>
                             <Option :value="item.id" v-for="item in pingOption" :key="item.id">{{item.name}}</Option>
                         </Select>
                     </FormItem>
-                    <FormItem label="试题岗位">
-                        <Select v-model="subjectPost" multiple>
+                    <FormItem label="知识点">
+                        <Select v-model="subject4" multiple>
                             <Option :value="item.id" v-for="item in postOption" :key="item.id">{{item.name}}</Option>
                         </Select>
                     </FormItem>
-                    <FormItem label="试题难度">
-                        <Select v-model="subjectNan" multiple>
+                    <FormItem label="试题类型">
+                        <Select v-model="subject3" multiple>
                             <Option :value="item.id" v-for="item in nanOption" :key="item.id">{{item.name}}</Option>
                         </Select>
                     </FormItem>
@@ -92,9 +92,10 @@
                         name: '问答题'
                     }
                 ],
-                subjectPing: [],
-                subjectPost: [],
-                subjectNan: [],
+                subject1: [],
+                subject2: [],
+                subject3: [],
+                subject4: [],
                 type: [],
                 questionList: []
             }
@@ -111,10 +112,10 @@
             generateBrushPaper() {
                 this.exportLoading = true
                 let type = this.type.join(',')
-                let subjectPing = this.subjectPing.join(',')
-                let subjectPost = this.subjectPost.join(',')
-                let subjectNan = this.subjectNan.join(',')
-                const params = {type, subjectPing, subjectPost, subjectNan}
+                let subject1 = this.subject1.join(',')
+                let subject4 = this.subject4.join(',')
+                let subject3 = this.subject3.join(',')
+                const params = {type, subject1, subject4, subject3}
                 this.$http.get('/examquestion/getQuestionBySubject', {params}).then(res => {
                     if (res.success) {
                         this.questionList = res.data
@@ -126,21 +127,21 @@
                 })
             },
             _getPingList() {
-                this.$http.get('/examquestion/getSubjectPingList').then((res) => {
+                this.$http.get('/examquestion/getSubjectPlatformList').then((res) => {
                     if (res.success) {
                         this.pingOption = res.data;
                     }
                 });
             },
             _getGangList() {
-                this.$http.get('/examquestion/getSubjectPostList').then((res) => {
+                this.$http.get('/examquestion/getSubjectKnowledgeList').then((res) => {
                     if (res.success) {
                         this.postOption = res.data;
                     }
                 });
             },
             _getNanList() {
-                this.$http.get('/examquestion/getSubjectNanList').then((res) => {
+                this.$http.get('/examquestion/getSubjectTypeList').then((res) => {
                     if (res.success) {
                         this.nanOption = res.data;
                     }

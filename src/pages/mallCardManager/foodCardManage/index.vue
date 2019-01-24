@@ -59,11 +59,18 @@
                             </Button>
                         </ButtonGroup>
                     </FormItem>
+                    <FormItem :label-width="0.1">
+                        <div class="" style="font-size: 16px;font-weight: 700;">
+                            <span>账户余额汇总:</span>
+                            <span>{{totalMoney}}元</span>
+                        </div>
+                    </FormItem>
                 </Form>
                 <fs-table-page :columns="columns1"
                                :size="null"
                                :height="tableHeight"
                                :params="searchData"
+                               @get-list="_getMoney"
                                ref="fsTable"
                                url="/user/dataList"></fs-table-page>
             </Card>
@@ -182,6 +189,7 @@
                 cashIn: null,
                 beizhu: '',
                 id: null,
+                totalMoney: 0,
                 realName: '',
                 cardStates: 0,
                 cardNumber: 0,
@@ -419,6 +427,7 @@
             },
             _nodeChangeHandler(node) {
                 this.searchData.nodeId.value = node.id;
+                this._getMoney();
             },
             _getNewUserInfo() {
                 this.$http.get('/user/getUserById', {params: {id: this.id}}).then((res) => {
@@ -434,11 +443,27 @@
             },
             _updateTable() {
                 this.$refs.fsTable.getListData()
+                this._getMoney();
+            },
+            _getMoney() {
+                let date = {};
+                date.realName = this.searchData.realName.value;
+                date.states = this.searchData.states.value;
+                date.postName = this.searchData.postName.value;
+                date.card_states = this.searchData.card_states.value;
+                date.roleId = this.searchData.roleId.value;
+                date.nodeId = this.searchData.nodeId.value;
+                this.$http.post('/user/dataListSum', date).then((res) => {
+                    if (res.success) {
+                        this.totalMoney = res.money;
+                    }
+                })
             }
         },
         created() {
             this._setTableHeight()
             this._getRoleData()
+            this._getMoney();
         },
         components: {
             fsTablePage,

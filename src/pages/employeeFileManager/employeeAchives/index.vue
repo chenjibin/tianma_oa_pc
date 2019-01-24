@@ -236,6 +236,12 @@
                                     <Option value="未婚">未婚</Option>
                                 </Select>
                             </FormItem>
+                            <FormItem label="电子邮箱" style="width:49%;margin-right:1%;">
+                                <Input type="text" v-model="baseForm.email" ></Input>
+                            </FormItem>
+                            <FormItem label="合同起止日期" style="width:49%;margin-right:1%;">
+                                <Input type="text" v-model="baseForm.contracttime" ></Input>
+                            </FormItem>
                             <!--<FormItem label="档案编号" style="width:49%;margin-right:1%;">-->
                                 <!--<Input type="text" v-model="baseForm.filenum"></Input>-->
                             <!--</FormItem>-->

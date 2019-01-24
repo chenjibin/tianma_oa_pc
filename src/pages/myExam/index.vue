@@ -209,9 +209,12 @@
             _startTest(data) {
                 let sendData = {};
                 sendData.id = data.id;
-                this.fullScreenOpen();
                 this.$http.post('/examtest/startTime', sendData).then((res) => {
                     if (res.success) {
+                        this.fullScreenOpen();
+                        if(data.isRandom !=0) {
+                            data.paperid = 66;
+                        }
                         let testPaperId = data.paperid;
                         let testId = data.id;
                         this.testPaperId = data.paperid;

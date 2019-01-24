@@ -44,6 +44,11 @@
                 <FormItem>
                     <ButtonGroup>
                         <Button type="primary"
+                                @click="_exportGrade">
+                            <Icon type="ios-cloud-download-outline"></Icon>
+                            订单导出
+                        </Button>
+                        <Button type="primary"
                                 :disabled="!chooseDataArr.length"
                                 @click="_allHandler(1)">
                             <Icon type="navicon-round"></Icon>
@@ -79,6 +84,7 @@
 <script>
     import pageMixin from '@/mixins/pageMixin';
     import debounce from 'lodash/debounce';
+    import utils from '@/libs/util'
     // import fsSearchUser from '@/baseComponents/fs-search-user';
     export default {
         name: 'goodsExchangeManage',
@@ -101,6 +107,10 @@
                         type: 'selection',
                         width: 60,
                         align: 'center'
+                    },
+                    {
+                        title: '订单id',
+                        key: 'id'
                     },
                     {
                         title: '商品名称',
@@ -281,6 +291,26 @@
                     if (item.status !== 0) flag = false;
                 });
                 return flag;
+            },
+            _exportGrade() {
+                this.exportLoading = true;
+                let data = {};
+                data.name = this.filterOpt.name;
+                data.status = this.filterOpt.status;
+                data.department = this.filterOpt.department;
+                data.userName = this.filterOpt.userName;
+                data.classify = this.filterOpt.classify;
+                data.start = this.filterOpt.startTime;
+                data.end = this.filterOpt.endTime;
+
+                this.$http.post('/order/exportDetail', data).then((res) => {
+                    if (res.success) {
+                        utils.downloadFile(res.path, res.filename)
+                    }
+                    this.exportLoading = false;
+                }, () => {
+                    this.exportLoading = false;
+                })
             },
             _allHandler(status) {
                 let vm = this;

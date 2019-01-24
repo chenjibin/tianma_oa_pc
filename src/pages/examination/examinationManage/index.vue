@@ -53,12 +53,12 @@
                                v-model="editorSettingData.name"
                                placeholder=""></Input>
                     </FormItem>
-                    <FormItem label="考试类型">
+                    <FormItem label="考试类型" v-show="editorSettingData.isRandom === 0">
                         <Select v-model="editorSettingData.subjectExam">
                             <Option :value="item.id" v-for="item, index in subjectList" :key="index">{{item.name}}</Option>
                         </Select>
                     </FormItem>
-                    <FormItem label="人工阅卷" style="..." prop="states">
+                    <FormItem label="人工阅卷" style="..." prop="states" v-show="editorSettingData.isRandom !== 0">
                         <Select v-model="editorSettingData.states">
                             <Option :value="1">
                                 <span style="display:inline-block;margin:0 auto;color:#fff;line-height:22px;border-radius:3px;background-color:#2d8cf0;height:22px;padding:0 8px">需要</span>
@@ -68,6 +68,70 @@
                             </Option>
                         </Select>
                     </FormItem>
+                    <FormItem label="是否随机">
+                        <RadioGroup v-model="editorSettingData.isRandom">
+                            <Radio :label="0">正常</Radio>
+                            <Radio :label="1">随机多套</Radio>
+                            <Radio :label="2">随机一套</Radio>
+                        </RadioGroup>
+                    </FormItem>
+                    <div class="" v-show="editorSettingData.isRandom !== 0">
+                        <FormItem label="单选题">
+                            <InputNumber :min="0" v-model="editorSettingData.randomXuanZeNum"></InputNumber>
+                            <span>每题分数:</span>
+                            <InputNumber :min="0" v-model="editorSettingData.randomXuanZeScore"></InputNumber>
+                        </FormItem>
+                        <FormItem label="多选题">
+                            <InputNumber :min="0" v-model="editorSettingData.randomDuoXuanNum"></InputNumber>
+                            <span>每题分数:</span>
+                            <InputNumber :min="0" v-model="editorSettingData.randomDuoXuanScore"></InputNumber>
+                        </FormItem>
+                        <FormItem label="判断题">
+                            <InputNumber :min="0" v-model="editorSettingData.randomPanDuanNum"></InputNumber>
+                            <span>每题分数:</span>
+                            <InputNumber :min="0" v-model="editorSettingData.randomPanDuanScore"></InputNumber>
+                        </FormItem>
+                        <FormItem label="填空题">
+                            <InputNumber :min="0" v-model="editorSettingData.randomTianKongNum"></InputNumber>
+                            <span>每题分数:</span>
+                            <InputNumber :min="0" v-model="editorSettingData.randomTianKongScore"></InputNumber>
+                        </FormItem>
+                        <FormItem label="问答题">
+                            <InputNumber :min="0" v-model="editorSettingData.randomWenDaNum"></InputNumber>
+                            <span>每题分数:</span>
+                            <InputNumber :min="0" v-model="editorSettingData.randomWenDaScore"></InputNumber>
+                        </FormItem>
+                    </div>
+                    <Row :gutter="16" v-if="editorSettingData.isRandom !== 0">
+                        <Col :span="24">
+                            <FormItem label="试题平台">
+                                <Select v-model="editorSettingData.subject1" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in pingList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="24">
+                            <FormItem label="知识点">
+                                <Select v-model="editorSettingData.subject4" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in gangList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="24">
+                            <FormItem label="考试类型">
+                                <Select v-model="editorSettingData.subject3" multiple>
+                                    <Option :value="item.id" v-for="(item, index) in nanList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col :span="24">
+                            <FormItem label="岗位">
+                                <Select v-model="editorSettingData.subject2" multiple filterable>
+                                    <Option :value="item.id" v-for="(item, index) in postList" :key="index">{{item.name}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                    </Row>
                     <FormItem label="开始时间" prop="startTime">
                         <DatePicker type="datetime"
                                     :value="editorSettingData.startTime"
@@ -258,7 +322,23 @@
                     startTime: NOW_TIME,
                     totalTime: 30,
                     states: 1,
+                    subject1: [],
+                    subject2: [],
+                    subject3: [],
+                    subject4: [],
+                    isRandom: 0,
+                    randomDuoXuanNum: 0,
+                    randomDuoXuanScore: 0,
+                    randomPanDuanNum: 0,
+                    randomPanDuanScore: 0,
+                    randomTianKongNum: 0,
+                    randomTianKongScore: 0,
+                    randomWenDaNum: 0,
+                    randomWenDaScore: 0,
+                    randomXuanZeNum: 0,
+                    randomXuanZeScore: 0,
                     id: 0
+
                 },
                 paperList: [],
                 subjectList: [],
@@ -318,13 +398,22 @@
                         render: (h, params) => {
                             let vm = this;
                             let status = params.row.status;
+                            let isRandom = params.row.israndom;
                             if (status === 1) {
-                                return h('div', [
-                                    colBtn(vm, h, params, {content: '绑定试卷', icon: 'plus-round', foo: vm._bindPaper}),
-                                    colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
-                                    colBtn(vm, h, params, {content: '修改考试', icon: 'compose', foo: vm._changePaperName}),
-                                    colBtn(vm, h, params, {content: '发布考试', icon: 'play', foo: vm._publishPaper})
-                                ]);
+                                if (isRandom !== 0) {
+                                    return h('div', [
+                                        colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
+                                        colBtn(vm, h, params, {content: '修改考试', icon: 'compose', foo: vm._changePaperName}),
+                                        colBtn(vm, h, params, {content: '发布考试', icon: 'play', foo: vm._publishPaper})
+                                    ]);
+                                } else {
+                                    return h('div', [
+                                        colBtn(vm, h, params, {content: '绑定试卷', icon: 'plus-round', foo: vm._bindPaper}),
+                                        colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
+                                        colBtn(vm, h, params, {content: '修改考试', icon: 'compose', foo: vm._changePaperName}),
+                                        colBtn(vm, h, params, {content: '发布考试', icon: 'play', foo: vm._publishPaper})
+                                    ]);
+                                }
                             } else if (status === 2) {
                                 return h('div', [
                                     colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
@@ -346,6 +435,10 @@
             this._setTableHeight();
             this._getSubjectList();
             this._getAllPaperList();
+            this._getPingList();
+            this._getGangList();
+            this._getNanList();
+            this._getPostList();
         },
         methods: {
             handleReset (name) {
@@ -358,6 +451,21 @@
                 this.editorSettingData.startTime = NOW_TIME;
                 this.editorSettingData.totalTime = 30;
                 this.editorSettingData.id = 0;
+                this.editorSettingData.isRandom = 0;
+                this.editorSettingData.randomDuoXuanNum = 0;
+                this.editorSettingData.randomDuoXuanScore = 0;
+                this.editorSettingData.randomPanDuanNum = 0;
+                this.editorSettingData.randomPanDuanScore = 0;
+                this.editorSettingData.randomTianKongNum = 0;
+                this.editorSettingData.randomTianKongScore = 0;
+                this.editorSettingData.randomWenDaNum = 0;
+                this.editorSettingData.randomWenDaScore = 0;
+                this.editorSettingData.randomXuanZeNum = 0;
+                this.editorSettingData.randomXuanZeScore = 0;
+                this.editorSettingData.subject1 = [];
+                this.editorSettingData.subject2 = [];
+                this.editorSettingData.subject3 = [];
+                this.editorSettingData.subject4 = [];
             },
             _addQuestion(data) {
                 this.examId = data.id;
@@ -368,6 +476,34 @@
                 this.bindForm.examId = data.id;
                 this.bindForm.paperName = data.paperid || '';
                 this.bindPaperFlag = true;
+            },
+            _getPingList() {
+                this.$http.get('/examquestion/getSubjectPlatformList').then((res) => {
+                    if (res.success) {
+                        this.pingList = res.data;
+                    }
+                });
+            },
+            _getGangList() {
+                this.$http.get('/examquestion/getSubjectKnowledgeList').then((res) => {
+                    if (res.success) {
+                        this.gangList = res.data;
+                    }
+                });
+            },
+            _getNanList() {
+                this.$http.get('/examquestion/getSubjectTypeList').then((res) => {
+                    if (res.success) {
+                        this.nanList = res.data;
+                    }
+                });
+            },
+            _getPostList() {
+                this.$http.get('/post/findByPostName').then((res) => {
+                    if (res.success) {
+                        this.postList = res.data;
+                    }
+                });
             },
             _bindExamConfirm() {
                 if (!this.bindForm.paperName) {
@@ -386,12 +522,29 @@
             },
             _changePaperName(data) {
                 this._initEditorSettingData();
+                console.log(data);
                 this.editorSettingData.name = data.name;
                 this.editorSettingData.subjectExam = data.subject;
                 this.editorSettingData.startTime = moment(data.starttime).format('YYYY-MM-DD HH:mm');
-                this.editorSettingData.totalTime = +data.totletime;
+                this.editorSettingData.totalTime = data.totletime;
                 this.editorSettingData.id = data.id;
+                this.editorSettingData.isRandom = data.israndom;
+                this.editorSettingData.randomDuoXuanNum = data.randomduoxuannum;
+                this.editorSettingData.randomDuoXuanScore = data.randomduoxuanscore;
+                this.editorSettingData.randomPanDuanNum = data.randompanduannum;
+                this.editorSettingData.randomPanDuanScore = data.randompanduanscore;
+                this.editorSettingData.randomTianKongNum = data.randomtiankongnum;
+                this.editorSettingData.randomTianKongScore = data.randomtiankongscore;
+                this.editorSettingData.randomWenDaNum = data.randomwendanum;
+                this.editorSettingData.randomWenDaScore = data.randomwendascore;
+                this.editorSettingData.randomXuanZeNum = data.randomxuanzenum;
+                this.editorSettingData.randomXuanZeScore = data.randomxuanzescore;
+                this.editorSettingData.subject1 = data.subject1 ? data.subject1.split(',').map(Number) : [];
+                this.editorSettingData.subject2 = data.subject2 ? data.subject2.split(',').map(Number) : [];
+                this.editorSettingData.subject3 = data.subject3 ? data.subject3.split(',').map(Number) : [];
+                this.editorSettingData.subject4 = data.subject4 ? data.subject4.split(',').map(Number) : [];
                 this.editorSettingFlag = true;
+
             },
             _publishPaper(data) {
                 this.$Modal.confirm({
@@ -467,6 +620,24 @@
                         data.totleTime = editorSettingData.totalTime;
                         data.states = editorSettingData.states;
                         data.name = editorSettingData.name;
+                        data.isRandom = editorSettingData.isRandom;
+                        if(editorSettingData.isRandom !=0){
+                            editorSettingData.states = 1;
+                        }
+                        data.randomDuoXuanNum = editorSettingData.randomDuoXuanNum;
+                        data.randomDuoXuanScore = editorSettingData.randomDuoXuanScore;
+                        data.randomPanDuanNum = editorSettingData.randomPanDuanNum;
+                        data.randomPanDuanScore = editorSettingData.randomPanDuanScore;
+                        data.randomTianKongNum = editorSettingData.randomTianKongNum;
+                        data.randomTianKongScore = editorSettingData.randomTianKongScore;
+                        data.randomWenDaNum = editorSettingData.randomWenDaNum;
+                        data.randomWenDaScore = editorSettingData.randomWenDaScore;
+                        data.randomXuanZeNum = editorSettingData.randomXuanZeNum;
+                        data.randomXuanZeScore = editorSettingData.randomXuanZeScore;
+                        data.subject1 = editorSettingData.subject1.join(',');
+                        data.subject2 = editorSettingData.subject2.join(',');
+                        data.subject3 = editorSettingData.subject3.join(',');
+                        data.subject4 = editorSettingData.subject4.join(',');
                         this.$http.post('/examtestpaper/add', data).then((res) => {
                             if (res.success) {
                                 this.editorSettingFlag = false;
