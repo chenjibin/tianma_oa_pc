@@ -299,6 +299,22 @@ export const appRouter = [
         ]
     },
     {
+        path: '/journey',
+        icon: 'flag',
+        name: 'journey',
+        title: '转正管理',
+        component: Main,
+        children: [
+            {
+                path: 'checkLog',
+                icon: 'flag',
+                name: 'checkLog',
+                title: '转正审批',
+                component: _import('journey/checkLog')
+            }
+        ]
+    },
+    {
         path: '/attendanceAndLeave',
         icon: 'ios-folder-outline',
         name: 'attendanceAndLeave',
@@ -375,7 +391,7 @@ export const appRouter = [
                 path: 'questionnaireRecords',
                 icon: 'ios-bookmarks',
                 name: 'questionnaireRecords',
-                title: '问卷消息',
+                title: '问卷发送审批',
                 component: _import('employeeFileManager/questionnaireRecords')
             }
         ]
