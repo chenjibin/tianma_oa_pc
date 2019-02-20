@@ -35,93 +35,17 @@
                         <Col span="24">
                             <template v-if="1 === 1">
                                 <span class="expand-key" style="color:#19be6b;font-weight: 700;">人事部意见: </span>
-                                <span class="expand-value">{{row.leadercontent1}}</span>np
+                                <span class="expand-value">{{row.leadercontent1}}</span>
                             </template>
                         </Col>
                     </Row>
                 </Col>
                 <Col :span="8">
-                    <div style="color:#19be6b;font-weight: 700;">操作:</div>
-                    <div class="" style="top:30%">
-                        <div class="" style="top:30%">
+                    <div class="">
+                        <div class="" style="margin-top: 8px;">
                             <Poptip placement="left"
-                                    :transfer="true"
                                     v-model="visible"
                                     width="800">
-                                <Button  v-if="userName === row.waitusername && row.state !== 0" type="primary" size="small">立即审核</Button>
-                                <Button  v-if="userName === row.waitusername && row.state === 0" type="primary" size="small">立即填写</Button>
-                                <div class="" slot="content" >
-                                    <Form :label-width="100"
-                                          :model="odForm"
-                                          ref="odFormFo"
-                                          :rules="odFormRules">
-                                        <FormItem label="部门上级" style="width:49%;margin-right:1%;" v-if="row.state === 0">
-                                            <Select v-model="odForm.chargerId"
-                                                    filterable
-                                                    placeholder="选择能决定你是否能转正的部门负责人"
-                                                    remote
-                                                    :label="daoshilabel"
-                                                    :remote-method="_filterPeopleRemote"
-                                                    :loading="filterPeopleLoading">
-                                                <Option v-for="(option, index) in optionlist" :value="option.id" :key="option.id">{{option.realname + '(' + option.organizename + ')'}}</Option>
-                                            </Select>
-                                        </FormItem>
-                                        <FormItem label="是否缴纳公积金" v-if="row.state === 0">
-                                            <Select v-model="odForm.accumulation"
-                                                    placeholder="公积金缴纳将扣个人部分：184元 公积金不缴纳将补贴个人：100元 "
-                                                    clearable>
-                                                <Option value="是">是</Option>
-                                                <Option value="否">否</Option>
-                                            </Select>
-                                        </FormItem>
-                                        <FormItem label="工作成绩自评" prop="content" v-if="row.state === 0">
-                                            <Input v-model="odForm.newContent1"
-                                                   type="textarea"
-                                                   :autosize="{minRows: 2,maxRows: 5}"
-                                                   placeholder="可从工作的回顾、总结，对公司企业文化的认知、工作业绩、岗位适应性、个人能力等"></Input>
-                                        </FormItem>
-                                        <FormItem label="未来工作计划" prop="content" v-if="row.state === 0">
-                                            <Input v-model="odForm.newContent2"
-                                                   type="textarea"
-                                                   :autosize="{minRows: 2,maxRows: 5}"
-                                                   placeholder="1：你认为你需要怎么做，才能为天马的发展做出你的贡献。2.随着对天马以及自身工作岗位的熟悉，简单说下你的近期和长期的规划（包括你想从事的岗位或者未来的目标岗位）"></Input>
-                                        </FormItem>
-                                        <FormItem label="上班天数:"  style="font-weight: 700;" v-if="row.state === 0">
-                                            <InputNumber :min="18" style="width: 10%" type="text" v-model="odForm.workDays"></InputNumber>
-                                            <span class="expand-key" style="font-weight: 700;">请假天数: </span>
-                                            <InputNumber :min="18" style="width: 10%" type="text" v-model="odForm.leaveDays"></InputNumber>
-                                            <span class="expand-key" style="font-weight: 700;">迟到天数: </span>
-                                            <InputNumber :min="18" style="width: 10%" type="text" v-model="odForm.lateDays"></InputNumber>
-                                            <span class="expand-key" style="font-weight: 700;">旷工天数: </span>
-                                            <InputNumber :min="18" style="width: 10%" type="text" v-model="odForm.absenteeismDays"></InputNumber>
-                                        </FormItem>
-                                        <FormItem label="本部门意见" prop="content" v-if="row.state === 1">
-                                            <Input v-model="odForm.chargerContent1"
-                                                   type="textarea"
-                                                   :autosize="{minRows: 2,maxRows: 5}"
-                                                   placeholder="对员工的评述、指导，指出是否给予转正的原因"></Input>
-                                        </FormItem>
-                                        <FormItem label="人事部意见" prop="content" v-if="row.state === 2">
-                                            <Input v-model="odForm.leaderContent1"
-                                                   type="textarea"
-                                                   :autosize="{minRows: 2,maxRows: 5}"
-                                                   placeholder="对员工的评述、指导，指出是否给予转正的原因"></Input>
-                                        </FormItem>
-                                        <FormItem label="是否同意其转正" v-if="row.state !== 0">
-                                            <Select v-model="odForm.status"
-                                                    style="width: 30%"
-                                                    placeholder="公积金缴纳将扣个人部分：184元 公积金不缴纳将补贴个人：100元 "
-                                                    clearable>
-                                                <Option value="1">是</Option>
-                                                <Option value="2">否</Option>
-                                            </Select>
-                                        </FormItem>
-                                        <FormItem>
-                                            <Button :loading="btnLoading" type="primary" @click="_submitOdResult">提交</Button>
-                                            <Button type="ghost" @click="visible = false" style="margin-left: 8px">取消</Button>
-                                        </FormItem>
-                                    </Form>
-                                </div>
                             </Poptip>
                         </div>
                     </div>

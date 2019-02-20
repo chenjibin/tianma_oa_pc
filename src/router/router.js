@@ -263,6 +263,15 @@ export const otherRouter = {
             component: _import('myFoodCard')
         },
         {
+            path: 'myZz',
+            title: '我的转正',
+            meta: {
+                whiteIn: true
+            },
+            name: 'myZz',
+            component: _import('myZz')
+        },
+        {
             path: 'meetingRecord',
             title: '会议室预定',
             meta: {
@@ -311,6 +320,13 @@ export const appRouter = [
                 name: 'checkLog',
                 title: '转正审批',
                 component: _import('journey/checkLog')
+            },
+            {
+                path: 'manageLog',
+                icon: 'flag',
+                name: 'manageLog',
+                title: '转正管理',
+                component: _import('journey/manageLog')
             }
         ]
     },
@@ -337,7 +353,6 @@ export const appRouter = [
             },
             {
                 path: 'leaveManage',
-                icon: 'ios-folder-outline',
                 icon: 'ios-folder-outline',
                 name: 'leaveManage',
                 title: '请假管理',

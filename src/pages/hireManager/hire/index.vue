@@ -1354,6 +1354,9 @@
                     if (vm.showUser.status === -1) {
                         d.status = 0;
                     }
+                    if (d.status < 6){
+                        d.master = '';
+                    }
                     vm.$http.post('/talentLibrary/changeStatus', d).then((res) => {
                         if (res.success) {
                             vm.$Message.success('用户' + vm.showUser.name + ' 变更成功');

@@ -353,7 +353,7 @@
                     position: '',
                     credit: 0,
                     teacher_id: '',
-                    questionnaire_temp: 1,
+                    questionnaire_temp: '',
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''
@@ -707,7 +707,7 @@
                     position: '',
                     credit: 0,
                     teacher_id: '',
-                    questionnaire_temp: 1,
+                    questionnaire_temp: '',
                     teacher_coin: 0,
                     trainee_max_num: 0,
                     about: ''

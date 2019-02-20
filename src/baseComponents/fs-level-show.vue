@@ -24,7 +24,7 @@
                    <div >
                        <div >
                            <span>热血青铜</span><span>0~350</span>
-                           <span style="margin-left: 13%">不屈白银</span><span>350~450  </span>
+                           <span style="margin-left: 13%">不屈白银</span><span>350~1300</span>
                        </div>
                        <div >
                            <span>英勇黄金</span><span>1300~2700</span>

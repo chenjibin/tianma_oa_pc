@@ -1,27 +1,6 @@
 <template>
     <div>
         <Card>
-            <Form inline :label-width="60">
-                <FormItem label="姓名">
-                    <Input type="text"
-                           v-model="filterOpt.userName.value"
-                           placeholder="筛选姓名"></Input>
-                </FormItem>
-                <FormItem label="申请日期">
-                    <DatePicker placeholder="筛选申请日期"
-                                @on-change="filterOpt.addTime.value = $event"
-                                :value="filterOpt.addTime.value"></DatePicker>
-                </FormItem>
-                <FormItem label="审核状态">
-                    <Select v-model="filterOpt.status.value"
-                            placeholder="筛选审核状态"
-                            clearable>
-                        <Option value="0">审核中</Option>
-                        <Option value="1">转正成功</Option>
-                        <Option value="2">转正失败</Option>
-                    </Select>
-                </FormItem>
-            </Form>
             <fs-table-page :columns="postColumns"
                            :height="tableHeight"
                            ref="leaveTableDom"
@@ -48,21 +27,21 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import tableExpend from './table-expend';
     export default {
-        name: 'checkLog',
+        name: 'mylogs',
         data () {
             return {
                 visible: false,
                 imgArr: [],
                 filterOpt: {
-                    userName: {
+                    user_name: {
                         value: '',
                         type: 'input'
                     },
-                    addTime: {
+                    applyDate: {
                         value: '',
                         type: 'date'
                     },
-                    status: {
+                    odstates: {
                         value: '',
                         type: 'select'
                     }
@@ -183,7 +162,7 @@
                                     props: {
                                         color: 'green'
                                     }
-                                }, '立即审批');
+                                }, '立即填写');
                             }
                             return h('div', [
                                 h('Tag', {

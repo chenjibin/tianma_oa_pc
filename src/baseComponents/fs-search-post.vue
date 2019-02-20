@@ -10,7 +10,7 @@
             :loading="filterPeopleLoading">
         <Option v-for="option in optionlist"
                 :value="option.id"
-                :key="'post' + option.id">{{option.name + '(' + option.organizename + ')'}}</Option>
+                :key="'post' + option.id">{{option.name}}</Option>
     </Select>
 </template>
 <script>
@@ -55,7 +55,7 @@
                 let data = {};
                 data.postName = val;
                 this.filterPeopleLoading = true;
-                this.$http.get('post/findPost', {params: data}).then((res) => {
+                this.$http.get('post/findByPostName', {params: data}).then((res) => {
                     if (res.success) {
                         this.$emit('update:optionlist', res.data);
                     }

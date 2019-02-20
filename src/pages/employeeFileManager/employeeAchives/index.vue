@@ -242,6 +242,11 @@
                             <FormItem label="合同起止日期" style="width:49%;margin-right:1%;">
                                 <Input type="text" v-model="baseForm.contracttime" ></Input>
                             </FormItem>
+                            <FormItem label="预计转正时间" prop="inJobTime">
+                                <DatePicker type="date"
+                                            @on-change="_inJobDateChange"
+                                            :value="baseForm.zhuanzhengtime"></DatePicker>
+                            </FormItem>
                             <!--<FormItem label="档案编号" style="width:49%;margin-right:1%;">-->
                                 <!--<Input type="text" v-model="baseForm.filenum"></Input>-->
                             <!--</FormItem>-->
@@ -736,7 +741,7 @@
                     cancelText: '取消',
                     loading: true,
                     onOk () {
-                        this.$http.post('/ticket/deleteTicketFile', item).then((res) => {
+                        this.$http.post('/ticket/deleteTicketFile2', item).then((res) => {
                             if (res.success) {
                                 vm.getTicketList(item.ticket_no);
                                 vm.$Modal.remove();
@@ -879,6 +884,9 @@
                         d4.splice(i, 1);
                     }
                 }
+            },
+            _inJobDateChange(val) {
+                this.baseForm.zhuanzhengtime = val;
             },
             getUsersInfo(id, name) {
                 let that = this;

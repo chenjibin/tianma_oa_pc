@@ -26,15 +26,31 @@
                     <Button type="ghost" icon="arrow-right-c" @click="toPage('assetsBuyApprove')">立即处理</Button>
                 </div>
             </li>
-            <li v-if="wenNumber" class="todo-list-item">
+            <li v-if="zhuanNumber" class="todo-list-item">
+            <div class="todo-list-item-left">
+                <span>【转正】</span><span>您有{{zhuanNumber}}条转正申请需要处理</span>
+            </div>
+            <div class="todo-list-item-right">
+                <Button type="ghost" icon="arrow-right-c" @click="toPage('checkLog')">立即处理</Button>
+            </div>
+            </li>
+            <li v-if="xinZhuangNumber" class="todo-list-item">
                 <div class="todo-list-item-left">
-                    <span>【问卷】</span><span>您有{{wenNumber}}条问卷需要填写</span>
+                    <span>【转正】</span><span>您有条转正申请正在处理</span>
                 </div>
                 <div class="todo-list-item-right">
-                    <Button type="ghost" icon="arrow-right-c" @click="$router.push('myExam')">立即处理</Button>
+                    <Button type="ghost" icon="arrow-right-c" @click="$router.push({name: 'myZz'})">立即查看</Button>
                 </div>
             </li>
-            <li v-if="!purchaseMsgNumber && !compactMsgNumber && !odmsgNumber && !wenNumber">
+            <!--<li v-if="wenNumber" class="todo-list-item">-->
+                <!--<div class="todo-list-item-left">-->
+                    <!--<span>【问卷】</span><span>您有{{wenNumber}}条问卷需要填写</span>-->
+                <!--</div>-->
+                <!--<div class="todo-list-item-right">-->
+                    <!--<Button type="ghost" icon="arrow-right-c" @click="$router.push('myExam')">立即处理</Button>-->
+                <!--</div>-->
+            <!--</li>-->
+            <li v-if="!purchaseMsgNumber && !compactMsgNumber && !odmsgNumber && !wenNumber && !zhuanNumber && !xinZhuangNumber">
                 暂无待办事项
             </li>
         </ul>
@@ -72,7 +88,9 @@
                 compactMsgNumber: 0,
                 odmsgNumber: 0,
                 purchaseMsgNumber: 0,
-                wenNumber: 0
+                wenNumber: 0,
+                zhuanNumber: 0,
+                xinZhuangNumber: 0
             };
         },
         created() {
@@ -92,6 +110,8 @@
                         this.odmsgNumber = resData.odmsgNumber;
                         this.purchaseMsgNumber = resData.purchaseMsgNumber;
                         this.wenNumber = resData.wenNumber;
+                        this.zhuanNumber = resData.zhuanNumber;
+                        this.xinZhuangNumber = resData.xinZhuangNumber;
                     }
                 });
             }

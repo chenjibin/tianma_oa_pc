@@ -84,7 +84,6 @@
                 <Button type="primary"
                         :disabled="loading2"
                         :loading="importLoading"
-                        v-if="opSataus === '未设置'"
                         @click="_openUploadModel">
                     <span v-if="!importLoading">导入xls</span>
                     <span v-else>正在导入...</span>

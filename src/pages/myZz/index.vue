@@ -1,46 +1,11 @@
 <template>
     <div>
         <Card>
-            <Form inline :label-width="60">
-                <FormItem label="姓名">
-                    <Input type="text"
-                           v-model="filterOpt.userName.value"
-                           placeholder="筛选姓名"></Input>
-                </FormItem>
-                <FormItem label="申请日期">
-                    <DatePicker placeholder="筛选申请日期"
-                                @on-change="filterOpt.addTime.value = $event"
-                                :value="filterOpt.addTime.value"></DatePicker>
-                </FormItem>
-                <FormItem label="审核状态">
-                    <Select v-model="filterOpt.status.value"
-                            placeholder="筛选审核状态"
-                            clearable>
-                        <Option value="0">审核中</Option>
-                        <Option value="1">转正成功</Option>
-                        <Option value="2">转正失败</Option>
-                    </Select>
-                </FormItem>
-            </Form>
             <fs-table-page :columns="postColumns"
                            :height="tableHeight"
                            ref="leaveTableDom"
                            :params="filterOpt"
                            url="/journey/checkList"></fs-table-page>
-            <Modal title="查看图片证明" v-model="visible" width="800">
-                <div style="max-height: 500px;overflow-y: auto;overflow-x: hidden;">
-                    <img :src="$mainHost + '/oa/upload/' + item.pic"
-                         v-for="(item, index) in imgArr"
-                         :key="'prewimg-' + index"
-                         title="点击图片可以旋转"
-                         :style="{transform: `rotateZ(${item.deg}deg)`}"
-                         @click="_rotateImg(index)"
-                         style="width: 100%; cursor: pointer;">
-                </div>
-                <div slot="footer">
-                    <Button type="ghost" @click="visible = false">关闭</Button>
-                </div>
-            </Modal>
         </Card>
     </div>
 </template>
@@ -48,21 +13,21 @@
     import fsTablePage from '@/baseComponents/fs-table-page';
     import tableExpend from './table-expend';
     export default {
-        name: 'checkLog',
+        name: 'myZz',
         data () {
             return {
                 visible: false,
                 imgArr: [],
                 filterOpt: {
-                    userName: {
+                    user_name: {
                         value: '',
                         type: 'input'
                     },
-                    addTime: {
+                    applyDate: {
                         value: '',
                         type: 'date'
                     },
-                    status: {
+                    odstates: {
                         value: '',
                         type: 'select'
                     }
@@ -183,7 +148,7 @@
                                     props: {
                                         color: 'green'
                                     }
-                                }, '立即审批');
+                                }, '立即填写');
                             }
                             return h('div', [
                                 h('Tag', {
@@ -210,41 +175,6 @@
         methods: {
             _rotateImg(index) {
                 this.imgArr[index].deg += 90;
-            },
-            _prewImg(data) {
-                this.visible = true;
-                let storeArr = [];
-                if (data.imageproof) {
-                    let obj = {};
-                    obj.pic = data.imageproof;
-                    obj.deg = 0;
-                    storeArr.push(obj);
-                }
-                if (data.imageproof1) {
-                    let obj = {};
-                    obj.pic = data.imageproof1;
-                    obj.deg = 0;
-                    storeArr.push(obj);
-                }
-                if (data.imageproof2) {
-                    let obj = {};
-                    obj.pic = data.imageproof2;
-                    obj.deg = 0;
-                    storeArr.push(obj);
-                }
-                if (data.imageproof3) {
-                    let obj = {};
-                    obj.pic = data.imageproof3;
-                    obj.deg = 0;
-                    storeArr.push(obj);
-                }
-                if (data.imageproof4) {
-                    let obj = {};
-                    obj.pic = data.imageproof4;
-                    obj.deg = 0;
-                    storeArr.push(obj);
-                }
-                this.imgArr = storeArr;
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;
