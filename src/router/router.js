@@ -322,7 +322,6 @@ export const appRouter = [
             {
                 path: 'leaveManage',
                 icon: 'ios-folder-outline',
-                icon: 'ios-folder-outline',
                 name: 'leaveManage',
                 title: '请假管理',
                 component: _import('attendanceAndLeave/leaveManage')
