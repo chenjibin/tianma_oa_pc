@@ -50,7 +50,7 @@
                         <FormItem label="电子邮箱" :class="device.mobile?'mobileFormRight':'pcFormItem'">
                             <Input type="text"  :maxlength="20" v-model="talentBean.email"></Input>
                         </FormItem>
-                        <FormItem label="身份证号码" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
+                        <FormItem label="身份证号码" prop="idnum" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
                             <Input type="text"  :maxlength="18" v-model="talentBean.idnum"></Input>
                         </FormItem>
                         <FormItem label="籍贯" :class="device.mobile?'mobileFormRight':'pcFormItem'">
@@ -68,7 +68,7 @@
                                 <Option value="群众">群众</Option>
                             </Select>
                         </FormItem>
-                        <FormItem label="婚姻状况" :class="device.mobile?'mobileFormRight':'pcFormItem'">
+                        <FormItem label="婚姻状况"  prop="marriage" :class="device.mobile?'mobileFormRight':'pcFormItem'">
                             <Select type="text" v-model="talentBean.marriage" :editable="false">
                                 <Option :value=1>已婚</Option>
                                 <Option :value=2>未婚</Option>
@@ -77,19 +77,19 @@
                         <FormItem label="预期入职时间" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
                             <DatePicker :editable="false" style="width: 100%"  type="date" @on-change="_monthDateChange(0, 0, 'testtime',$event)" :value="talentBean.testtime"></DatePicker>
                         </FormItem>
-                        <FormItem label="有无子女" :class="device.mobile?'mobileFormRight':'pcFormItem'">
+                        <FormItem label="有无子女"  prop="had_child" :class="device.mobile?'mobileFormRight':'pcFormItem'">
                             <Select type="text" v-model="talentBean.had_child" :editable="false">
                                 <Option :value="0">无</Option>
                                 <Option :value="1">有</Option>
                             </Select>
                         </FormItem>
-                        <FormItem label="亲属在本司" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
+                        <FormItem label="亲属在本司" prop="family_in" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
                             <Select type="text" v-model="talentBean.family_in" :editable="false">
                                 <Option :value="0">无</Option>
                                 <Option :value="1">有</Option>
                             </Select>
                         </FormItem>
-                        <FormItem label="有无重大病史" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
+                        <FormItem label="有无重大病史" prop="bing_shi" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
                             <Select type="text" v-model="talentBean.bing_shi" :editable="false">
                                 <Option :value="0">无</Option>
                                 <Option :value="1">有</Option>
@@ -411,8 +411,26 @@
                     nation: [
                         {required: true, message: '身高体重必填', trigger: 'blur'}
                     ],
+                    age: [
+                        {required: true, message: '年齡必填', trigger: 'blur'}
+                    ],
+                    idnum: [
+                        {required: true, message: '身份证号码必填', trigger: 'blur'}
+                    ],
                     sex: [
                         {type: 'number', required: true, message: '性别必填', trigger: 'change'}
+                    ],
+                    marriage: [
+                        {type: 'number', required: true, message: '婚姻状况必填', trigger: 'change'}
+                    ],
+                    had_child: [
+                        {type: 'number', required: true, message: '有无子女必填', trigger: 'change'}
+                    ],
+                    family_in: [
+                        {type: 'number', required: true, message: '亲属在本公司必填', trigger: 'change'}
+                    ],
+                    bing_shi: [
+                        {type: 'number', required: true, message: '有无病史必填', trigger: 'change'}
                     ],
                     resumesource: [
                         {type: 'number', required: true, message: '简历来源必填', trigger: 'change'}
@@ -423,7 +441,7 @@
                     phone: [
                         {required: true, message: '手机号码必填', trigger: 'blur'},
                         {validator: validateMobile, trigger: 'blur'}
-                    ]
+                    ],
                 }
             };
         },
