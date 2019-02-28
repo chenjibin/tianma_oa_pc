@@ -337,7 +337,7 @@
             // 验证长度
             const validateLenght = (rule, value, callback) => {
                 if (value.length < 150) {
-                    callback(new Error('最少输入150个字'));
+                    callback(new Error('最少输入50个字'));
                 } else {
                     callback();
                 }
