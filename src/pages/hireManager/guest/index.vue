@@ -2,7 +2,7 @@
     <div id="guest">
         <Card style="background: #fafafa;"  :class="device.mobile&&device.width<=490?'mobileTabHeight':'pcTabHeight'">
             <Tabs type="card" style="height: 100%;">
-                <TabPane label="基本" style="height: 100%">
+                <TabPane label="基本" style="height: 95%">
                     <Form ref="talentBean" :model="talentBean" :rules="rules" style="font-size: 0px;overflow-y: auto;overflow-x: hidden;height: 100%;" inline>
                         <Input type="text" style="display: none" v-model="talentBean.id"></Input>
                         <FormItem label="姓名" prop="name" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
@@ -108,15 +108,16 @@
                         <FormItem label="选择本公司/职业原因" style="width:99%;margin-right: 0px;">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 3,maxRows: 5}" v-model="talentBean.languageskills"></Input>
                         </FormItem>
-                        <FormItem label="同事/同学们认为我的不足之处" style="width:99%;margin-right: 0px;">
-                            <Input type="textarea" :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="talentBean.selfevaluation"></Input>
+                        <FormItem label="同事/同学们认为我的不足之处"  prop="selfevaluation" style="width:99%;margin-right: 0px;">
+                            <Input type="textarea"  :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="talentBean.selfevaluation"></Input>
                         </FormItem>
-                        <FormItem label="两年内的职业规划" style="width:99%;margin-right: 0px;">
+                        <FormItem label="两年内的职业规划"  prop="trainingexperience" style="width:99%;margin-right: 0px;">
                             <Input type="textarea" :maxlength="500" :autosize="{minRows: 5,maxRows: 16}" v-model="talentBean.trainingexperience"></Input>
                         </FormItem>
                     </Form>
                 </TabPane>
                 <TabPane id="education" label="学历" style="height: 100%">
+                    <p style="color:red;width:99%;margin-right: 0px;">请从高中开始填写：</p>
                     <Form :gutter="1" ref="educationForm" inline style="font-size: 0px;overflow-y: auto; overflow-x: hidden;height: 100%;">
                         <div v-for="(item,index) in educationForm" :key="item.id" class="custom-div">
                             <FormItem label="开始时间" :class="device.mobile?'mobileFormItemLeft':'pcEducationFormItem'">
@@ -158,13 +159,14 @@
                         </div>
                         <div>
                             <FormItem style="height: 60px">
-                                <Button type="primary" icon="android-add" style="margin-left: 8px" @click="educationForm.push({})">增加经历
+                                <Button type="primary" icon="android-add" style="margin-left: 8px" @click="educationForm.push({})">增加学历
                                 </Button>
                             </FormItem>
                         </div>
                     </Form>
                 </TabPane>
                 <TabPane id="working" label="经历">
+                    <p style="color:red;width:99%;margin-right: 0px;">请由近到远填写：</p>
                     <Form ref="workingForm" inline style="font-size: 0px;overflow-y: auto; overflow-x: hidden;height: 100%;">
                         <div v-for="(item,index) in workingForm" :key="item.id" class="custom-div">
                             <FormItem label="开始时间" :class="device.mobile?'mobileFormItemLeft':'pcWorkingFormItem'">
@@ -324,9 +326,18 @@
     export default {
         name: 'hire',
         data () {
+            // 验证手机号
             const validateMobile = (rule, value, callback) => {
                 if (!Number.isInteger(+value) || value.length !== 11) {
                     callback(new Error('号码不正确'));
+                } else {
+                    callback();
+                }
+            };
+            // 验证长度
+            const validateLenght = (rule, value, callback) => {
+                if (value.length < 150) {
+                    callback(new Error('最少输入150个字'));
                 } else {
                     callback();
                 }
@@ -442,6 +453,14 @@
                         {required: true, message: '手机号码必填', trigger: 'blur'},
                         {validator: validateMobile, trigger: 'blur'}
                     ],
+                    selfevaluation: [
+                        {required: true, message: '不足之处必填', trigger: 'blur'},
+                        {validator: validateLenght, trigger: 'blur'}
+                    ],
+                    trainingexperience: [
+                        {required: true, message: '职业规必填', trigger: 'blur'},
+                        {validator: validateLenght, trigger: 'blur'}
+                    ]
                 }
             };
         },

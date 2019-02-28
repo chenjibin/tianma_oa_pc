@@ -42,6 +42,22 @@
                     <Button type="ghost" icon="arrow-right-c" @click="$router.push({name: 'myZz'})">立即查看</Button>
                 </div>
             </li>
+            <li v-if="workNotScoredNumber1" class="todo-list-item">
+                <div class="todo-list-item-left">
+                    <span>【工单】</span><span>您有{{workNotScoredNumber1}}条工单到期未打分待处理</span>
+                </div>
+                <div class="todo-list-item-right">
+                    <Button type="ghost" icon="arrow-right-c" @click="toPage('myCreateTickets')">立即处理</Button>
+                </div>
+            </li>
+            <li v-if="workNotScoredNumber2" class="todo-list-item">
+                <div class="todo-list-item-left">
+                    <span>【工单】</span><span>您有{{workNotScoredNumber2}}条已完成工单未打分待处理</span>
+                </div>
+                <div class="todo-list-item-right">
+                    <Button type="ghost" icon="arrow-right-c" @click="toPage('superiorManager')">立即处理</Button>
+                </div>
+            </li>
             <!--<li v-if="wenNumber" class="todo-list-item">-->
                 <!--<div class="todo-list-item-left">-->
                     <!--<span>【问卷】</span><span>您有{{wenNumber}}条问卷需要填写</span>-->
@@ -50,7 +66,7 @@
                     <!--<Button type="ghost" icon="arrow-right-c" @click="$router.push('myExam')">立即处理</Button>-->
                 <!--</div>-->
             <!--</li>-->
-            <li v-if="!purchaseMsgNumber && !compactMsgNumber && !odmsgNumber && !wenNumber && !zhuanNumber && !xinZhuangNumber">
+            <li v-if="!purchaseMsgNumber && !compactMsgNumber && !odmsgNumber && !wenNumber && !zhuanNumber && !xinZhuangNumber && !workNotScoredNumber1 && !workNotScoredNumber2">
                 暂无待办事项
             </li>
         </ul>
@@ -90,7 +106,9 @@
                 purchaseMsgNumber: 0,
                 wenNumber: 0,
                 zhuanNumber: 0,
-                xinZhuangNumber: 0
+                xinZhuangNumber: 0,
+                workNotScoredNumber1: 0,
+                workNotScoredNumber2: 0
             };
         },
         created() {
@@ -112,6 +130,8 @@
                         this.wenNumber = resData.wenNumber;
                         this.zhuanNumber = resData.zhuanNumber;
                         this.xinZhuangNumber = resData.xinZhuangNumber;
+                        this.workNotScoredNumber1 = resData.workNotScoredNumber1;
+                        this.workNotScoredNumber2 = resData.workNotScoredNumber2;
                     }
                 });
             }
