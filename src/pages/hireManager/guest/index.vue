@@ -117,8 +117,8 @@
                     </Form>
                 </TabPane>
                 <TabPane id="education" label="学历" style="height: 100%">
-                    <p style="color:red;width:99%;margin-right: 0px;">请从高中开始填写：</p>
                     <Form :gutter="1" ref="educationForm" inline style="font-size: 0px;overflow-y: auto; overflow-x: hidden;height: 100%;">
+                        <p style="font-size:12px;color:red;width:99%;margin-right: 0px;">请从高中开始填写：</p>
                         <div v-for="(item,index) in educationForm" :key="item.id" class="custom-div">
                             <FormItem label="开始时间" :class="device.mobile?'mobileFormItemLeft':'pcEducationFormItem'">
                                 <DatePicker style="width: 100%" :editable="false" type="date" @on-change="_monthDateChange(1, index, 'starttime',$event)" :value="item.starttime"></DatePicker>
@@ -165,9 +165,9 @@
                         </div>
                     </Form>
                 </TabPane>
-                <TabPane id="working" label="经历">
-                    <p style="color:red;width:99%;margin-right: 0px;">请由近到远填写：</p>
+                <TabPane id="working" label="经历" style="height: 100%">
                     <Form ref="workingForm" inline style="font-size: 0px;overflow-y: auto; overflow-x: hidden;height: 100%;">
+                        <p style="font-size:12px;color:red;width:99%;margin-right: 0px;">请由近到远填写：</p>
                         <div v-for="(item,index) in workingForm" :key="item.id" class="custom-div">
                             <FormItem label="开始时间" :class="device.mobile?'mobileFormItemLeft':'pcWorkingFormItem'">
                                 <DatePicker style="width: 100%" :editable="false" type="date" @on-change="_monthDateChange(2, index, 'starttime',$event)" :value="item.starttime"></DatePicker>
@@ -336,8 +336,8 @@
             };
             // 验证长度
             const validateLenght = (rule, value, callback) => {
-                if (value.length < 150) {
-                    callback(new Error('最少输入50个字'));
+                if (value.length < 30) {
+                    callback(new Error('最少输入30个字'));
                 } else {
                     callback();
                 }
