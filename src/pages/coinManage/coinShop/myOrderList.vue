@@ -132,7 +132,7 @@
                 let data = {};
                 console.log(id);
                 data.id = id;
-                this.$http.get('/order/removeById',{params: data}).then((res) => {
+                this.$http.get('/order/removeById', {params: data}).then((res) => {
                     if (res.success) {
                         this.$Message.success('操作成功,已取消订单!');
                         this._getMyOrderList();

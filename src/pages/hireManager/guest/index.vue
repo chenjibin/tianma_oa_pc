@@ -219,6 +219,7 @@
                 </TabPane>
                 <TabPane label="亲属">
                     <Form ref="socailShipForm"  inline style="padding: 1px;font-size: 0;overflow-y: auto; overflow-x: hidden;height: 100%;">
+                        <p style="font-size:12px;color:red;width:99%;margin-right: 0px;">亲属关系至少填写一个：</p>
                         <div v-for="(item) in socailShipForm" :key="item.name" class="custom-div">
                             <FormItem label="姓名" :class="device.mobile?'mobileFormRight':'pcRelationFormItem'">
                                 <Input type="text" :maxlength="20" name="name" v-model="item.witness"></Input>

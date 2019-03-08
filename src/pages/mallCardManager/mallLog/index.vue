@@ -2,6 +2,12 @@
     <div>
         <Card>
             <Form ref="searchData" :model="searchData" inline :label-width="80">
+                <FormItem prop="good_name" label="商品名称">
+                    <Input type="text"
+                           clearable
+                           v-model="searchData.good_name.value"
+                           placeholder="筛选商品名称"></Input>
+                </FormItem>
                 <FormItem prop="realName" label="操作人">
                     <Input type="text"
                            clearable
@@ -21,6 +27,8 @@
                             style="width: 160px">
                         <Option value="增加">增加</Option>
                         <Option value="减少">减少</Option>
+                        <Option value="初始值">初始值</Option>
+                        <Option value="删除">删除</Option>
                     </Select>
                 </FormItem>
                 <FormItem prop="start" label="开始日期">
@@ -76,9 +84,10 @@
                 ],
                 columns1: [
                     {
-                        title: '内容',
-                        key: 'content',
-                        width: 400
+                        title: '商品名称',
+                        key: 'good_name',
+                        align: 'center',
+                        width: 350
                     },
                     {
                         title: '属性',
@@ -93,10 +102,10 @@
                         minWidth: 160
                     },
                     {
-                        title: '备注',
-                        key: 'beizhu',
+                        title: '内容',
+                        key: 'content',
                         align: 'center',
-                        minWidth: 160
+                        width: 400
                     },
                     {
                         title: '变更时间',
@@ -109,8 +118,13 @@
                         key: 'createname',
                         align: 'center',
                         minWidth: 160
+                    },
+                    {
+                        title: '备注',
+                        key: 'beizhu',
+                        align: 'center',
+                        minWidth: 160
                     }
-
                 ],
                 searchData: {
                     cardNumber: {
@@ -139,7 +153,11 @@
                     },
                     states: {
                         value: '',
-                            type: 'select'
+                        type: 'select'
+                    },
+                    good_name: {
+                        value: '',
+                        type: 'input'
                     }
                 }
             }

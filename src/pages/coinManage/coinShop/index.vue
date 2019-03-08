@@ -37,6 +37,7 @@
                                     <span class="coin">{{item.price}}</span>
                                     <span v-if="!isFeel">金币</span>
                                         <span v-if="isFeel">元</span>
+                                        (<span style="color: green">{{item.quality}}</span>)
                                     </Col>
                                     <Col>
                                     <Button type="primary"
@@ -145,7 +146,7 @@
                 overflow: hidden;
             }
             .coin {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 700;
                 color: red;
             }

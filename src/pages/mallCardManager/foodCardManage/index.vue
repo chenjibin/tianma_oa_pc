@@ -120,6 +120,13 @@
                         <Button @click.stop="cashInOpen = false">取消</Button>
                     </div>
                     <div class="expend-block" v-show="cashInOpen" style="margin-top: 8px">
+                        <span>充值方式: </span>
+                        <input type="radio" v-model="type_c" value="0"  style="margin-left: 8px">
+                        <span style="color: green;font-size: small">支付宝</span>
+                        <input type="radio" v-model="type_c" value="1" >
+                        <span style="color: red;font-size: small">初始值</span>
+                    </div>
+                    <div class="expend-block" v-show="cashInOpen" style="margin-top: 8px">
                         <Input v-model="beizhu" size="large" placeholder="备注(非必填)" style="width: 240px" ></Input>
                     </div>
                 </div>
@@ -194,6 +201,7 @@
                 cardStates: 0,
                 cardNumber: 0,
                 mealfee: 0,
+                type_c: 0,
                 columns1: [
                     {
                         type: 'selection',
@@ -372,9 +380,10 @@
                 })
             },
             confirmCashIn() {
-                const {id, cashIn, beizhu} = this
-                this.$http.post('/card/recharge', {id, money: cashIn, beizhu}).then((res) => {
+                const {id, cashIn, beizhu, type_c} = this
+                this.$http.post('/card/recharge', {id, money: cashIn, beizhu, type_c}).then((res) => {
                     if (res.success) {
+                        this.$Message.success('充值成功！')
                         this._updateTable()
                         this._getNewUserInfo()
                         this._initEditorField()

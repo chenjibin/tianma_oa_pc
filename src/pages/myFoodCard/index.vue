@@ -242,6 +242,11 @@
                 appointmentId: 0,
                 totalTitle: '今日消费总额',
                 columns1: [
+                    // {
+                    //     title: '商品名称',
+                    //     key: 'good_name',
+                    //     width: 200
+                    // },
                     {
                         title: '内容',
                         key: 'content',

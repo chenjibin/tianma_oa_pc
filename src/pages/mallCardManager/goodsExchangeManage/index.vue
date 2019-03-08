@@ -24,12 +24,6 @@
                            v-model="filterOpt.department"
                            placeholder="筛选部门"></Input>
                 </FormItem>
-                <FormItem label="开始日期" style="width: 250px">
-                    <DatePicker type="date" @on-change="changeDate(2, 'startTime', $event)" :value="filterOpt.startTime"   placeholder="开始日期" ></DatePicker>
-                </FormItem>
-                <FormItem label="结束日期" style="width: 250px">
-                    <DatePicker type="date" @on-change="changeDate(2, 'endTime', $event)" :value="filterOpt.endTime" placeholder="结束日期" ></DatePicker>
-                </FormItem>
                 <FormItem label="状态">
                     <Select v-model="filterOpt.status"
                             clearable
@@ -40,6 +34,12 @@
                         <Option value="1">已领取</Option>
                         <Option value="2">已取消</Option>
                     </Select>
+                </FormItem>
+                <FormItem label="开始日期" style="width: 250px">
+                    <DatePicker type="date" @on-change="changeDate(2, 'startTime', $event)" :value="filterOpt.startTime"   placeholder="开始日期" ></DatePicker>
+                </FormItem>
+                <FormItem label="结束日期" style="width: 250px">
+                    <DatePicker type="date" @on-change="changeDate(2, 'endTime', $event)" :value="filterOpt.endTime" placeholder="结束日期" ></DatePicker>
                 </FormItem>
                 <FormItem>
                     <ButtonGroup>
@@ -108,14 +108,10 @@
                         width: 60,
                         align: 'center'
                     },
-                    {
-                        title: '订单id',
-                        key: 'id'
-                    },
-                    {
-                        title: '商品名称',
-                        key: 'goods_name'
-                    },
+                    // {
+                    //     title: '订单id',
+                    //     key: 'id'
+                    // },
                     {
                         title: '商品图片',
                         key: 'postname',
@@ -138,15 +134,15 @@
                         }
                     },
                     {
+                        title: '商品名称',
+                        align: 'center',
+                        key: 'goods_name'
+                    },
+                    {
                         title: '价格',
                         key: 'price',
                         align: 'center',
                         width: 80
-                    },
-                    {
-                        title: '所在部门',
-                        key: 'dpname',
-                        align: 'center'
                     },
                     {
                         title: '数量',
@@ -159,6 +155,29 @@
                         key: 'user_name',
                         align: 'center',
                         width: 90
+                    },
+                    {
+                        title: '所在部门',
+                        key: 'dpname',
+                        align: 'center'
+                    },
+                    {
+                        title: '创建时间',
+                        key: 'created',
+                        align: 'center',
+                        width: 170
+                    },
+                    {
+                        title: '领取时间',
+                        key: 'opt_time',
+                        align: 'center',
+                        width: 170
+                    },
+                    {
+                        title: '操作人',
+                        key: 'opt_user',
+                        align: 'center',
+                        width: 120
                     },
                     {
                         title: '状态',
@@ -188,18 +207,6 @@
                                 }
                             }, statusContent);
                         }
-                    },
-                    {
-                        title: '兑换时间',
-                        key: 'created',
-                        align: 'center',
-                        width: 170
-                    },
-                    {
-                        title: '操作人',
-                        key: 'opt_user',
-                        align: 'center',
-                        width: 120
                     },
                     {
                         title: '操作',
@@ -316,7 +323,7 @@
                 let vm = this;
                 let flag = vm._checkChooseStatus(this.chooseDataArr);
                 if (!flag) {
-                    this.$Message.error('只有待领取状态下的兑换订单才可以操作！');
+                    this.$Message.error('只有待领取状态下的订单才可以操作！');
                     return;
                 }
                 let content = status === 1 ? '领取' : '取消';
@@ -343,7 +350,7 @@
             _confirmExchangeGoods(data) {
                 let vm = this;
                 this.$Modal.confirm({
-                    content: '确认' + data.user_name + ' 兑换【' + data.goods_name + '】么?',
+                    content: '确认' + data.user_name + ' 领取【' + data.goods_name + '】么?',
                     okText: '确认兑换',
                     cancelText: '关闭',
                     onOk: function () {
@@ -362,7 +369,7 @@
             _confirmCancelGoods(data) {
                 let vm = this;
                 this.$Modal.confirm({
-                    content: '确认取消 ' + data.user_name + ' 兑换【' + data.goods_name + '】么?',
+                    content: '确认取消 ' + data.user_name + ' 待领取【' + data.goods_name + '】么?',
                     okText: '确认取消',
                     cancelText: '关闭',
                     onOk: function () {

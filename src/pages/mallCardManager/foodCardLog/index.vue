@@ -1,7 +1,7 @@
 <template>
     <div>
         <Card>
-            <Form ref="searchData" :model="searchData" inline :label-width="80">
+            <Form ref="searchData" :model="searchData" inline :label-width="65">
                 <FormItem prop="cardNumber" label="卡号">
                     <Input type="text"
                            clearable
@@ -13,6 +13,20 @@
                            clearable
                            v-model="searchData.userName.value"
                            placeholder="筛选姓名"></Input>
+                </FormItem>
+                <FormItem prop="good_name" label="商品名称">
+                    <Input type="text"
+                           clearable
+                           v-model="searchData.good_name.value"
+                           placeholder="筛选商品名称"></Input>
+                </FormItem>
+                <FormItem label="类型" prop="type" >
+                    <Select v-model="searchData.type.value"
+                            clearable
+                            placeholder="筛选类型"
+                            style="width: 160px">
+                        <Option v-for="(item,index) in typeStore" :value="index" :key="'type-log-' + index">{{item}}</Option>
+                    </Select>
                 </FormItem>
                 <FormItem prop="start" label="开始日期">
                     <DatePicker type="date"
@@ -26,14 +40,6 @@
                                 placeholder="结束日期"
                                 :value="searchData.end.value"></DatePicker>
                 </FormItem>
-                <FormItem label="类型" prop="type">
-                    <Select v-model="searchData.type.value"
-                            clearable
-                            placeholder="筛选类型"
-                            style="width: 160px">
-                        <Option v-for="(item,index) in typeStore" :value="index" :key="'type-log-' + index">{{item}}</Option>
-                    </Select>
-                </FormItem>
                 <FormItem :label-width="0.1">
                     <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
                         <span v-if="!exportLoading">导出</span>
@@ -46,8 +52,8 @@
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <div class="" style="font-size: 16px;font-weight: 700;">
-                        <span>金额:</span>
-                        <span>{{totalMoney}}元</span>
+                        <span>消费金额:</span>
+                        <span style="color: green">{{totalMoney}}</span>元 (<span STYLE="color: red">不选时间计算当天</span>)
                     </div>
                 </FormItem>
             </Form>
@@ -75,24 +81,43 @@
                 tableHeight: 400,
                 totalMoney: 0,
                 typeStore: [
-                    '充值',
-                    '消费',
-                    '餐卡状态变更信息',
-                    '消费退款记录',
-                    '已退款的消费记录',
-                    '充值退款记录',
-                    '已退款的充值记录',
-                    '异常记录',
-                    '补贴',
-                    '初始值',
+                    '充值(支付宝)',
+                    '食堂消费',
+                    '餐卡状态变更',
+                    '食堂退款',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '补贴(公司)',
+                    '初始值(100)',
                     '小超市消费',
                     '小超市退款'
                 ],
                 columns1: [
                     {
+                        title: '姓名',
+                        key: 'username',
+                        align: 'center',
+                        minWidth: 160
+                    },
+                    {
+                        title: '卡号',
+                        key: 'cardnumber',
+                        align: 'center',
+                        minWidth: 160
+                    },
+                    {
                         title: '内容',
                         key: 'content',
+                        align: 'center',
                         width: 400
+                    },
+                    {
+                        title: '金额',
+                        key: 'money',
+                        align: 'center',
+                        minWidth: 160
                     },
                     {
                         title: '类型',
@@ -104,10 +129,10 @@
                         }
                     },
                     {
-                        title: '姓名',
-                        key: 'username',
+                        title: '商品名称',
+                        key: 'good_name',
                         align: 'center',
-                        minWidth: 160
+                        width: 350
                     },
                     {
                         title: '消费时间',
@@ -126,34 +151,34 @@
                         key: 'createname',
                         align: 'center',
                         minWidth: 160
-                    },
-
-                    {
-                        title: '操作',
-                        width: 80,
-                        render: (h, params) => {
-                            let vm = this;
-                            let returnBtn = params.row.type === 0 ? h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    icon: 'reply',
-                                    shape: 'circle'
-                                },
-                                attrs: {
-                                    title: '退款'
-                                },
-                                on: {
-                                    click: function () {
-                                        vm._returnMoney(params.row);
-                                    }
-                                },
-                                style: {
-                                    marginRight: '4px'
-                                }
-                            }) : ''
-                            return h('div', [returnBtn]);
-                        }
                     }
+                    // ,
+                    // {
+                    //     title: '操作',
+                    //     width: 80,
+                    //     render: (h, params) => {
+                    //         let vm = this;
+                    //         let returnBtn = params.row.type === 0 ? h('Button', {
+                    //             props: {
+                    //                 type: 'primary',
+                    //                 icon: 'reply',
+                    //                 shape: 'circle'
+                    //             },
+                    //             attrs: {
+                    //                 title: '退款'
+                    //             },
+                    //             on: {
+                    //                 click: function () {
+                    //                     vm._returnMoney(params.row);
+                    //                 }
+                    //             },
+                    //             style: {
+                    //                 marginRight: '4px'
+                    //             }
+                    //         }) : ''
+                    //         return h('div', [returnBtn]);
+                    //     }
+                    // }
                 ],
                 searchData: {
                     cardNumber: {
@@ -161,6 +186,10 @@
                         type: 'input'
                     },
                     userName: {
+                        value: '',
+                        type: 'input'
+                    },
+                    good_name: {
                         value: '',
                         type: 'input'
                     },

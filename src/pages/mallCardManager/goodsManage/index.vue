@@ -63,8 +63,9 @@
                     <FormItem label="价格">
                         <InputNumber :precision="0" v-model="editorSettingData.price"></InputNumber>
                     </FormItem>
-                    <FormItem label="数量">
+                    <FormItem label="库存(加/减)">
                         <InputNumber :precision="0" v-model="editorSettingData.quality"></InputNumber>
+                        <span style="color: red;font-size: 14px ">(注意：修改商品属性不变更库存请输入0)</span>
                     </FormItem>
                     <FormItem label="变更备注" v-if="editorSettingData.quality != numTemp" >
                         <Input type="text"
@@ -160,18 +161,13 @@
                         align: 'center'
                     },
                     {
-                        title: '商品分类',
-                        key: 'classify',
-                        align: 'center'
-                    },
-                    {
-                        title: '库存',
+                        title: '出售库存',
                         key: 'quality',
                         align: 'center'
                     },
                     {
-                        title: '实际剩余',
-                        key: 'shengyu',
+                        title: '兑换库存',
+                        key: 'quality_d',
                         align: 'center'
                     },
                     {
@@ -186,6 +182,16 @@
                                 }
                             }, params.row.statistic);
                         }
+                    },
+                    {
+                        title: '添加时间',
+                        key: 'createdate',
+                        align: 'center'
+                    },
+                    {
+                        title: '修改时间',
+                        key: 'modiffydate',
+                        align: 'center'
                     },
                     {
                         title: '操作',
@@ -235,6 +241,12 @@
                             ]);
                         }
                     }
+                    // ,
+                    // {
+                    //     title: '商品分类',
+                    //     key: 'classify',
+                    //     align: 'center'
+                    // }
                 ],
                 tableHeight: 500
             };
