@@ -38,6 +38,8 @@
                                     <span v-if="!isFeel">金币</span>
                                         <span v-if="isFeel">元</span>
                                         (<span style="color: green">{{item.quality}}</span>)
+                                        <span  v-if="item.resquality  && isFeel">限购：</span>
+                                        <span class="coin"  v-if="item.resquality  && isFeel">{{item.resquality}}</span>件
                                     </Col>
                                     <Col>
                                     <Button type="primary"

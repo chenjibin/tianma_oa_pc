@@ -63,6 +63,10 @@
                     <FormItem label="价格">
                         <InputNumber :precision="0" v-model="editorSettingData.price"></InputNumber>
                     </FormItem>
+                    <FormItem label="限购数量">
+                        <InputNumber :precision="0" v-model="editorSettingData.resquality"></InputNumber>
+                        <span style="color: red;font-size: 14px ">(注意：默认为零，限购设置需要输入数量)</span>
+                    </FormItem>
                     <FormItem label="库存(加/减)">
                         <InputNumber :precision="0" v-model="editorSettingData.quality"></InputNumber>
                         <span style="color: red;font-size: 14px ">(注意：修改商品属性不变更库存请输入0)</span>
@@ -121,6 +125,7 @@
                     quality: 0,
                     goodPic: '',
                     beizhu: '',
+                    resquality: 0,
                     id: 0
                 },
                 numTemp: 0,
@@ -168,6 +173,11 @@
                     {
                         title: '兑换库存',
                         key: 'quality_d',
+                        align: 'center'
+                    },
+                    {
+                        title: '限购数量',
+                        key: 'resquality',
                         align: 'center'
                     },
                     {
@@ -283,6 +293,7 @@
                         data.uploadName = settingData.goodPic;
                         data.id = settingData.id;
                         data.quality = settingData.quality;
+                        data.resquality = settingData.resquality;
                         vm.$http.post('/order/addGoods', data).then((res) => {
                             if (res.success) {
                                 vm.editorSettingFlag = false;
@@ -303,6 +314,7 @@
                 settingData.goodsName = data.name;
                 settingData.goodPic = data.image_path;
                 settingData.quality = data.quality;
+                settingData.resquality = data.resquality;
                 settingData.type = data.classify;
                 settingData.isDown = data.statistic === '上架';
                 this.imgFile = [{url: '/oa/upload/' + data.image_path, name: data.image_path, status: 'finished'}];

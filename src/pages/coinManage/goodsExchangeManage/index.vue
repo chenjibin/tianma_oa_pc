@@ -10,9 +10,9 @@
                 </FormItem>
                 <FormItem label="兑换人">
                     <!--<fs-search-user v-model="filterOpt.userId"-->
-                                    <!--:optionlist.sync="nameOpt"-->
-                                    <!--:clearable="true"-->
-                                    <!--:label="filterOpt.userName"></fs-search-user>-->
+                    <!--:optionlist.sync="nameOpt"-->
+                    <!--:clearable="true"-->
+                    <!--:label="filterOpt.userName"></fs-search-user>-->
                     <Input type="text"
                            @on-change="_inputDebounce"
                            v-model="filterOpt.userName"
@@ -113,7 +113,9 @@
                     },
                     {
                         title: '商品名称',
-                        key: 'goods_name'
+                        key: 'goods_name',
+                        align: 'center',
+                        width: 200
                     },
                     {
                         title: '商品图片',
@@ -145,7 +147,8 @@
                     {
                         title: '所在部门',
                         key: 'dpname',
-                        align: 'center'
+                        align: 'center',
+                        width: 200
                     },
                     {
                         title: '数量',
@@ -189,8 +192,13 @@
                         }
                     },
                     {
-                        title: '兑换时间',
+                        title: '创建时间',
                         key: 'created',
+                        align: 'center',
+                        width: 170
+                    },{
+                        title: '兑换时间',
+                        key: 'opt_time',
                         align: 'center',
                         width: 170
                     },
