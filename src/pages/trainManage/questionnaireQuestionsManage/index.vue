@@ -7,7 +7,13 @@
                            v-model="filterOpt.name.value"
                            placeholder="筛选试题名称"></Input>
                 </FormItem>
-
+                <FormItem label="试题类型">
+                    <Select  v-model="filterOpt.type.value" clearable
+                             placeholder="筛选类型" style="width: 100px">
+                        <Option :value="1">单选题</Option>
+                        <Option :value="5">问答题</Option>
+                    </Select>
+                </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
                         <Button type="ghost" @click="_addQuestionOpen">
@@ -264,6 +270,21 @@
                     {
                         title: '试题名称',
                         key: 'name'
+                        // align: 'center'
+                    },
+                    {
+                        title: '试题类型',
+                        key: 'type',
+                        align: 'center',
+                        render: (h, params) => {
+                            let test = '';
+                            if (1 === params.row.type) {
+                                test = '单选题';
+                            } else if (5 === params.row.type) {
+                                test = '问答题';
+                            }
+                            return h('span', test);
+                        }
                     },
                     {
                         title: '满分',

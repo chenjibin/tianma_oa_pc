@@ -8,7 +8,7 @@
                             <Icon type="crop"></Icon>
                             金币商城
                         </MenuItem>
-                        <MenuItem name="0">
+                        <MenuItem name="0" v-show="1 === companyBy?true:false">
                             <Icon type="coffee"></Icon>
                             生活小超市
                         </MenuItem>
@@ -192,6 +192,9 @@
         computed: {
             totalCost() {
                 return this.buyForm.quality * this.goodDesc.coin;
+            },
+            companyBy() {
+                return this.$store.state.user.userInfo.companyid;
             }
         },
         created() {
@@ -273,7 +276,7 @@
                     if (res.success) {
                         this.goodList = res.data;
                     }
-                });
+                })
             },
             _setListHeight() {
                 let dm = document.body.clientHeight;

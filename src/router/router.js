@@ -237,7 +237,7 @@ export const otherRouter = {
         },
         {
             path: 'myTrain',
-            title: '我的培训',
+            title: '培训列表',
             meta: {
                 whiteIn: true
             },
@@ -508,6 +508,13 @@ export const appRouter = [
                 component: _import('examination/examinationManage')
             },
             {
+                path: 'examTechManage',
+                icon: 'university',
+                name: 'examTechManage',
+                title: '培训考试管理',
+                component: _import('examination/examTechManage')
+            },
+            {
                 path: 'questionManage',
                 icon: 'university',
                 name: 'questionManage',
@@ -619,6 +626,13 @@ export const appRouter = [
         component: Main,
         children: [
             {
+                path: 'trainDayManage',
+                icon: 'ribbon-a',
+                name: 'trainDayManage',
+                title: '培训日程管理',
+                component: _import('trainManage/trainDayManage')
+            },
+            {
                 path: 'trainPlanManage',
                 icon: 'ribbon-a',
                 name: 'trainPlanManage',
@@ -626,10 +640,24 @@ export const appRouter = [
                 component: _import('trainManage/trainPlanManage')
             },
             {
+                path: 'trainMyPlan',
+                icon: 'ribbon-a',
+                name: 'trainMyPlan',
+                title: '我的培训计划',
+                component: _import('trainManage/trainMyPlan')
+            },
+            {
+                path: 'apporovaPlan',
+                icon: 'ribbon-a',
+                name: 'apporovaPlan',
+                title: '审批计划管理',
+                component: _import('trainManage/apporovaPlan')
+            },
+            {
                 path: 'internalTrainerManage',
                 icon: 'ribbon-a',
                 name: 'internalTrainerManage',
-                title: '内训师管理',
+                title: '讲师库管理',
                 component: _import('trainManage/internalTrainerManage')
             },
             {
@@ -643,23 +671,23 @@ export const appRouter = [
                 path: 'classRecheckManage',
                 icon: 'ribbon-a',
                 name: 'classRecheckManage',
-                title: '课程复盘管理',
+                title: '课程反馈管理',
                 component: _import('trainManage/classRecheckManage')
             },
             {
                 path: 'tickRecheckManage',
                 icon: 'ribbon-a',
                 name: 'tickRecheckManage',
-                title: '周期复盘管理',
+                title: '周期反馈管理',
                 component: _import('trainManage/tickRecheckManage')
             },
-            {
-                path: 'creditManage',
-                icon: 'ribbon-a',
-                name: 'creditManage',
-                title: '学分管理',
-                component: _import('trainManage/creditManage')
-            },
+            // {
+            //     path: 'creditManage',
+            //     icon: 'ribbon-a',
+            //     name: 'creditManage',
+            //     title: '学分管理',
+            //     component: _import('trainManage/creditManage')
+            // },
             {
                 path: 'questionnaireManage',
                 icon: 'ribbon-a',

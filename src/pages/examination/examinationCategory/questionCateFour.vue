@@ -2,10 +2,10 @@
     <div>
         <Card>
             <Form inline :label-width="60">
-                <FormItem label="知识点">
-                    <Input type="text"
+                <FormItem label="试题分类">
+                    <Input type="text" clearable
                            v-model="filterOpt.name.value"
-                           placeholder="筛选知识点"></Input>
+                           placeholder="筛选分类"></Input>
                 </FormItem>
                 <FormItem :label-width="0.1">
                     <ButtonGroup>
@@ -25,13 +25,13 @@
                    width="400"
                    :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                    <span>{{postFormType === 'add' ? '添加知识点' : '修改知识点'}}</span>
+                    <span>{{postFormType === 'add' ? '添加试题类型' : '修改试题类型'}}</span>
                 </p>
                 <Form :label-width="90"
                       :model="editorSettingData"
                       ref="editorForm"
                       :rules="addRules">
-                    <FormItem label="知识点" prop="name">
+                    <FormItem label="试题类型" prop="name">
                         <Input type="text"
                                v-model="editorSettingData.name"></Input>
                     </FormItem>
@@ -63,7 +63,7 @@
                 exportLoading: false,
                 addRules: {
                     name: [
-                        { required: true, message: '知识点不能为空!', trigger: 'blur' }
+                        { required: true, message: '试题类型不能为空!', trigger: 'blur' }
                     ]
                 },
                 editorSettingData: {
@@ -76,13 +76,13 @@
                         type: 'input'
                     },
                     status: {
-                        value: 3,
+                        value: 0,
                         type: 'input'
                     }
                 },
                 postColumns: [
                     {
-                        title: '知识点',
+                        title: '试题分类',
                         key: 'name'
                     },
                     {
@@ -98,7 +98,7 @@
                             return h('div', [
                                 h('Tooltip', {
                                     props: {
-                                        content: '修改知识点',
+                                        content: '修改试题类型',
                                         placement: 'top',
                                         transfer: true
                                     }
@@ -150,7 +150,7 @@
                         let data = {};
                         data.name = this.editorSettingData.name;
                         data.id = this.editorSettingData.id;
-                        data.status = 3;
+                        data.status = 0;
                         this.$http.post('/examquestion/add_question_subject', data).then((res) => {
                             if (res.success) {
                                 this.editorSettingFlag = false;

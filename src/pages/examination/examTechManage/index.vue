@@ -12,7 +12,7 @@
                             clearable
                             placeholder="筛选状态"
                             style="width: 100px">
-                        <Option :value="item.status" v-for="item, index in statusList" :key="index">{{item.name}}</Option>
+                        <Option :value="item.status" v-for="(item, index) in statusList" :key="index">{{item.name}}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="考试分类">
@@ -38,9 +38,7 @@
                            :params="filterOpt"
                            ref="examList"
                            url="/examtestpaper/getTestPaperList"></fs-table-page>
-            <Modal v-model="editorSettingFlag"
-                   width="600"
-                   :mask-closable="false">
+            <Modal v-model="editorSettingFlag" width="600" :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                     <span>{{editorSettingData.id === 0 ? '添加' : '修改'}}考试</span>
                 </p>
@@ -68,13 +66,13 @@
                             </Option>
                         </Select>
                     </FormItem>
-                    <FormItem label="是否随机" required>
-                        <RadioGroup v-model="editorSettingData.isRandom">
-                            <Radio :label="0">正常</Radio>
-                            <Radio :label="1">随机多套</Radio>
-                            <Radio :label="2">随机一套</Radio>
-                        </RadioGroup>
-                    </FormItem>
+<!--                    <FormItem label="是否随机">-->
+<!--                        <RadioGroup v-model="editorSettingData.isRandom">-->
+<!--                            <Radio :label="0">正常</Radio>-->
+<!--                            <Radio :label="1">随机多套</Radio>-->
+<!--                            <Radio :label="2">随机一套</Radio>-->
+<!--                        </RadioGroup>-->
+<!--                    </FormItem>-->
                     <div class="" v-show="editorSettingData.isRandom !== 0">
                         <FormItem label="单选题">
                             <InputNumber :min="0" v-model="editorSettingData.randomXuanZeNum"></InputNumber>
@@ -118,7 +116,7 @@
                             </FormItem>
                         </Col>
                         <Col :span="24">
-                            <FormItem label="考试类型" >
+                            <FormItem label="考试类型">
                                 <Select v-model="editorSettingData.subject3" multiple>
                                     <Option :value="item.id" v-for="(item, index) in nanList" :key="index">{{item.name}}</Option>
                                 </Select>
@@ -139,9 +137,13 @@
                                     :clearable="false"
                                     format="yyyy-MM-dd HH:mm"></DatePicker>
                     </FormItem>
-                    <FormItem label="考试时长" required>
+                    <FormItem label="考试时长" prop="totalTime" required>
                         <InputNumber :min="0" v-model="editorSettingData.totalTime"></InputNumber>
                         <span style="margin-left: 4px">分钟</span>
+                    </FormItem>
+                    <FormItem label="合格分数" prop="qual_score" required>
+                        <InputNumber :min="0" v-model="editorSettingData.qual_score"></InputNumber>
+                        <span style="margin-left: 4px">分</span>
                     </FormItem>
                 </Form>
                 <div slot="footer">
@@ -241,7 +243,7 @@
     import moment from 'moment';
     const NOW_TIME = moment().format('YYYY-MM-DD HH:mm');
     export default {
-        name: 'examinationManage',
+        name: 'examTechManage',
         data () {
             const colBtn = (vm, h, params, {content, icon, foo}) => {
                 return h('Tooltip', {
@@ -286,6 +288,9 @@
                 examRules: {
                     name: [
                         {required: true, message: '考试名称不能为空!', trigger: 'blur'}
+                    ],
+                    qual_score: [
+                        {required: true, message: '合格分数不能为空!', type: 'number', trigger: 'blur'}
                     ]
                 },
                 statusList: [
@@ -314,6 +319,10 @@
                     subject: {
                         value: '',
                         type: 'select'
+                    },
+                    tech: {
+                        value: 'tech',
+                        type: 'input'
                     }
                 },
                 editorSettingData: {
@@ -337,8 +346,8 @@
                     randomWenDaScore: 0,
                     randomXuanZeNum: 0,
                     randomXuanZeScore: 0,
-                    id: 0
-
+                    id: 0,
+                    qual_score: 60
                 },
                 paperList: [],
                 subjectList: [],
@@ -382,6 +391,12 @@
                         width: 100
                     },
                     {
+                        title: '合格分数',
+                        key: 'qual_score',
+                        align: 'center',
+                        width: 100
+                    },
+                    {
                         title: '状态',
                         align: 'center',
                         width: 100,
@@ -394,7 +409,7 @@
                         key: 'user_name',
                         fixed: 'right',
                         align: 'center',
-                        width: 300,
+                        width: 200,
                         render: (h, params) => {
                             let vm = this;
                             let status = params.row.status;
@@ -402,21 +417,21 @@
                             if (status === 1) {
                                 if (isRandom !== 0) {
                                     return h('div', [
-                                        colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
+                                        // colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
                                         colBtn(vm, h, params, {content: '修改考试', icon: 'compose', foo: vm._changePaperName}),
                                         colBtn(vm, h, params, {content: '发布考试', icon: 'play', foo: vm._publishPaper})
                                     ]);
                                 } else {
                                     return h('div', [
                                         colBtn(vm, h, params, {content: '绑定试卷', icon: 'plus-round', foo: vm._bindPaper}),
-                                        colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
+                                        // colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
                                         colBtn(vm, h, params, {content: '修改考试', icon: 'compose', foo: vm._changePaperName}),
                                         colBtn(vm, h, params, {content: '发布考试', icon: 'play', foo: vm._publishPaper})
                                     ]);
                                 }
                             } else if (status === 2) {
                                 return h('div', [
-                                    colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
+                                    // colBtn(vm, h, params, {content: '添加考生', icon: 'person-add', foo: vm._addQuestion}),
                                     colBtn(vm, h, params, {content: '结束考试', icon: 'stop', foo: vm._closePaper})
                                 ]);
                             } else if (status === 3) {
@@ -466,6 +481,7 @@
                 this.editorSettingData.subject2 = [];
                 this.editorSettingData.subject3 = [];
                 this.editorSettingData.subject4 = [];
+                this.editorSettingData.qual_score = 60;
             },
             _addQuestion(data) {
                 this.examId = data.id;
@@ -544,6 +560,7 @@
                 this.editorSettingData.subject2 = data.subject2 ? data.subject2.split(',').map(Number) : [];
                 this.editorSettingData.subject3 = data.subject3 ? data.subject3.split(',').map(Number) : [];
                 this.editorSettingData.subject4 = data.subject4 ? data.subject4.split(',').map(Number) : [];
+                this.editorSettingData.qual_score = data.qual_score;
                 this.editorSettingFlag = true;
 
             },
@@ -622,7 +639,7 @@
                         data.states = editorSettingData.states;
                         data.name = editorSettingData.name;
                         data.isRandom = editorSettingData.isRandom;
-                        if(editorSettingData.isRandom !=0){
+                        if (editorSettingData.isRandom != 0) {
                             editorSettingData.states = 1;
                         }
                         data.randomDuoXuanNum = editorSettingData.randomDuoXuanNum;
@@ -639,6 +656,7 @@
                         data.subject2 = editorSettingData.subject2.join(',');
                         data.subject3 = editorSettingData.subject3.join(',');
                         data.subject4 = editorSettingData.subject4.join(',');
+                        data.qual_score = editorSettingData.qual_score;
                         this.$http.post('/examtestpaper/add', data).then((res) => {
                             if (res.success) {
                                 this.editorSettingFlag = false;
@@ -651,7 +669,7 @@
             },
             _getAllPaperList() {
                 this.$http.get('/exampaper/getSubjectPaperList').then((res) => {
-                    console.log(res);
+                    // console.log(res);
                     if (res.success) {
                         this.paperList = res.data;
                     }

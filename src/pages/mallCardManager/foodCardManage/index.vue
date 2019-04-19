@@ -10,12 +10,12 @@
             <Card>
                 <Form ref="searchData" :model="searchData" inline :label-width="40">
                     <FormItem prop="realName" label="姓名">
-                        <Input type="text"
+                        <Input type="text" clearable
                                v-model="searchData.realName.value"
                                placeholder="筛选姓名"></Input>
                     </FormItem>
                     <FormItem prop="postName" label="岗位">
-                        <Input type="text"
+                        <Input type="text" clearable
                                v-model="searchData.postName.value"
                                placeholder="筛选岗位"></Input>
                     </FormItem>

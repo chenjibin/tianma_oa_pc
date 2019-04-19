@@ -552,7 +552,7 @@
                 this.tableHeight = dm - 280;
             },
             _getSubjectList() {
-                this.$http.get('/examquestion/getSubjectList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=0').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;
                         this._updatePaperList();

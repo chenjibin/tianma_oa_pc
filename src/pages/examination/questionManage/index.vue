@@ -31,6 +31,15 @@
                         </Button>
                     </ButtonGroup>
                 </FormItem>
+                <FormItem :label-width="0.1">
+                    <ButtonGroup>
+                        <Button type="success"
+                                @click="_openUploadModel">
+                            <Icon type="ios-cloud-upload-outline"></Icon>
+                            批量上传
+                        </Button>
+                    </ButtonGroup>
+                </FormItem>
             </Form>
             <fs-table-page :columns="postColumns"
                            :size="null"
@@ -171,17 +180,47 @@
                 </div>
             </Modal>
         </Card>
+        <Modal v-model="importModalFlag"
+               width="400"
+               top="250"
+               :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>批量上传试题</span>
+            </p>
+            <Button type="success"
+                    style="margin-bottom: 10px;"
+                    @click="_downloadGradeMuban">
+                <Icon type="ios-cloud-download-outline"></Icon>
+                下载模板
+            </Button>
+            <Upload type="drag"
+                    :show-upload-list="false"
+                    :on-progress="_uploadProgress"
+                    :on-format-error="_uploadFormatErr"
+                    :on-success="_uploadSuccess"
+                    :format="uploadFormat"
+                    action="/oa/examquestion/import_question">
+                <div style="padding: 20px 0">
+                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                    <p>点击或者拖拽文件到这里上传(后缀为.xls的文件)</p>
+                </div>
+                <Spin size="large" fix v-show="spinShow">试题上传中...</Spin>
+            </Upload>
+            <div slot="footer"></div>
+        </Modal>
     </div>
 </template>
 <script>
     import fsTablePage from '@/baseComponents/fs-table-page';
     import fsImgUpload from '@/baseComponents/fs-img-upload-new';
+    import utils from '@/libs/util';
     export default {
         name: 'questionManage',
         data () {
             return {
                 editorSettingFlag: false,
                 btnLoading: false,
+                importModalFlag: false,
                 postFormType: 'add',
                 filterOpt: {
                     name: {
@@ -361,18 +400,18 @@
                         key: 'name'
                     },
                     {
-                        title: '试题分类',
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('span', (this.subjectList.filter(x => x.id === params.row.subject))[0].name);
-                        }
-                    },
-                    {
                         title: '试题类型',
                         key: 'user_name',
                         align: 'center',
                         render: (h, params) => {
                             return h('span', this.typeOptMap[params.row.type - 1].label);
+                        }
+                    },
+                    {
+                        title: '试题分类',
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('span', (this.subjectList.filter(x => x.id === params.row.subject))[0].name);
                         }
                     },
                     {
@@ -599,6 +638,7 @@
                 editorSettingData.subject2 = data.subject2 ? data.subject2.split(',').map(Number) : [];
                 editorSettingData.subject3 = data.subject3 ? data.subject3.split(',').map(Number) : [];
                 editorSettingData.subject4 = data.subject4 ? data.subject4.split(',').map(Number) : [];
+
                 console.log(editorSettingData);
                 editorSettingData.type = data.type + '';
                 editorSettingData.mark = data.questionmark;
@@ -650,28 +690,28 @@
                 this.editorSettingFlag = true;
             },
             _getSubjectList() {
-                this.$http.get('/examquestion/getSubjectList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=0').then((res) => {
                     if (res.success) {
                         this.subjectList = res.data;
                     }
                 });
             },
             _getPingList() {
-                this.$http.get('/examquestion/getSubjectPlatformList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=2').then((res) => {
                     if (res.success) {
                         this.pingList = res.data;
                     }
                 });
             },
             _getGangList() {
-                this.$http.get('/examquestion/getSubjectKnowledgeList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=3').then((res) => {
                     if (res.success) {
                         this.gangList = res.data;
                     }
                 });
             },
             _getNanList() {
-                this.$http.get('/examquestion/getSubjectTypeList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=1').then((res) => {
                     if (res.success) {
                         this.nanList = res.data;
                     }
@@ -683,6 +723,29 @@
                         this.postList = res.data;
                     }
                 });
+            },
+            // 批量上传试题
+            _openUploadModel() {
+                this.importModalFlag = true;
+            },
+            _downloadGradeMuban() {
+                utils.downloadFile('/oa/down/question_model.xls', '批量上传试题模板.xls');
+            },
+            _uploadProgress(event) {
+                this.spinShow = true;
+            },
+            _uploadFormatErr() {
+                this.$Message.error('上传文件的后缀必须为.xls');
+            },
+            _uploadSuccess(response, file, fileList) {
+                if (response.success) {
+                    this.$Message.success('批量上传成功!');
+                    this.importModalFlag = false;
+                    this.$refs.tablePage.getListData();
+                } else {
+                    this.$Message.error(response.message);
+                }
+                this.spinShow = false;
             }
         },
         components: {

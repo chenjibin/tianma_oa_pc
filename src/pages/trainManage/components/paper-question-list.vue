@@ -154,6 +154,7 @@
                 let data = {};
                 data.id = this.id;
                 data.questionIds = row.id;
+                data.type = row.type;
                 this.$http.post('/questionnairepaper/paperAddQuestion', data).then((res) => {
                     if (res.success) {
                         this.$refs.tablePage.getListData();

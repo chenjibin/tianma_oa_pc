@@ -13,7 +13,7 @@
                             @on-change="_inputDebounce"
                             clearable="true"
                             style="width: 100px">
-                        <Option value="小超市商品">小超市商品</Option>
+<!--                        <Option value="小超市商品">小超市商品</Option>-->
                         <Option value="纸品类">纸品类</Option>
                         <Option value="饮品类">饮品类</Option>
                         <Option value="食品类">食品类</Option>

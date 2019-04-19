@@ -3,7 +3,7 @@
         <Card>
             <Form inline :label-width="60">
                 <FormItem label="商品名称">
-                    <Input type="text"
+                    <Input type="text" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.name"
                            placeholder="筛选商品名称"></Input>
@@ -13,13 +13,13 @@
                                     <!--:optionlist.sync="nameOpt"-->
                                     <!--:clearable="true"-->
                                     <!--:label="filterOpt.userName"></fs-search-user>-->
-                    <Input type="text"
+                    <Input type="text" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.userName"
                            placeholder="筛选兑换人"></Input>
                 </FormItem>
                 <FormItem label="部门">
-                    <Input type="text"
+                    <Input type="text" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.department"
                            placeholder="筛选部门"></Input>

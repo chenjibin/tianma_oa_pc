@@ -1,7 +1,7 @@
 <template>
     <div>
         <Card>
-            <Form ref="searchData" :model="searchData" inline :label-width="80">
+            <Form ref="searchData" :model="searchData" inline :label-width="60">
                 <FormItem prop="good_name" label="商品名称">
                     <Input type="text"
                            clearable

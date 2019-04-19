@@ -1,13 +1,16 @@
 <template>
     <div>
-        <Row :gutter="12">
-            <Col :span="8">
+        <Row :gutter="6">
+            <Col :span="6">
+                <question-cate-four></question-cate-four>
+            </Col>
+            <Col :span="6">
                 <question-cate-one></question-cate-one>
             </Col>
-            <Col :span="8">
+            <Col :span="6">
                 <question-cate-two></question-cate-two>
             </Col>
-            <Col :span="8">
+            <Col :span="6">
                 <question-cate-three></question-cate-three>
             </Col>
         </Row>
@@ -17,6 +20,7 @@
     import questionCateOne from './questionCateOne'
     import questionCateTwo from './questionCateTwo'
     import questionCateThree from './questionCateThree'
+    import questionCateFour from './questionCateFour'
     export default {
         name: 'examinationCategory',
         data () {
@@ -26,7 +30,8 @@
         components: {
             questionCateOne,
             questionCateTwo,
-            questionCateThree
+            questionCateThree,
+            questionCateFour
         }
     };
 </script>

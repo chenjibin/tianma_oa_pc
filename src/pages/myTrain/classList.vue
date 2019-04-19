@@ -1,6 +1,6 @@
 <template>
     <div style="margin-top: 16px;">
-        <Form inline :label-width="60">
+        <Form inline :label-width="80">
             <FormItem label="培训类型">
                 <Select v-model="filterOpt.type"
                         clearable
@@ -15,7 +15,7 @@
         </Form>
         <div class="class-list-wrapper" style="height: 600px;">
             <Row :gutter="8">
-                <Col :span="12"
+                <Col :span="8"
                      style="margin-bottom: 8px"
                      v-for="item,index in classListData"
                      :key="'class-list' + item.id">
@@ -30,8 +30,10 @@
                             <span class="item-label">地点:</span><span class="item-content">{{item.position}}</span>
                         </div>
                         <div>
-                            <span class="item-label">学分:</span><span class="item-content">{{item.credit}}</span>
+                            <!--<span class="item-label">学分:</span><span class="item-content">{{item.credit}}</span>-->
                             <span class="item-label">人数限制:</span><span class="item-content">{{item.trainee_max_num}}</span>
+                        </div>
+                        <div>
                             <span class="item-label">报名人数:</span><span class="item-content">{{item.has_baoming || 0 }}</span>
                         </div>
                         <div class="btn-group">
@@ -93,7 +95,7 @@
                 pageData: {
                     totalCount: 0,
                     page: 1,
-                    pageSize: 8
+                    pageSize: 9
                 }
             };
         },
@@ -117,7 +119,7 @@
                     cancelText: '取消',
                     onOk: () => {
                         let sendData = {};
-                        sendData.ids = data.id;
+                        sendData.id = data.id;
                         this.$http.post('/train/trainee_add', sendData).then((res) => {
                             if (res.success) {
                                 this.$Message.success('报名成功!');
@@ -154,7 +156,7 @@
                 data.page = this.pageData.page;
                 data.pageSize = this.pageData.pageSize;
                 data.class_type = this.filterOpt.type;
-                this.$http.get('/train/class_datalist', {params: data}).then((res) => {
+                this.$http.get('/train/class_datalist?flag=1', {params: data}).then((res) => {
                     if (res.success) {
                         this.classListData = res.data;
                         this.pageData.totalCount = res.totalCount;

@@ -20,7 +20,7 @@
                            :height="tableHeight"
                            :params="filterOpt"
                            ref="tablePage"
-                           url="/examquestion/datalistType"></fs-table-page>
+                           url="/examquestion/datalist_question_subject"></fs-table-page>
             <Modal v-model="editorSettingFlag"
                    width="400"
                    :mask-closable="false">
@@ -68,17 +68,21 @@
                 },
                 editorSettingData: {
                     name: '',
-                    id: 0
+                    id: ''
                 },
                 filterOpt: {
                     name: {
                         value: '',
                         type: 'input'
+                    },
+                    status: {
+                        value: 1,
+                        type: 'input'
                     }
                 },
                 postColumns: [
                     {
-                        title: '类型',
+                        title: '考试类型',
                         key: 'name'
                     },
                     {
@@ -125,7 +129,7 @@
         methods: {
             _initEditorSetting() {
                 this.editorSettingData.name = '';
-                this.editorSettingData.id = 0;
+                this.editorSettingData.id = '';
                 this.$refs.editorForm.resetFields();
             },
             _changeCate(data) {
@@ -146,7 +150,8 @@
                         let data = {};
                         data.name = this.editorSettingData.name;
                         data.id = this.editorSettingData.id;
-                        this.$http.post('/examquestion/addType', data).then((res) => {
+                        data.status = 1;
+                        this.$http.post('/examquestion/add_question_subject', data).then((res) => {
                             if (res.success) {
                                 this.editorSettingFlag = false;
                                 let content = this.postFormType === 'add' ? '添加成功!' : '修改成功!';

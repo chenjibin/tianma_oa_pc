@@ -1,8 +1,8 @@
 <template>
     <div>
-        <Collapse>
+        <Collapse simple>
             <Panel name="1">
-                我的课程
+                报名课程
                 <div slot="content">
                     <ul class="my-class-wrapper">
                         <li v-for="item,index in myClassList" :key="'my-class-' + index" class="item">
@@ -11,16 +11,16 @@
                             <div class="">
                                 <span class="item-title">时间:</span><span>{{item.class_date | returnDate}}  {{item.period}}</span>
                             </div>
-                            <div class="">
-                                <span class="item-title">课程学分:</span><span>{{item.class_credit}}</span>
-                                <span class="item-title">已得学分:</span><span>{{item.credit}}</span>
-                            </div>
-                            <div class="btn-group">
-                                <Button type="primary"
-                                        :loading="item.loading"
-                                        @click="_downloadGrade(item)"
-                                        shape="circle">下载成绩</Button>
-                            </div>
+                            <!--<div class="">-->
+                                <!--<span class="item-title">课程学分:</span><span>{{item.class_credit}}</span>-->
+                                <!--<span class="item-title">已得学分:</span><span>{{item.credit}}</span>-->
+                            <!--</div>-->
+                            <!--<div class="btn-group">-->
+                                <!--<Button type="primary"-->
+                                        <!--:loading="item.loading"-->
+                                        <!--@click="_downloadGrade(item)"-->
+                                        <!--shape="circle">下载成绩</Button>-->
+                            <!--</div>-->
                         </li>
                     </ul>
                 </div>

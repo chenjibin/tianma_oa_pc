@@ -156,9 +156,14 @@
                     <Col :span="8">
                     <FormItem label="角色" prop="role">
                         <Select v-model="userSettingForm.role" ref="roleSelect">
-                            <Option :value="item.id" v-for="(item, index) in roleData" :key="'nrole' + item.id">
-                                {{item.name}}
+                            <Option :value="item.id" :label="isManger > 1 ?item.name:item.name+' '+item.companyname"
+                                    v-for="(item, index) in roleData" :key="'role' + index">{{item.name}} <span
+                                v-if="isManger == 0 || isManger == 1" :title="item.companyname"
+                                style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden;z-index: 999999999999999">{{item.companyname}}</span>
                             </Option>
+<!--                            <Option :value="item.id" v-for="(item, index) in roleData" :key="'nrole' + item.id">-->
+<!--                                {{item.name}}-->
+<!--                            </Option>-->
                         </Select>
                     </FormItem>
                     </Col>

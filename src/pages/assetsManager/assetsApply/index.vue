@@ -27,7 +27,7 @@
                                 :clearable="true"
                                 v-model="filterOpt.positionName.value"
                                 placeholder="位置名称">
-                            <Option v-for="item, index in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                            <Option v-for="(item, index) in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                         </Select>
                     </FormItem>
                     <FormItem label="审批状态">

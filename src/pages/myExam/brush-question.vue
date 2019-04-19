@@ -127,21 +127,21 @@
                 })
             },
             _getPingList() {
-                this.$http.get('/examquestion/getSubjectPlatformList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=2').then((res) => {
                     if (res.success) {
                         this.pingOption = res.data;
                     }
                 });
             },
             _getGangList() {
-                this.$http.get('/examquestion/getSubjectKnowledgeList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=3').then((res) => {
                     if (res.success) {
                         this.postOption = res.data;
                     }
                 });
             },
             _getNanList() {
-                this.$http.get('/examquestion/getSubjectTypeList').then((res) => {
+                this.$http.get('/examquestion/question_subject_list?status=1').then((res) => {
                     if (res.success) {
                         this.nanOption = res.data;
                     }

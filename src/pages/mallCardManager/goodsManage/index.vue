@@ -3,7 +3,7 @@
         <Card>
             <Form inline :label-width="60" @submit.native.prevent>
                 <FormItem label="商品名称">
-                    <Input type="text"
+                    <Input type="text" clearable
                            @on-change="_inputDebounce"
                            v-model="filterOpt.goodsName"
                            placeholder="筛选商品名称"></Input>

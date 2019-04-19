@@ -74,7 +74,7 @@
                                     <DropdownItem name="myAttendance">我的考勤</DropdownItem>
                                     <DropdownItem name="myLeave">我的请假</DropdownItem>
                                     <DropdownItem name="myArrange">我的排班</DropdownItem>
-                                    <DropdownItem name="myTrain">我的培训</DropdownItem>
+                                    <DropdownItem name="myTrain">培训列表</DropdownItem>
                                     <DropdownItem name="myExam">我的考试</DropdownItem>
                                     <!--<DropdownItem name="coinShop">金币商城</DropdownItem>-->
                                     <!--<DropdownItem name="ownSpace">个人中心</DropdownItem>-->

@@ -11,12 +11,14 @@ module.exports = {
         assetsPublicPath: '/oa/',
         proxyTable: { //消炎 'http://192.168.15.22:8080' 孙运超 'http://192.168.17.27:80'  胡 'http://192.168.14.51:8080'
             '/oa': {
-                target: "http://192.168.15.22:8080",
+                // target: "http://localhost:8086",
+                target: "http://192.168.18.182:8086",
                 changeOrigin: true
             }
         },
         // Various Dev Server settings
-        host: '192.168.18.146', // can be overwritten by process.env.HOST
+        host: '192.168.18.182', // can be overwritten by process.env.HOST
+        // host: 'localhost', // can be overwritten by process.env.HOST
         port: 8056, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
         autoOpenBrowser: false,
         errorOverlay: true,
