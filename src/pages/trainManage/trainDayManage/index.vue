@@ -164,7 +164,7 @@
                             <FormItem label="课程状态:" required>
                                 <Select v-model="classForm.status" style="color: red">
                                     <!--状态: -1.删除 0.未设置 1.待审核 2.审核失败 3.审核成功 4.已排期 5.已完成-->
-                                    <Option :value="0" disabled>删除</Option>
+                                    <Option :value="-1" disabled>删除</Option>
                                     <Option :value="0" disabled>未设置</Option>
                                     <Option :value="1" disabled>待审核</Option>
                                     <Option :value="2" disabled>审核失败</Option>
