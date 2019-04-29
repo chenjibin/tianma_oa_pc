@@ -125,15 +125,15 @@
                     <Input style="width: 180px" v-model="approvalInfo.outname" readonly></Input>
                 </FormItem>
                 <FormItem label="审批内容" prop="content">
-                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content" prop="remarks" placeholder="规格"></Input>
+                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content"  placeholder="审批意见"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button size="large" @click="approval(2)">
-                    <span>拒绝</span>
+                <Button size="large" @click="approval(2)" :disabled="isDisable">
+                    拒绝
                 </Button>
-                <Button type="success" size="large" @click="approval(1)">
-                    <span>通过</span>
+                <Button type="success" size="large" @click="approval(1)" :disabled="isDisable">
+                    通过
                 </Button>
             </div>
         </Modal>
@@ -153,6 +153,7 @@
         components: {fsTablePage},
         data() {
             return {
+                isDisable: false,
                 filterOpt: {
                     categoryName: {
                         value: '',
@@ -271,6 +272,7 @@
                         title: '调拨状态',
                         key: 'approvalstatus',
                         align: 'left',
+                        width: 200,
                         render: (h, params) => {
                             let color = '';
                             let text = '';
@@ -495,6 +497,7 @@
                     }
                 });
             },
+            // 提交审批
             approval(type) {
                 if (!type) {
                     return;
@@ -502,13 +505,21 @@
                 this.approvalInfo.approvalStatus = type;
                 let vm = this;
                 let refT = this.$refs.fsTable;
-                this.$http.post('assetsAllocation/approval', vm.approvalInfo).then((res) => {
-                    if (res.success) {
-                        vm.$Message.success('审批成功');
-                        vm.approvalInfoModal = false;
-                        refT._filterResultHandler();
+                this.isDisable = true;
+                this.$refs.approveForm.validate((valid) => {
+                    if (valid) {
+                        this.$http.post('assetsAllocation/approval', vm.approvalInfo).then((res) => {
+                            if (res.success) {
+                                vm.$Message.success('审批成功');
+                                vm.approvalInfoModal = false;
+                                refT._filterResultHandler();
+                            }
+                            this.isDisable = false;
+                        });
+                    } else {
+                        this.isDisable = false;
                     }
-                });
+                })
             },
             addInfo() {
                 this.newApply.id = '';

@@ -392,6 +392,15 @@
                     techer_id: '',
                     username: ''
                 },
+                postionArr: [
+                    {id: '1', name: '101'},
+                    {id: '2', name: '301'},
+                    {id: '3', name: '302'},
+                    {id: '4', name: '307'},
+                    {id: '5', name: '407'},
+                    {id: '6', name: '门店'},
+                    {id: '7', name: '天马云仓'}
+                ],
                 postColumns: [
                     // {
                     //     type: 'selection',
@@ -476,8 +485,26 @@
                     {
                         title: '地点',
                         align: 'center',
-                        key: 'position'
-                        // width: 120
+                        key: 'position',
+                        width: 120,
+                        render: (h, params) => {
+                            if (params.row.position) {
+                                let name = '异常';
+                                this.postionArr.forEach(item => {
+                                    if (item.id === params.row.position) {
+                                        name = item.name;
+                                    }
+                                })
+                                return h('span', name);
+                            } else {
+                                return h('Tag', {
+                                    props: {
+                                        type: 'border',
+                                        color: 'blue'
+                                    }
+                                }, '未设置');
+                            }
+                        }
                     },
                     {
                         title: '奖励金币',

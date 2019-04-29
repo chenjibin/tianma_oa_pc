@@ -9,7 +9,7 @@
                 <Icon :type="iconType" :size="iconSize"></Icon>
             </div>
             <div class="content-wrapper">
-                <p class="content" :style="{color: color}" style="font-size: 16px">{{btnText}}</p>
+                <p class="content" :style="{color: color}" style="font-size: 16px;margin-bottom: 0px">{{btnText}}</p>
             </div>
         </div>
     </Card>

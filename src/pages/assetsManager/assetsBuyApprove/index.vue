@@ -18,20 +18,21 @@
                             :clearable="true"
                             v-model="filterOpt.positionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="审批状态">
                     <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true"  style="width: 160px">
                         <Option :value="0">待审批</Option>
-                        <Option :value="1">审批通过</Option>
-                        <Option :value="2">审批拒绝</Option>
+                        <Option :value="1">已批准</Option>
+                        <Option :value="2">已拒绝</Option>
                     </Select>
                 </FormItem>
             </Form>
-            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt" url="assetsManage/dataList"></fs-table-page>
-
+            <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt"
+                           url="assetsManage/dataList"></fs-table-page>
         </Card>
+        <!--审批弹框-->
         <Modal v-model="approvalInfoModal">
             <Form style="margin-top: 20px" :label-width="120" ref="approveForm" :model="approvalInfo" :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="approvalInfo.id"></Input>
@@ -49,21 +50,21 @@
                 <FormItem label="申请数量" prop="num">
                     <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
                 </FormItem>
-                <FormItem label="报废方式" v-if="approvalInfo.apptype === 3" prop="scrappedType">
-                    <Select v-model="approvalInfo.scrappedType" style="width: 180px">
+                <FormItem label="报废方式" v-if="approvalInfo.apptype === 3" >
+                    <Select v-model="approvalInfo.scrappedType" style="width: 180px" clearable>
                         <Option :value="1">直接销毁</Option>
                         <Option :value="2">废品处理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="审批内容" prop="content">
-                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content" prop="remarks" placeholder="规格"></Input>
+                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content" prop="content" placeholder="填写审批意见"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button size="large" @click="approval(2)">
+                <Button size="large" @click="approval(2)" :disabled="isDisable">
                     <span>拒绝</span>
                 </Button>
-                <Button type="success" size="large" @click="approval(1)">
+                <Button type="success" size="large" @click="approval(1)" :disabled="isDisable">
                     <span>通过</span>
                 </Button>
             </div>
@@ -83,6 +84,7 @@
         components: {assetsTree, fsTablePage},
         data() {
             return {
+                isDisable: false,
                 filterOpt: {
                     categoryName: {
                         value: '',
@@ -127,20 +129,17 @@
                     {
                         title: '申请数量',
                         key: 'num',
-                        align: 'center',
-                        width: 90
+                        align: 'center'
                     },
                     {
                         title: '资产位置',
                         key: 'positionname',
-                        align: 'center',
-                        width: 90
+                        align: 'center'
                     },
                     {
                         title: '房间名',
-                        key: 'remark',
-                        align: 'center',
-                        width: 90
+                        key: 'p_name',
+                        align: 'center'
                     },
                     {
                         title: '申请规格',
@@ -151,7 +150,6 @@
                         title: '报废方式',
                         key: 'scrappedtype',
                         align: 'center',
-                        width: 90,
                         render: (h, params) => {
                             var status = params.row.scrappedtype;
                             if (status === 1) {
@@ -165,20 +163,17 @@
                     {
                         title: '申请部门',
                         key: 'organizename',
-                        align: 'center',
-                        width: 120
+                        align: 'center'
                     },
                     {
                         title: '申请人',
                         key: 'createbyname',
-                        align: 'center',
-                        width: 90
+                        align: 'center'
                     },
                     {
                         title: '申请日期',
                         key: 'createbydate',
                         align: 'center',
-                        width: 100,
                         render: (h, params) => {
                             if (!params.row.createbydate) {
                                 return '';
@@ -190,17 +185,19 @@
                     {
                         title: '审批进度',
                         key: 'see_flag',
-                        align: 'left',
-                        sortType: 'asc',
+                        align: 'center',
+                        // sortType: 'asc',
+                        width: 200,
                         render: (h, params) => {
                             let color = '';
                             let text = '';
                             let vm = this;
-                            let appBtnStatus = params.row.see_flag === 0;
-                            switch (params.row.see_flag) {
+                            let appBtnStatus = params.row.approvalstatus === 0;
+                                // params.row.see_flag === 0;
+                            switch (params.row.approvalstatus) {
                                 case 0:
                                     color = 'blue';
-                                    text = '审核中';
+                                    text = '待审核';
                                     break;
                                 case 3:
                                     color = 'blue';
@@ -283,8 +280,6 @@
                                                         vm.approvalInfo.rmark = data.remarks;
                                                         vm.approvalInfo.apptype = data.apptype;
                                                         vm.approvalInfoModal = true;
-                                                    } else {
-                                                        vm.$Message.error('无法审批');
                                                     }
                                                 });
                                             }
@@ -312,9 +307,9 @@
                     num: [
                         {type: 'number', required: true, message: '请填写数量!', trigger: 'blur'}
                     ],
-                    scrappedType: [
-                        {type: 'number', required: true, message: '请填写报废方式!', trigger: 'change'}
-                    ],
+                    // scrappedType: [
+                    //     {type: 'number', required: true, message: '请填写报废方式!', trigger: 'change'}
+                    // ],
                     content: [
                         {required: true, message: '请填写审批意见', trigger: 'blur'}
                     ]
@@ -347,20 +342,35 @@
                 }
                 this.filterOpt.categoryName.value = selectedData[2].label;
             },
+            // 提交审批
             approval(type) {
                 if (!type) {
                     return;
                 }
+                if (1 === type & 3 === this.approvalInfo.apptype) {
+                    if (!this.approvalInfo.scrappedType) {
+                        this.$Message.error('报废方式不可以为空');
+                        return;
+                    }
+                }
+                this.isDisable = true;
                 this.approvalInfo.approvalStatus = type;
                 var vm = this;
                 var refT = this.$refs.fsTable;
-                this.$http.post('assetsManage/approval', vm.approvalInfo).then((res) => {
-                    if (res.success) {
-                        vm.$Message.success('审批成功');
-                        vm.approvalInfoModal = false;
-                        refT._filterResultHandler();
+                this.$refs.approveForm.validate((valid) => {
+                    if (valid) {
+                        this.$http.post('assetsManage/approval', vm.approvalInfo).then((res) => {
+                            if (res.success) {
+                                vm.$Message.success('审批成功');
+                                vm.approvalInfoModal = false;
+                                refT._filterResultHandler();
+                            }
+                            this.isDisable = false;
+                        })
+                    } else {
+                        this.isDisable = false;
                     }
-                });
+                })
             },
             loadData(item, callback, type) {
                 if (item) {

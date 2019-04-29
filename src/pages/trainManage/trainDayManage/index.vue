@@ -476,7 +476,8 @@
                     {id: '3', name: '302'},
                     {id: '4', name: '307'},
                     {id: '5', name: '407'},
-                    {id: '6', name: '门店'}
+                    {id: '6', name: '门店'},
+                    {id: '7', name: '天马云仓'}
                 ],
                 pass_rate: '',
                 qualified_line: '',

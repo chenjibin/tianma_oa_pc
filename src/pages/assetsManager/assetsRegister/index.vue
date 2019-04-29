@@ -13,13 +13,15 @@
                             :clearable="true"
                             v-model="filterOpt.positionName"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name">
+                            <span>{{item.name}}</span><span :title="item.remarks"
+                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="资产状态">
-                    <Select :clearable="true" style="width: 180px" v-model="filterOpt.approvalStatus" @on-change="_inputDebounce">
+                    <Select :clearable="true" style="width: 180px" v-model="filterOpt.approvalStatus"
+                            @on-change="_inputDebounce">
                         <Option :value="0">在途</Option>
                         <Option :value="1">在用</Option>
                         <Option :value="2">备用</Option>
@@ -27,12 +29,20 @@
                     </Select>
                 </FormItem>
                 <FormItem :label-width="0.1">
-                    <Button type="ghost" v-if="accessBtn.indexOf(29) > -1" @click="addInfo" >新增</Button>
-                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(31) > -1" @click="exportExcel" icon="code-download">
-                        导出
+                    <Button type="primary" v-if="accessBtn.indexOf(29) > -1" @click="addInfo">新增</Button>
+                    <Button type="success" class="cusBtn" @click="_showCollext">
+                        汇总
                     </Button>
-                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(32) > -1" icon="upload" @click="attachFilesModal = true">
+<!--                    <Button type="error" class="cusBtn" :disabled="!checkedData.length" @click="_delApp">-->
+<!--                        批量报废-->
+<!--                    </Button>-->
+                    <Button type="success" class="cusBtn" v-if="accessBtn.indexOf(32) > -1" icon="upload"
+                            @click="attachFilesModal = true">
                         导入
+                    </Button>
+                    <Button type="primary" class="cusBtn" v-if="accessBtn.indexOf(31) > -1" @click="exportExcel"
+                            icon="code-download">
+                        导出
                     </Button>
                 </FormItem>
             </Form>
@@ -40,6 +50,7 @@
                    ref="attendanceTable"
                    :loading="tableLoading"
                    :height="tableHeight"
+                   @on-selection-change="selectionChange"
                    :data="pageData.list">
             </Table>
             <Page :total="pageData.totalCount"
@@ -54,7 +65,8 @@
                   style="margin-top: 16px;"></Page>
         </Card>
         <Modal v-model="addAssetsModal" :width="385">
-            <Form style="margin-top: 20px" :label-width="100" ref="addAssetsInfo" :model="addAssetsInfo" :rules="addAssetsInfoRules">
+            <Form style="margin-top: 20px" :label-width="100" ref="addAssetsInfo" :model="addAssetsInfo"
+                  :rules="addAssetsInfoRules">
                 <Input type="text" style="display: none" v-model="addAssetsInfo.id"></Input>
                 <FormItem label="资产名称" v-if="!addAssetsInfo.id" prop="nameId">
                     <Cascader style="width: 180px" :data="cat1" v-model="selectArr2" :load-data="loadData"></Cascader>
@@ -63,7 +75,8 @@
                     <Input style="width: 180px" v-model="addAssetsInfo.name" readonly></Input>
                 </FormItem>
                 <FormItem label="申请数量" prop="num" v-if="!addAssetsInfo.id">
-                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="addAssetsInfo.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 180px"
+                                 v-model="addAssetsInfo.num"></InputNumber>
                 </FormItem>
                 <FormItem label="资产状态">
                     <Select style="width: 180px" v-model="addAssetsInfo.appStatus">
@@ -75,8 +88,10 @@
                 </FormItem>
                 <FormItem label="资产位置" prop="positionName">
                     <Select type="text" style="width: 180px" v-model="addAssetsInfo.positionName" placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :label="item.name" :key="index" :value="item.name">
-                            <span>{{item.name}}</span><span :title="item.remarks"  style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
+                        <Option v-for="(item, index) in positionList" :label="item.name" :key="index"
+                                :value="item.name">
+                            <span>{{item.name}}</span><span :title="item.remarks"
+                                                            style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span>
                         </Option>
                     </Select>
                 </FormItem>
@@ -91,7 +106,9 @@
             </div>
         </Modal>
         <Modal v-model="attachFilesModal">
-            <Upload accept="application/vnd.ms-excel" :data="{'fileName':'导入资产模版表.xls'}" action="/oa/assetsRegister/importAssetsRecord" name="file" :on-format-error="uploadInfo" :on-success="uploadInfo" type="drag">
+            <Upload accept="application/vnd.ms-excel" :data="{'fileName':'导入资产模版表.xls'}"
+                    action="/oa/assetsRegister/importAssetsRecord" name="file" :on-format-error="uploadInfo"
+                    :on-success="uploadInfo" type="drag">
                 <div style="padding: 20px 0">
                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                     <p>点击或者拖拽上传表格</p>
@@ -99,6 +116,16 @@
             </Upload>
             <div slot="footer">
                 <Button type="primary" @click="attachFilesModal = false">关闭</Button>
+            </div>
+        </Modal>
+        <!--根据条件汇总-->
+        <Modal v-model="collectFlag" title="资产汇总" width="1000" :mask-closable="false">
+            <Table :columns="collectColumns"
+                   :height="tableHeight"
+                   :data="collectData">
+            </Table>
+            <div slot="footer">
+                <Button type="primary" @click="collectFlag = false">关闭</Button>
             </div>
         </Modal>
     </div>
@@ -109,13 +136,15 @@
     import pageMixin from '@/mixins/pageMixin';
     // lodash输入延时
     import debounce from 'lodash/debounce';
+
     export default {
         name: 'assetsRegister',
         data() {
             return {
-                tableHeight: 500,
+                tableHeight: 400,
                 addAssetsModal: false,
                 attachFilesModal: false,
+                collectFlag: false,
                 filterOpt: {
                     category1_id: '',
                     category2_id: '',
@@ -125,6 +154,7 @@
                     positionName: ''
                 },
                 selectArr2: [],
+                checkedData: [],
                 addAssetsInfo: {
                     id: 0,
                     name: '',
@@ -152,8 +182,18 @@
                 cat1: [],
                 selectArr: [],
                 positionList: [],
+                collectData: [],
                 changeInfoModal: false,
+                idFlag: {
+                    type: String,
+                    default: 'id'
+                },
                 postColumns: [
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
                     {
                         title: '资产大类',
                         key: 'name1',
@@ -221,7 +261,7 @@
                                     shape: 'circle'
                                 },
                                 on: {
-                                    click: function() {
+                                    click: function () {
                                         vm.addAssetsInfo.appStatus = row.appstatus;
                                         vm.addAssetsInfo.id = row.id;
                                         vm.addAssetsInfo.name = row.name;
@@ -257,7 +297,6 @@
                                                 if (res.success) {
                                                     let data = res.data;
                                                     let msg = '';
-
                                                     if (data.length <= 0) {
                                                         vm.$Message.info('不存在操作记录哦');
                                                         return;
@@ -266,10 +305,22 @@
                                                         let name = data[i].operater_name;
                                                         let time = data[i].opt_time;
                                                         let opt = data[i].assets_type;
-                                                        msg += `<p style='font-size: 16px;'>${name}<span style="margin: 0 10px 0 10px">${time}</span>${opt}此资产</p>`;
+                                                        if (data[i].context) {
+                                                            let context = data[i].context;
+                                                            msg += `<p style='font-size: 16px;'>${name}<span style="margin: 0 10px 0 10px">${time}</span>${opt} ${context}`;
+                                                        } else {
+                                                            msg += `<p style='font-size: 16px;'>${name}<span style="margin: 0 10px 0 10px">${time}</span>${opt}`;
+                                                        }
+                                                        if (data[i].inpositionname) {
+                                                            let inpositionname = data[i].inpositionname;
+                                                            let outpositionname = data[i].outpositionname;
+                                                            msg += `<span style="margin: 0 10px 0 10px">由${outpositionname}</span>到<span style="margin: 0 10px 0 10px">${inpositionname}</span>`;
+                                                        }
+                                                        msg += `</p>`;
                                                     }
                                                     vm.$Modal.info({
                                                         title: '操作记录',
+                                                        width: 600,
                                                         content: msg
                                                     });
                                                 }
@@ -280,14 +331,73 @@
                             }, text[status]);
                         }
                     }
+                ],
+                collectColumns: [
+                    {
+                        title: '资产大类',
+                        key: 'name1',
+                        align: 'center'
+                    },
+                    {
+                        title: '资产小类',
+                        key: 'name2',
+                        align: 'center'
+                    },
+                    {
+                        title: '资产名称',
+                        key: 'name',
+                        align: 'center'
+                    },
+                    {
+                        title: '资产位置',
+                        key: 'positionname',
+                        align: 'center'
+                    },
+                    {
+                        title: '房间名',
+                        key: 'remarks',
+                        align: 'center'
+                    },
+                    {
+                        title: '数量',
+                        key: 'totalnum',
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('Tag', {
+                                props: {
+                                    type: 'border',
+                                    color: 'red'
+                                }
+                            }, params.row.totalnum);
+                        }
+                    },
+                    {
+                        title: '资产状态',
+                        key: 'appstatus',
+                        align: 'center',
+                        render: (h, params) => {
+                            // 0 在途 1 在用 2备用 3报废
+                            let status = params.row.appstatus;
+                            let color = ['blue', 'green', 'blue', 'red'];
+                            let text = ['在途', '在用', '备用', '报废'];
+                            // let vm = this;
+                            return h('Tag', {
+                                props: {
+                                    type: 'border',
+                                    color: color[status]
+                                }
+                            }, text[status]);
+                        }
+                    }
                 ]
             };
         },
         mixins: [pageMixin],
-        created () {
+        created() {
             this._getPostData();
             this._setTableHeight();
             this.getPositionList();
+            // console.log('btn:'  + this.$route.meta.btn.map(x => x.id))
             this.accessBtn = this.$route.meta.btn.map(x => x.id);
             if (this.accessBtn.indexOf(30) < 0) {
                 this.postColumns.splice(7, 1);
@@ -295,11 +405,11 @@
             this.loadData(null, null, 1);
         },
         watch: {
-            selectArr (arr) {
+            selectArr(arr) {
                 [this.filterOpt.category1_id, this.filterOpt.category2_id, this.filterOpt.category3_id] = arr;
                 this._inputDebounce();
             },
-            selectArr2 (arr) {
+            selectArr2(arr) {
                 [, , this.addAssetsInfo.nameId] = arr;
             }
         },
@@ -442,35 +552,76 @@
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();
             }, 1600),
-            _filterResultHandler () {
+            _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
             },
-            _setTableHeight () {
+            _setTableHeight() {
                 let dm = document.body.clientHeight;
                 this.tableHeight = dm - 100 - 20 - 34 - 57 - 49;
             },
-            _setPage (page) {
+            _setPage(page) {
                 this.pageData.page = page;
                 this._getPostData();
             },
-            _setPageSize (size) {
+            _setPageSize(size) {
                 this.pageData.pageSize = size;
                 this._getPostData();
             },
-            _getPostData () {
+            _getPostData() {
                 this.getList('/assetsRegister/appDateList', this.filterOpt);
+            },
+            _showCollext() {
+                this.collectData = [];
+                this.$http.post('assetsRegister/getCollectDatalist', this.filterOpt).then((res) => {
+                    if (res.success) {
+                        this.collectData = res.data;
+                        this.collectFlag = true;
+                    } else {
+                        this.$Message.error(res.message);
+                    }
+                });
+            },
+            // 批量报废
+            _delApp() {
+                if (this.checkedData.length) {
+                    let sendDate = {};
+                    sendDate.ids = this.checkedData.join(',');
+                    this.$http.post('assetsRegister/getCollectDatalist', sendDate).then((res) => {
+                        if (res.success) {
+                            this._filterResultHandler();
+                        } else {
+                            this.$Message.error(res.message);
+                        }
+                    });
+                } else {
+                    this.$Message.error('请选中行数据在进行操作');
+                }
+            },
+            // 选择表格返回值方法
+            selectionChange(data) {
+                data.forEach(item => {
+                    item._checked = true;
+                });
+                let chooseIdArr = data.map(x => x[this.idFlag]);
+                this.pageData.list.forEach(item => {
+                    item._checked = chooseIdArr.indexOf(item[this.idFlag]) > -1;
+                });
+                this.checkedData = data.map(x => x.id);
+                console.log('checkedData:' + this.checkedData);
+                // this.checkedData = data.map(x => x.id).join(',');
             }
         }
     };
 </script>
 
 <style lang="less">
-    #assetsRegister  {
+    #assetsRegister {
         .cusBtn {
             span {
                 vertical-align: middle;
             }
+
             i {
                 vertical-align: middle;
                 font-size: 19px;

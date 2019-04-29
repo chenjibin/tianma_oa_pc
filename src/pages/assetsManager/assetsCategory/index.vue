@@ -82,7 +82,8 @@
                     modifyInfo: {
                         pid: -1,
                         name: '',
-                        id: -1
+                        id: -1,
+                        filePath: ''
                     }
 
                 },
