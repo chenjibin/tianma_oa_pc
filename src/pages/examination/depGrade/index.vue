@@ -9,13 +9,13 @@
             <Col :span="20">
                 <Card>
                     <Form inline :label-width="60">
-                        <FormItem label="考试名称">
-                            <Input type="text"
+                        <FormItem label="考试名称" >
+                            <Input type="text" clearable
                                    v-model="filterOpt.name.value"
                                    placeholder="筛选考试"></Input>
                         </FormItem>
                         <FormItem label="考生名称">
-                            <Input type="text"
+                            <Input type="text" clearable
                                    v-model="filterOpt.userName.value"
                                    placeholder="姓名"></Input>
                         </FormItem>

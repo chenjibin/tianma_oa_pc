@@ -158,7 +158,25 @@
                 data.class_type = this.filterOpt.type;
                 this.$http.get('/train/class_datalist?flag=1', {params: data}).then((res) => {
                     if (res.success) {
-                        this.classListData = res.data;
+                        let dataList = res.data;
+                        dataList.forEach((item, index, arr) => {
+                            if (1 == item.position) {
+                                item.position = '101';
+                            } else if (2 == item.position) {
+                                item.position = '301'
+                            } else if (3 == item.position) {
+                                item.position = '302'
+                            } else if (4 == item.position) {
+                                item.position = '307'
+                            } else if (5 == item.position) {
+                                item.position = '407'
+                            } else if (6 == item.position) {
+                                item.position = '门店'
+                            } else if (7 == item.position) {
+                                item.position = '天马云仓'
+                            }
+                        })
+                        this.classListData = dataList;
                         this.pageData.totalCount = res.totalCount;
                     }
                     this.spinShow = false;

@@ -41,11 +41,11 @@
                                 :value="searchData.end.value"></DatePicker>
                 </FormItem>
                 <FormItem :label-width="0.1">
-                    <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportGrade">
+                    <Button type="primary" :loading="exportLoading" :disabled="'' == searchData.start.value || '' == searchData.end.value" icon="ios-cloud-download-outline" @click="_exportGrade">
                         <span v-if="!exportLoading">导出</span>
                         <span v-else>导出中...</span>
                     </Button>
-                    <Button type="primary" :loading="exportLoading" icon="ios-cloud-download-outline" @click="_exportMoney">
+                    <Button type="primary" :loading="exportLoading" :disabled="'' == searchData.start.value" icon="ios-cloud-download-outline" @click="_exportMoney">
                         <span v-if="!exportLoading">补贴导出</span>
                         <span v-else>导出中...</span>
                     </Button>
@@ -78,7 +78,7 @@
         data() {
             return {
                 exportLoading: false,
-                tableHeight: 400,
+                tableHeight: 500,
                 totalMoney: 0,
                 typeStore: [
                     '充值(支付宝)',
@@ -212,6 +212,7 @@
             this._setHeight()
         },
         methods: {
+            // 导出消费明细
             _exportGrade() {
                 this.exportLoading = true;
                 let data = {};
@@ -230,6 +231,7 @@
                     this.exportLoading = false;
                 })
             },
+            // 补贴导出
             _exportMoney() {
                 this.exportLoading = true;
                 let data = {};
@@ -275,7 +277,7 @@
             },
             _setHeight() {
                 let dm = document.body.clientHeight;
-                this.tableHeight = dm - 260;
+                this.tableHeight = dm - 330;
             },
             _getTotalMoney(params) {
                 this.$http.get('/card/getTotal', {params: params}).then((res) => {

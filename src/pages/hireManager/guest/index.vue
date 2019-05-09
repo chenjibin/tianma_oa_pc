@@ -279,7 +279,7 @@
                 </Button>
             </Col>
             <Col span="12" style="height: 100%;">
-                <Button type="ghost" class="mobileTabButton" icon="ios-star-outline" long @click="saveForm" size="large" >
+                <Button type="ghost" :loading="flag_loading" class="mobileTabButton" icon="ios-star-outline" long @click="saveForm" size="large" >
                     保存简历
                 </Button>
             </Col>
@@ -346,6 +346,7 @@
             return {
                 searchUserModel: true,
                 uploadModal: false,
+                flag_loading: false,
                 searchUserForm: {
                     name: '',
                     phone: ''
@@ -579,6 +580,7 @@
                 var g = this;
                 this.$refs['talentBean'].validate((valid) => {
                     if (valid) {
+                        g.flag_loading = true;
                         var d = {};
                         d.bean = JSON.stringify(this.talentBean);
                         let workingForm = this.workingForm.filter(function(item) {
@@ -591,6 +593,7 @@
                         d.educationForm = JSON.stringify(educationForm);
                         d.socailShipForm = JSON.stringify(this.socailShipForm);
                         g.$http.post('/talentLibrary/saveGuest', d).then((res) => {
+                            g.flag_loading = false;
                             g.saveBtn1Loading = false;
                             g.saveBtn2Loading = false;
                             if (res.success) {

@@ -556,7 +556,8 @@
             // 获取部门树形结构
             _getOrgTree() {
                 return new Promise((resolve) => {
-                    this.$http.get('/organize/organizeTreeByUserForEmployee').then((res) => {
+                    // this.$http.get('/organize/organizeTreeByUserForEmployee').then((res) => {
+                    this.$http.get('/organize/organizeTreeByUserForRiZhi').then((res) => {
                         if (res.success) {
                             this.orgTreeData = res.data;
                             this.filterOpt.organizeId = res.data[0].id;

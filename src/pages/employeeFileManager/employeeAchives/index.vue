@@ -155,21 +155,21 @@
                                 :value="filterOpt.birthday"></DatePicker>
                 </FormItem>
             </Form>
-        <Table :columns="postColumns"
-               ref="attendanceTable"
-               :loading="tableLoading"
-               :height="tableHeight"
-               :data="pageData.list">
-        </Table>
-        <Page :total="pageData.totalCount"
-              :current="pageData.page"
-              @on-change="_setPage"
-              @on-page-size-change="_setPageSize"
-              :page-size="pageData.pageSize"
-              show-sizer
-              show-total
-              show-elevator
-              style="margin-top: 16px;"></Page>
+            <Table :columns="postColumns"
+                   ref="attendanceTable"
+                   :loading="tableLoading"
+                   :height="tableHeight"
+                   :data="pageData.list">
+            </Table>
+            <Page :total="pageData.totalCount"
+                  :current="pageData.page"
+                  @on-change="_setPage"
+                  @on-page-size-change="_setPageSize"
+                  :page-size="pageData.pageSize"
+                  show-sizer
+                  show-total
+                  show-elevator
+                  style="margin-top: 16px;"></Page>
         </Card>
         <Modal v-model="settingModalFlag"
                width="1000"
@@ -243,15 +243,31 @@
                                 <Input type="text" v-model="baseForm.contracttime" ></Input>
                             </FormItem>
                             <FormItem label="预计转正时间" prop="inJobTime">
-                                <DatePicker type="date"
+                                <DatePicker type="date" style="width: 200%"
                                             @on-change="_inJobDateChange"
                                             :value="baseForm.zhuanzhengtime"></DatePicker>
                             </FormItem>
                             <!--<FormItem label="档案编号" style="width:49%;margin-right:1%;">-->
-                                <!--<Input type="text" v-model="baseForm.filenum"></Input>-->
+                            <!--<Input type="text" v-model="baseForm.filenum"></Input>-->
                             <!--</FormItem>-->
-                            <FormItem label="详细住址" style="width:49%;margin-right:2%;">
+                            <FormItem label="详细住址" style="width:49%;margin-right:1%;">
                                 <Input type="textarea" :maxlength="255" :autosize="{minRows: 3,maxRows: 5}" v-model="baseForm.address"></Input>
+                            </FormItem>
+                            <FormItem label="简历来源" style="width:49%;margin-right:1%;">
+                                <Select type="text" v-model="baseForm.resumesource" style="width: 100%" placeholder="筛选来源" clearable>
+                                    <Option :value="1">58同城</Option>
+                                    <Option :value="2">智联</Option>
+                                    <Option :value="3">前程无忧</Option>
+                                    <Option :value="4">其它</Option>
+                                    <Option :value="5">现场招聘会</Option>
+                                    <Option :value="6">微信公众号</Option>
+                                    <Option :value="7">来电</Option>
+                                    <Option :value="8">介绍</Option>
+                                    <Option :value="9">校招</Option>
+                                    <Option :value="10">人才市场</Option>
+                                    <Option :value="11">boss直聘</Option>
+                                </Select>
+<!--                                <Input type="textarea" :maxlength="255" :autosize="{minRows: 3,maxRows: 5}" v-model="baseForm.address"></Input>-->
                             </FormItem>
                             <FormItem label="部门经历" style="width:49%;margin-right:1%;">
                                 <Input type="textarea" :autosize="{minRows: 6,maxRows: 15}" v-model="baseForm.organizehistory"></Input>
@@ -299,8 +315,8 @@
                                 </FormItem>
                             </div>
                             <FormItem>
-                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(2,educationForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="educationForm.push({})">增加经历</Button>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(2,educationForm)">提交</Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
@@ -340,8 +356,8 @@
                                 </FormItem>
                             </div>
                             <FormItem>
-                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(3,workingForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="workingForm.push({})">增加经历</Button>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(3,workingForm)">提交</Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
@@ -349,17 +365,17 @@
                     <TabPane label="奖惩记录">
                         <Form ref="rewardForm" inline>
                             <div :key="item.id" v-for="(item,index) in rewardForm" style="font-size: 0">
-                                <FormItem label="时间" style="width:46%">
+                                <FormItem label="时间" style="width:15%">
                                     <DatePicker style="width: 100%" type="date" v-model="item.rewarddate"></DatePicker>
                                 </FormItem>
-                                <FormItem label="类型" style="width:46%">
+                                <FormItem label="类型" style="width:10%">
                                     <Select style="width: 100%" v-model="item.rewardtype" >
                                         <Option :value="0">奖励</Option>
                                         <Option :value="1">惩罚</Option>
                                     </Select>
                                 </FormItem>
-                                <FormItem label="奖惩原因" style="width:46%">
-                                    <Input type="textarea" :maxlength="200" placeholder="奖励明细，尽量简短" v-model="item.rewardcontent"></Input>
+                                <FormItem label="奖惩原因" style="width:65%">
+                                    <Input type="text" :maxlength="200" placeholder="奖励明细、尽量简短:200字限制" v-model="item.rewardcontent" clearable=""></Input>
                                 </FormItem>
                                 <FormItem label="用户id" style="display: none">
                                     <Input type="text" v-model="baseForm.userid" ></Input>
@@ -368,12 +384,12 @@
                                     <Input type="text" v-model="item.id" ></Input>
                                 </FormItem>
                                 <FormItem label="操作" style="width:5%">
-                                    <Button style="color:#f46e65;font-size: 26px" icon="ios-trash"  @click="delForm(index,'rewardForm')"></Button>
+                                    <Button style="color:#f46e65" icon="ios-trash"  @click="delForm(index,'rewardForm')"></Button>
                                 </FormItem>
                             </div>
                             <FormItem>
-                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(4,rewardForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="rewardForm.push({})">增加奖惩</Button>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(4,rewardForm)">提交</Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
@@ -419,8 +435,8 @@
                                 <Input type="text" :maxlength="11" v-model="emergency.contactnumber" ></Input>
                             </FormItem>
                             <FormItem style="width:100%">
-                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(1,socailShipForm)">提交</Button>
                                 <Button type="success" icon="android-add"  style="margin-left: 8px" @click="_addNewSocail()">增加关系</Button>
+                                <Button type="primary" icon="checkmark-round" :loading="btnLoading" @click="saveRelation(1,socailShipForm)">提交</Button>
                                 <Button type="ghost" @click="cancel()">取消修改</Button>
                             </FormItem>
                         </Form>
@@ -434,7 +450,7 @@
                                             <Col span="8">
                                                 <h4 style="width: 150px;text-overflow: ellipsis;overflow: hidden;white-space:nowrap;">文件名：{{item.file_name}}</h4>
                                                 <h4 style="margin-top: 10px">上传人：{{item.insert_username}}</h4>
-                                            <h4 style="margin-top: 10px">下载：<Button style="font-size: 20px;cursor: pointer" icon="ios-cloud-download-outline" @click="download(item.file_path)"></Button>  </h4>
+                                                <h4 style="margin-top: 10px">下载：<Button style="font-size: 20px;cursor: pointer" icon="ios-cloud-download-outline" @click="download(item.file_path)"></Button>  </h4>
                                             </Col>
                                             <Col span="15" class="fileImg">
                                                 <img style="width: 100%;cursor: pointer;height: 200px;display: block;position: relative" :src="item.file_path" alt="">
@@ -579,19 +595,19 @@
                                     }
                                 }, [
                                     h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            icon: 'edit',
-                                            shape: 'circle'
-                                        },
-                                        on: {
-                                            click: function () {
-                                                vm.getUsersInfo(params.row.userId, params.row.masterName);
-                                                // console.log(this.optionlist);
-                                                vm.settingModalFlag = true;
+                                            props: {
+                                                type: 'primary',
+                                                icon: 'edit',
+                                                shape: 'circle'
+                                            },
+                                            on: {
+                                                click: function () {
+                                                    vm.getUsersInfo(params.row.userId, params.row.masterName);
+                                                    // console.log(this.optionlist);
+                                                    vm.settingModalFlag = true;
+                                                }
                                             }
                                         }
-                                    }
                                     )
                                 ])
                             ]);

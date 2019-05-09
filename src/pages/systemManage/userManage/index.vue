@@ -154,31 +154,39 @@
                 </Row>
                 <Row>
                     <Col :span="8">
-                    <FormItem label="角色" prop="role">
-                        <Select v-model="userSettingForm.role" ref="roleSelect">
-                            <Option :value="item.id" :label="isManger > 1 ?item.name:item.name+' '+item.companyname"
-                                    v-for="(item, index) in roleData" :key="'role' + index">{{item.name}} <span
-                                v-if="isManger == 0 || isManger == 1" :title="item.companyname"
-                                style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden;z-index: 999999999999999">{{item.companyname}}</span>
-                            </Option>
-<!--                            <Option :value="item.id" v-for="(item, index) in roleData" :key="'nrole' + item.id">-->
-<!--                                {{item.name}}-->
-<!--                            </Option>-->
-                        </Select>
-                    </FormItem>
+                        <FormItem label="角色" prop="role">
+                            <Select v-model="userSettingForm.role" ref="roleSelect">
+                                <Option :value="item.id" :label="item.name+' '+item.companyname"
+                                        v-for="(item, index) in roleData" :key="'role' + index">
+                                    {{item.name}}
+                                    <span style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden;z-index: 999999999999999">
+                                        {{item.companyname}}
+                                    </span>
+                                </Option>
+                                <!--                                <Option :value="item.id" :label="isManger > 1 ?item.name:item.name+' '+item.companyname"-->
+<!--                                        v-for="(item, index) in roleData" :key="'role' + index">{{item.name}}-->
+<!--                                    <span v-if="isManger == 0 || isManger == 1" :title="item.companyname"-->
+<!--                                    style="float:right;color:#ccc;width:65px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden;z-index: 999999999999999">-->
+<!--                                        {{item.companyname}}</span>-->
+<!--                                </Option>-->
+    <!--                            <Option :value="item.id" v-for="(item, index) in roleData" :key="'nrole' + item.id">-->
+    <!--                                {{item.name}}-->
+    <!--                            </Option>-->
+                            </Select>
+                        </FormItem>
                     </Col>
                     <Col :span="16">
-                    <FormItem label="部门" prop="dep">
-                        <el-cascader
-                            :options="orgComboList"
-                            :props="depProps"
-                            v-model="userSettingForm.dep"
-                            change-on-select
-                            size="small"
-                            style="width: 100%"
-                            @change="_depChange"
-                        ></el-cascader>
-                    </FormItem>
+                        <FormItem label="部门" prop="dep">
+                            <el-cascader
+                                :options="orgComboList"
+                                :props="depProps"
+                                v-model="userSettingForm.dep"
+                                change-on-select
+                                size="small"
+                                style="width: 100%"
+                                @change="_depChange"
+                            ></el-cascader>
+                        </FormItem>
                     </Col>
                 </Row>
                 <Row>
@@ -260,6 +268,7 @@
                 <Button type="ghost" style="margin-left: 8px" @click="coinSettingFlag = false">取消</Button>
             </div>
         </Modal>
+        <!--打开班次列表-->
         <Modal v-model="banciModalFlag"
                width="800"
                :mask-closable="false">
@@ -290,6 +299,29 @@
                         </Form>
                     </div>
                 </Poptip>
+            </div>
+        </Modal>
+        <!--添加修改班次-->
+        <Modal v-model="flag_banci"
+               width="800"
+               :mask-closable="false">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>修改班次</span>
+            </p>
+            <Form :rules="banciRules"
+                :model="banciForm"
+                ref="banciForm"
+                :label-width="100">
+                <FormItem label="班次名称" prop="name">
+                    <Input v-model="banciForm.name" placeholder="请输入班次名称" />
+                </FormItem>
+                <FormItem label="班次时间" prop="time">
+                    <Input v-model="banciForm.time" placeholder="请输入班次时间" />
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="primary" @click="_addBanci" :loading="banciBtnLoading">修改班次</Button>
+                <Button type="ghost" @click="flag_banci = false">取消</Button>
             </div>
         </Modal>
         <Modal v-model="userAccessModalFlag"
@@ -527,6 +559,8 @@
                 accessButtons: [],
                 social: [],
                 banciModalFlag: false,
+                flag_banci: false,
+                banci_id: '',
                 coinAddLoading: false,
                 postGetLoading: false,
                 remoteLabel: [],
@@ -868,19 +902,52 @@
                 storePath: [],
                 columnsBanci: [
                     {
-                        title: '班次id',
+                        title: 'id',
                         key: 'id',
-                        align: 'center',
-                        width: 100
+                        align: 'center'
                     },
                     {
-                        title: '班次名称',
-                        key: 'name'
+                        title: '名称',
+                        key: 'name',
+                        align: 'center'
                     },
                     {
-                        title: '班次时间',
+                        title: '时间',
                         key: 'time',
                         align: 'center'
+                    },
+                    {
+                        title: '操作',
+                        key: 'time',
+                        align: 'center',
+                        render: (h, params) => {
+                            let vm = this;
+                            return h('div', [
+                                h('Tooltip', {
+                                    props: {
+                                        content: '修改',
+                                        placement: 'top',
+                                        transfer: true
+                                    }
+                                }, [
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            icon: 'compose',
+                                            shape: 'circle'
+                                        },
+                                        style: {
+                                            marginRight: '8px'
+                                        },
+                                        on: {
+                                            click: function () {
+                                                vm._editorBanci(params.row);
+                                            }
+                                        }
+                                    })
+                                ])
+                            ]);
+                        }
                     }
                 ],
                 banCiList: [],
@@ -1121,17 +1188,17 @@
                 this.searchData.nodeId.value = data.id;
             },
             _depChange(data) {
-                let vm = this;
-                console.log(data);
-                console.log(data.slice(-1)[0]);
+                // let vm = this;
+                // console.log(data);
+                // console.log(data.slice(-1)[0]);
                 // this._getPostList(data.slice(-1)[0]).then(() => {
                 //     this.userSettingForm.post = this.postList.length ? this.postList[0].id : '';
                 // });
-                this._getRoleList(data.slice(-1)[0]).then((res) => {
-                    if (res) {
-                        vm.userSettingForm.role = vm.roleData.length ? vm.roleData[0].id : '';
-                    }
-                });
+                // this._getRoleList(data.slice(-1)[0]).then((res) => {
+                //     if (res) {
+                //         vm.userSettingForm.role = vm.roleData.length ? vm.roleData[0].id : '';
+                //     }
+                // });
             },
             _updateUserInfo() {
                 let data = {};
@@ -1314,6 +1381,14 @@
                     this.tableBanciLoading = false;
                 })
             },
+            // 打开修改班次
+            _editorBanci(data) {
+                this.flag_banci = true;
+                this.banci_id = data.id;
+                this.banciForm.name = data.name;
+                this.banciForm.time = data.time;
+            },
+            // 添加修改班次
             _addBanci() {
                 this.$refs.banciForm.validate((valid) => {
                     if (valid) {
@@ -1321,14 +1396,17 @@
                         let data = {};
                         data.name = this.banciForm.name;
                         data.time = this.banciForm.time;
+                        data.id = this.banci_id;
                         this.$http.post('/user/addBanCi', data).then((res) => {
                             if (res.success) {
                                 this.banciForm = {
                                     name: '',
                                     time: ''
                                 };
+                                this.banci_id = '';
+                                this.flag_banci = false;
                                 this._getBanCiData();
-                                this.$Message.success('班次添加成功');
+                                this.$Message.success('操作班次成功');
                             }
                             this.banciBtnLoading = false;
                         }, () => {

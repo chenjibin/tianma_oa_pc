@@ -190,17 +190,30 @@
                       :model="bindForm"
                       ref="bindForm"
                       :rules="examRules">
-                    <FormItem label="试卷名称" prop="paperName">
-                        <Select v-model="bindForm.paperName" filterable>
-                            <div class="" v-for="(item, index) in paperList" :key="'paper-list-' + index" v-if="item.paper.length">
-                                <h4 style="padding-left: 16px;font-size: 12px;font-weight:500;color: #909399;line-height: 30px;">{{item.name}}</h4>
+                    <FormItem label="试卷名称" prop="paperName" v-show="flag_paper">
+                        <Input v-model="bindForm.paper_name" placeholder="请选择" style="width: 100%" @on-focus="changePaper" />
+                    </FormItem>
+                    <FormItem label="试卷名称" prop="paperName" v-show="!flag_paper">
+<!--                        <Select v-model="bindForm.paperName" filterable>-->
+<!--                            <div class="" v-for="item, index in paperList" :key="'paper-list-' + index" v-if="item.paper.length">-->
+<!--                                <h4 style="padding-left: 16px;font-size: 12px;font-weight:500;color: #909399;line-height: 30px;">{{item.name}}</h4>-->
+<!--                                <Option v-for="paper, pindex in item.paper" :value="paper.id"  :key="'paper-list-' + index + '-' + pindex" >-->
+<!--                                    <div class="fs-paper-item">-->
+<!--                                        <span>{{paper.name}}</span>-->
+<!--                                        <span>{{paper.createbydate}}创建</span>-->
+<!--                                    </div>-->
+<!--                                </Option>-->
+<!--                            </div>-->
+<!--                        </Select>-->
+                        <Select v-model="bindForm.paperName" filterable v-if="bindPaperFlag">
+                            <OptionGroup :label="item.name" v-for="(item, index) in paperList" :key="'paper-list-' + index" v-if="item.paper.length">
                                 <Option v-for="(paper, pindex) in item.paper" :value="paper.id"  :key="'paper-list-' + index + '-' + pindex" >
                                     <div class="fs-paper-item">
                                         <span>{{paper.name}}</span>
                                         <span>{{paper.createbydate}}创建</span>
                                     </div>
                                 </Option>
-                            </div>
+                            </OptionGroup>
                         </Select>
                     </FormItem>
                 </Form>
@@ -271,6 +284,7 @@
                 ]);
             };
             return {
+                flag_paper: true,
                 editorSettingFlag: false,
                 bindPaperFlag: false,
                 examSettingFlag: false,
@@ -283,6 +297,7 @@
                 examCheckName: '',
                 bindForm: {
                     paperName: '',
+                    paper_name: '',
                     examId: 0
                 },
                 examRules: {
@@ -455,7 +470,17 @@
             this._getNanList();
             this._getPostList();
         },
+        watch: {
+            bindPaperFlag: function (val) {
+                if (!val) {
+                    this.flag_paper = true;
+                }
+            }
+        },
         methods: {
+            changePaper() {
+                this.flag_paper = false;
+            },
             handleReset (name) {
                 this.$refs[name].resetFields();
             },
@@ -491,6 +516,7 @@
             _bindPaper(data) {
                 this.bindForm.examId = data.id;
                 this.bindForm.paperName = data.paperid || '';
+                this.bindForm.paper_name = data.papername;
                 this._getAllPaperList();
                 this.bindPaperFlag = true;
             },

@@ -567,35 +567,35 @@ export const appRouter = [
         children: [
             {
                 path: 'managerTeams',
-                icon: 'person-stalker',
+                icon: 'briefcase',
                 name: 'managerTeams',
                 title: '团队管理',
                 component: _import('ticket/managerTeams')
             },
             {
                 path: 'myTickets',
-                icon: 'android-checkbox-outline',
+                icon: 'briefcase',
                 name: 'myTickets',
                 title: '我的工单(开发)',
                 component: _import('ticket/myTickets')
             },
             {
                 path: 'myCreateTickets',
-                icon: 'android-checkbox-outline',
+                icon: 'briefcase',
                 name: 'myCreateTickets',
                 title: '我的工单(业务)',
                 component: _import('ticket/myCreateTickets')
             },
             {
                 path: 'superiorManager',
-                icon: 'android-time',
+                icon: 'briefcase',
                 name: 'superiorManager',
                 title: '管理工单(上级)',
                 component: _import('ticket/superiorManager')
             },
             {
                 path: 'teamTickets',
-                icon: 'android-time',
+                icon: 'briefcase',
                 name: 'teamTickets',
                 title: '管理工单(项目组)',
                 component: _import('ticket/teamTickets')
@@ -616,6 +616,14 @@ export const appRouter = [
                 title: '部门绩效',
                 component: _import('salaryManaer/approveSalary')
             }
+            // ,
+            // {
+            //     path: 'perAssessment',
+            //     icon: 'ios-folder-outline',
+            //     name: 'perAssessment',
+            //     title: '绩效管理',
+            //     component: _import('salaryManaer/perAssessment')
+            // }
         ]
     },
     {

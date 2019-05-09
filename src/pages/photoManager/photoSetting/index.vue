@@ -110,7 +110,7 @@
     export default {
         name: 'photoSetting',
         data() {
-            const colBtn = (vm, h, params, {content, icon, foo}) => {
+            const colBtn = (vm, h, params, {content, typeStyle, icon, foo}) => {
                 return h('Tooltip', {
                     props: {
                         content: content,
@@ -120,7 +120,7 @@
                 }, [
                     h('Button', {
                         props: {
-                            type: 'primary',
+                            type: typeStyle,
                             icon: icon,
                             shape: 'circle'
                         },
@@ -242,7 +242,8 @@
                         render: (h, params) => {
                             let vm = this;
                             return h('div', [
-                                colBtn(vm, h, params, {content: '修改主题', icon: 'compose', foo: vm._settingEditor})
+                                    colBtn(vm, h, params, {content: '修改主题', icon: 'compose', typeStyle: 'primary', foo: vm._settingEditor}),
+                                colBtn(vm, h, params, {content: '删除主题', icon: 'close-round', typeStyle: 'error', foo: vm._delInfo})
                             ]);
                         }
                     }
@@ -262,6 +263,7 @@
                 this._initEditorSettingData();
                 this.depSettingFlag = true;
             },
+            // 修改
             _settingEditor(data) {
                 this.formType = 'update';
                 this._initEditorSettingData();
@@ -276,6 +278,18 @@
                 this.settingId = data.id;
                 this.depSettingFlag = true;
             },
+            // 删除
+            _delInfo(data) {
+                let sendData = {};
+                sendData.id = data.id;
+                this.$http.post('/staffPresence/delStaffPresence', sendData).then((res) => {
+                    if (res.success) {
+                        this.$refs.themeTable.getListData();
+                        this.$Message.info(res.message);
+                    }
+                });
+            },
+            // 提交
             _createTheme() {
                 if (!this.imgFile.length) {
                     this.$Message.error('主题图片不能为空!');

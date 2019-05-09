@@ -169,7 +169,7 @@
                 tableHeight: 720,
                 defaultProps: {
                     children: 'children',
-                    label: 'name'
+                    label: 'text'
                 },
                 uploadOpt: {
                     format: ['xls']
@@ -236,6 +236,11 @@
                         }
                     }]
             };
+        },
+        watch: {
+            filterText(val) {
+                this.$refs.treeDom.filter(val);
+            }
         },
         created() {
             this._getOrgTree();
@@ -371,7 +376,7 @@
                 // 同一个接口调用两次是因为左侧的树和下拉输入框是同一个接口，存在不合理的地方
                 // 为未来分割独立保留一个方法
                 return new Promise((resolve) => {
-                    this.$http.get('/organize/userSalaryOrganizeTree?fatherId=-1').then((res) => {
+                    this.$http.get('/organize/organizeTreeByUserForRiZhi').then((res) => {
                         if (res.success) {
                             this.orgTreeData = res.data;
                             this.searchData.nodeId.value = res.data[0].id;
