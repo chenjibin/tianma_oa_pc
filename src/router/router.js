@@ -490,6 +490,20 @@ export const appRouter = [
                 name: 'assetsCategory',
                 title: '资产分类',
                 component: _import('assetsManager/assetsCategory')
+            },
+            {
+                path: 'assetsCheck',
+                icon: 'printer',
+                name: 'assetsCheck',
+                title: '资产盘点管理',
+                component: _import('assetsManager/assetsCheck')
+            },
+            {
+                path: 'assetsTel',
+                icon: 'printer',
+                name: 'assetsTel',
+                title: '电话卡管理',
+                component: _import('assetsManager/assetsTel')
             }
         ]
     },

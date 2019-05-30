@@ -64,11 +64,14 @@
                            ref="attendanceTable"
                            url="/kq/getStatisticList"></fs-table-page>
             <Modal v-model="importModalFlag"
-                   width="400"
+                   width="600"
                    :mask-closable="false">
                 <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                     <span>导入考勤表</span>
                 </p>
+                <p style="color:red;font-size: 15px">
+                    <span>注意：导入云考勤表记录，必须在上边插入一行，第一格是年份俩字，第二格给出年月，格式如：2019-05</span>
+                </p><br>
                 <Upload
                         type="drag"
                         :show-upload-list="false"
@@ -80,7 +83,7 @@
                         action="/oa/kq/add">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                        <p>点击或者拖拽文件到这里上传(后缀为.xls的文件)</p>
+                        <p>点击或者拖拽文件到这里上传(后缀为.xls/.xlsx的文件)</p>
                     </div>
                     <Spin size="large" fix v-if="spinShow">数据导入中...</Spin>
                 </Upload>
@@ -238,7 +241,7 @@
                     id: ''
                 },
                 uploadOpt: {
-                    format: ['xls']
+                    format: ['xls', 'xlsx']
                 },
                 depProps: {
                     value: 'id',

@@ -28,7 +28,8 @@
                     <div class="list-item-top">
                         <div class="list-item-top-img-wrapper">
                             <div class="fs-square-img">
-                                <img v-lazy="$mainHost + '/oa/upload/' + item.image_path"/>
+<!--                                <img v-lazy="$mainHost + '/oa/upload/' + item.image_path"/>-->
+                                <img :src="$mainHost + '/oa/upload/' + item.image_path" alt="">
                             </div>
                         </div>
                         <div class="list-item-top-content">

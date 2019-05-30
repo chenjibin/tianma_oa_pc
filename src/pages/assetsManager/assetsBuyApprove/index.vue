@@ -33,39 +33,45 @@
                            url="assetsManage/dataList"></fs-table-page>
         </Card>
         <!--审批弹框-->
-        <Modal v-model="approvalInfoModal">
+        <Modal v-model="approvalInfoModal" width = "600px">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                审批——{{filterOpt.appType.value == 1 ? '采购申请' : '报废申请'}}
+            </p>
             <Form style="margin-top: 20px" :label-width="120" ref="approveForm" :model="approvalInfo" :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="approvalInfo.id"></Input>
                 <Input type="text" style="display: none" v-model="approvalInfo.approvalStatus"></Input>
                 <FormItem label="资产名称">
-                    <Input style="width: 180px" v-model="approvalInfo.cname" readonly></Input>
+                    <Input style="width: 100%" v-model="approvalInfo.cname" readonly></Input>
                 </FormItem>
                 <FormItem label="资产位置">
-                    <Input style="width: 180px" v-model="approvalInfo.positionName" readonly></Input>
+                    <Input style="width: 100%" v-model="approvalInfo.positionName" readonly></Input>
                 </FormItem>
                 <FormItem label="资产规格">
-                    <Input style="width: 180px" v-model="approvalInfo.rmark" readonly></Input>
+                    <Input style="width: 100%" v-model="approvalInfo.rmark" readonly></Input>
                 </FormItem>
                 <Input v-model="approvalInfo.apptype" style="display: none"></Input>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
+                    <InputNumber type="text" :min="1" :max="999" style="width: 100%" v-model="approvalInfo.num" :disabled="approvalInfo.apptype === 3" ></InputNumber>
                 </FormItem>
-                <FormItem label="报废方式" v-if="approvalInfo.apptype === 3" >
-                    <Select v-model="approvalInfo.scrappedType" style="width: 180px" clearable>
+                <FormItem label="资产条码" v-if="approvalInfo.apptype === 3">
+                    <Input type="textarea" style="width: 100%" v-model="approvalInfo.bar_code" readonly></Input>
+                </FormItem>
+                <FormItem label="报废方式" v-if="approvalInfo.apptype === 3" prop="scrappedType" >
+                    <Select v-model="approvalInfo.scrappedType" style="width: 100%" clearable>
                         <Option :value="1">直接销毁</Option>
                         <Option :value="2">废品处理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="审批内容" prop="content">
-                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content" prop="content" placeholder="填写审批意见"></Input>
+                    <Input type="textarea" style="width: 100%" v-model="approvalInfo.content" prop="content" placeholder="审批意见"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button size="large" @click="approval(2)" :disabled="isDisable">
-                    <span>拒绝</span>
+                <Button type="success" @click="approval(1)" :disabled="isDisable">
+                    <span>审核通过</span>
                 </Button>
-                <Button type="success" size="large" @click="approval(1)" :disabled="isDisable">
-                    <span>通过</span>
+                <Button @click="approval(2)" :disabled="isDisable">
+                    <span>审核拒绝</span>
                 </Button>
             </div>
         </Modal>
@@ -269,19 +275,15 @@
                                         click: function() {
                                             vm.$refs.approveForm.resetFields();
                                             if (appBtnStatus) {
-                                                vm.$http.get('assetsApplication/find?id=' + params.row.id).then((res) => {
-                                                    if (res.success) {
-                                                        let data = res.data;
-                                                        vm.approvalInfo.id = data.id;
-                                                        vm.approvalInfo.num = data.num;
-                                                        vm.approvalInfo.cname = data.categoryname;
-                                                        vm.approvalInfo.positionName = data.positionname;
-                                                        vm.approvalInfo.approvalStatus = data.approvalstatus;
-                                                        vm.approvalInfo.rmark = data.remarks;
-                                                        vm.approvalInfo.apptype = data.apptype;
-                                                        vm.approvalInfoModal = true;
-                                                    }
-                                                });
+                                                vm.approvalInfo.id = params.row.id;
+                                                vm.approvalInfo.num = params.row.num;
+                                                vm.approvalInfo.cname = params.row.categoryname;
+                                                vm.approvalInfo.positionName = params.row.positionname;
+                                                vm.approvalInfo.approvalStatus = params.row.approvalstatus;
+                                                vm.approvalInfo.rmark = params.row.remarks;
+                                                vm.approvalInfo.apptype = params.row.apptype;
+                                                vm.approvalInfo.bar_code = params.row.bar_code;
+                                                vm.approvalInfoModal = true;
                                             }
                                         }
                                     }
@@ -301,15 +303,16 @@
                     cname: '',
                     scrappedType: '',
                     positionName: '',
-                    apptype: 1
+                    apptype: 1,
+                    bar_code: ''
                 },
                 newApplyRules: {
                     num: [
                         {type: 'number', required: true, message: '请填写数量!', trigger: 'blur'}
                     ],
-                    // scrappedType: [
-                    //     {type: 'number', required: true, message: '请填写报废方式!', trigger: 'change'}
-                    // ],
+                    scrappedType: [
+                        {type: 'number', required: true, message: '请填写报废方式!', trigger: 'change'}
+                    ],
                     content: [
                         {required: true, message: '请填写审批意见', trigger: 'blur'}
                     ]
@@ -347,12 +350,12 @@
                 if (!type) {
                     return;
                 }
-                if (1 === type & 3 === this.approvalInfo.apptype) {
-                    if (!this.approvalInfo.scrappedType) {
-                        this.$Message.error('报废方式不可以为空');
-                        return;
-                    }
-                }
+                // if (1 === type & 3 === this.approvalInfo.apptype) {
+                //     if (!this.approvalInfo.scrappedType) {
+                //         this.$Message.error('报废方式不可以为空');
+                //         return;
+                //     }
+                // }
                 this.isDisable = true;
                 this.approvalInfo.approvalStatus = type;
                 var vm = this;

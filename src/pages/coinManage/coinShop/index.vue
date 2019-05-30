@@ -83,7 +83,8 @@
                         <FormItem label="商品预览:">
                             <div style="width: 160px">
                                 <div class="fs-square-img">
-                                    <img v-lazy="$mainHost + goodDesc.pic"/>
+<!--                                    <img v-lazy="$mainHost + goodDesc.pic"/>-->
+                                    <img :src="$mainHost + goodDesc.pic" alt="">
                                 </div>
                             </div>
                         </FormItem>
@@ -210,6 +211,7 @@
                 this.goodDesc.pic = '';
             },
             _openBuy(data) {
+                console.log('data:' + JSON.stringify(data))
                 this._initData();
                 this.buyForm.id = data.id;
                 this.goodDesc.name = data.name;

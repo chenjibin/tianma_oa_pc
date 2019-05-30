@@ -1,6 +1,6 @@
 <template>
     <Card>
-        <Input v-model="filterText" size="large" placeholder="快速查找部门"></Input>
+        <Input v-model="filterText" size="large" placeholder="快速查找部门" clearable></Input>
         <el-tree :data="orgTreeData"
                  ref="treeFo"
                  :filter-node-method="filterNode"

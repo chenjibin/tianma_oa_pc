@@ -280,25 +280,27 @@
                    height="400"
                    :data="banCiList"></Table>
             <div slot="footer">
-                <Poptip placement="left" width="400">
-                    <Button type="ghost">添加班次</Button>
-                    <div class="banci-add-form" slot="content">
-                        <Form :rules="banciRules"
-                              :model="banciForm"
-                              ref="banciForm"
-                              :label-width="100">
-                            <FormItem label="班次名称" prop="name">
-                                <Input v-model="banciForm.name" placeholder=""></Input>
-                            </FormItem>
-                            <FormItem label="班次时间" prop="time">
-                                <Input v-model="banciForm.time" placeholder=""></Input>
-                            </FormItem>
-                            <FormItem>
-                                <Button type="primary" @click="_addBanci" :loading="banciBtnLoading">添加班次</Button>
-                            </FormItem>
-                        </Form>
-                    </div>
-                </Poptip>
+                <Button type="primary" @click="open_addBanci">添加班次</Button>
+                <Button type="ghost" @click="banciModalFlag = false">取消</Button>
+<!--                <Poptip placement="left" width="400">-->
+<!--                    <Button type="ghost">添加班次</Button>-->
+<!--                    <div class="banci-add-form" slot="content">-->
+<!--                        <Form :rules="banciRules"-->
+<!--                              :model="banciForm"-->
+<!--                              ref="banciForm"-->
+<!--                              :label-width="100">-->
+<!--                            <FormItem label="班次名称" prop="name">-->
+<!--                                <Input v-model="banciForm.name" placeholder=""></Input>-->
+<!--                            </FormItem>-->
+<!--                            <FormItem label="班次时间" prop="time">-->
+<!--                                <Input v-model="banciForm.time" placeholder=""></Input>-->
+<!--                            </FormItem>-->
+<!--                            <FormItem>-->
+<!--                                <Button type="primary" @click="_addBanci" :loading="banciBtnLoading">添加班次</Button>-->
+<!--                            </FormItem>-->
+<!--                        </Form>-->
+<!--                    </div>-->
+<!--                </Poptip>-->
             </div>
         </Modal>
         <!--添加修改班次-->
@@ -306,7 +308,7 @@
                width="800"
                :mask-closable="false">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
-                <span>修改班次</span>
+                <span>{{classFormType === 'add'? '添加' : '修改'}}班次</span>
             </p>
             <Form :rules="banciRules"
                 :model="banciForm"
@@ -320,7 +322,10 @@
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="primary" @click="_addBanci" :loading="banciBtnLoading">修改班次</Button>
+<!--                <Button type="primary" @click="_addBanci" :loading="banciBtnLoading">修改班次</Button>-->
+                <Button type="primary" :loading="banciBtnLoading" style="margin-left: 8px" @click="_addBanci">{{classFormType === 'add'?
+                    '添加' : '修改'}}班次
+                </Button>
                 <Button type="ghost" @click="flag_banci = false">取消</Button>
             </div>
         </Modal>
@@ -555,6 +560,7 @@
             //     }
             // };
             return {
+                classFormType: 'add',
                 postShowLabel: '',
                 accessButtons: [],
                 social: [],
@@ -1381,8 +1387,17 @@
                     this.tableBanciLoading = false;
                 })
             },
+            // 打开添加班次页面
+            open_addBanci() {
+                this.classFormType = 'add';
+                this.flag_banci = true;
+                this.banci_id = '';
+                this.banciForm.name = '';
+                this.banciForm.time = '';
+            },
             // 打开修改班次
             _editorBanci(data) {
+                this.classFormType = 'update';
                 this.flag_banci = true;
                 this.banci_id = data.id;
                 this.banciForm.name = data.name;
@@ -1396,14 +1411,11 @@
                         let data = {};
                         data.name = this.banciForm.name;
                         data.time = this.banciForm.time;
-                        data.id = this.banci_id;
+                        if (this.classFormType === 'update') {
+                            data.id = this.banci_id;
+                        }
                         this.$http.post('/user/addBanCi', data).then((res) => {
                             if (res.success) {
-                                this.banciForm = {
-                                    name: '',
-                                    time: ''
-                                };
-                                this.banci_id = '';
                                 this.flag_banci = false;
                                 this._getBanCiData();
                                 this.$Message.success('操作班次成功');

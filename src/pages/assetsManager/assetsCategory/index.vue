@@ -10,7 +10,7 @@
                 <Button type="ghost" icon="edit" @click="changeInfo">修改</Button>
                 <Button type="ghost" icon="trash-b" @click="delInfo">删除</Button>
             </Form>
-            <div style="overflow: auto;margin-top: 10px" :style="{height: tableHeight+'px'}">
+            <div style="overflow: auto;margin-top: 20px" :style="{height: tableHeight+'px'}">
                 <assetsTree v-on:customerForm="getCustomerForm" ref="assetsTree"></assetsTree>
             </div>
         </Card>
@@ -148,10 +148,6 @@
                         });
                     }
                 });
-            },
-            filterNode(value, data) {
-                if (!value) return true;
-                return data.name.indexOf(value) !== -1;
             },
             _inputDebounce: debounce(function () {
                 this._filterResultHandler();

@@ -58,33 +58,40 @@
             </div>
         </Card>
         <!--资产申请-->
-        <Modal v-model="addInfoModal" width="400">
+        <Modal v-model="addInfoModal" width="600">
             <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
                 <span v-show="1 == classFormType">申请资产</span>
-                <span v-show="2 == classFormType">修改申请</span>
+                <span v-show="2 == classFormType">修改资产申请</span>
                 <span v-show="3 == classFormType">报废资产</span>
+                <span v-show="4 == classFormType">修改报废申请</span>
             </p>
             <Form :label-width="90" ref="newApplyForm" :model="newApply" :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="newApply.appType"></Input>
+                <Input type="text" style="display: none" v-model="newApply.id"></Input>
                 <FormItem label="资产名称" prop="categoryName" v-if="!newApply.id">
-                    <Cascader style="width: 180px" v-model="selectArr" :data="cat1" :clearable="true" @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
+                    <Cascader style="width: 100%" v-model="selectArr" :data="cat1" :clearable="true" @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
                 </FormItem>
                 <FormItem label="资产名称" v-if="newApply.id">
-                    <Input type="text" style="width: 180px" clearable v-model="newApply.categoryName"></Input>
-                </FormItem>
-                <Input type="text" style="display: none" v-model="newApply.id"></Input>
-                <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" clearable v-model="newApply.num"></InputNumber>
+                    <Input type="text" style="width: 100%" clearable v-model="newApply.categoryName"></Input>
                 </FormItem>
                 <FormItem label="资产位置" prop="positionName">
-                    <Select type="text" style="width: 180px" clearable
+                    <Select type="text" style="width: 100%" clearable
                             v-model="newApply.positionName"
                             placeholder="资产位置">
                         <Option v-for="(item, index) in positionList" :key="index" :label="item.name" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
-                <FormItem label="申请规格" prop="remarks">
-                    <Input type="text" style="width: 180px" v-model="newApply.remarks" placeholder="规格" clearable></Input>
+                <FormItem label="申请数量" prop="num" >
+                    <InputNumber type="text" :min="1" :max="999" style="width: 100%" clearable v-model="newApply.num"></InputNumber>
+                </FormItem>
+                <FormItem label="资产条码" prop="bar_code" v-if="3 == classFormType || 4 == classFormType">
+                    <Input type="textarea" placeholder="最大10个;请用逗号隔开,示例:1001,1002,1003" style="width: 100%" clearable v-model="newApply.bar_code"></Input>
+                </FormItem>
+                <FormItem label="申请规格" prop="remarks" v-if="1 == classFormType || 2 == classFormType">
+                    <Input type="text" style="width: 100%" v-model="newApply.remarks" placeholder="规格" clearable></Input>
+                </FormItem>
+                <FormItem label="备注" >
+                    <Input type="text" style="width: 100%" v-model="newApply.remark_c" placeholder="规格" clearable></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -109,6 +116,16 @@
                    :columns="reciveColumns"
                    :data="reciveList"></Table>
         </Modal>
+        <!--显示条码-->
+        <Modal v-model="flag_bar_code">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                <span>条码详情</span>
+            </p>
+            {{bar_code_info}}
+            <div slot="footer">
+                <Button  @click="flag_bar_code = false">取消</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -129,6 +146,8 @@
         },
         data() {
             return {
+                flag_bar_code: false,
+                bar_code_info: '',
                 classFormType: '1',
                 minHeight: '',
                 zichanType: 'chooseType',
@@ -248,7 +267,40 @@
                 ],
                 postColumns: [
                     {
-                        title: '申请日期',
+                        title: '类型',
+                        key: 'apptype',
+                        align: 'center',
+                        width: 90,
+                        render: (h, params) => {
+                            var vm = this;
+                            return h('Tag', {
+                                props: {
+                                    type: 'border',
+                                    color: params.row.apptype === 1 ? 'green' : 'red'
+                                },
+                                attrs: {
+                                    title: '单击查看条码'
+                                },
+                                nativeOn: {
+                                    click: function () {
+                                        if (3 === params.row.apptype) {
+                                            if (!params.row.bar_code) {
+                                                vm.bar_code_info = '';
+                                                vm.$Message.error('无条码');
+                                            } else {
+                                                vm.flag_bar_code = true;
+                                                vm.bar_code_info = params.row.bar_code;
+                                            }
+                                        } else {
+                                            vm.bar_code_info = '';
+                                        }
+                                    }
+                                }
+                            }, params.row.apptype === 1 ? '采购' : '报废');
+                        }
+                    },
+                    {
+                        title: '日期',
                         key: 'createbydate',
                         align: 'center',
                         // width: 100,
@@ -261,44 +313,25 @@
                         }
                     },
                     {
-                        title: '申请类型',
-                        key: 'apptype',
-                        align: 'center',
-                        width: 90,
-                        render: (h, params) => {
-                            return h('Tag', {
-                                props: {
-                                    type: 'border',
-                                    color: params.row.apptype === 1 ? 'green' : 'red'
-                                }
-                            }, params.row.apptype === 1 ? '采购申请' : '报废申请');
-                        }
-                    },
-                    {
-                        title: '资产位置',
-                        key: 'positionname',
-                        align: 'center'
-                        // ,
-                        // width: 100
-                    },
-                    {
-                        title: '资产名称',
+                        title: '名称',
                         key: 'categoryname',
                         align: 'center'
-                        // width: 90
                     },
                     {
-                        title: '申请数量',
+                        title: '数量',
                         key: 'num',
                         align: 'center'
                         // width: 90
                     },
                     {
-                        title: '申请规格',
+                        title: '规格',
                         key: 'remarks',
                         align: 'center'
-                        // ,
-                        // width: 100
+                    },
+                    {
+                        title: '位置',
+                        key: 'positionname',
+                        align: 'center'
                     },
                     // {
                     //     title: '申请部门',
@@ -335,61 +368,7 @@
                         }
                     },
                     {
-                        title: '操作',
-                        align: 'center',
-                        width: 130,
-                        render: (h, params) => {
-                            var vm = this;
-                            var row = params.row;
-                            var disable = row.approvalstatus > 0;
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        icon: 'edit',
-                                        shape: 'circle',
-                                        disabled: disable
-                                    },
-                                    attrs: {
-                                        title: '修改申请'
-                                    },
-                                    on: {
-                                        click: function() {
-                                            vm.classFormType = 2;
-                                            vm.newApply.appType = row.apptype;
-                                            vm.newApply.id = row.id;
-                                            vm.newApply.categoryName = row.categoryname;
-                                            vm.newApply.num = row.num;
-                                            vm.newApply.remarks = row.remarks;
-                                            vm.newApply.positionName = row.positionname;
-                                            vm.addInfoModal = true;
-                                        }
-                                    }
-                                }),
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        icon: 'close',
-                                        shape: 'circle',
-                                        disabled: disable
-                                    },
-                                    attrs: {
-                                        title: '删除申请'
-                                    },
-                                    style: {
-                                        marginLeft: '10px'
-                                    },
-                                    on: {
-                                        click: function() {
-                                            vm.delInfo(row);
-                                        }
-                                    }
-                                })
-                            ]);
-                        }
-                    },
-                    {
-                        title: '审批进度',
+                        title: '进度',
                         key: 'approvalstatus',
                         align: 'center',
                         width: 200,
@@ -423,7 +402,7 @@
                                         color: color
                                     },
                                     attrs: {
-                                        title: '点击查看审批流程'
+                                        title: '单击查看审批流程'
                                     },
                                     nativeOn: {
                                         click: function() {
@@ -482,6 +461,73 @@
                                 // }, '一键领取')
                             ]);
                         }
+                    },
+                    {
+                        title: '备注',
+                        key: 'remark_c',
+                        align: 'center'
+                        // ,
+                        // width: 130
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        width: 130,
+                        render: (h, params) => {
+                            var vm = this;
+                            var row = params.row;
+                            var disable = row.approvalstatus > 0;
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'edit',
+                                        shape: 'circle',
+                                        disabled: disable
+                                    },
+                                    attrs: {
+                                        title: '修改申请'
+                                    },
+                                    on: {
+                                        click: function() {
+                                            if (1 === row.apptype) {
+                                                vm.classFormType = 2;
+                                                vm.newApply.remarks = row.remarks;
+                                            } else {
+                                                vm.classFormType = 4;
+                                                vm.newApply.bar_code = row.bar_code;
+                                            }
+                                            vm.newApply.appType = row.apptype;
+                                            vm.newApply.id = row.id;
+                                            vm.newApply.categoryName = row.categoryname;
+                                            vm.newApply.num = row.num;
+                                            vm.newApply.positionName = row.positionname;
+                                            vm.newApply.remark_c = row.remark_c;
+                                            vm.addInfoModal = true;
+                                        }
+                                    }
+                                }),
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'close',
+                                        shape: 'circle',
+                                        disabled: disable
+                                    },
+                                    attrs: {
+                                        title: '删除申请'
+                                    },
+                                    style: {
+                                        marginLeft: '10px'
+                                    },
+                                    on: {
+                                        click: function() {
+                                            vm.delInfo(row);
+                                        }
+                                    }
+                                })
+                            ]);
+                        }
                     }
                 ],
                 changeInfoModal: false,
@@ -494,7 +540,9 @@
                     categoryId: '',
                     num: 1,
                     positionName: '',
-                    remarks: ''
+                    remarks: '',
+                    remark_c: '',
+                    bar_code: ''
                 },
                 newApplyRules: {
                     categoryName: [
@@ -508,6 +556,9 @@
                     ],
                     remarks: [
                         {required: true, message: '请填写规格或备注', trigger: 'blur'}
+                    ],
+                    bar_code: [
+                        {required: true, message: '请填写资产条码', trigger: 'blur'}
                     ]
                 },
                 tableHeight: 500
@@ -616,20 +667,24 @@
             },
             // 打开资产弹框
             addInfo(type) { // type 1.申请 2.报废
-                this.classFormType = type;
-                this.selectArr = [];
-                this.newApply.id = undefined;
-                this.newApply.categoryName = '';
-                this.newApply.num = 1;
-                this.newApply.remarks = '';
-                this.newApply.positionName = '';
-                this.newApply.appType = type;
-                this.addInfoModal = true;
+                var vm = this;
+                // vm.$refs.newApplyForm.resetFields();
+                vm.classFormType = type;
+                vm.selectArr = [];
+                vm.newApply.id = undefined;
+                vm.newApply.categoryName = '';
+                vm.newApply.num = 1;
+                vm.newApply.remarks = '';
+                vm.newApply.positionName = '';
+                vm.newApply.appType = type;
+                vm.newApply.remark_c = '';
+                vm.newApply.bar_code = '';
+                vm.addInfoModal = true;
             },
             // 提交资产弹框
             saveInfo() {
                 let vm = this;
-                vm.classFormType = 1;
+                // vm.classFormType = 1;
                 let newApplyForm = this.$refs.newApplyForm;
                 newApplyForm.validate((vpass) => {
                     if (vpass) {

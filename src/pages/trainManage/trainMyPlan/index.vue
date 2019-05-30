@@ -282,17 +282,30 @@
             <Form :label-width="80"
                   :model="bindForm"
                   ref="bindForm">
-                <FormItem label="考试名称" prop="examName">
-                    <Select v-model="bindForm.exam_id" filterable>
-                        <div class="" v-for="(item, index) in examList" :key="'paper-list-' + index" v-if="item.exam.length">
-                            <h4 style="padding-left: 16px;font-size: 12px;font-weight:500;color: #909399;line-height: 30px;">{{item.name}}</h4>
-                            <Option v-for="(exam, pindex) in item.exam" :value="exam.id"  :key="'exam-list-' + index + '-' + pindex" >
+                <FormItem label="考试名称" prop="paperName" v-show="flag_paper" >
+                    <Input v-model="exam_name"  placeholder="请选择" style="width: 100%" @on-focus="changePaper" />
+                </FormItem>
+                <FormItem label="考试名称" prop="examName" v-show="!flag_paper">
+<!--                    <Select v-model="bindForm.exam_id" filterable>-->
+<!--                        <div class="" v-for="(item, index) in examList" :key="'paper-list-' + index" v-if="item.exam.length">-->
+<!--                            <h4 style="padding-left: 16px;font-size: 12px;font-weight:500;color: #909399;line-height: 30px;">{{item.name}}</h4>-->
+<!--                            <Option v-for="(exam, pindex) in item.exam" :value="exam.id"  :key="'exam-list-' + index + '-' + pindex" >-->
+<!--                                <div class="fs-paper-item">-->
+<!--                                    <span>{{exam.name}}</span>-->
+<!--                                    <span>{{exam.createbydate}}创建</span>-->
+<!--                                </div>-->
+<!--                            </Option>-->
+<!--                        </div>-->
+<!--                    </Select>-->
+                    <Select v-model="bindForm.exam_id" filterable v-if="bindPaperFlag">
+                        <OptionGroup :label="item.name" v-for="(item, index) in examList" :key="'paper-list-' + index" v-if="item.exam.length">
+                            <Option v-for="(exam, pindex) in item.exam" :value="exam.id"  :key="'paper-list-' + index + '-' + pindex" >
                                 <div class="fs-paper-item">
                                     <span>{{exam.name}}</span>
                                     <span>{{exam.createbydate}}创建</span>
                                 </div>
                             </Option>
-                        </div>
+                        </OptionGroup>
                     </Select>
                 </FormItem>
             </Form>
@@ -335,6 +348,7 @@
         name: 'trainMyPlan',
         data () {
             return {
+                flag_paper: true,
                 isShow: true,
                 // usernameisShow: false,
                 modelFlag: false,
@@ -345,6 +359,7 @@
                 importModalFlag: false,
                 spinShow: false,
                 paperCheckFlag: false,
+                // exam_paper_name: '',
                 paperIdCheck: 0,
                 questionList: [],
                 classId: 0,
@@ -367,8 +382,10 @@
                 },
                 bindForm: {
                     plan_id: '',
-                    exam_id: ''
+                    exam_id: '',
+                    exam_paper_name: ''
                 },
+                exam_name: '',
                 examList: [],
                 evaScroll: false,
                 itemList: [],
@@ -915,6 +932,13 @@
                 teacherOpt: []
             };
         },
+        watch: {
+            bindPaperFlag: function (val) {
+                if (!val) {
+                    this.flag_paper = true;
+                }
+            }
+        },
         created() {
             this._getMyPlan();
             this._setTableHeight();
@@ -923,6 +947,9 @@
             // this._getAllExamList();
         },
         methods: {
+            changePaper() {
+                this.flag_paper = false;
+            },
             // 下载文件
             downloadFile(url, name) {
                 let downloadDom = document.createElement('a');
@@ -1033,7 +1060,7 @@
             _checkTest(data) {
                 this.modelFlag = true;
                 // this.$refs.formPlan.resetForm();
-                console.log(data)
+                // console.log(data)
                 this.formPlan.title = data.title;
                 this.formPlan.object = data.object;
                 this.formPlan.class_date = data.class_date;
@@ -1208,7 +1235,7 @@
             _bindExam(data) {
                 this.bindForm.plan_id = data.id;
                 this.bindForm.exam_id = data.exam_id || '';
-                this._getAllExamList();
+                this._getAllExamList(data.exam_id);
                 this.bindPaperFlag = true;
             },
             _bindExamConfirm() {
@@ -1226,11 +1253,23 @@
                     };
                 });
             },
-            _getAllExamList() {
+            _getAllExamList(data) {
                 this.$http.get('/examtestpaper/getSubjectExamList').then((res) => {
-                    // console.log(res);
                     if (res.success) {
                         this.examList = res.data;
+                        var examArr = res.data;
+                        this.exam_name = '';
+                        for (let i = 0; i < examArr.length; i++) {
+                            if (examArr[i].exam.length > 0) {
+                                var examArrSub = examArr[i].exam;
+                                for (let j = 0; j < examArrSub.length; j++) {
+                                    if (examArrSub[j].id === data) {
+                                        this.exam_name = examArrSub[j].name;
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
             },

@@ -21,28 +21,44 @@
                             <Input type="text" :maxlength="11" v-model="talentBean.phone"></Input>
                         </FormItem>
                         <FormItem label="岗位" prop="postname" :class="device.mobile?'mobileFormRight':'pcFormItem'">
-                            <Select name="postname" v-model="talentBean.postname">
-                                <Option :value="item.id" v-for="(item) in positionData" :key="item.id">{{item.name}}</Option>
-                            </Select>
+<!--                            <Select name="postname" v-model="talentBean.postname" >-->
+<!--                                <Option :value="item.id" v-for="(item) in positionData" :key="item.id">{{item.name}}</Option>-->
+<!--                            </Select>-->
+                            <el-select v-model="talentBean.postname" size="small" placeholder="请选择" prop="postname">
+                                <el-option
+                                    v-for="item in positionData"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
                         </FormItem>
                         <FormItem label="期望月薪" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
                             <InputNumber style="width: 100%" :min="500"  :step="500" type="text" v-model="talentBean.monthlysalary"></InputNumber>
                         </FormItem>
                         <FormItem label="信息来源"  prop="resumesource" :class="device.mobile?'mobileFormRight':'pcFormItem'">
-                            <Select type="text" v-model="talentBean.resumesource">
-                                <Option value="">请选择</Option>
-                                <Option :value="1">58同城</Option>
-                                <Option :value="2">智联</Option>
-                                <Option :value="3">前程无忧</Option>
-                                <Option :value="4">其它</Option>
-                                <Option :value="5">现场招聘会</Option>
-                                <Option :value="6">微信公众号</Option>
-                                <Option :value="7">来电</Option>
-                                <Option :value="8">介绍</Option>
-                                <Option :value="9">校招</Option>
-                                <Option :value="10">人才市场</Option>
-                                <Option :value="11">boss直聘</Option>
-                            </Select>
+<!--                            <Select type="text" v-model="talentBean.resumesource">-->
+<!--                                <Option value="">请选择</Option>-->
+<!--                                <Option :value="1">58同城</Option>-->
+<!--                                <Option :value="2">智联</Option>-->
+<!--                                <Option :value="3">前程无忧</Option>-->
+<!--                                <Option :value="4">其它</Option>-->
+<!--                                <Option :value="5">现场招聘会</Option>-->
+<!--                                <Option :value="6">微信公众号</Option>-->
+<!--                                <Option :value="7">来电</Option>-->
+<!--                                <Option :value="8">介绍</Option>-->
+<!--                                <Option :value="9">校招</Option>-->
+<!--                                <Option :value="10">人才市场</Option>-->
+<!--                                <Option :value="11">boss直聘</Option>-->
+<!--                            </Select>-->
+                            <el-select v-model="talentBean.resumesource" size="small" placeholder="请选择" >
+                                <el-option
+                                    v-for="item in resumesourceData"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
                         </FormItem>
                         <FormItem label="工作经验" :class="device.mobile?'mobileFormItemLeft':'pcFormItem'">
                             <InputNumber style="width: 100%" :min="0" :max="50" :step="1" :precision='0' v-model="talentBean.yearswork" placeholder="单位：年"></InputNumber>
@@ -324,6 +340,10 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+    import { Select, Option } from 'element-ui';
+    Vue.component(Select.name, Select);
+    Vue.component(Option.name, Option);
     export default {
         name: 'hire',
         data () {
@@ -360,6 +380,43 @@
                     id: 0,
                     ticket_no: 0
                 },
+                // 简历来源
+                resumesourceData: [
+                    {
+                        value: 1,
+                        label: '58同城'
+                    }, {
+                        value: 2,
+                        label: '智联'
+                    }, {
+                        value: 3,
+                        label: '前程无忧'
+                    }, {
+                        value: 4,
+                        label: '其它'
+                    }, {
+                        value: 5,
+                        label: '现场招聘会'
+                    }, {
+                        value: 6,
+                        label: '微信公众号'
+                    }, {
+                        value: 7,
+                        label: '来电'
+                    }, {
+                        value: 8,
+                        label: '介绍'
+                    }, {
+                        value: 9,
+                        label: '校招'
+                    }, {
+                        value: 10,
+                        label: '人才市场'
+                    }, {
+                        value: 11,
+                        label: 'boss直聘'
+                    }
+                ],
                 ticketNo: 0,
                 positionData: [],
                 socailShipForm: [{}, {}], // 社会关系

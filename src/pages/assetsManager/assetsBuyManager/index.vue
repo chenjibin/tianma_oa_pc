@@ -12,7 +12,7 @@
                             :clearable="true"
                             v-model="filterOpt.positionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index) in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
             </Form>
@@ -49,6 +49,16 @@
                 positionList: [],
                 postColumns: [
                     {
+                        title: '申请部门',
+                        key: 'organizename',
+                        align: 'center'
+                    },
+                    {
+                        title: '申请人',
+                        key: 'createbyname',
+                        align: 'center'
+                    },
+                    {
                         title: '资产名称',
                         key: 'categoryname',
                         align: 'center'
@@ -56,14 +66,12 @@
                     {
                         title: '申请数量',
                         key: 'num',
-                        align: 'center',
-                        width: 90
+                        align: 'center'
                     },
                     {
                         title: '资产位置',
                         key: 'positionname',
-                        align: 'center',
-                        width: 90
+                        align: 'center'
                     },
                     {
                         title: '申请规格',
@@ -71,22 +79,9 @@
                         align: 'center'
                     },
                     {
-                        title: '申请部门',
-                        key: 'organizename',
-                        align: 'center',
-                        width: 120
-                    },
-                    {
-                        title: '申请人',
-                        key: 'createbyname',
-                        align: 'center',
-                        width: 90
-                    },
-                    {
                         title: '申请日期',
                         key: 'createbydate',
                         align: 'center',
-                        width: 100,
                         render: (h, params) => {
                             if (!params.row.createbydate) {
                                 return '';
@@ -99,7 +94,6 @@
                         title: '审批日期',
                         key: 'modifyByDate',
                         align: 'center',
-                        width: 100,
                         render: (h, params) => {
                             if (!params.row.createbydate) {
                                 return '';
@@ -115,7 +109,6 @@
                         render: (h, params) => {
                             let color = '';
                             let text = '';
-                            let vm = this;
                             switch (params.row.approvalstatus) {
                                 case 0:
                                     color = 'blue';
@@ -145,8 +138,12 @@
                         }
                     },
                     {
+                        title: '备注',
+                        key: 'remark_c',
+                        align: 'center'
+                    },
+                    {
                         title: '修改规格',
-                        width: 100,
                         render: (h, params) => {
                             let vm = this;
                             let row = params.row;

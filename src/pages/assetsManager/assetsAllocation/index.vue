@@ -5,28 +5,28 @@
                 <FormItem label="资产名称">
                     <Cascader style="width: 180px" :data="cat1" @on-change="changeCataName(1, arguments)" :load-data="loadData"></Cascader>
                 </FormItem>
-                <FormItem label="移入位置名称">
+                <FormItem label="移入位置">
                     <Select type="text" style="width: 180px"
                             :clearable="true"
                             v-model="filterOpt.inPositionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index_si) in positionList" :key="index_si" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <Input style="display: none" v-model="filterOpt.type.value"></Input>
-                <FormItem label="移出位置名称">
+                <FormItem label="移出位置">
                     <Select type="text" style="width: 180px"
                             :clearable="true"
                             v-model="filterOpt.outPositionName.value"
                             placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                        <Option v-for="(item, index_so) in positionList" :key="index_so" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="审批状态">
                     <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true"  style="width: 160px">
                         <Option :value="0">待审批</Option>
-                        <Option :value="1">审批通过</Option>
-                        <Option :value="2">审批拒绝</Option>
+                        <Option :value="1">已审核</Option>
+                        <Option :value="2">已拒绝</Option>
                     </Select>
                 </FormItem>
                 <Button type="ghost" @click="addInfo">
@@ -61,8 +61,8 @@
                 <FormItem label="审批状态">
                     <Select type="text" v-model="filterOpt.approvalStatus.value" :clearable="true"  style="width: 160px">
                         <Option :value="0">待审批</Option>
-                        <Option :value="1">审批通过</Option>
-                        <Option :value="2">审批拒绝</Option>
+                        <Option :value="1">已审批</Option>
+                        <Option :value="2">已拒绝</Option>
                     </Select>
                 </FormItem>
                 <Button type="ghost" @click="addInfo">
@@ -76,65 +76,74 @@
             </Form>
             <fs-table-page ref="fsTable" :columns="postColumns" :size="null" :height="tableHeight" :params="filterOpt" :url="getListUrl"></fs-table-page>
         </div>
-        <Modal v-model="addInfoModal" width="400">
+        <Modal v-model="addInfoModal" width="600">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                新增/修改资产调拨申请
+            </p>
             <Form style="margin-top: 20px" :label-width="120" ref="newApplyForm" :model="newApply" :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="newApply.id"></Input>
                 <FormItem label="资产名称" v-show="!newApply.id" prop="categoryName" >
-                    <Cascader style="width: 180px" v-model="selectArr" :data="cat1" :clearable="true" @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
+                    <Cascader style="width: 100%" v-model="selectArr" :data="cat1" :clearable="true" @on-change="changeCataName(2, arguments)" :load-data="loadData"></Cascader>
                 </FormItem>
                 <FormItem label="资产名称" v-if="newApply.id">
-                    <Input style="width: 180px" v-model="newApply.categoryName" readonly></Input>
+                    <Input style="width: 100%" v-model="newApply.categoryName" readonly></Input>
                 </FormItem>
                 <FormItem label="申请数量" prop="num">
-                    <InputNumber :min="1" :max="999" style="width: 180px" v-model="newApply.num"></InputNumber>
+                    <InputNumber :min="1" :max="999" style="width: 100%" v-model="newApply.num"></InputNumber>
                 </FormItem>
-                <FormItem label="移入资产位置" prop="inPositionName">
-                    <Select type="text" prop="positionName" style="width: 180px" v-model="newApply.inPositionName" placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                <FormItem label="资产条码" prop="bar_code" >
+                    <Input type="textarea" placeholder="最大10个;请用逗号隔开,示例:1001,1002,1003" style="width: 100%" clearable v-model="newApply.bar_code"></Input>
+                </FormItem>
+                <FormItem label="移入位置" prop="inPositionName">
+                    <Select type="text"  style="width: 100%" v-model="newApply.inPositionName" placeholder="位置名称">
+                        <Option v-for="(item, index_i) in positionList" :key="index_i" :value="item.name">{{item.name}}<span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
-                <FormItem label="移出资产位置" prop="outPositionName">
-                    <Select type="text" prop="positionName" style="width: 180px" v-model="newApply.outPositionName" placeholder="位置名称">
-                        <Option v-for="item, index in positionList" :key="index" :value="item.name"><span>{{item.name}}</span><span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
+                <FormItem label="移出位置" prop="outPositionName">
+                    <Select type="text"  style="width: 100%" v-model="newApply.outPositionName" placeholder="位置名称">
+                        <Option v-for="(item, index_o) in positionList" :key="index_o" :value="item.name">{{item.name}}<span :title="item.remarks" style="float:right;color:#ccc;width:104px;text-overflow: ellipsis;text-align: right;white-space: nowrap;overflow: hidden">{{item.remarks}}</span></Option>
                     </Select>
                 </FormItem>
                 <FormItem label="申请原因" prop="remarks">
-                    <Input type="text" style="width: 180px" v-model="newApply.remarks" prop="remarks" placeholder="规格和原因"></Input>
+                    <Input type="text" style="width: 100%" v-model="newApply.remarks" prop="remarks" placeholder="申请原因"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="primary" size="large" @click="saveInfo">
-                    <span>保存</span>
-                </Button>
+                <Button type="primary" size="large" @click="saveInfo">提交</Button>
+                <Button size="large" @click="addInfoModal = false">取消</Button>
             </div>
         </Modal>
-        <Modal v-model="approvalInfoModal">
+        <Modal v-model="approvalInfoModal" width="600">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                审批资产调拨申请
+            </p>
             <Form style="margin-top: 20px" :label-width="120" ref="approveForm" :model="approvalInfo" :rules="newApplyRules">
                 <Input type="text" style="display: none" v-model="approvalInfo.id"></Input>
                 <Input type="text" style="display: none" v-model="approvalInfo.approvalStatus"></Input>
                 <FormItem label="资产名称">
-                    <Input style="width: 180px" v-model="approvalInfo.cname" readonly></Input>
+                    <Input style="width: 100%" v-model="approvalInfo.cname" readonly></Input>
                 </FormItem>
-                <FormItem label="申请数量" prop="num">
-                    <InputNumber type="text" :min="1" :max="999" style="width: 180px" v-model="approvalInfo.num"></InputNumber>
+                <FormItem label="申请数量" >
+                    <Input style="width: 100%" v-model="approvalInfo.num" readonly></Input>
+<!--                    <InputNumber type="text" :min="1" :max="999" style="width: 100%" readonly v-model="approvalInfo.num"></InputNumber>-->
                 </FormItem>
-                <FormItem label="移入资产位置">
-                    <Input style="width: 180px" v-model="approvalInfo.inname" readonly></Input>
+                <FormItem label="资产条码">
+                    <Input type="textarea" style="width: 100%" v-model="approvalInfo.bar_code" readonly></Input>
+<!--                    <Input type="textarea" placeholder="最大10个;请用逗号隔开,示例:1001,1002,1003" style="width: 100%" clearable v-model="newApply.bar_code"></Input>-->
                 </FormItem>
-                <FormItem label="移出资产位置">
-                    <Input style="width: 180px" v-model="approvalInfo.outname" readonly></Input>
+                <FormItem label="移入位置">
+                    <Input style="width: 100%" v-model="approvalInfo.inname" readonly></Input>
                 </FormItem>
-                <FormItem label="审批内容" prop="content">
-                    <Input type="textarea" style="width: 180px" v-model="approvalInfo.content"  placeholder="审批意见"></Input>
+                <FormItem label="移出位置">
+                    <Input style="width: 100%" v-model="approvalInfo.outname" readonly></Input>
+                </FormItem>
+                <FormItem label="审批意见" prop="content">
+                    <Input type="textarea" style="width: 100%" v-model="approvalInfo.content"  placeholder="审批意见"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button size="large" @click="approval(2)" :disabled="isDisable">
-                    拒绝
-                </Button>
-                <Button type="success" size="large" @click="approval(1)" :disabled="isDisable">
-                    通过
-                </Button>
+                <Button type="success" @click="approval(1)" :disabled="isDisable">审核通过</Button>
+                <Button type="warning" @click="approval(2)" :disabled="isDisable">审核拒绝</Button>
             </div>
         </Modal>
     </div>
@@ -188,27 +197,37 @@
                 positionList: [],
                 postColumns: [
                     {
-                        title: '资产名称',
+                        title: '名称',
                         key: 'categoryname',
                         align: 'center'
                     },
                     {
-                        title: '调拨数量',
+                        title: '数量',
                         key: 'num',
                         align: 'center'
                     },
                     {
-                        title: '移入资产位置',
+                        title: '移入位置',
                         key: 'inpositionname',
                         align: 'center'
                     },
                     {
-                        title: '移出资产位置',
+                        title: '移入名称',
+                        key: 'remark',
+                        align: 'center'
+                    },
+                    {
+                        title: '移出位置',
                         key: 'outpositionname',
                         align: 'center'
                     },
                     {
-                        title: '备注',
+                        title: '移出名称',
+                        key: 'remark1',
+                        align: 'center'
+                    },
+                    {
+                        title: '申请原因',
                         key: 'remarks',
                         align: 'center'
                     },
@@ -223,55 +242,9 @@
                         align: 'center'
                     },
                     {
-                        title: '操作',
-                        align: 'center',
-                        render: (h, params) => {
-                            var vm = this;
-                            var row = params.row;
-                            var disable = row.approvalstatus > 0;
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        icon: 'edit',
-                                        shape: 'circle',
-                                        disabled: disable
-                                    },
-                                    on: {
-                                        click: function() {
-                                            vm.newApply.id = row.id;
-                                            vm.newApply.categoryName = row.categoryname;
-                                            vm.newApply.num = row.num;
-                                            vm.newApply.remarks = row.remarks;
-                                            vm.newApply.inPositionName = row.inpositionname;
-                                            vm.newApply.outPositionName = row.outpositionname;
-                                            vm.addInfoModal = true;
-                                        }
-                                    }
-                                }),
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        icon: 'close',
-                                        shape: 'circle',
-                                        disabled: disable
-                                    },
-                                    style: {
-                                        marginLeft: '10px'
-                                    },
-                                    on: {
-                                        click: function() {
-                                            vm.delInfo(row);
-                                        }
-                                    }
-                                })
-                            ]);
-                        }
-                    },
-                    {
                         title: '调拨状态',
                         key: 'approvalstatus',
-                        align: 'left',
+                        align: 'center',
                         width: 200,
                         render: (h, params) => {
                             let color = '';
@@ -343,24 +316,71 @@
                                         click: function() {
                                             vm.$refs.approveForm.resetFields();
                                             if (appBtnStatus) {
-                                                vm.$http.get('assetsAllocation/find?id=' + params.row.id).then((res) => {
-                                                    if (res.success) {
-                                                        let data = res.data;
-                                                        vm.approvalInfo.id = data.id;
-                                                        vm.approvalInfo.num = data.num;
-                                                        vm.approvalInfo.cname = data.categoryname;
-                                                        vm.approvalInfo.inname = data.inpositionname;
-                                                        vm.approvalInfo.outname = data.outpositionname;
-                                                        vm.approvalInfo.approvalStatus = data.approvalstatus;
-                                                        vm.approvalInfoModal = true;
-                                                    } else {
-                                                        vm.$Message.error('无法审批');
-                                                    }
-                                                });
+                                                vm.approvalInfo.id = row.id;
+                                                vm.approvalInfo.num = row.num;
+                                                vm.approvalInfo.bar_code = row.bar_code;
+                                                vm.approvalInfo.cname = row.categoryname;
+                                                vm.approvalInfo.inname = row.inpositionname + '  ' + row.remark;
+                                                vm.approvalInfo.outname = row.outpositionname + '  ' + row.remark1;
+                                                vm.approvalInfo.approvalStatus = row.approvalstatus;
+                                                vm.approvalInfoModal = true;
                                             }
                                         }
                                     }
                                 }, '审批我')
+                            ]);
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        render: (h, params) => {
+                            var vm = this;
+                            var row = params.row;
+                            var disable = row.approvalstatus > 0;
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        icon: 'edit',
+                                        shape: 'circle',
+                                        disabled: disable
+                                    },
+                                    attrs: {
+                                        title: '单击编辑'
+                                    },
+                                    on: {
+                                        click: function() {
+                                            vm.newApply.id = row.id;
+                                            vm.newApply.categoryName = row.categoryname;
+                                            vm.newApply.num = row.num;
+                                            vm.newApply.remarks = row.remarks;
+                                            vm.newApply.inPositionName = row.inpositionname;
+                                            vm.newApply.outPositionName = row.outpositionname;
+                                            vm.newApply.bar_code = row.bar_code;
+                                            vm.addInfoModal = true;
+                                        }
+                                    }
+                                }),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        icon: 'close',
+                                        shape: 'circle',
+                                        disabled: disable
+                                    },
+                                    attrs: {
+                                        title: '单击删除'
+                                    },
+                                    style: {
+                                        marginLeft: '10px'
+                                    },
+                                    on: {
+                                        click: function() {
+                                            vm.delInfo(row);
+                                        }
+                                    }
+                                })
                             ]);
                         }
                     }
@@ -377,7 +397,8 @@
                     num: 1,
                     inPositionName: '',
                     outPositionName: '',
-                    remarks: ''
+                    remarks: '',
+                    bar_code: ''
                 },
                 approvalInfo: {
                     id: '',
@@ -386,7 +407,8 @@
                     inname: '',
                     outname: '',
                     approvalStatus: 0,
-                    content: ''
+                    content: '',
+                    bar_code: ''
                 },
                 newApplyRules: {
                     categoryName: [
@@ -402,10 +424,13 @@
                         {required: true, message: '资产位置不能为空!', trigger: 'change'}
                     ],
                     remarks: [
-                        {required: true, message: '请填写规格和原因', trigger: 'blur'}
+                        {required: true, message: '请填写原因', trigger: 'blur'}
                     ],
                     content: [
                         {required: true, message: '请填写审批内容', trigger: 'blur'}
+                    ],
+                    bar_code: [
+                        {required: true, message: '请填写条码', trigger: 'blur'}
                     ]
                 },
                 tableHeight: 500
@@ -524,10 +549,11 @@
             addInfo() {
                 this.newApply.id = '';
                 this.newApply.categoryName = '';
-                this.newApply.num = 0;
+                this.newApply.num = 1;
                 this.newApply.inPositionName = '';
                 this.newApply.outPositionName = '';
                 this.newApply.remarks = '';
+                this.newApply.bar_code = '';
                 this.selectArr = [];
                 this.addInfoModal = true;
             },

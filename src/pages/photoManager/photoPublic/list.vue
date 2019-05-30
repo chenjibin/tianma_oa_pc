@@ -6,7 +6,8 @@
                  @click.stop="$router.push({name: 'photoDetailList',  params: { id: item.id }})"
                  :key="'photo-' + item.id">
                 <div class="left">
-                    <img v-lazy="$mainHost + item.file_path" />
+<!--                    <img v-lazy="$mainHost + item.file_path" />-->
+                    <img :src="$mainHost + item.file_path" alt="">
                 </div>
                 <div class="right">
                     <div class="top">

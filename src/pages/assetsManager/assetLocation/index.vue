@@ -38,24 +38,26 @@
                   show-elevator
                   style="margin-top: 16px;"></Page>
         </Card>
-        <Modal v-model="changeInfoModal" width="300">
-            <Form style="margin-top: 20px">
+        <Modal v-model="changeInfoModal" width="400">
+            <p slot="header" style="color:#495060;text-align:center;font-size: 18px">
+                {{flag_form == 'add' ? '新增' : '修改'}}资产位置
+            </p>
+            <Form style="margin-top: 20px" :label-width="80" ref="modeFrom" :model="baseInfo" :rules="formRules" >
                 <input style="display: none" v-model="baseInfo.id"/>
-                <FormItem label="位置名称">
-                    <Input type="text" style="width: 173px"
+                <FormItem label="位置名称" prop="name">
+                    <Input type="text" style="width: 100%"
                            v-model="baseInfo.name"
                            placeholder="位置名称"></Input>
                 </FormItem>
-                <FormItem label="位置备注">
-                    <Input type="text" style="width: 173px"
+                <FormItem label="位置备注" prop="remarks">
+                    <Input type="text" style="width: 100%"
                            v-model="baseInfo.remarks"
                            placeholder="位置备注"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="primary" size="large" @click="saveInfo">
-                    <span>确定</span>
-                </Button>
+                <Button type="primary"  @click="saveInfo">提交</Button>
+                <Button  @click="changeInfoModal = false">取消</Button>
             </div>
         </Modal>
 
@@ -73,6 +75,7 @@
         data() {
             return {
                 tableHeight: 500,
+                flag_form: 'add',
                 filterOpt: {
                     name: ''
                 },
@@ -82,6 +85,14 @@
                     remarks: ''
                 },
                 changeInfoModal: false,
+                formRules: {
+                    name: [
+                        {required: true, message: '请填写名称', trigger: 'blur'}
+                    ],
+                    remarks: [
+                        {required: true, message: '请填写备注', trigger: 'blur'}
+                    ]
+                },
                 postColumns: [
                     {
                         title: '位置名称',
@@ -146,6 +157,8 @@
         },
         methods: {
             changeInfo(data) {
+                this.$refs.modeFrom.resetFields();
+                this.flag_form = 'update';
                 this.baseInfo = data;
             },
             getPositionList() {
@@ -157,16 +170,21 @@
             },
             saveInfo() {
                 let vm = this;
-                vm.$http.post('/assets/add', vm.baseInfo).then((res) => {
-                    if (res.success) {
-                        vm.$Message.success('保存成功');
-                        vm.changeInfoModal = false;
-                        vm._filterResultHandler();
+                vm.$refs.modeFrom.validate((valid) => {
+                    if (valid) {
+                        vm.$http.post('/assets/add', vm.baseInfo).then((res) => {
+                            if (res.success) {
+                                vm.$Message.success('保存成功');
+                                vm.changeInfoModal = false;
+                                vm._filterResultHandler();
+                            }
+                        });
                     }
-                });
+                })
             },
             addInfo() {
                 this.baseInfo = {};
+                this.flag_form = 'add';
                 this.changeInfoModal = true;
             },
             delInfo(data) {
@@ -195,6 +213,7 @@
             _filterResultHandler() {
                 this.initPage();
                 this._getPostData();
+                this.getPositionList();
             },
             _setTableHeight() {
                 let dm = document.body.clientHeight;

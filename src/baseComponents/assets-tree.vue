@@ -1,5 +1,7 @@
 <template>
     <div class="" style="overflow: auto;" :style="{width: domWidth}">
+        <Input placeholder="快速查找资产名称" v-model="filterText" style="width: 200px" clearable>
+        </Input>
         <el-tree class="fs-tree"
                  :data="dataList"
                  :props="defaultProps"
@@ -10,6 +12,8 @@
                  :render-content="renderContent"
                  :check-strictly="true"
                  :show-checkbox="showCheckBox"
+                 :filter-node-method="filterNode"
+                 ref="tree2"
                  @current-change="checkmea">
         </el-tree>
         <!--上传删除图片-->
@@ -30,13 +34,13 @@
                 <Button type="primary" :loading="btnLoading" @click="_confirmFile"> 提交图片</Button>
                 <Button type="ghost" style="margin-left: 8px" @click="modeFlag = false">取消</Button>
             </div>
-
         </Modal>
     </div>
 </template>
 
 <script>
     import fsImgUpload from '@/baseComponents/fs-img-upload-new';
+    import {Input} from 'element-ui';
     export default {
         name: 'assetsTree',
         props: {
@@ -73,6 +77,7 @@
         },
         data () {
             return {
+                filterText: '',
                 modeFlag: false,
                 imgFile: [],
                 assetsPic: '',
@@ -95,6 +100,9 @@
             };
         },
         watch: {
+            filterText(val) {
+                this.$refs.tree2.filter(val);
+            },
             imgFile: {
                 handler(val) {
                     // console.log(val[0].name)
@@ -104,6 +112,14 @@
             }
         },
         methods: {
+            filterNode(value, data) {
+                if (!value) return true;
+                if (data.hasOwnProperty('name')) {
+                    return data.name.indexOf(value) !== -1;
+                } else if (data.hasOwnProperty('text')) {
+                    return data.text.indexOf(value) !== -1;
+                }
+            },
             renderContent(h, { node, data, store }) {
                 return (
                     <span class="custom-tree-node">
