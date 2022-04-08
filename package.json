@@ -30,7 +30,7 @@
         "js-cookie": "^2.2.0",
         "lodash": "^4.17.4",
         "mockjs": "^1.0.1-beta3",
-        "moment": "^2.20.1",
+        "moment": "^2.29.2",
         "qs": "^6.5.1",
         "rasterizehtml": "^1.2.4",
         "resize-observer-polyfill": "^1.5.0",
